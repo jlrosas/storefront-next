@@ -19,6 +19,7 @@
             "**/*.cts",
             "**/*.json",
             "!**/dist/**",
+            "!site-data/**",
             "!**/build/**",
             "!**/coverage/**",
             "!**/storybook-static/**",

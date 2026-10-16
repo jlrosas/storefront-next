@@ -1,0 +1,5722 @@
+[
+ {
+  "id": 2,
+  "name": "Providencia.",
+  "text_address": "Av. Providencia 1349",
+  "latitude": "-33.428823",
+  "longitude": "-70.619916",
+  "phone": "+56 2 2390 7300",
+  "menu_id": 40,
+  "commune": "Providencia",
+  "delivery_wait_time": 30,
+  "pick_up_wait_time": 15,
+  "payment_methods": {
+   "cash": true,
+   "fpay": false,
+   "tenpo": true,
+   "credit": false,
+   "fintoc": true,
+   "onepay": true,
+   "rutpay": true,
+   "sodexo": true,
+   "oneclick": true,
+   "web_online": true,
+   "mercado_pago": true
+  },
+  "region": "Santiago",
+  "order_method": "both",
+  "future_orders_enabled": true,
+  "external_delivery": true,
+  "external_delivery_company": "uber_direct",
+  "menu_peya_id": null,
+  "menu_just_eat_id": null,
+  "menu_totem_id": 67,
+  "location": "Región Metropolitana",
+  "seo_description": null,
+  "seo_business_url": null,
+  "seo_enabled": true,
+  "close_reason": null,
+  "delivery_open": true,
+  "pick_up_open": true,
+  "enabled_tip_module": false,
+  "business_info": null,
+  "store_groups": [
+   {
+    "id": 23,
+    "name": "Piloto Delivery Fee Junio 2026 (NO TOCAR)",
+    "delivery_price": 990.0,
+    "minimum_value_for_free_delivery": null,
+    "minimum_price_for_delivery": 4990.0,
+    "external_delivery_disabled": {}
+   }
+  ],
+  "business_hours": [
+   {
+    "id": 2549,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 3491,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 8268,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 8270,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 19206,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 25274,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "tuesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 27915,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 30778,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 30779,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34221,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34239,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34261,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34262,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34263,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34264,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34265,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34523,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "tuesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34921,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T20:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   }
+  ]
+ },
+ {
+  "id": 9,
+  "name": "Salvador.",
+  "text_address": "Av. Salvador 1822",
+  "latitude": "-33.44969",
+  "longitude": "-70.621613",
+  "phone": "+56 2 2244 7888",
+  "menu_id": 40,
+  "commune": "Ñuñoa",
+  "delivery_wait_time": 30,
+  "pick_up_wait_time": 15,
+  "payment_methods": {
+   "cash": true,
+   "fpay": false,
+   "credit": true,
+   "fintoc": true,
+   "onepay": true,
+   "rutpay": true,
+   "sodexo": true,
+   "oneclick": true,
+   "web_online": true,
+   "mercado_pago": true
+  },
+  "region": "Región Metropolitana",
+  "order_method": "both",
+  "future_orders_enabled": true,
+  "external_delivery": false,
+  "external_delivery_company": "uber_direct",
+  "menu_peya_id": null,
+  "menu_just_eat_id": null,
+  "menu_totem_id": null,
+  "location": "Región Metropolitana",
+  "seo_description": null,
+  "seo_business_url": null,
+  "seo_enabled": true,
+  "close_reason": null,
+  "delivery_open": true,
+  "pick_up_open": true,
+  "enabled_tip_module": true,
+  "business_info": null,
+  "store_groups": [
+   {
+    "id": 23,
+    "name": "Piloto Delivery Fee Junio 2026 (NO TOCAR)",
+    "delivery_price": 990.0,
+    "minimum_value_for_free_delivery": null,
+    "minimum_price_for_delivery": 4990.0,
+    "external_delivery_disabled": {}
+   }
+  ],
+  "business_hours": [
+   {
+    "id": 28893,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 28954,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 28955,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 29648,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 29674,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 30455,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 31138,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "tuesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 29018,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "tuesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34252,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34253,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34254,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34255,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34256,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34258,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34260,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34407,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34408,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34424,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "in_store"
+   }
+  ]
+ },
+ {
+  "id": 10,
+  "name": "Líder Suecia.",
+  "text_address": "Irarrázaval 2928",
+  "latitude": "-33.454338",
+  "longitude": "-70.600634",
+  "phone": "+56 2 2396 4000 ",
+  "menu_id": 40,
+  "commune": "Ñuñoa",
+  "delivery_wait_time": 30,
+  "pick_up_wait_time": 15,
+  "payment_methods": {
+   "cash": true,
+   "fpay": false,
+   "tenpo": false,
+   "credit": false,
+   "fintoc": true,
+   "onepay": true,
+   "rutpay": true,
+   "sodexo": true,
+   "oneclick": true,
+   "web_online": true,
+   "mercado_pago": true
+  },
+  "region": "Santiago",
+  "order_method": "both",
+  "future_orders_enabled": true,
+  "external_delivery": true,
+  "external_delivery_company": "uber_direct",
+  "menu_peya_id": null,
+  "menu_just_eat_id": null,
+  "menu_totem_id": 67,
+  "location": "Región Metropolitana",
+  "seo_description": null,
+  "seo_business_url": null,
+  "seo_enabled": true,
+  "close_reason": null,
+  "delivery_open": true,
+  "pick_up_open": true,
+  "enabled_tip_module": false,
+  "business_info": null,
+  "store_groups": [
+   {
+    "id": 23,
+    "name": "Piloto Delivery Fee Junio 2026 (NO TOCAR)",
+    "delivery_price": 990.0,
+    "minimum_value_for_free_delivery": null,
+    "minimum_price_for_delivery": 4990.0,
+    "external_delivery_disabled": {}
+   }
+  ],
+  "business_hours": [
+   {
+    "id": 14676,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T21:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 21265,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T21:30:00.000Z",
+    "day": "tuesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 21266,
+    "opening_time": "2000-01-01T10:45:00.000Z",
+    "closing_time": "2000-01-01T21:30:00.000Z",
+    "day": "tuesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 21267,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T21:30:00.000Z",
+    "day": "wednesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 14677,
+    "opening_time": "2000-01-01T10:45:00.000Z",
+    "closing_time": "2000-01-01T21:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 28302,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T21:30:00.000Z",
+    "day": "thursday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 21268,
+    "opening_time": "2000-01-01T10:45:00.000Z",
+    "closing_time": "2000-01-01T21:30:00.000Z",
+    "day": "wednesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 27701,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T21:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 27702,
+    "opening_time": "2000-01-01T10:45:00.000Z",
+    "closing_time": "2000-01-01T21:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 28303,
+    "opening_time": "2000-01-01T10:45:00.000Z",
+    "closing_time": "2000-01-01T21:30:00.000Z",
+    "day": "thursday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34310,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T21:30:00.000Z",
+    "day": "friday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34311,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T21:30:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34312,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T21:30:00.000Z",
+    "day": "friday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34313,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T21:30:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   }
+  ]
+ },
+ {
+  "id": 11,
+  "name": "Reñaca.",
+  "text_address": "Avenida Borgoño 14650",
+  "latitude": "-32.970258",
+  "longitude": "-71.543539",
+  "phone": "+56 2 2490 1010",
+  "menu_id": 40,
+  "commune": "Viña del Mar",
+  "delivery_wait_time": 30,
+  "pick_up_wait_time": 15,
+  "payment_methods": {
+   "cash": false,
+   "fpay": false,
+   "tenpo": true,
+   "credit": false,
+   "fintoc": true,
+   "onepay": true,
+   "rutpay": true,
+   "sodexo": true,
+   "oneclick": true,
+   "web_online": true,
+   "mercado_pago": true
+  },
+  "region": "Valparaiso",
+  "order_method": "both",
+  "future_orders_enabled": true,
+  "external_delivery": true,
+  "external_delivery_company": "dispatch_track",
+  "menu_peya_id": null,
+  "menu_just_eat_id": null,
+  "menu_totem_id": null,
+  "location": "Valparaíso",
+  "seo_description": null,
+  "seo_business_url": null,
+  "seo_enabled": true,
+  "close_reason": null,
+  "delivery_open": true,
+  "pick_up_open": true,
+  "enabled_tip_module": false,
+  "business_info": null,
+  "store_groups": [
+   {
+    "id": 23,
+    "name": "Piloto Delivery Fee Junio 2026 (NO TOCAR)",
+    "delivery_price": 990.0,
+    "minimum_value_for_free_delivery": null,
+    "minimum_price_for_delivery": 4990.0,
+    "external_delivery_disabled": {}
+   }
+  ],
+  "business_hours": [
+   {
+    "id": 14226,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "tuesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 16608,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 14227,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "tuesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 23965,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 16609,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 23966,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 27739,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 27741,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 25045,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 25046,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33458,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33459,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33460,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33461,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33462,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33463,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33464,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33465,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   }
+  ]
+ },
+ {
+  "id": 12,
+  "name": "Quilín.",
+  "text_address": "Tobalaba 13667",
+  "latitude": "-33.498764",
+  "longitude": "-70.560785",
+  "phone": "+56 2 2488 6060",
+  "menu_id": 40,
+  "commune": "Peñalolen",
+  "delivery_wait_time": 30,
+  "pick_up_wait_time": 15,
+  "payment_methods": {
+   "cash": true,
+   "fpay": false,
+   "credit": true,
+   "fintoc": true,
+   "onepay": true,
+   "rutpay": true,
+   "sodexo": true,
+   "oneclick": true,
+   "web_online": true,
+   "mercado_pago": true
+  },
+  "region": "Región Metropolitana",
+  "order_method": "both",
+  "future_orders_enabled": true,
+  "external_delivery": false,
+  "external_delivery_company": "uber_direct",
+  "menu_peya_id": null,
+  "menu_just_eat_id": null,
+  "menu_totem_id": null,
+  "location": "Región Metropolitana",
+  "seo_description": null,
+  "seo_business_url": null,
+  "seo_enabled": true,
+  "close_reason": null,
+  "delivery_open": true,
+  "pick_up_open": true,
+  "enabled_tip_module": true,
+  "business_info": null,
+  "store_groups": [
+   {
+    "id": 23,
+    "name": "Piloto Delivery Fee Junio 2026 (NO TOCAR)",
+    "delivery_price": 990.0,
+    "minimum_value_for_free_delivery": null,
+    "minimum_price_for_delivery": 4990.0,
+    "external_delivery_disabled": {}
+   }
+  ],
+  "business_hours": [
+   {
+    "id": 21226,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "tuesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 21227,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "tuesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 22049,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 21229,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 24560,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 31748,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 32673,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 32674,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33426,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33428,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33430,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33431,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33432,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33433,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34440,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34501,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34573,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34757,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "in_store"
+   }
+  ]
+ },
+ {
+  "id": 13,
+  "name": "Viña del Mar.",
+  "text_address": "Av. Libertad 1410",
+  "latitude": "-33.008049",
+  "longitude": "-71.548475",
+  "phone": "+56322696000",
+  "menu_id": 40,
+  "commune": "Viña del Mar",
+  "delivery_wait_time": 45,
+  "pick_up_wait_time": 20,
+  "payment_methods": {
+   "cash": true,
+   "fpay": false,
+   "tenpo": true,
+   "credit": true,
+   "fintoc": true,
+   "onepay": true,
+   "rutpay": true,
+   "sodexo": true,
+   "oneclick": true,
+   "web_online": true,
+   "mercado_pago": true
+  },
+  "region": "Región de Valparaíso",
+  "order_method": "both",
+  "future_orders_enabled": true,
+  "external_delivery": false,
+  "external_delivery_company": "uber_direct",
+  "menu_peya_id": null,
+  "menu_just_eat_id": null,
+  "menu_totem_id": 67,
+  "location": "Valparaíso",
+  "seo_description": "",
+  "seo_business_url": null,
+  "seo_enabled": false,
+  "close_reason": null,
+  "delivery_open": true,
+  "pick_up_open": true,
+  "enabled_tip_module": true,
+  "business_info": null,
+  "store_groups": [
+   {
+    "id": 23,
+    "name": "Piloto Delivery Fee Junio 2026 (NO TOCAR)",
+    "delivery_price": 990.0,
+    "minimum_value_for_free_delivery": null,
+    "minimum_price_for_delivery": 4990.0,
+    "external_delivery_disabled": {}
+   }
+  ],
+  "business_hours": [
+   {
+    "id": 2129,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "tuesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 14353,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 14354,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 24743,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 25039,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 24741,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 30034,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 30020,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33205,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 32006,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 32007,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33663,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33664,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33665,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33666,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34558,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "tuesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34845,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34909,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   }
+  ]
+ },
+ {
+  "id": 14,
+  "name": "Concón.",
+  "text_address": "Avenida Concón Reñaca 3400",
+  "latitude": "-32.94404",
+  "longitude": "-71.54598",
+  "phone": "+56 3 22858000",
+  "menu_id": 40,
+  "commune": "Concón",
+  "delivery_wait_time": 30,
+  "pick_up_wait_time": 15,
+  "payment_methods": {
+   "cash": true,
+   "fpay": false,
+   "tenpo": true,
+   "credit": false,
+   "fintoc": true,
+   "onepay": true,
+   "rutpay": true,
+   "sodexo": true,
+   "oneclick": true,
+   "web_online": true,
+   "mercado_pago": true
+  },
+  "region": "Valparaiso",
+  "order_method": "both",
+  "future_orders_enabled": true,
+  "external_delivery": true,
+  "external_delivery_company": "uber_direct",
+  "menu_peya_id": null,
+  "menu_just_eat_id": null,
+  "menu_totem_id": null,
+  "location": "Valparaíso",
+  "seo_description": null,
+  "seo_business_url": null,
+  "seo_enabled": true,
+  "close_reason": "utility_outage",
+  "delivery_open": true,
+  "pick_up_open": true,
+  "enabled_tip_module": false,
+  "business_info": null,
+  "store_groups": [
+   {
+    "id": 23,
+    "name": "Piloto Delivery Fee Junio 2026 (NO TOCAR)",
+    "delivery_price": 990.0,
+    "minimum_value_for_free_delivery": null,
+    "minimum_price_for_delivery": 4990.0,
+    "external_delivery_disabled": {}
+   }
+  ],
+  "business_hours": [
+   {
+    "id": 19180,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 19181,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 21150,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "tuesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 27806,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 27808,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 14339,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 14340,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 29210,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 29211,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34289,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34290,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34291,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34292,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34293,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34294,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34295,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34296,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 21151,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "tuesday",
+    "dispatch_method": "pj_delivery"
+   }
+  ]
+ },
+ {
+  "id": 15,
+  "name": "Viña Centro.",
+  "text_address": "Álvarez 1106",
+  "latitude": "-33.027926",
+  "longitude": "-71.547051",
+  "phone": "+56 3 22694040",
+  "menu_id": 40,
+  "commune": "Viña del mar",
+  "delivery_wait_time": 40,
+  "pick_up_wait_time": 15,
+  "payment_methods": {
+   "cash": true,
+   "fpay": false,
+   "credit": false,
+   "fintoc": true,
+   "onepay": true,
+   "rutpay": true,
+   "sodexo": true,
+   "oneclick": true,
+   "web_online": true,
+   "mercado_pago": true
+  },
+  "region": "Región de Valparaíso",
+  "order_method": "both",
+  "future_orders_enabled": true,
+  "external_delivery": false,
+  "external_delivery_company": "uber_direct",
+  "menu_peya_id": null,
+  "menu_just_eat_id": null,
+  "menu_totem_id": 67,
+  "location": "Valparaíso",
+  "seo_description": null,
+  "seo_business_url": "",
+  "seo_enabled": true,
+  "close_reason": null,
+  "delivery_open": true,
+  "pick_up_open": true,
+  "enabled_tip_module": true,
+  "business_info": null,
+  "store_groups": [
+   {
+    "id": 23,
+    "name": "Piloto Delivery Fee Junio 2026 (NO TOCAR)",
+    "delivery_price": 990.0,
+    "minimum_value_for_free_delivery": null,
+    "minimum_price_for_delivery": 4990.0,
+    "external_delivery_disabled": {}
+   }
+  ],
+  "business_hours": [
+   {
+    "id": 14548,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 21682,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 28069,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 24487,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 24533,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 28068,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 28694,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "tuesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 29063,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "tuesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 29616,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 31039,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 31041,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 31042,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33226,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33227,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33228,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 14549,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33229,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34918,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   }
+  ]
+ },
+ {
+  "id": 16,
+  "name": "Curauma.",
+  "text_address": "Avenida Curauma Norte 2961",
+  "latitude": "-33.129501",
+  "longitude": "-71.562882",
+  "phone": "+56322357878",
+  "menu_id": 40,
+  "commune": "Placilla",
+  "delivery_wait_time": 30,
+  "pick_up_wait_time": 15,
+  "payment_methods": {
+   "cash": true,
+   "fpay": false,
+   "credit": true,
+   "fintoc": true,
+   "onepay": false,
+   "rutpay": true,
+   "sodexo": true,
+   "oneclick": true,
+   "web_online": true,
+   "mercado_pago": true
+  },
+  "region": "Valparaiso",
+  "order_method": "both",
+  "future_orders_enabled": true,
+  "external_delivery": false,
+  "external_delivery_company": "uber_direct",
+  "menu_peya_id": null,
+  "menu_just_eat_id": null,
+  "menu_totem_id": null,
+  "location": "Valparaíso",
+  "seo_description": null,
+  "seo_business_url": null,
+  "seo_enabled": true,
+  "close_reason": null,
+  "delivery_open": true,
+  "pick_up_open": true,
+  "enabled_tip_module": true,
+  "business_info": null,
+  "store_groups": [
+   {
+    "id": 23,
+    "name": "Piloto Delivery Fee Junio 2026 (NO TOCAR)",
+    "delivery_price": 990.0,
+    "minimum_value_for_free_delivery": null,
+    "minimum_price_for_delivery": 4990.0,
+    "external_delivery_disabled": {}
+   }
+  ],
+  "business_hours": [
+   {
+    "id": 16658,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 16659,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 28109,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 22551,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "tuesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 22553,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 27242,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 22552,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "tuesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 22554,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 31262,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 28110,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33640,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33641,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33642,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33643,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33644,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33645,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33646,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33647,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   }
+  ]
+ },
+ {
+  "id": 17,
+  "name": "La Dehesa.",
+  "text_address": "Avenida La Dehesa 2035",
+  "latitude": "-33.352068",
+  "longitude": "-70.518173",
+  "phone": "+56 2 29555555",
+  "menu_id": 40,
+  "commune": "Lo Barnechea",
+  "delivery_wait_time": 45,
+  "pick_up_wait_time": 15,
+  "payment_methods": {
+   "cash": true,
+   "fpay": false,
+   "credit": false,
+   "fintoc": true,
+   "onepay": true,
+   "rutpay": true,
+   "sodexo": true,
+   "oneclick": true,
+   "web_online": true,
+   "mercado_pago": true
+  },
+  "region": "Santiago",
+  "order_method": "both",
+  "future_orders_enabled": true,
+  "external_delivery": true,
+  "external_delivery_company": "uber_direct",
+  "menu_peya_id": null,
+  "menu_just_eat_id": null,
+  "menu_totem_id": null,
+  "location": "Región Metropolitana",
+  "seo_description": "",
+  "seo_business_url": null,
+  "seo_enabled": true,
+  "close_reason": null,
+  "delivery_open": true,
+  "pick_up_open": true,
+  "enabled_tip_module": false,
+  "business_info": null,
+  "store_groups": [
+   {
+    "id": 23,
+    "name": "Piloto Delivery Fee Junio 2026 (NO TOCAR)",
+    "delivery_price": 990.0,
+    "minimum_value_for_free_delivery": null,
+    "minimum_price_for_delivery": 4990.0,
+    "external_delivery_disabled": {}
+   }
+  ],
+  "business_hours": [
+   {
+    "id": 14173,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 14174,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 21269,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "tuesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 21270,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "tuesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 28123,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:30:00.000Z",
+    "day": "wednesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 28124,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:30:00.000Z",
+    "day": "wednesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 25071,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:30:00.000Z",
+    "day": "thursday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 25072,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:30:00.000Z",
+    "day": "thursday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 27283,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 27285,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33293,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33294,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33295,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33296,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33298,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T00:30:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33300,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T00:30:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34240,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T00:30:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34241,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T00:30:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34738,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T00:30:00.000Z",
+    "day": "monday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34739,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T00:30:00.000Z",
+    "day": "monday",
+    "dispatch_method": "pj_delivery"
+   }
+  ]
+ },
+ {
+  "id": 18,
+  "name": "Vitacura.",
+  "text_address": "Avenida Arturo Prat 515",
+  "latitude": "-25.40758",
+  "longitude": "-70.486671",
+  "phone": "+56 2 22189999",
+  "menu_id": 40,
+  "commune": "Taltal",
+  "delivery_wait_time": 30,
+  "pick_up_wait_time": 15,
+  "payment_methods": {
+   "cash": true,
+   "fpay": false,
+   "credit": true,
+   "fintoc": true,
+   "onepay": true,
+   "rutpay": true,
+   "sodexo": true,
+   "oneclick": true,
+   "web_online": true,
+   "mercado_pago": true
+  },
+  "region": "Antofagasta",
+  "order_method": "both",
+  "future_orders_enabled": true,
+  "external_delivery": false,
+  "external_delivery_company": "uber_direct",
+  "menu_peya_id": null,
+  "menu_just_eat_id": null,
+  "menu_totem_id": null,
+  "location": "Región Metropolitana",
+  "seo_description": null,
+  "seo_business_url": null,
+  "seo_enabled": true,
+  "close_reason": null,
+  "delivery_open": false,
+  "pick_up_open": false,
+  "enabled_tip_module": true,
+  "business_info": null,
+  "store_groups": [],
+  "business_hours": [
+   {
+    "id": 21663,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 21665,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 21666,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T02:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 21667,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 21664,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T02:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   }
+  ]
+ },
+ {
+  "id": 19,
+  "name": "Los Trapenses.",
+  "text_address": "Camino del Monje 10530",
+  "latitude": "-33.346887",
+  "longitude": "-70.542738",
+  "phone": "+56 2 29557777",
+  "menu_id": 40,
+  "commune": "Lo Barnechea",
+  "delivery_wait_time": 30,
+  "pick_up_wait_time": 15,
+  "payment_methods": {
+   "cash": false,
+   "fpay": false,
+   "credit": false,
+   "fintoc": true,
+   "onepay": true,
+   "rutpay": true,
+   "sodexo": true,
+   "oneclick": true,
+   "web_online": true,
+   "mercado_pago": true
+  },
+  "region": "Metropolitana",
+  "order_method": "both",
+  "future_orders_enabled": true,
+  "external_delivery": true,
+  "external_delivery_company": "dispatch_track",
+  "menu_peya_id": null,
+  "menu_just_eat_id": null,
+  "menu_totem_id": null,
+  "location": "Región Metropolitana",
+  "seo_description": null,
+  "seo_business_url": null,
+  "seo_enabled": true,
+  "close_reason": null,
+  "delivery_open": true,
+  "pick_up_open": true,
+  "enabled_tip_module": false,
+  "business_info": null,
+  "store_groups": [
+   {
+    "id": 23,
+    "name": "Piloto Delivery Fee Junio 2026 (NO TOCAR)",
+    "delivery_price": 990.0,
+    "minimum_value_for_free_delivery": null,
+    "minimum_price_for_delivery": 4990.0,
+    "external_delivery_disabled": {}
+   }
+  ],
+  "business_hours": [
+   {
+    "id": 16619,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 28117,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:30:00.000Z",
+    "day": "thursday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 21293,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "tuesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 21294,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "tuesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 28026,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:30:00.000Z",
+    "day": "wednesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 16620,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 28027,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:30:00.000Z",
+    "day": "wednesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 31684,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 31685,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33149,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "thursday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33995,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33996,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33998,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34000,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34037,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T00:30:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34038,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T00:30:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34039,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T00:30:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34040,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T00:30:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   }
+  ]
+ },
+ {
+  "id": 20,
+  "name": "Luis Pasteur.",
+  "text_address": "Calle Luis Pasteur 5923",
+  "latitude": "-33.387769",
+  "longitude": "-70.576785",
+  "phone": "+56 2 22187000",
+  "menu_id": 40,
+  "commune": "Vitacura",
+  "delivery_wait_time": 45,
+  "pick_up_wait_time": 15,
+  "payment_methods": {
+   "cash": false,
+   "fpay": false,
+   "tenpo": false,
+   "credit": false,
+   "fintoc": true,
+   "onepay": true,
+   "rutpay": true,
+   "sodexo": true,
+   "oneclick": true,
+   "web_online": true,
+   "mercado_pago": true
+  },
+  "region": "Metropolitana",
+  "order_method": "both",
+  "future_orders_enabled": true,
+  "external_delivery": true,
+  "external_delivery_company": "dispatch_track",
+  "menu_peya_id": null,
+  "menu_just_eat_id": null,
+  "menu_totem_id": null,
+  "location": "Región Metropolitana",
+  "seo_description": null,
+  "seo_business_url": null,
+  "seo_enabled": true,
+  "close_reason": null,
+  "delivery_open": true,
+  "pick_up_open": true,
+  "enabled_tip_module": false,
+  "business_info": null,
+  "store_groups": [
+   {
+    "id": 23,
+    "name": "Piloto Delivery Fee Junio 2026 (NO TOCAR)",
+    "delivery_price": 990.0,
+    "minimum_value_for_free_delivery": null,
+    "minimum_price_for_delivery": 4990.0,
+    "external_delivery_disabled": {}
+   }
+  ],
+  "business_hours": [
+   {
+    "id": 14205,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 20366,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 20367,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "tuesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 23843,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 14211,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 24469,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 24568,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 14209,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 27062,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 24569,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 20368,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "tuesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 14207,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34297,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34298,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34299,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34300,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34301,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34302,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   }
+  ]
+ },
+ {
+  "id": 21,
+  "name": "El Alba.",
+  "text_address": "Camino El Alba 12620",
+  "latitude": "-33.398935",
+  "longitude": "-70.50729",
+  "phone": "+56 2 29485555",
+  "menu_id": 40,
+  "commune": "Las Condes",
+  "delivery_wait_time": 30,
+  "pick_up_wait_time": 15,
+  "payment_methods": {
+   "cash": false,
+   "fpay": false,
+   "credit": false,
+   "fintoc": true,
+   "onepay": true,
+   "rutpay": true,
+   "sodexo": true,
+   "oneclick": true,
+   "web_online": true,
+   "mercado_pago": true
+  },
+  "region": "Metropolitana",
+  "order_method": "both",
+  "future_orders_enabled": true,
+  "external_delivery": true,
+  "external_delivery_company": "dispatch_track",
+  "menu_peya_id": null,
+  "menu_just_eat_id": null,
+  "menu_totem_id": 67,
+  "location": "Región Metropolitana",
+  "seo_description": null,
+  "seo_business_url": null,
+  "seo_enabled": true,
+  "close_reason": null,
+  "delivery_open": true,
+  "pick_up_open": true,
+  "enabled_tip_module": false,
+  "business_info": null,
+  "store_groups": [
+   {
+    "id": 23,
+    "name": "Piloto Delivery Fee Junio 2026 (NO TOCAR)",
+    "delivery_price": 990.0,
+    "minimum_value_for_free_delivery": null,
+    "minimum_price_for_delivery": 4990.0,
+    "external_delivery_disabled": {}
+   }
+  ],
+  "business_hours": [
+   {
+    "id": 28041,
+    "opening_time": "2000-01-01T12:00:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "tuesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 30772,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T00:30:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 30773,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T00:30:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 31126,
+    "opening_time": "2000-01-01T12:00:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "tuesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 31167,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 31168,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 31851,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:30:00.000Z",
+    "day": "wednesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 31852,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:30:00.000Z",
+    "day": "wednesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34065,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:30:00.000Z",
+    "day": "thursday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34066,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:30:00.000Z",
+    "day": "thursday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34067,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34068,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34069,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T00:30:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34070,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34071,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T00:30:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34072,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34073,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34074,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34802,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34803,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "pj_delivery"
+   }
+  ]
+ },
+ {
+  "id": 22,
+  "name": "San Damián.",
+  "text_address": "San Damian 20",
+  "latitude": "-33.376485",
+  "longitude": "-70.524893",
+  "phone": "+56 2 22153000",
+  "menu_id": 40,
+  "commune": "Las Condes",
+  "delivery_wait_time": 30,
+  "pick_up_wait_time": 15,
+  "payment_methods": {
+   "cash": false,
+   "fpay": false,
+   "tenpo": false,
+   "credit": false,
+   "fintoc": true,
+   "onepay": true,
+   "rutpay": true,
+   "sodexo": true,
+   "oneclick": true,
+   "web_online": true,
+   "mercado_pago": true
+  },
+  "region": "Región Metropolitana",
+  "order_method": "both",
+  "future_orders_enabled": true,
+  "external_delivery": true,
+  "external_delivery_company": "dispatch_track",
+  "menu_peya_id": null,
+  "menu_just_eat_id": null,
+  "menu_totem_id": 67,
+  "location": "Región Metropolitana",
+  "seo_description": null,
+  "seo_business_url": null,
+  "seo_enabled": true,
+  "close_reason": null,
+  "delivery_open": true,
+  "pick_up_open": true,
+  "enabled_tip_module": false,
+  "business_info": null,
+  "store_groups": [
+   {
+    "id": 23,
+    "name": "Piloto Delivery Fee Junio 2026 (NO TOCAR)",
+    "delivery_price": 990.0,
+    "minimum_value_for_free_delivery": null,
+    "minimum_price_for_delivery": 4990.0,
+    "external_delivery_disabled": {}
+   }
+  ],
+  "business_hours": [
+   {
+    "id": 14213,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 23972,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:30:00.000Z",
+    "day": "tuesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 10286,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:30:00.000Z",
+    "day": "tuesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 27908,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:30:00.000Z",
+    "day": "wednesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 18920,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:30:00.000Z",
+    "day": "wednesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 27339,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 27341,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 28905,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:30:00.000Z",
+    "day": "thursday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34348,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34349,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 10284,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34608,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:30:00.000Z",
+    "day": "thursday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34626,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T00:30:00.000Z",
+    "day": "monday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34627,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T00:30:00.000Z",
+    "day": "monday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34808,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T00:30:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34809,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T00:30:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   }
+  ]
+ },
+ {
+  "id": 23,
+  "name": "Ñuñoa.",
+  "text_address": "Av. Pedro de Valdivia 3774",
+  "latitude": "-33.457616",
+  "longitude": "-70.605181",
+  "phone": "+56 2 22691000",
+  "menu_id": 40,
+  "commune": "Ñuñoa",
+  "delivery_wait_time": 30,
+  "pick_up_wait_time": 15,
+  "payment_methods": {
+   "cash": true,
+   "fpay": false,
+   "tenpo": true,
+   "credit": false,
+   "fintoc": true,
+   "onepay": true,
+   "rutpay": true,
+   "sodexo": true,
+   "oneclick": true,
+   "web_online": true,
+   "mercado_pago": true
+  },
+  "region": "Metropolitana",
+  "order_method": "both",
+  "future_orders_enabled": true,
+  "external_delivery": true,
+  "external_delivery_company": "uber_direct",
+  "menu_peya_id": null,
+  "menu_just_eat_id": null,
+  "menu_totem_id": null,
+  "location": "Región Metropolitana",
+  "seo_description": null,
+  "seo_business_url": null,
+  "seo_enabled": true,
+  "close_reason": null,
+  "delivery_open": true,
+  "pick_up_open": true,
+  "enabled_tip_module": false,
+  "business_info": null,
+  "store_groups": [
+   {
+    "id": 23,
+    "name": "Piloto Delivery Fee Junio 2026 (NO TOCAR)",
+    "delivery_price": 990.0,
+    "minimum_value_for_free_delivery": null,
+    "minimum_price_for_delivery": 4990.0,
+    "external_delivery_disabled": {}
+   }
+  ],
+  "business_hours": [
+   {
+    "id": 28045,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:45:00.000Z",
+    "day": "thursday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 14115,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 21230,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 21339,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:45:00.000Z",
+    "day": "tuesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 27543,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 27545,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T22:45:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 29301,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 28044,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 31137,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "tuesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 31312,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T22:45:00.000Z",
+    "day": "monday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 21231,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:45:00.000Z",
+    "day": "wednesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34309,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T00:45:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34303,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34304,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34305,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34306,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34307,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T00:45:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34308,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   }
+  ]
+ },
+ {
+  "id": 24,
+  "name": "Peñalolen.",
+  "text_address": "Antupiren 8340",
+  "latitude": "-33.478835",
+  "longitude": "-70.545497",
+  "phone": "+56 2 22783000",
+  "menu_id": 40,
+  "commune": "Peñalolen",
+  "delivery_wait_time": 30,
+  "pick_up_wait_time": 15,
+  "payment_methods": {
+   "cash": true,
+   "fpay": false,
+   "tenpo": true,
+   "credit": true,
+   "fintoc": true,
+   "onepay": true,
+   "rutpay": true,
+   "sodexo": true,
+   "oneclick": true,
+   "web_online": true,
+   "mercado_pago": true
+  },
+  "region": "Metropolitana",
+  "order_method": "both",
+  "future_orders_enabled": true,
+  "external_delivery": false,
+  "external_delivery_company": "uber_direct",
+  "menu_peya_id": null,
+  "menu_just_eat_id": null,
+  "menu_totem_id": null,
+  "location": "Región Metropolitana",
+  "seo_description": null,
+  "seo_business_url": null,
+  "seo_enabled": true,
+  "close_reason": null,
+  "delivery_open": true,
+  "pick_up_open": true,
+  "enabled_tip_module": true,
+  "business_info": null,
+  "store_groups": [
+   {
+    "id": 23,
+    "name": "Piloto Delivery Fee Junio 2026 (NO TOCAR)",
+    "delivery_price": 990.0,
+    "minimum_value_for_free_delivery": null,
+    "minimum_price_for_delivery": 4990.0,
+    "external_delivery_disabled": {}
+   }
+  ],
+  "business_hours": [
+   {
+    "id": 27558,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 27559,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 14146,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 14147,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 19021,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 21353,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "tuesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 21354,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "tuesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 19020,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 24666,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 24667,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34242,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34243,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34244,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34245,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34246,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34247,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34248,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34249,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34679,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34680,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "pj_delivery"
+   }
+  ]
+ },
+ {
+  "id": 25,
+  "name": "La Florida.",
+  "text_address": "Rojas Magallanes 1280",
+  "latitude": "-33.535422",
+  "longitude": "-70.574042",
+  "phone": "+56 2 22877000",
+  "menu_id": 40,
+  "commune": "La Florida",
+  "delivery_wait_time": 30,
+  "pick_up_wait_time": 15,
+  "payment_methods": {
+   "cash": true,
+   "fpay": false,
+   "tenpo": false,
+   "credit": false,
+   "fintoc": true,
+   "onepay": true,
+   "rutpay": true,
+   "sodexo": true,
+   "oneclick": true,
+   "web_online": true,
+   "mercado_pago": true
+  },
+  "region": "Región Metropolitana",
+  "order_method": "both",
+  "future_orders_enabled": true,
+  "external_delivery": true,
+  "external_delivery_company": "uber_direct",
+  "menu_peya_id": null,
+  "menu_just_eat_id": null,
+  "menu_totem_id": 67,
+  "location": "Región Metropolitana",
+  "seo_description": null,
+  "seo_business_url": null,
+  "seo_enabled": true,
+  "close_reason": null,
+  "delivery_open": true,
+  "pick_up_open": true,
+  "enabled_tip_module": false,
+  "business_info": null,
+  "store_groups": [
+   {
+    "id": 23,
+    "name": "Piloto Delivery Fee Junio 2026 (NO TOCAR)",
+    "delivery_price": 990.0,
+    "minimum_value_for_free_delivery": null,
+    "minimum_price_for_delivery": 4990.0,
+    "external_delivery_disabled": {}
+   }
+  ],
+  "business_hours": [
+   {
+    "id": 5121,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 946,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "tuesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 28261,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 19195,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 19196,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 28262,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 945,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 31333,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "tuesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34046,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34048,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34049,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34050,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34051,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34052,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34053,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34421,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34581,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34582,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   }
+  ]
+ },
+ {
+  "id": 26,
+  "name": "Ossa.",
+  "text_address": "Av. Ossa 345",
+  "latitude": "-33.450869",
+  "longitude": "-70.570853",
+  "phone": "+56 2 22662000",
+  "menu_id": 40,
+  "commune": "La Reina",
+  "delivery_wait_time": 30,
+  "pick_up_wait_time": 15,
+  "payment_methods": {
+   "cash": true,
+   "fpay": false,
+   "tenpo": true,
+   "credit": true,
+   "onepay": true,
+   "rutpay": true,
+   "sodexo": true,
+   "oneclick": true,
+   "web_online": true,
+   "mercado_pago": true
+  },
+  "region": "Metropolitana",
+  "order_method": "both",
+  "future_orders_enabled": true,
+  "external_delivery": false,
+  "external_delivery_company": "uber_direct",
+  "menu_peya_id": null,
+  "menu_just_eat_id": null,
+  "menu_totem_id": null,
+  "location": "Región Metropolitana",
+  "seo_description": null,
+  "seo_business_url": null,
+  "seo_enabled": true,
+  "close_reason": null,
+  "delivery_open": true,
+  "pick_up_open": true,
+  "enabled_tip_module": true,
+  "business_info": null,
+  "store_groups": [
+   {
+    "id": 23,
+    "name": "Piloto Delivery Fee Junio 2026 (NO TOCAR)",
+    "delivery_price": 990.0,
+    "minimum_value_for_free_delivery": null,
+    "minimum_price_for_delivery": 4990.0,
+    "external_delivery_disabled": {}
+   }
+  ],
+  "business_hours": [
+   {
+    "id": 13477,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "tuesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 14447,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 14448,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 22980,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 22981,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 25149,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 32471,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 31163,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "tuesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 25150,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 32656,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 32657,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 32658,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34211,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34212,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34213,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34214,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34215,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34216,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34755,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34756,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "in_store"
+   }
+  ]
+ },
+ {
+  "id": 28,
+  "name": "Macul.",
+  "text_address": "Av Macul 2555",
+  "latitude": "-33.478071",
+  "longitude": "-70.599056",
+  "phone": "+56 2 22373000",
+  "menu_id": 40,
+  "commune": "Macul",
+  "delivery_wait_time": 30,
+  "pick_up_wait_time": 15,
+  "payment_methods": {
+   "cash": true,
+   "fpay": false,
+   "tenpo": true,
+   "credit": true,
+   "fintoc": true,
+   "onepay": true,
+   "rutpay": true,
+   "sodexo": true,
+   "oneclick": true,
+   "web_online": true,
+   "mercado_pago": true
+  },
+  "region": "Metropolitana",
+  "order_method": "both",
+  "future_orders_enabled": true,
+  "external_delivery": false,
+  "external_delivery_company": "uber_direct",
+  "menu_peya_id": null,
+  "menu_just_eat_id": null,
+  "menu_totem_id": null,
+  "location": "Región Metropolitana",
+  "seo_description": null,
+  "seo_business_url": "",
+  "seo_enabled": true,
+  "close_reason": null,
+  "delivery_open": true,
+  "pick_up_open": true,
+  "enabled_tip_module": true,
+  "business_info": null,
+  "store_groups": [
+   {
+    "id": 33,
+    "name": "Piloto Delivery Fee Octubre 2026",
+    "delivery_price": 3000.0,
+    "minimum_value_for_free_delivery": null,
+    "minimum_price_for_delivery": 4990.0,
+    "external_delivery_disabled": {}
+   }
+  ],
+  "business_hours": [
+   {
+    "id": 19155,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 21301,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "tuesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 19209,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 26784,
+    "opening_time": "2000-01-01T10:45:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 27827,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 27829,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 30651,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 26785,
+    "opening_time": "2000-01-01T10:45:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 964,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "tuesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 31745,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33562,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33563,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33564,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33565,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33566,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33567,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33568,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33569,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34634,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34635,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "pj_delivery"
+   }
+  ]
+ },
+ {
+  "id": 29,
+  "name": "irarrazaval.",
+  "text_address": "Irarrázaval 4949",
+  "latitude": "-33.454884",
+  "longitude": "-70.579076",
+  "phone": "+56 2 22262828",
+  "menu_id": 40,
+  "commune": "Ñuñoa",
+  "delivery_wait_time": 30,
+  "pick_up_wait_time": 15,
+  "payment_methods": {
+   "cash": true,
+   "fpay": false,
+   "tenpo": true,
+   "credit": false,
+   "fintoc": true,
+   "onepay": true,
+   "rutpay": true,
+   "sodexo": true,
+   "oneclick": true,
+   "web_online": true,
+   "mercado_pago": true
+  },
+  "region": "Metropolitana",
+  "order_method": "both",
+  "future_orders_enabled": true,
+  "external_delivery": true,
+  "external_delivery_company": "uber_direct",
+  "menu_peya_id": null,
+  "menu_just_eat_id": null,
+  "menu_totem_id": 67,
+  "location": "Región Metropolitana",
+  "seo_description": null,
+  "seo_business_url": null,
+  "seo_enabled": true,
+  "close_reason": null,
+  "delivery_open": true,
+  "pick_up_open": true,
+  "enabled_tip_module": false,
+  "business_info": null,
+  "store_groups": [
+   {
+    "id": 23,
+    "name": "Piloto Delivery Fee Junio 2026 (NO TOCAR)",
+    "delivery_price": 990.0,
+    "minimum_value_for_free_delivery": null,
+    "minimum_price_for_delivery": 4990.0,
+    "external_delivery_disabled": {}
+   }
+  ],
+  "business_hours": [
+   {
+    "id": 14103,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 19082,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 21081,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "tuesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 19083,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 27548,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 25133,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 25134,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 27550,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 27551,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33942,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33943,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33944,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33945,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33946,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33947,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 21082,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "tuesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34702,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34703,
+    "opening_time": "2000-01-01T10:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   }
+  ]
+ },
+ {
+  "id": 30,
+  "name": "Puente Alto.",
+  "text_address": "Av. Concha Y Toro 625",
+  "latitude": "-33.60551",
+  "longitude": "-70.576432",
+  "phone": "+56 2 29490555",
+  "menu_id": 40,
+  "commune": "Puente Alto",
+  "delivery_wait_time": 30,
+  "pick_up_wait_time": 25,
+  "payment_methods": {
+   "cash": true,
+   "fpay": false,
+   "credit": false,
+   "fintoc": true,
+   "onepay": true,
+   "rutpay": true,
+   "sodexo": true,
+   "oneclick": true,
+   "web_online": true,
+   "mercado_pago": true
+  },
+  "region": "Metropolitana",
+  "order_method": "both",
+  "future_orders_enabled": true,
+  "external_delivery": true,
+  "external_delivery_company": "uber_direct",
+  "menu_peya_id": null,
+  "menu_just_eat_id": null,
+  "menu_totem_id": null,
+  "location": "Región Metropolitana",
+  "seo_description": null,
+  "seo_business_url": null,
+  "seo_enabled": true,
+  "close_reason": null,
+  "delivery_open": true,
+  "pick_up_open": true,
+  "enabled_tip_module": false,
+  "business_info": null,
+  "store_groups": [
+   {
+    "id": 23,
+    "name": "Piloto Delivery Fee Junio 2026 (NO TOCAR)",
+    "delivery_price": 990.0,
+    "minimum_value_for_free_delivery": null,
+    "minimum_price_for_delivery": 4990.0,
+    "external_delivery_disabled": {}
+   }
+  ],
+  "business_hours": [
+   {
+    "id": 981,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 985,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "friday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 27765,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 28270,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 28271,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 30031,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 31784,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "tuesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33442,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33445,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33446,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33447,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33448,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34436,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34437,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 3377,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "tuesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34787,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34920,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "pj_delivery"
+   }
+  ]
+ },
+ {
+  "id": 31,
+  "name": "San miguel.",
+  "text_address": "Gran Avenida Jose Miguel Carrera 5001",
+  "latitude": "-33.500236",
+  "longitude": "-70.654457",
+  "phone": "+56 2 25173000",
+  "menu_id": 40,
+  "commune": "San Miguel",
+  "delivery_wait_time": 30,
+  "pick_up_wait_time": 15,
+  "payment_methods": {
+   "cash": true,
+   "fpay": false,
+   "credit": true,
+   "fintoc": true,
+   "onepay": true,
+   "rutpay": true,
+   "sodexo": true,
+   "oneclick": true,
+   "web_online": true,
+   "mercado_pago": true
+  },
+  "region": "Metropolitana",
+  "order_method": "both",
+  "future_orders_enabled": true,
+  "external_delivery": false,
+  "external_delivery_company": "uber_direct",
+  "menu_peya_id": null,
+  "menu_just_eat_id": null,
+  "menu_totem_id": 67,
+  "location": "Región Metropolitana",
+  "seo_description": null,
+  "seo_business_url": null,
+  "seo_enabled": true,
+  "close_reason": null,
+  "delivery_open": true,
+  "pick_up_open": true,
+  "enabled_tip_module": true,
+  "business_info": null,
+  "store_groups": [
+   {
+    "id": 23,
+    "name": "Piloto Delivery Fee Junio 2026 (NO TOCAR)",
+    "delivery_price": 990.0,
+    "minimum_value_for_free_delivery": null,
+    "minimum_price_for_delivery": 4990.0,
+    "external_delivery_disabled": {}
+   }
+  ],
+  "business_hours": [
+   {
+    "id": 14129,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 19007,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 28247,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 30018,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 30019,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 30035,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 222,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "tuesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 10399,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "tuesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33570,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33571,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33572,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33573,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33574,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33575,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33576,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33577,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33578,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33579,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   }
+  ]
+ },
+ {
+  "id": 32,
+  "name": "Pajaritos.",
+  "text_address": "Avenida Américo Vespucio 51",
+  "latitude": "-33.486239",
+  "longitude": "-70.74965",
+  "phone": "+56 2 27657000",
+  "menu_id": 40,
+  "commune": "Maipú",
+  "delivery_wait_time": 30,
+  "pick_up_wait_time": 15,
+  "payment_methods": {
+   "cash": true,
+   "fpay": false,
+   "credit": false,
+   "fintoc": true,
+   "onepay": true,
+   "rutpay": true,
+   "sodexo": true,
+   "oneclick": true,
+   "web_online": true,
+   "mercado_pago": true
+  },
+  "region": "Santiago",
+  "order_method": "both",
+  "future_orders_enabled": true,
+  "external_delivery": true,
+  "external_delivery_company": "uber_direct",
+  "menu_peya_id": null,
+  "menu_just_eat_id": null,
+  "menu_totem_id": null,
+  "location": "Región Metropolitana",
+  "seo_description": null,
+  "seo_business_url": null,
+  "seo_enabled": false,
+  "close_reason": null,
+  "delivery_open": true,
+  "pick_up_open": true,
+  "enabled_tip_module": false,
+  "business_info": null,
+  "store_groups": [
+   {
+    "id": 23,
+    "name": "Piloto Delivery Fee Junio 2026 (NO TOCAR)",
+    "delivery_price": 990.0,
+    "minimum_value_for_free_delivery": null,
+    "minimum_price_for_delivery": 4990.0,
+    "external_delivery_disabled": {}
+   }
+  ],
+  "business_hours": [
+   {
+    "id": 14733,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 30258,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 30259,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 27355,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 28466,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 27353,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 15007,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 28422,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "tuesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 28423,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "tuesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 28465,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33434,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33435,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33436,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33437,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33438,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33439,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33440,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33441,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34700,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34701,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "pj_delivery"
+   }
+  ]
+ },
+ {
+  "id": 33,
+  "name": "Santa Isabel",
+  "text_address": "San Francisco 531",
+  "latitude": "-33.451436",
+  "longitude": "-70.647192",
+  "phone": "+56 2 26338080",
+  "menu_id": 40,
+  "commune": "Santiago",
+  "delivery_wait_time": 45,
+  "pick_up_wait_time": 15,
+  "payment_methods": {
+   "cash": true,
+   "fpay": false,
+   "credit": true,
+   "fintoc": true,
+   "onepay": true,
+   "rutpay": true,
+   "sodexo": true,
+   "oneclick": true,
+   "web_online": true,
+   "mercado_pago": true
+  },
+  "region": "Región Metropolitana",
+  "order_method": "both",
+  "future_orders_enabled": true,
+  "external_delivery": false,
+  "external_delivery_company": "uber_direct",
+  "menu_peya_id": null,
+  "menu_just_eat_id": null,
+  "menu_totem_id": null,
+  "location": "Región Metropolitana",
+  "seo_description": null,
+  "seo_business_url": null,
+  "seo_enabled": true,
+  "close_reason": null,
+  "delivery_open": true,
+  "pick_up_open": true,
+  "enabled_tip_module": true,
+  "business_info": null,
+  "store_groups": [
+   {
+    "id": 23,
+    "name": "Piloto Delivery Fee Junio 2026 (NO TOCAR)",
+    "delivery_price": 990.0,
+    "minimum_value_for_free_delivery": null,
+    "minimum_price_for_delivery": 4990.0,
+    "external_delivery_disabled": {}
+   }
+  ],
+  "business_hours": [
+   {
+    "id": 8334,
+    "opening_time": "2000-01-01T10:45:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 22574,
+    "opening_time": "2000-01-01T10:45:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 27919,
+    "opening_time": "2000-01-01T10:15:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 27920,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 31016,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 32058,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33586,
+    "opening_time": "2000-01-01T10:45:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33587,
+    "opening_time": "2000-01-01T10:45:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33588,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33589,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33590,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33591,
+    "opening_time": "2000-01-01T10:45:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33592,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33593,
+    "opening_time": "2000-01-01T10:45:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33594,
+    "opening_time": "2000-01-01T10:45:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33595,
+    "opening_time": "2000-01-01T10:45:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34570,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "tuesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34571,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "tuesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34761,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34762,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "pj_delivery"
+   }
+  ]
+ },
+ {
+  "id": 34,
+  "name": "Machali.",
+  "text_address": "Miguel Ramírez 1550",
+  "latitude": "-34.175607",
+  "longitude": "-70.702646",
+  "phone": "+56 7 22210707",
+  "menu_id": 63,
+  "commune": "Rancagua",
+  "delivery_wait_time": 30,
+  "pick_up_wait_time": 15,
+  "payment_methods": {
+   "cash": true,
+   "fpay": false,
+   "tenpo": false,
+   "credit": false,
+   "fintoc": true,
+   "onepay": true,
+   "rutpay": true,
+   "sodexo": true,
+   "oneclick": true,
+   "web_online": true,
+   "mercado_pago": true
+  },
+  "region": "Ohiggins",
+  "order_method": "both",
+  "future_orders_enabled": true,
+  "external_delivery": true,
+  "external_delivery_company": "uber_direct",
+  "menu_peya_id": null,
+  "menu_just_eat_id": null,
+  "menu_totem_id": null,
+  "location": "O'Higgins",
+  "seo_description": null,
+  "seo_business_url": null,
+  "seo_enabled": true,
+  "close_reason": null,
+  "delivery_open": true,
+  "pick_up_open": true,
+  "enabled_tip_module": false,
+  "business_info": null,
+  "store_groups": [
+   {
+    "id": 33,
+    "name": "Piloto Delivery Fee Octubre 2026",
+    "delivery_price": 3000.0,
+    "minimum_value_for_free_delivery": null,
+    "minimum_price_for_delivery": 4990.0,
+    "external_delivery_disabled": {}
+   }
+  ],
+  "business_hours": [
+   {
+    "id": 1028,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "tuesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 27935,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 27358,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 27125,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 27126,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 27360,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 29917,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 31385,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 21409,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 15104,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 31957,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 31916,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 32801,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33703,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33704,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33705,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33706,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34562,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "tuesday",
+    "dispatch_method": "in_store"
+   }
+  ]
+ },
+ {
+  "id": 35,
+  "name": "Toesca.",
+  "text_address": "Toesca 1844",
+  "latitude": "-33.453368",
+  "longitude": "-70.660969",
+  "phone": "+56 2 26960505",
+  "menu_id": 40,
+  "commune": "Santiago",
+  "delivery_wait_time": 30,
+  "pick_up_wait_time": 15,
+  "payment_methods": {
+   "cash": true,
+   "fpay": false,
+   "credit": true,
+   "fintoc": true,
+   "onepay": true,
+   "rutpay": true,
+   "sodexo": true,
+   "oneclick": true,
+   "web_online": true,
+   "mercado_pago": true
+  },
+  "region": "Región Metropolitana",
+  "order_method": "both",
+  "future_orders_enabled": true,
+  "external_delivery": false,
+  "external_delivery_company": "uber_direct",
+  "menu_peya_id": null,
+  "menu_just_eat_id": null,
+  "menu_totem_id": 67,
+  "location": "Región Metropolitana",
+  "seo_description": null,
+  "seo_business_url": null,
+  "seo_enabled": true,
+  "close_reason": null,
+  "delivery_open": true,
+  "pick_up_open": true,
+  "enabled_tip_module": true,
+  "business_info": null,
+  "store_groups": [
+   {
+    "id": 23,
+    "name": "Piloto Delivery Fee Junio 2026 (NO TOCAR)",
+    "delivery_price": 990.0,
+    "minimum_value_for_free_delivery": null,
+    "minimum_price_for_delivery": 4990.0,
+    "external_delivery_disabled": {}
+   }
+  ],
+  "business_hours": [
+   {
+    "id": 32944,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 31140,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "tuesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 31141,
+    "opening_time": "2000-01-01T11:45:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "tuesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 31525,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 31938,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 31928,
+    "opening_time": "2000-01-01T11:45:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 31940,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33257,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33258,
+    "opening_time": "2000-01-01T11:45:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33259,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33260,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33128,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 32945,
+    "opening_time": "2000-01-01T11:45:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33782,
+    "opening_time": "2000-01-01T11:45:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33783,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33784,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34280,
+    "opening_time": "2000-01-01T11:45:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34876,
+    "opening_time": "2000-01-01T11:45:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   }
+  ]
+ },
+ {
+  "id": 36,
+  "name": "Rancagua Centro.",
+  "text_address": "O'carrol 11",
+  "latitude": "-34.172131",
+  "longitude": "-70.735006",
+  "phone": "+56 7 22275050",
+  "menu_id": 63,
+  "commune": "Rancagua",
+  "delivery_wait_time": 30,
+  "pick_up_wait_time": 15,
+  "payment_methods": {
+   "cash": true,
+   "fpay": false,
+   "credit": false,
+   "fintoc": true,
+   "onepay": true,
+   "rutpay": true,
+   "sodexo": true,
+   "oneclick": true,
+   "web_online": true,
+   "mercado_pago": true
+  },
+  "region": "Cachapoal",
+  "order_method": "both",
+  "future_orders_enabled": true,
+  "external_delivery": true,
+  "external_delivery_company": "uber_direct",
+  "menu_peya_id": null,
+  "menu_just_eat_id": null,
+  "menu_totem_id": 71,
+  "location": "O'Higgins",
+  "seo_description": null,
+  "seo_business_url": null,
+  "seo_enabled": true,
+  "close_reason": null,
+  "delivery_open": true,
+  "pick_up_open": true,
+  "enabled_tip_module": false,
+  "business_info": null,
+  "store_groups": [
+   {
+    "id": 33,
+    "name": "Piloto Delivery Fee Octubre 2026",
+    "delivery_price": 3000.0,
+    "minimum_value_for_free_delivery": null,
+    "minimum_price_for_delivery": 4990.0,
+    "external_delivery_disabled": {}
+   }
+  ],
+  "business_hours": [
+   {
+    "id": 1541,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 28273,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 28275,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 29998,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 27300,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 275,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "tuesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 1542,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "tuesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 31391,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 31392,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33360,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33361,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33362,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33363,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33364,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33365,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33366,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33367,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33368,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34898,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T00:30:00.000Z",
+    "day": "monday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34899,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T00:30:00.000Z",
+    "day": "monday",
+    "dispatch_method": "pj_delivery"
+   }
+  ]
+ },
+ {
+  "id": 37,
+  "name": "Maipu.",
+  "text_address": "Av. Los Pajaritos 2624",
+  "latitude": "-33.503419",
+  "longitude": "-70.757563",
+  "phone": "+56 2 27591444",
+  "menu_id": 40,
+  "commune": "Santiago",
+  "delivery_wait_time": 30,
+  "pick_up_wait_time": 15,
+  "payment_methods": {
+   "cash": true,
+   "fpay": false,
+   "tenpo": true,
+   "credit": false,
+   "fintoc": true,
+   "onepay": true,
+   "rutpay": true,
+   "sodexo": true,
+   "oneclick": true,
+   "web_online": true,
+   "mercado_pago": true
+  },
+  "region": "Región Metropolitana",
+  "order_method": "both",
+  "future_orders_enabled": true,
+  "external_delivery": true,
+  "external_delivery_company": "uber_direct",
+  "menu_peya_id": null,
+  "menu_just_eat_id": null,
+  "menu_totem_id": 67,
+  "location": "Región Metropolitana",
+  "seo_description": null,
+  "seo_business_url": null,
+  "seo_enabled": true,
+  "close_reason": null,
+  "delivery_open": true,
+  "pick_up_open": true,
+  "enabled_tip_module": false,
+  "business_info": null,
+  "store_groups": [
+   {
+    "id": 23,
+    "name": "Piloto Delivery Fee Junio 2026 (NO TOCAR)",
+    "delivery_price": 990.0,
+    "minimum_value_for_free_delivery": null,
+    "minimum_price_for_delivery": 4990.0,
+    "external_delivery_disabled": {}
+   }
+  ],
+  "business_hours": [
+   {
+    "id": 21527,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 18966,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 14675,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 27474,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 27475,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 2182,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "tuesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 2183,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "tuesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 14674,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33909,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33910,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33911,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33912,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33913,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33914,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33915,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34209,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34210,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34277,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 34879,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34880,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "pj_delivery"
+   }
+  ]
+ },
+ {
+  "id": 38,
+  "name": "Plaza Brasil",
+  "text_address": "Compañía de Jesús 1909",
+  "latitude": "-33.439677",
+  "longitude": "-70.663504",
+  "phone": "+56 2 28637700",
+  "menu_id": 40,
+  "commune": "Santiago",
+  "delivery_wait_time": 30,
+  "pick_up_wait_time": 15,
+  "payment_methods": {
+   "cash": true,
+   "fpay": false,
+   "tenpo": true,
+   "credit": true,
+   "fintoc": true,
+   "onepay": true,
+   "rutpay": true,
+   "sodexo": true,
+   "oneclick": true,
+   "web_online": true,
+   "mercado_pago": true
+  },
+  "region": "Santiago",
+  "order_method": "both",
+  "future_orders_enabled": true,
+  "external_delivery": false,
+  "external_delivery_company": "uber_direct",
+  "menu_peya_id": null,
+  "menu_just_eat_id": null,
+  "menu_totem_id": null,
+  "location": "Región Metropolitana",
+  "seo_description": null,
+  "seo_business_url": null,
+  "seo_enabled": true,
+  "close_reason": null,
+  "delivery_open": true,
+  "pick_up_open": true,
+  "enabled_tip_module": true,
+  "business_info": null,
+  "store_groups": [
+   {
+    "id": 23,
+    "name": "Piloto Delivery Fee Junio 2026 (NO TOCAR)",
+    "delivery_price": 990.0,
+    "minimum_value_for_free_delivery": null,
+    "minimum_price_for_delivery": 4990.0,
+    "external_delivery_disabled": {}
+   }
+  ],
+  "business_hours": [
+   {
+    "id": 27213,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 18721,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 28891,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 28892,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 28962,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 29710,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 31159,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "tuesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 31162,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "tuesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33536,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33537,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33538,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33539,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33540,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33541,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33542,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33543,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33544,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33545,
+    "opening_time": "2000-01-01T10:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   }
+  ]
+ },
+ {
+  "id": 39,
+  "name": "Cosme Churruca.",
+  "text_address": "Cosme Churruca 75",
+  "latitude": "-36.787903",
+  "longitude": "-73.051815",
+  "phone": "+56 41 2480606",
+  "menu_id": 62,
+  "commune": "Concepción",
+  "delivery_wait_time": 30,
+  "pick_up_wait_time": 15,
+  "payment_methods": {
+   "cash": true,
+   "fpay": false,
+   "credit": true,
+   "fintoc": true,
+   "onepay": true,
+   "rutpay": true,
+   "sodexo": true,
+   "oneclick": true,
+   "web_online": true,
+   "mercado_pago": true
+  },
+  "region": "Concepcion",
+  "order_method": "both",
+  "future_orders_enabled": true,
+  "external_delivery": false,
+  "external_delivery_company": "uber_direct",
+  "menu_peya_id": null,
+  "menu_just_eat_id": null,
+  "menu_totem_id": null,
+  "location": "Biobío",
+  "seo_description": null,
+  "seo_business_url": null,
+  "seo_enabled": true,
+  "close_reason": null,
+  "delivery_open": true,
+  "pick_up_open": true,
+  "enabled_tip_module": true,
+  "business_info": null,
+  "store_groups": [
+   {
+    "id": 23,
+    "name": "Piloto Delivery Fee Junio 2026 (NO TOCAR)",
+    "delivery_price": 990.0,
+    "minimum_value_for_free_delivery": null,
+    "minimum_price_for_delivery": 4990.0,
+    "external_delivery_disabled": {}
+   }
+  ],
+  "business_hours": [
+   {
+    "id": 19228,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "tuesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 21358,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 21359,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 24355,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 24356,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 1064,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "tuesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 28098,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33109,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33123,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 28099,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33851,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33852,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33853,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33854,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33855,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33856,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33857,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33858,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   }
+  ]
+ },
+ {
+  "id": 40,
+  "name": "Pedro de Valdivia.",
+  "text_address": "Pedro de Valdivia 1010",
+  "latitude": "-36.846237",
+  "longitude": "-73.052255",
+  "phone": "+56 41 2333000",
+  "menu_id": 62,
+  "commune": "Concepción",
+  "delivery_wait_time": 40,
+  "pick_up_wait_time": 20,
+  "payment_methods": {
+   "cash": true,
+   "fpay": false,
+   "credit": true,
+   "fintoc": true,
+   "onepay": true,
+   "rutpay": true,
+   "sodexo": true,
+   "oneclick": true,
+   "web_online": true,
+   "mercado_pago": true
+  },
+  "region": "Región del Bio Bio",
+  "order_method": "both",
+  "future_orders_enabled": true,
+  "external_delivery": false,
+  "external_delivery_company": "uber_direct",
+  "menu_peya_id": null,
+  "menu_just_eat_id": null,
+  "menu_totem_id": 71,
+  "location": "Biobío",
+  "seo_description": null,
+  "seo_business_url": null,
+  "seo_enabled": true,
+  "close_reason": "on_demand",
+  "delivery_open": true,
+  "pick_up_open": true,
+  "enabled_tip_module": true,
+  "business_info": null,
+  "store_groups": [
+   {
+    "id": 23,
+    "name": "Piloto Delivery Fee Junio 2026 (NO TOCAR)",
+    "delivery_price": 990.0,
+    "minimum_value_for_free_delivery": null,
+    "minimum_price_for_delivery": 4990.0,
+    "external_delivery_disabled": {}
+   }
+  ],
+  "business_hours": [
+   {
+    "id": 8957,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 9901,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "tuesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 21252,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "tuesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 21254,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 24810,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 21253,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 27287,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 14365,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 14366,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 6985,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 27289,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 31515,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33243,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 24811,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33606,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33607,
+    "opening_time": "2000-01-01T11:30:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33608,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33609,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   }
+  ]
+ }
+]

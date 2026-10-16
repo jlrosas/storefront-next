@@ -26,19 +26,21 @@ export default defineConfig(
                 ...baseConfig?.app?.commerce,
                 sites: [
                     {
-                        id: 'Foundations',
-                        defaultLocale: 'en-US',
-                        defaultCurrency: 'USD',
-                        supportedLocales: [
-                            { id: 'default', preferredCurrency: 'USD' },
-                            { id: 'en-US', preferredCurrency: 'USD' },
-                        ],
-                        supportedCurrencies: ['USD'],
+                        id: 'PapaJohnsCL',
+                        defaultLocale: 'es-CL',
+                        defaultCurrency: 'CLP',
+                        supportedLocales: [{ id: 'es-CL', preferredCurrency: 'CLP' }],
+                        supportedCurrencies: ['CLP'],
                     },
                 ],
             },
-            defaultSiteId: 'Foundations',
-            siteAliasMap: { Foundations: 'Foundations' },
+            defaultSiteId: 'PapaJohnsCL',
+            siteAliasMap: { PapaJohnsCL: 'cl' },
+            i18n: {
+                ...baseConfig?.app?.i18n,
+                // El fallback debe ir al final.
+                supportedLngs: ['es-CL', 'en-GB'],
+            },
         },
     },
     { protectedPaths: protectedConfigPaths }
