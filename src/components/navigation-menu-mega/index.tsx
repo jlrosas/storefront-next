@@ -39,9 +39,10 @@ export type { MegaMenuCategoryFields } from './responsive-navigation-menu';
     // One region per top-level category, keyed by category id via the `region_<id>` convention.
     // Edit this list to match your catalog's top-level category ids. Must stay an array literal —
     // the cartridge generator extracts regions via AST and only handles array-literal arguments.
-    { id: 'region_women', name: 'Women' },
-    { id: 'region_men', name: 'Men' },
-    { id: 'region_kids', name: 'Kids' },
+    { id: 'region_pizzas', name: 'Pizzas' },
+    { id: 'region_acompanamientos', name: 'Acompañamientos' },
+    { id: 'region_postres', name: 'Postres' },
+    { id: 'region_bebidas', name: 'Bebidas' },
 ])
 // oxlint-disable-next-line react-refresh/only-export-components
 export class MegaMenuMetadata {}

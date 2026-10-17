@@ -25,6 +25,8 @@ PRICEBOOK = "papajohns-cl-list-prices"
 INVENTORY = "inventory_papajohns_cl"
 LOCALE = "es_CL"
 CURRENCY = "CLP"
+# Librería que el sitio tiene asignada (BM la crea junto con el sitio).
+LIBRARY = "PapaJohnsCLLibrary"
 
 # Productos que no se cargan en esta fase: precio 0 o 1 (no vendibles tal cual).
 SKIP = {"Pizza por mitades", "Fanta 220 ml"}
@@ -568,6 +570,149 @@ def locales_xml(reference):
 """
 
 
+# Contenido de Page Designer. Las fotos de promoción salen de promotions.json (por nombre de oferta)
+# y se publican en la librería del sitio.
+HERO_SLIDES = [
+    # oferta, texto alternativo, botón, enlace
+    ("Pizza del Mes Boom de Jamon", "Pizza del mes: Boom de Jamón familiar desde $9.990 con retiro en tienda",
+     "Pedir Boom de Jamón", "/p/pz-boom-de-jamon"),
+    ("Super Dúo", "Super Dúo: 2 pizzas familiares desde $22.590", "Elegir mis pizzas", "/c/pizzas"),
+    ("BOX HALLOWEEN", "Dulce y Truco: Boom de Trencito y Cheesyqueños por $9.490", "Ver acompañamientos",
+     "/c/acompanamientos"),
+    ("Papa Combo Palitos", "Combi completa: pizza, bebida 1,5 L y acompañamiento desde $16.490", "Ver pizzas",
+     "/c/pizzas"),
+    ("Epic One!", "Epic One: pizza familiar de 1 ingrediente desde $7.990", "Ver pizzas", "/c/pizzas"),
+    ("Super Cuarteto", "Super Cuarteto: 4 pizzas familiares desde $11.150 cada una", "Elegir mis pizzas",
+     "/c/pizzas"),
+]
+
+MEGA_MENU_CARDS = [
+    # región (categoría), oferta, título, descripción, botón, enlace
+    ("pizzas", "Pizza del Mes Boom de Jamon", "Pizza del mes", "Boom de Jamón familiar a precio especial.",
+     "Pedir ahora", "/p/pz-boom-de-jamon"),
+    ("acompanamientos", "BOX HALLOWEEN", "Dulce y Truco", "Boom de Trencito + Cheesyqueños con salsa Hot Honey.",
+     "Ver acompañamientos", "/c/acompanamientos"),
+    ("postres", "COMBO BOOM DE TRENCITO", "Boom de Trencito", "El nuevo postre, ideal con tu pizza familiar.",
+     "Ver postres", "/c/postres"),
+    ("bebidas", "PAPA GAMER", "Papa Gamer", "Pizza mediana y 2 Red Bull a elección.", "Ver bebidas", "/c/bebidas"),
+]
+
+ANNOUNCEMENT = ("Despacho a domicilio en 30-45 min o retiro gratis en tienda", "Pedir ahora", "/c/pizzas")
+
+
+def promo_images():
+    """Descarga la foto principal de cada oferta y devuelve {nombre de oferta: archivo}."""
+    offers = json.loads((RAW / "promotions.json").read_text())
+    return {o["name"]: fetch_image(o["pictures"][0]["url"]) for o in offers if o.get("pictures")}
+
+
+def pd_image(name):
+    return {"path": f"images/{name}", "focal_point": {"x": 0.5, "y": 0.5}}
+
+
+def pd_content(content_id, type_id, data=None, links=(), name=None):
+    """Un contenido de Page Designer (página o componente) con sus componentes hijos."""
+    is_page = type_id.startswith("page.")
+    data_xml = f'\n        <data xml:lang="x-default">{x(json.dumps(data, ensure_ascii=False, indent=2))}</data>' if data else ""
+    links_xml = ""
+    if links:
+        items = "".join(
+            f"""
+            <content-link content-id="{cid}" type="{type_id}.{region}">
+                <position>{pos}.0</position>
+            </content-link>"""
+            for pos, (region, cid) in enumerate(links, 1)
+        )
+        links_xml = f"\n        <content-links>{items}\n        </content-links>"
+    page_xml = searchable_xml = config_xml = ""
+    if is_page:
+        config_xml = '\n        <config>{"visibility": []}</config>'
+        searchable_xml = "\n        <searchable-flag>false</searchable-flag>"
+        page_xml = f"""
+        <display-name xml:lang="x-default">{x(name or content_id)}</display-name>"""
+    return f"""
+    <content content-id="{content_id}">{page_xml}
+        <type>{type_id}</type>{config_xml}{data_xml}
+        <online-flag>true</online-flag>
+        <online-flag site-id="{SITE_ID}">true</online-flag>{searchable_xml}
+        <page-attributes/>{links_xml}
+    </content>
+"""
+
+
+def library_xml(images):
+    """Librería del sitio: portada, header (aviso) y mega-menu."""
+    contents = []
+
+    slides = []
+    for i, (offer, alt, cta, link) in enumerate(HERO_SLIDES, 1):
+        cid = f"pj-hero-{i}"
+        slides.append(("slides", cid))
+        contents.append(pd_content(cid, "component.Content.hero", {
+            "imageUrl": pd_image(images[offer]),
+            "imageAlt": alt,
+            "ctaText": cta,
+            "ctaLink": link,
+            "ctaAriaLabel": alt,
+            "buttonStyle": "Primary",
+            "overlayPosition": "Bottom Left",
+            "overlayAlignment": "left",
+            "overlay": "None",
+        }))
+    contents.append(pd_content("pj-hero-carousel", "component.Layout.heroCarousel", {
+        "autoPlay": True,
+        "autoPlayInterval": 6000,
+        "showDots": True,
+        "showNavigation": True,
+        "overlay": "None",
+    }, slides))
+    contents.append(pd_content("pj-carousel-pan-pizza", "component.Layout.productCarousel",
+                               {"title": "Pan Pizza", "categoryId": "pan-pizza", "limit": 12}))
+    contents.append(pd_content("pj-carousel-acompanamientos", "component.Layout.productCarousel",
+                               {"title": "Para acompañar", "categoryId": "acompanamientos", "limit": 12}))
+    contents.append(pd_content("homepage", "page.homePage", links=[
+        ("top", "pj-hero-carousel"),
+        ("afterFeatured", "pj-carousel-pan-pizza"),
+        ("afterContent", "pj-carousel-acompanamientos"),
+    ], name="Portada"))
+
+    message, link_text, link_url = ANNOUNCEMENT
+    contents.append(pd_content("pj-announcement", "component.Content.announcementBanner", {
+        "message": message,
+        "linkText": link_text,
+        "linkUrl": link_url,
+        "colorScheme": "primary",
+        "height": "sm",
+        "alignment": "center",
+    }))
+    contents.append(pd_content("header", "component.Layout.header", links=[("announcement", "pj-announcement")]))
+
+    cards = []
+    for region, offer, title, description, button, link in MEGA_MENU_CARDS:
+        cid = f"pj-menu-{region}"
+        cards.append((f"region_{region}", cid))
+        contents.append(pd_content(cid, "component.Content.contentCard", {
+            "title": title,
+            "titleTypography": "Heading 4",
+            "description": description,
+            "imageUrl": pd_image(images[offer]),
+            "imageAlt": title,
+            "buttonText": button,
+            "buttonLink": link,
+            "showBackground": False,
+            "showBorder": False,
+        }))
+    contents.append(pd_content("mega-menu", "component.Layout.megaMenu", links=cards))
+
+    return f"""<?xml version="1.0" encoding="UTF-8"?>
+<library xmlns="http://www.demandware.com/xml/impex/library/2006-10-31" library-id="{LIBRARY}">
+    <folder folder-id="root">
+        <online-flag>true</online-flag>
+    </folder>
+{"".join(contents)}</library>
+"""
+
+
 def write(path, content):
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(content, encoding="utf-8")
@@ -602,6 +747,15 @@ def main():
     for p in products:
         if p["image"]:
             shutil.copy(CACHE / p["image"], static / p["image"])
+
+    images = promo_images()
+    library = OUT / "libraries" / LIBRARY
+    write(library / "library.xml", library_xml(images))
+    library_static = library / "static" / "default" / "images"
+    library_static.mkdir(parents=True, exist_ok=True)
+    used = {o for o, *_ in HERO_SLIDES} | {c[1] for c in MEGA_MENU_CARDS}
+    for offer in used:
+        shutil.copy(CACHE / images[offer], library_static / images[offer])
 
     nvar = sum(len(p["variants"]) for p in products)
     print(f"Productos: {len(products)} maestros/simples, {nvar} variantes, {len(stores)} tiendas -> {OUT}")

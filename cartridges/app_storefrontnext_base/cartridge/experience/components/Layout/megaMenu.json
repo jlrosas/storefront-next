@@ -7,16 +7,20 @@
     "component_id": "mega-menu",
     "region_definitions": [
         {
-            "id": "region_women",
-            "name": "Women"
+            "id": "region_pizzas",
+            "name": "Pizzas"
         },
         {
-            "id": "region_men",
-            "name": "Men"
+            "id": "region_acompanamientos",
+            "name": "Acompañamientos"
         },
         {
-            "id": "region_kids",
-            "name": "Kids"
+            "id": "region_postres",
+            "name": "Postres"
+        },
+        {
+            "id": "region_bebidas",
+            "name": "Bebidas"
         }
     ],
     "attribute_definition_groups": [

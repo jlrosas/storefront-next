@@ -320,8 +320,8 @@ describe('ResponsiveNavigationMenu Component', () => {
                 name: 'Root',
                 categories: [
                     {
-                        id: 'women',
-                        name: 'Women',
+                        id: 'pizzas',
+                        name: 'Pizzas',
                         onlineSubCategoriesCount: 1,
                         categories: [{ id: 'child', name: 'Child' }],
                         c_customBanner: '<p>Category fallback</p>',
@@ -330,7 +330,7 @@ describe('ResponsiveNavigationMenu Component', () => {
             };
             const embeddedComponent = {
                 id: 'mega-menu',
-                regions: [{ id: 'region_women', components: [{ id: 'authored-content' }] }],
+                regions: [{ id: 'region_pizzas', components: [{ id: 'authored-content' }] }],
             } as unknown as ComponentWithComponentData;
             const { findByTestId, findByText, queryByText } = renderComponent({
                 resolve: Promise.resolve(root),
@@ -338,9 +338,9 @@ describe('ResponsiveNavigationMenu Component', () => {
                 megaMenu: { contentField: 'c_customBanner' },
             });
 
-            fireEvent.click(await findByText('Women'));
+            fireEvent.click(await findByText('Pizzas'));
 
-            expect(await findByTestId('embedded-mega-menu-region')).toHaveAttribute('data-region-id', 'region_women');
+            expect(await findByTestId('embedded-mega-menu-region')).toHaveAttribute('data-region-id', 'region_pizzas');
             expect(queryByText('Category fallback')).not.toBeInTheDocument();
         });
 
@@ -669,9 +669,9 @@ describe('ResponsiveNavigationMenu Component', () => {
 
     describe('resolveMegaMenuRegionId', () => {
         it('maps a declared category id to its region', () => {
-            expect(resolveMegaMenuRegionId('women', true)).toBe('region_women');
-            expect(resolveMegaMenuRegionId('men', true)).toBe('region_men');
-            expect(resolveMegaMenuRegionId('kids', true)).toBe('region_kids');
+            expect(resolveMegaMenuRegionId('pizzas', true)).toBe('region_pizzas');
+            expect(resolveMegaMenuRegionId('postres', true)).toBe('region_postres');
+            expect(resolveMegaMenuRegionId('bebidas', true)).toBe('region_bebidas');
         });
 
         it('returns undefined for a category with no declared region', () => {
@@ -761,10 +761,20 @@ describe('categoryHasBanner', () => {
 describe('MegaMenuMetadata', () => {
     it('declares one named region per starter category', () => {
         const definitions = getRegionDefinitions(MegaMenuMetadata);
-        expect(definitions.map((def) => def.id)).toEqual(['region_women', 'region_men', 'region_kids']);
+        expect(definitions.map((def) => def.id)).toEqual([
+            'region_pizzas',
+            'region_acompanamientos',
+            'region_postres',
+            'region_bebidas',
+        ]);
     });
 
     it('exposes the declared region ids as MEGA_MENU_REGION_IDS', () => {
-        expect([...MEGA_MENU_REGION_IDS].sort()).toEqual(['region_kids', 'region_men', 'region_women']);
+        expect([...MEGA_MENU_REGION_IDS].sort()).toEqual([
+            'region_acompanamientos',
+            'region_bebidas',
+            'region_pizzas',
+            'region_postres',
+        ]);
     });
 });

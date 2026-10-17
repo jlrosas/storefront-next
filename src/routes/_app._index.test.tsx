@@ -41,7 +41,6 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 import type { LoaderFunctionArgs } from 'react-router';
 import type { ShopperExperience, ShopperProducts, ShopperSearch } from '@/scapi';
-import { getTranslation } from '@salesforce/storefront-next-runtime/i18n';
 import HomePage, { type HomePageData, loader } from './_app._index';
 import { createTestContext } from '@/lib/test-utils';
 import { fetchPageWithComponentData } from '@/lib/page-designer/page-loader.server';
@@ -54,7 +53,6 @@ vi.mock('@/hooks/use-seo-url-context', () => ({
     useSeoUrlContext: () => ({ siteId: 'RefArchGlobal' }),
 }));
 
-const { t } = getTranslation();
 const { mockHeroCarousel, mockPopularCategories } = vi.hoisted(() => ({
     mockHeroCarousel: vi.fn(),
     mockPopularCategories: vi.fn(),
@@ -324,71 +322,13 @@ describe('HomePage', () => {
     });
 
     describe('Basic Rendering', () => {
-        test('passes the four Foundations hero slides to the carousel', () => {
+        test('leaves the hero and promo sections to Page Designer', () => {
             renderComponent();
 
-            expect(mockHeroCarousel).toHaveBeenCalledWith(
-                expect.objectContaining({
-                    autoPlay: true,
-                    autoPlayInterval: 6000,
-                    showDots: true,
-                    showNavigation: true,
-                    slides: [
-                        expect.objectContaining({
-                            id: 'slide-1',
-                            title: 'Geometric Balance',
-                            imageAlt: 'White geometric forms balanced on plinths in a softly lit studio',
-                            imageUrl: '__ASSET_MOCK__',
-                            ctaText: 'Explore collection',
-                            ctaAriaLabel: 'Explore collection: Geometric Balance',
-                            ctaLink: '/c/root',
-                        }),
-                        expect.objectContaining({
-                            id: 'slide-2',
-                            title: 'Sculptural Contrast',
-                            imageAlt: 'White geometric forms arranged on a plinth in a softly lit studio',
-                            imageUrl: '__ASSET_MOCK__',
-                            ctaText: 'Explore collection',
-                            ctaAriaLabel: 'Explore collection: Sculptural Contrast',
-                            ctaLink: '/c/root',
-                        }),
-                        expect.objectContaining({
-                            id: 'slide-3',
-                            title: 'Quiet Geometry',
-                            imageAlt: 'A white cone, sphere, and hexagonal form arranged on a plinth',
-                            imageUrl: '__ASSET_MOCK__',
-                            ctaText: 'Explore collection',
-                            ctaAriaLabel: 'Explore collection: Quiet Geometry',
-                            ctaLink: '/c/root',
-                        }),
-                        expect.objectContaining({
-                            id: 'slide-4',
-                            title: 'Stacked Simplicity',
-                            imageAlt: 'Three white cubes stacked on a plinth in a softly lit studio',
-                            imageUrl: '__ASSET_MOCK__',
-                            ctaText: 'Explore collection',
-                            ctaAriaLabel: 'Explore collection: Stacked Simplicity',
-                            ctaLink: '/c/root',
-                        }),
-                    ],
-                })
-            );
-        });
-
-        const renderingTests = [
-            {
-                description: 'renders featured content cards',
-                assertion: () => {
-                    // Both grids render the same cards, so each title appears twice.
-                    expect(screen.getAllByText(t('home:featuredContent.newArrivals.cubes.title'))).toHaveLength(2);
-                    expect(screen.getAllByText(t('home:featuredContent.newArrivals.pyramids.title'))).toHaveLength(2);
-                },
-            },
-        ];
-
-        test.each(renderingTests)('$description', ({ assertion }) => {
-            renderComponent();
-            assertion();
+            // The hero carousel and promo cards are authored in Page Designer, not hard-coded.
+            expect(mockHeroCarousel).not.toHaveBeenCalled();
+            expect(screen.queryByTestId('content-card')).not.toBeInTheDocument();
+            expect(regionRenderSpy).toHaveBeenCalledWith(expect.objectContaining({ regionId: 'top' }));
         });
 
         test('renders popular categories section', async () => {
@@ -398,13 +338,15 @@ describe('HomePage', () => {
             });
         });
 
-        test('renders without header banner region when no regions available', () => {
+        test('renders without header banner region when no regions available', async () => {
             renderComponent();
 
             // Should not render region when no regions are available
             expect(screen.queryByTestId('region')).not.toBeInTheDocument();
             // But should still render other sections
-            expect(screen.getAllByText(t('home:featuredContent.newArrivals.cubes.title'))).toHaveLength(2);
+            await waitFor(() => {
+                expect(screen.getByTestId('product-carousel')).toBeInTheDocument();
+            });
         });
 
         test('renders header banner region when headerbanner region is provided', async () => {
@@ -425,13 +367,10 @@ describe('HomePage', () => {
                 page,
             });
 
-            // Region mock always renders the error element, so check for that fallback content
-            expect(screen.getByTestId('hero-carousel')).toBeInTheDocument();
+            // Should still render the static sections
             await waitFor(() => {
                 expect(screen.getByTestId('product-carousel')).toBeInTheDocument();
             });
-            // Should still render other sections
-            expect(screen.getAllByText(t('home:featuredContent.newArrivals.cubes.title'))).toHaveLength(2);
         });
 
         test('marks only the above-the-fold top region as critical', () => {
@@ -468,45 +407,12 @@ describe('HomePage', () => {
         });
     });
 
-    describe('Featured Content Cards Section', () => {
-        // Assert against the copy the component renders (the react-i18next mock
-        // above), not getTranslation()'s base bundle — the latter resolves to the
-        // active brand's merged locales, which differ when a brand overlay is active.
-        // Both grids (featured content + New Arrivals promo banner) render the same
-        // Cubes + Pyramids cards, so each title/description appears exactly twice.
-        const contentCardTests = [
-            {
-                description: 'renders cubes content card',
-                title: 'Cubes',
-                content: 'Discover our curated collection of sculptural forms designed for the modern space.',
-            },
-            {
-                description: 'renders pyramids content card',
-                title: 'Pyramids',
-                content: 'Bold geometry and clean lines — statement forms that anchor a contemporary space.',
-            },
-        ];
-
-        test.each(contentCardTests)('$description', ({ title, content }) => {
-            renderComponent();
-            expect(screen.getAllByText(title)).toHaveLength(2);
-            expect(screen.getAllByText(content)).toHaveLength(2);
-        });
-
-        test('renders all content cards with correct count', () => {
-            renderComponent();
-            const contentCards = screen.getAllByTestId('content-card');
-            // Two identical two-card grids: the featured-content grid and the New
-            // Arrivals promo banner, each rendering Cubes + Pyramids. The "Style for
-            // Real Life" category rail is a carousel, not a content card.
-            expect(contentCards).toHaveLength(4);
-        });
-    });
-
     describe('Missing Page Designer content', () => {
-        test('renders static sections when the page is null', () => {
+        test('renders static sections when the page is null', async () => {
             renderComponent({ page: null });
-            expect(screen.getAllByText(t('home:featuredContent.newArrivals.cubes.title'))).toHaveLength(2);
+            await waitFor(() => {
+                expect(screen.getByTestId('popular-categories')).toBeInTheDocument();
+            });
         });
     });
 
@@ -517,25 +423,6 @@ describe('HomePage', () => {
                 assertion: ({ container }: { container: HTMLElement }) => {
                     const mainContainer = container.firstChild as HTMLElement;
                     expect(mainContainer).toHaveClass('pb-16', '-mt-8');
-                },
-            },
-            {
-                description: 'applies correct spacing between sections',
-                assertion: () => {
-                    // First grid's Cubes card (both grids render one).
-                    const [featuredContentTitle] = screen.getAllByText(
-                        t('home:featuredContent.newArrivals.cubes.title')
-                    );
-                    const sectionWithPadding = featuredContentTitle.closest('[class*="pt-16"]');
-                    expect(sectionWithPadding).toBeInTheDocument();
-                },
-            },
-            {
-                description: 'applies correct grid layout for content cards',
-                assertion: () => {
-                    const [cubesTitle] = screen.getAllByText(t('home:featuredContent.newArrivals.cubes.title'));
-                    const contentCardsGrid = cubesTitle.closest('div')?.parentElement;
-                    expect(contentCardsGrid).toHaveClass('grid', 'grid-cols-1', 'md:grid-cols-2', 'gap-6');
                 },
             },
         ];

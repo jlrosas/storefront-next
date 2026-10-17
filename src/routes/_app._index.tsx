@@ -50,7 +50,6 @@ import { fetchCategories } from '@/lib/api/categories.server';
 import { siteContext, resolvePrefix, type SiteContext } from '@salesforce/storefront-next-runtime/site-context';
 import { Region } from '@/components/region';
 import PopularCategories from '@/components/home/popular-categories';
-import ContentCard from '@/components/content-card';
 import { getConfig } from '@salesforce/storefront-next-runtime/config';
 import { PageType } from '@/lib/decorators/page-type';
 import { RegionDefinition } from '@/lib/decorators/region-definition';
@@ -59,15 +58,6 @@ import { fetchPageWithComponentData } from '@/lib/page-designer/page-loader.serv
 import { getLogger } from '@/lib/logger.server';
 
 import hero1 from '/images/foundations/hero-carousel/hero1.webp';
-import hero2 from '/images/foundations/hero-carousel/hero2.webp';
-import hero3 from '/images/foundations/hero-carousel/hero3.webp';
-import hero4 from '/images/foundations/hero-carousel/hero4.webp';
-// New Arrivals promo banner visuals (Figma composed home node 10079:9635, Promo Banner 2):
-// minimalist geometric forms on a neutral backdrop — a trio of cubes and a single pyramid.
-// Overlaid via the foundations public dir.
-import heroNewArrivals from '/images/foundations/hero-carousel/hero-new-arrivals.webp';
-import heroPyramid from '/images/foundations/hero-carousel/hero-pyramid.webp';
-import HeroCarousel, { type HeroSlide } from '@/components/hero-carousel';
 import { ProductCarouselSkeleton } from '@/components/product-carousel';
 import { ProductCarouselWithData } from '@/components/product-carousel/carousel';
 import { SeoMeta } from '@/components/seo-meta';
@@ -207,58 +197,6 @@ export default function HomePage({ loaderData }: { loaderData: HomePageData }) {
     const seoUrlContext = useSeoUrlContext();
     const categoryUrl = (path: string) => createCategoryUrlFromLegacyPath(path, seoUrlContext);
 
-    // The supplied hero images are ordered to match their carousel positions.
-    const heroSlides: HeroSlide[] = [
-        {
-            id: 'slide-1',
-            title: t('hero.slide1.title'),
-            subtitle: t('hero.slide1.subtitle'),
-            imageUrl: hero1,
-            imageAlt: t('hero.slide1.imageAlt'),
-            ctaText: t('hero.slide1.ctaText'),
-            ctaAriaLabel: t('hero.slide1.ctaAriaLabel'),
-            ctaLink: categoryUrl('/category/root'),
-            overlayPosition: 'Middle Center',
-            overlayAlignment: 'center',
-        },
-        {
-            id: 'slide-2',
-            title: t('hero.slide2.title'),
-            subtitle: t('hero.slide2.subtitle'),
-            imageUrl: hero2,
-            imageAlt: t('hero.slide2.imageAlt'),
-            ctaText: t('hero.slide2.ctaText'),
-            ctaAriaLabel: t('hero.slide2.ctaAriaLabel'),
-            ctaLink: categoryUrl('/category/root'),
-            overlayPosition: 'Middle Center',
-            overlayAlignment: 'center',
-        },
-        {
-            id: 'slide-3',
-            title: t('hero.slide3.title'),
-            subtitle: t('hero.slide3.subtitle'),
-            imageUrl: hero3,
-            imageAlt: t('hero.slide3.imageAlt'),
-            ctaText: t('hero.slide3.ctaText'),
-            ctaAriaLabel: t('hero.slide3.ctaAriaLabel'),
-            ctaLink: categoryUrl('/category/root'),
-            overlayPosition: 'Middle Center',
-            overlayAlignment: 'center',
-        },
-        {
-            id: 'slide-4',
-            title: t('hero.slide4.title'),
-            subtitle: t('hero.slide4.subtitle'),
-            imageUrl: hero4,
-            imageAlt: t('hero.slide4.imageAlt'),
-            ctaText: t('hero.slide4.ctaText'),
-            ctaAriaLabel: t('hero.slide4.ctaAriaLabel'),
-            ctaLink: categoryUrl('/category/root'),
-            overlayPosition: 'Middle Center',
-            overlayAlignment: 'center',
-        },
-    ];
-
     return (
         <div className="pb-16 -mt-8">
             <h1 className="sr-only">{t('meta.title', { defaultValue: 'NextGen PWA Kit Store' })}</h1>
@@ -275,17 +213,8 @@ export default function HomePage({ loaderData }: { loaderData: HomePageData }) {
                 }}
             />
 
-            {/* Empty PD slot above the hero (Figma: Custom Region 1). */}
+            {/* PD slot for the hero carousel: Papa John's promotions are authored in Page Designer. */}
             <Region page={loaderData.page} regionId="top" critical={true} />
-
-            {/* Hero carousel — static */}
-            <HeroCarousel
-                slides={heroSlides}
-                autoPlay={true}
-                autoPlayInterval={6000}
-                showNavigation={true}
-                showDots={true}
-            />
 
             {/* Empty PD slot between hero and featured collection (Figma: Custom Region 2). */}
             <Region page={loaderData.page} regionId="afterHero" />
@@ -308,44 +237,7 @@ export default function HomePage({ loaderData }: { loaderData: HomePageData }) {
             {/* Empty PD slot between featured collection and content cards (Figma: Custom Region 3). */}
             <Region page={loaderData.page} regionId="afterFeatured" />
 
-            {/* Featured content cards — static. Mirrors the New Arrivals promo banner
-                below (same cube/pyramid geometric visuals and "Shop new arrivals" CTA)
-                but with the cards reversed (Pyramids then Cubes) so the two grids read
-                slightly differently. */}
-            <div className="pt-16">
-                <div className="section-container">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <ContentCard
-                            className="fnd-content-card"
-                            title={t('featuredContent.newArrivals.pyramids.title')}
-                            description={t('featuredContent.newArrivals.pyramids.description')}
-                            imageUrl={heroPyramid}
-                            imageAlt={t('featuredContent.newArrivals.pyramids.imageAlt')}
-                            buttonText={t('featuredContent.newArrivals.pyramids.ctaText')}
-                            buttonAriaLabel={t('featuredContent.newArrivals.pyramids.ctaAriaLabel')}
-                            buttonLink={categoryUrl('/category/newarrivals')}
-                            showBackground={false}
-                            showBorder={false}
-                            loading="lazy"
-                        />
-                        <ContentCard
-                            className="fnd-content-card"
-                            title={t('featuredContent.newArrivals.cubes.title')}
-                            description={t('featuredContent.newArrivals.cubes.description')}
-                            imageUrl={heroNewArrivals}
-                            imageAlt={t('featuredContent.newArrivals.cubes.imageAlt')}
-                            buttonText={t('featuredContent.newArrivals.cubes.ctaText')}
-                            buttonAriaLabel={t('featuredContent.newArrivals.cubes.ctaAriaLabel')}
-                            buttonLink={categoryUrl('/category/newarrivals')}
-                            showBackground={false}
-                            showBorder={false}
-                            loading="lazy"
-                        />
-                    </div>
-                </div>
-            </div>
-
-            {/* Empty PD slot between content cards and the category section (Figma: Custom Region 4). */}
+            {/* Empty PD slot before the category section (Figma: Custom Region 4). */}
             <Region page={loaderData.page} regionId="afterContent" />
 
             {/* "Style for Real Life" category rail — static (Suspense while categories resolve).
@@ -357,42 +249,6 @@ export default function HomePage({ loaderData }: { loaderData: HomePageData }) {
                     centerWhenPartial
                     fallbackImageUrl={hero1}
                 />
-            </div>
-
-            {/* New Arrivals promo banner — static two-card grid (Figma composed home node
-                10079:9635, Promo Banner 2). Both cards use the grey-cube visual and link to
-                the real "newarrivals" category. Mirrors the Women/Men grid above. */}
-            <div className="pt-16">
-                <div className="section-container">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <ContentCard
-                            className="fnd-content-card"
-                            title={t('featuredContent.newArrivals.cubes.title')}
-                            description={t('featuredContent.newArrivals.cubes.description')}
-                            imageUrl={heroNewArrivals}
-                            imageAlt={t('featuredContent.newArrivals.cubes.imageAlt')}
-                            buttonText={t('featuredContent.newArrivals.cubes.ctaText')}
-                            buttonAriaLabel={t('featuredContent.newArrivals.cubes.ctaAriaLabel')}
-                            buttonLink={categoryUrl('/category/newarrivals')}
-                            showBackground={false}
-                            showBorder={false}
-                            loading="lazy"
-                        />
-                        <ContentCard
-                            className="fnd-content-card"
-                            title={t('featuredContent.newArrivals.pyramids.title')}
-                            description={t('featuredContent.newArrivals.pyramids.description')}
-                            imageUrl={heroPyramid}
-                            imageAlt={t('featuredContent.newArrivals.pyramids.imageAlt')}
-                            buttonText={t('featuredContent.newArrivals.pyramids.ctaText')}
-                            buttonAriaLabel={t('featuredContent.newArrivals.pyramids.ctaAriaLabel')}
-                            buttonLink={categoryUrl('/category/newarrivals')}
-                            showBackground={false}
-                            showBorder={false}
-                            loading="lazy"
-                        />
-                    </div>
-                </div>
             </div>
 
             {/* Empty PD slot below the category section (Figma: Custom Region 5). */}
