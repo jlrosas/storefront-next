@@ -16,13 +16,13 @@
 import type { ResourceLanguage } from 'i18next';
 import type { DeepPartial } from '@/locales/types';
 import type enUS from '@/locales/en-US/';
-import esES from '@/locales/es-ES/';
 import translations from '@/locales/es-CL/translations.json';
+import extensionTranslations from '@/extensions/locales/es-CL/';
 
-// Español de Chile: parte de es-ES y sobrescribe solo lo que cambia en Chile.
+// Español de Chile: copia completa de es-ES, para ajustar los textos de Chile en translations.json.
 const allTranslations = {
-    ...esES,
     ...translations,
+    ...extensionTranslations,
 };
 
 export default allTranslations satisfies ResourceLanguage satisfies DeepPartial<typeof enUS>;
