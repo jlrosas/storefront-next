@@ -1153,13 +1153,15 @@ export default function CheckoutFormPage({
                         <UITarget targetId="sfcc.checkout.mainContent.before" />
                         {/* Express Payments - Apple Pay, Google Pay, Amazon Pay, PayPal & Venmo (mobile only) */}
                         <UITarget targetId="sfcc.checkout.expressPayments.header.before" />
-                        <Suspense fallback={<ExpressPaymentsSkeleton />}>
-                            <UITarget targetId="sfcc.checkout.expressPayments.before" />
-                            <UITarget targetId="sfcc.checkout.expressPayments">
-                                <ExpressPayments separatorText={t('expressPayments.separator')} />
-                            </UITarget>
-                            <UITarget targetId="sfcc.checkout.expressPayments.after" />
-                        </Suspense>
+                        {config.features?.expressPayments?.enabled !== false && (
+                            <Suspense fallback={<ExpressPaymentsSkeleton />}>
+                                <UITarget targetId="sfcc.checkout.expressPayments.before" />
+                                <UITarget targetId="sfcc.checkout.expressPayments">
+                                    <ExpressPayments separatorText={t('expressPayments.separator')} />
+                                </UITarget>
+                                <UITarget targetId="sfcc.checkout.expressPayments.after" />
+                            </Suspense>
+                        )}
 
                         <UITarget targetId="sfcc.checkout.contactInfo.header.before" />
                         <Suspense fallback={<ContactInfoSkeleton />}>

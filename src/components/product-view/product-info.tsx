@@ -327,11 +327,6 @@ export default function ProductInfo({
                             className="text-3xl font-bold text-card-foreground tracking-tight break-words">
                             {product.name}
                         </h1>
-                        {product.id && (
-                            <p className="mt-2 text-xs leading-none text-secondary-foreground">
-                                {t('sku')} {product.id}
-                            </p>
-                        )}
                         {product.shortDescription && (
                             <p className="mt-2 text-base font-normal leading-6 text-accent-foreground">
                                 {product.shortDescription}

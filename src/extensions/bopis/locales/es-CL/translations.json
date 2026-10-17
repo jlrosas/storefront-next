@@ -1,34 +1,34 @@
 {
     "deliveryOptions": {
         "pickupOrDelivery": {
-            "shipToAddress": "Ship to Address",
-            "pickUpInStore": "Free pickup in",
-            "unavailablePickUpIn": "Pickup unavailable at",
+            "shipToAddress": "Despacho a domicilio",
+            "pickUpInStore": "Retiro gratis en",
+            "unavailablePickUpIn": "Retiro no disponible en",
             "selectStore": "Seleccionar tienda",
-            "inStockAtStore": "Now available for pickup today.",
-            "outOfStockAtStore": "Try another store",
-            "storePickup": "Pick Up in Store",
-            "storePickupLabel": "Pick Up",
+            "inStockAtStore": "Disponible para retiro hoy.",
+            "outOfStockAtStore": "Prueba con otra tienda",
+            "storePickup": "Retiro en tienda",
+            "storePickupLabel": "Retiro",
             "delivery": "Delivery",
-            "deliverTo": "Deliver to",
-            "deliverToZip": "Deliver to {{zipCode}}",
-            "deliveryInDays": "Deliver in {{days}} business days",
-            "estimatedDeliveryInDays": "Estimated delivery: {{days}} business days",
+            "deliverTo": "Despachar a",
+            "deliverToZip": "Despachar a {{zipCode}}",
+            "deliveryInDays": "Despacho en {{days}} días hábiles",
+            "estimatedDeliveryInDays": "Despacho estimado: {{days}} días hábiles",
             "enterZipPrompt": "Introduce tu código postal para ver la estimación de entrega",
-            "pickupUnavailable": "Pickup unavailable",
-            "tryAnotherStore": "Try another store",
-            "calculatorTitle": "Calculate Shipping",
+            "pickupUnavailable": "Retiro no disponible",
+            "tryAnotherStore": "Prueba con otra tienda",
+            "calculatorTitle": "Calcular despacho",
             "calculatorInstructionMessage": "Introduce tu {{term}} (ej. {{example}}) para ver las estimaciones de entrega.",
             "zipPlaceholder": "Introduce tu {{term}}",
             "zipAriaLabel": "{{term}}",
             "calculateButton": "Calculate",
-            "calculateAriaLabel": "Calculate delivery estimate",
+            "calculateAriaLabel": "Calcular estimación de despacho",
             "invalidZipCode": "Introduce un {{term}} válido (ej. {{example}}).",
             "free": "Free",
             "calculating": "Calculating...",
-            "errorFetchingEstimates": "We couldn't fetch delivery estimates right now. Please try again.",
+            "errorFetchingEstimates": "No pudimos obtener las estimaciones de despacho en este momento. Inténtalo nuevamente.",
             "retry": "Retry",
-            "shippingCost": "Shipping cost:",
+            "shippingCost": "Costo de despacho:",
             "calculatorInstructionMessageNoExample": "Introduce tu {{term}} para ver las estimaciones de entrega.",
             "invalidPostalCodeNoExample": "Introduce un {{term}} válido.",
             "postalTerms": {
@@ -41,57 +41,57 @@
         }
     },
     "storeInventoryFilter": {
-        "heading": "Shop by Availability",
-        "label": "In stock at {{storeName}}",
-        "inStock": "In stock",
-        "checkboxAriaLabel": "Filter Products by Store Availability at {{storeName}}",
-        "selectStore": "Select Store",
-        "changeStore": "Change Store",
-        "openStoreLocator": "Open Store Locator to {{action}}",
-        "selectStoreLink": "Select a Store"
+        "heading": "Compra según disponibilidad",
+        "label": "Con stock en {{storeName}}",
+        "inStock": "Con stock",
+        "checkboxAriaLabel": "Filtrar productos por disponibilidad en la tienda {{storeName}}",
+        "selectStore": "Elegir tienda",
+        "changeStore": "Cambiar tienda",
+        "openStoreLocator": "Abrir el buscador de tiendas para {{action}}",
+        "selectStoreLink": "Elige una tienda"
     },
     "storePickup": {
-        "title": "Store Pickup Details",
-        "pickupLocationTitle": "Pickup Location",
-        "changePickupLocation": "Change Pickup Location",
+        "title": "Detalles del retiro en tienda",
+        "pickupLocationTitle": "Lugar de retiro",
+        "changePickupLocation": "Cambiar lugar de retiro",
         "viewButton": "View",
         "closeButton": "Close",
-        "pickupDetailsTitle": "Pickup Location Details",
+        "pickupDetailsTitle": "Detalles del lugar de retiro",
         "phoneLabel": "Phone:",
-        "storeHoursTitle": "Store Hours",
+        "storeHoursTitle": "Horario de la tienda",
         "pickupLastName": "Pickup"
     },
     "cart": {
-        "deliveryItemsHeading_one": "Delivery - {{deliveryCount}} out of {{count}} item",
-        "deliveryItemsHeading_other": "Delivery - {{deliveryCount}} out of {{count}} items",
+        "deliveryItemsHeading_one": "Despacho a domicilio - {{deliveryCount}} de {{count}} producto",
+        "deliveryItemsHeading_other": "Despacho a domicilio - {{deliveryCount}} de {{count}} productos",
         "pickupStoreInfo": {
-            "pickupHeadingWithCounts_one": "Pick up in <0>{{storeName}}</0> - {{pickupCount}} out of {{count}} item",
-            "pickupHeadingWithCounts_other": "Pick up in <0>{{storeName}}</0> - {{pickupCount}} out of {{count}} items",
-            "pickupInStore": "Pick up in {{storeName}}",
-            "changeStore": "Change Store",
-            "storeChanged": "The pickup store was changed.",
-            "changeStoreError": "Failed to change pickup store",
-            "itemsOutOfStock": "Some items are out of stock at {{storeName}}. Select a different store.",
-            "missingStoreIdOrInventoryIdError": "Store ID or inventory ID is missing. Select a valid store."
+            "pickupHeadingWithCounts_one": "Retiro en <0>{{storeName}}</0> - {{pickupCount}} de {{count}} producto",
+            "pickupHeadingWithCounts_other": "Retiro en <0>{{storeName}}</0> - {{pickupCount}} de {{count}} productos",
+            "pickupInStore": "Retiro en {{storeName}}",
+            "changeStore": "Cambiar tienda",
+            "storeChanged": "Se cambió la tienda de retiro.",
+            "changeStoreError": "No se pudo cambiar la tienda de retiro",
+            "itemsOutOfStock": "Algunos productos no tienen stock en {{storeName}}. Elige otra tienda.",
+            "missingStoreIdOrInventoryIdError": "Falta el ID de la tienda o del inventario. Elige una tienda válida."
         },
-        "deliveryOptionChangeError": "Failed to change delivery option. {{error}}",
-        "deliveryOptionProductUnavailable": "We couldn't update your delivery option for \"{{productName}}\" because there isn't enough stock for {{quantity}} items. Try reducing the quantity or choose a different store.",
+        "deliveryOptionChangeError": "No se pudo cambiar la opción de entrega. {{error}}",
+        "deliveryOptionProductUnavailable": "No pudimos actualizar la opción de entrega de \"{{productName}}\" porque no hay stock suficiente para {{quantity}} unidades. Intenta reducir la cantidad o elige otra tienda.",
         "addToCartValidation": {
-            "changeStoreError": "You already have an item in your cart from a different store.",
-            "changeToDeliveryError": "You already have an item in your cart marked for pickup.",
-            "changeToPickupError": "You already have an item in your cart marked for delivery.",
-            "mixedPickupDeliveryError": "Cannot mix pickup and delivery items in the same set."
+            "changeStoreError": "Ya tienes un producto en tu carrito de otra tienda.",
+            "changeToDeliveryError": "Ya tienes un producto en tu carrito marcado para retiro en tienda.",
+            "changeToPickupError": "Ya tienes un producto en tu carrito marcado para despacho a domicilio.",
+            "mixedPickupDeliveryError": "No se pueden mezclar productos de retiro en tienda y de despacho a domicilio en el mismo conjunto."
         }
     },
     "checkout": {
         "contactInfo": {
-            "continueToPickup": "Continue to Pickup"
+            "continueToPickup": "Continuar al retiro"
         },
         "pickUp": {
-            "title": "Store Pickup Details",
-            "pickupLocationTitle": "Pickup Location",
-            "continueToPayment": "Continue to Payment",
-            "continueToShipping": "Continue to Shipping"
+            "title": "Detalles del retiro en tienda",
+            "pickupLocationTitle": "Lugar de retiro",
+            "continueToPayment": "Continuar al pago",
+            "continueToShipping": "Continuar al despacho"
         }
     }
 }

@@ -218,9 +218,10 @@ describe('ProductTile — rendering', () => {
         expect(screen.getByText('$49.99')).toBeInTheDocument();
     });
 
-    test('renders the product SKU', () => {
+    test('does not render the SKU, store name or mock rating', () => {
         renderTile();
-        expect(screen.getByText(/simple-001/)).toBeInTheDocument();
+        expect(screen.queryByTestId('product-tile-sku')).not.toBeInTheDocument();
+        expect(screen.queryByText(/simple-001/)).not.toBeInTheDocument();
     });
 
     test('renders sale badge when the product is on sale', () => {

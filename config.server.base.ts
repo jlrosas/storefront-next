@@ -315,6 +315,9 @@ export default defineConfig<Config>(
                     providers: ['Twitter', 'Facebook', 'LinkedIn', 'Email'],
                 },
                 guestCheckout: true,
+                expressPayments: {
+                    enabled: true,
+                },
                 shopperContext: {
                     enabled: false,
                 },

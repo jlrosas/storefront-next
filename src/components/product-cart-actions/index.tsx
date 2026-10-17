@@ -34,6 +34,7 @@ import { addToCartWithAddons, type AdditionalItem } from '@/lib/product/add-to-c
 import { useCheckAndExecutePendingAction } from '@/hooks/check-and-execute-pending-action';
 import { useTranslation } from 'react-i18next';
 import { UITarget } from '@/targets/ui-target';
+import { useConfig } from '@salesforce/storefront-next-runtime/config';
 
 /** @feature-stub Express checkout buttons — remove this import and its JSX below to strip the stub */
 const ExpressPayments = lazy(() => import('@/components/checkout/components/express-payments'));
@@ -135,6 +136,7 @@ export default function ProductCartActions({
     showInlineCartQuantity = false,
 }: ProductCartActionsProps): ReactElement {
     const { t } = useTranslation('product');
+    const config = useConfig();
     const isProductASet = isProductSet(product);
     const isProductABundle = isProductBundle(product);
 
@@ -359,7 +361,8 @@ export default function ProductCartActions({
                     ))}
 
                 {/* Express Payments — standard layout only, vertical for PDP */}
-                {!isCompactAddMode &&
+                {config.features?.expressPayments?.enabled !== false &&
+                    !isCompactAddMode &&
                     !isProductASet &&
                     !isProductABundle &&
                     !isEditMode &&

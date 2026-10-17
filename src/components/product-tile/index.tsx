@@ -480,11 +480,6 @@ const ProductTile = memo(
                             </div>
                         )}
 
-                        {/* Store name */}
-                        <p className="text-sm font-normal leading-normal text-muted-foreground mb-1">
-                            {config.global.branding.name}
-                        </p>
-
                         {/* Top category */}
                         {topCategoryName && (
                             <p className="text-sm font-normal leading-normal text-muted-foreground mb-1">
@@ -509,27 +504,6 @@ const ProductTile = memo(
                             </Link>
                         </h3>
 
-                        {/* SKU */}
-                        {product.productId && (
-                            <p
-                                className="text-sm font-normal leading-normal text-muted-foreground mb-1"
-                                data-testid="product-tile-sku">
-                                {t('sku')} {product.productId}
-                            </p>
-                        )}
-
-                        {/* Star ratings */}
-                        <div className="mb-2">
-                            <StarRating
-                                rating={productData?.rating.rating ?? 0}
-                                reviewCount={productData?.rating.reviewCount ?? 0}
-                                starSize="sm"
-                                starClassName="text-foreground"
-                                showRatingLink
-                                ratingLinkTemplate="({count})"
-                                ratingLinkClassName="text-xs text-muted-foreground"
-                            />
-                        </div>
                         <UITarget targetId="sfcc.productCard.reviews.rating" />
 
                         {/* Price */}

@@ -264,6 +264,10 @@ export type AppConfig = {
             providers: Array<'Twitter' | 'Facebook' | 'LinkedIn' | 'Email'>;
         };
         guestCheckout: boolean;
+        /** Express payment buttons (Apple Pay, Google Pay, PayPal, ...) on the PDP and checkout. */
+        expressPayments: {
+            enabled: boolean;
+        };
         shopperContext: {
             enabled: boolean;
         };

@@ -116,6 +116,9 @@ export const mockBuildConfig: Config = {
                 callbackUri: '',
             },
             guestCheckout: true,
+            expressPayments: {
+                enabled: true,
+            },
             googleCloudAPI: {
                 apiKey: '',
             },

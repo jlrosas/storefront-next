@@ -1,45 +1,45 @@
 {
     "footer": {
         "links": {
-            "storeLocator": "Store Locator"
+            "storeLocator": "Buscador de tiendas"
         }
     },
     "storeLocator": {
-        "title": "Find a Store",
-        "description": "Search for stores by country and postal code or use your current location.",
+        "title": "Encuentra una tienda",
+        "description": "Busca tiendas por país y código postal, o usa tu ubicación actual.",
         "form": {
-            "searchFormAriaLabel": "Store search form",
+            "searchFormAriaLabel": "Formulario de búsqueda de tiendas",
             "countryLabel": "Country",
-            "selectCountry": "Select a country",
-            "selectCountryValidation": "Select a country.",
-            "postalCodeLabel": "Postal Code",
-            "postalCodePlaceholder": "Enter postal code",
-            "postalCodeValidation": "Enter a postal code.",
+            "selectCountry": "Elige un país",
+            "selectCountryValidation": "Elige un país.",
+            "postalCodeLabel": "Código postal",
+            "postalCodePlaceholder": "Ingresa el código postal",
+            "postalCodeValidation": "Ingresa un código postal.",
             "findButton": "Find",
             "or": "Or",
-            "useMyLocationButton": "Use My Location"
+            "useMyLocationButton": "Usar mi ubicación"
         },
         "trigger": {
-            "ariaLabel": "Find a Store",
-            "openAriaLabel": "Open Find a Store"
+            "ariaLabel": "Encuentra una tienda",
+            "openAriaLabel": "Abrir Encuentra una tienda"
         },
         "sheet": {
-            "closeAriaLabel": "Close store locator"
+            "closeAriaLabel": "Cerrar buscador de tiendas"
         },
         "list": {
-            "geoError": "To use your location, enable location sharing.",
-            "noResults": "Sorry, there are no locations in this area.",
-            "statusInput": "Viewing stores within {{distanceText}} of {{postal}} in {{countryName}}",
-            "statusLocation": "Viewing stores near your location",
-            "loadMoreButton": "Load More",
-            "fetchError": "Something went wrong. Try again!"
+            "geoError": "Para usar tu ubicación, activa el uso compartido de ubicación.",
+            "noResults": "Lo sentimos, no hay tiendas en esta zona.",
+            "statusInput": "Mostrando tiendas a menos de {{distanceText}} de {{postal}} en {{countryName}}",
+            "statusLocation": "Mostrando tiendas cerca de tu ubicación",
+            "loadMoreButton": "Cargar más",
+            "fetchError": "Algo salió mal. ¡Inténtalo nuevamente!"
         },
         "details": {
             "phoneLabel": "Phone:",
             "emailLabel": "Email:",
-            "storeDetailsTitle": "Store Details",
-            "storeHoursTitle": "Store Hours",
-            "distanceAway": "{{distance}} {{unit}} away"
+            "storeDetailsTitle": "Detalles de la tienda",
+            "storeHoursTitle": "Horario de la tienda",
+            "distanceAway": "A {{distance}} {{unit}}"
         },
         "address": {
             "multilineFormat": "{{address1}}\n{{city}}, {{stateCode}} {{postalCode}}",

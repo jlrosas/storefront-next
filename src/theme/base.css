@@ -83,6 +83,10 @@ header form input[role='combobox'] {
 header form svg {
     color: var(--muted-foreground);
 }
+/* An open menu trigger sits on the lime active tint, so it needs the dark menu text. */
+header [data-slot='navigation-menu-trigger'][data-state='open'] {
+    color: var(--header-menu-hover-foreground);
+}
 
 @layer base {
     * {

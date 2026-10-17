@@ -41,6 +41,11 @@ export default defineConfig(
                 // El fallback debe ir al final.
                 supportedLngs: ['es-CL', 'en-GB'],
             },
+            features: {
+                ...baseConfig?.app?.features,
+                // Los botones de pago rápido del template son simulados.
+                expressPayments: { enabled: false },
+            },
             global: {
                 ...baseConfig?.app?.global,
                 branding: { name: 'Papa Johns', logoAlt: 'Papa Johns Chile' },
