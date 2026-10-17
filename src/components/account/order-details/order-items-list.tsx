@@ -30,11 +30,6 @@ import type { ShopperOrders, ShopperProducts } from '@/scapi';
 import { createProductUrl } from '@/route-paths';
 import { accountPrimaryButtonClasses } from '@/lib/account-action-styles';
 import { useSeoUrlContext } from '@/hooks/use-seo-url-context';
-// @sfdc-extension-block-start SFDC_EXT_RATINGS_REVIEWS
-import { getOrderLineReviewKey } from '@/components/account/order-details/order-line-review-key';
-import { UITarget } from '@/targets/ui-target';
-import { OrderLineReviewSlot } from '@/extensions/ratings-reviews/components/order-line-review-context';
-// @sfdc-extension-block-end SFDC_EXT_RATINGS_REVIEWS
 
 type OrderItem = ShopperOrders.schemas['ProductItem'];
 
@@ -54,18 +49,11 @@ export type OrderItemsListProps = {
  * Renders a list of order line items with image, name, variant, quantity, price, and Buy Again link.
  * Matches PWA-Kit order details line-item pattern (product row with image, details, price, reorder).
  */
-export function OrderItemsList({
-    items,
-    productsById,
-    orderNo,
-    submittedReviewLineKeys,
-    onOrderLineReviewSubmitted,
-}: OrderItemsListProps): ReactElement {
+export function OrderItemsList({ items, productsById }: OrderItemsListProps): ReactElement {
     const { t } = useTranslation('account');
     const { t: tProduct } = useTranslation('product');
     const { currency } = useSite();
     const seoUrlContext = useSeoUrlContext();
-    const showLineReviews = submittedReviewLineKeys != null && onOrderLineReviewSubmitted != null;
 
     if (items.length === 0) {
         return (
@@ -81,10 +69,6 @@ export function OrderItemsList({
                 const productData = item.productId ? productsById[item.productId] : undefined;
                 const productKey = item.itemId ? `${item.itemId}-${index}` : `${item.productId ?? 'item'}-${index}`;
                 const productName = item.productName;
-                // @sfdc-extension-block-start SFDC_EXT_RATINGS_REVIEWS
-                const lineReviewKey = getOrderLineReviewKey(orderNo, item, index);
-                const reviewSubmitted = submittedReviewLineKeys?.has(lineReviewKey) ?? false;
-                // @sfdc-extension-block-end SFDC_EXT_RATINGS_REVIEWS
                 const enrichedItem: EnrichedProductItem = { ...productData, ...item } as EnrichedProductItem;
                 const productImage = <ProductItemVariantImage productItem={enrichedItem} className="h-24 w-24" />;
                 return (
@@ -110,19 +94,6 @@ export function OrderItemsList({
                                 <p className="text-xs text-muted-foreground">
                                     {t('orders.quantityLabel', { count: item.quantity ?? 1 })}
                                 </p>
-                                {showLineReviews && productData ? (
-                                    <div className="pt-1">
-                                        {/* @sfdc-extension-block-start SFDC_EXT_RATINGS_REVIEWS */}
-                                        <OrderLineReviewSlot
-                                            product={productData}
-                                            lineKey={lineReviewKey}
-                                            reviewSubmitted={reviewSubmitted}
-                                            onLineReviewSubmitted={onOrderLineReviewSubmitted}>
-                                            <UITarget targetId="sfcc.account.orderDetail.lineReview" />
-                                        </OrderLineReviewSlot>
-                                        {/* @sfdc-extension-block-end SFDC_EXT_RATINGS_REVIEWS */}
-                                    </div>
-                                ) : null}
                             </div>
                             <div className="flex shrink-0 flex-col items-end gap-1 sm:self-start">
                                 {currency ? (

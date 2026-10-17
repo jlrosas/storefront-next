@@ -17,8 +17,6 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { within, userEvent } from 'storybook/test';
 import { waitForStorybookReady } from '@storybook/test-utils';
 import { useState, type ReactElement } from 'react';
-// @sfdc-extension-line SFDC_EXT_RATINGS_REVIEWS
-import { action } from 'storybook/actions';
 import { ConfigProvider } from '@salesforce/storefront-next-runtime/config';
 import { SiteProvider } from '@salesforce/storefront-next-runtime/site-context';
 import { mockConfig, mockLocale, mockSiteObject } from '@/test-utils/config';
@@ -173,54 +171,6 @@ export const PaymentScheduleOnly: Story = {
     },
 };
 
-// @sfdc-extension-block-start SFDC_EXT_RATINGS_REVIEWS
-export const StarRatingDistributionType: Story = {
-    args: {
-        data: {
-            type: 'star-rating-distribution',
-            title: '4.8 out of 5',
-            rating: 4.8,
-            reviewCount: 200,
-            distributions: [
-                { rating: 5, count: 120 },
-                { rating: 4, count: 50 },
-                { rating: 3, count: 20 },
-                { rating: 2, count: 8 },
-                { rating: 1, count: 2 },
-            ],
-            onSeeReviewsClick: action('see reviews clicked'),
-        },
-    },
-    parameters: {
-        docs: {
-            description: {
-                story: `
-Star rating distribution modal displaying rating overview and distribution breakdown.
-
-### Features:
-- Modal width: 19rem (304px) to accommodate w-64 (256px) content + padding
-- Content area: w-64 (256px)
-- Star rating with right label and review count
-- Distribution bars showing rating breakdown
-- "See customer reviews" link button (follows project pattern: text-primary hover:underline)
-- X button to close (top right)
-                `,
-            },
-        },
-    },
-    play: async ({ canvasElement }) => {
-        await waitForStorybookReady(canvasElement);
-        const canvas = within(canvasElement);
-
-        const openButton = canvas.getByRole('button', { name: /open modal/i });
-        await userEvent.click(openButton);
-
-        await within(document.body).findByRole('dialog', {}, { timeout: 5000 });
-    },
-};
-
-// @sfdc-extension-block-end SFDC_EXT_RATINGS_REVIEWS
-
 export const PaymentScheduleLongContent: Story = {
     args: {
         data: {
@@ -267,46 +217,3 @@ export const PaymentScheduleLongContent: Story = {
         await within(document.body).findByRole('dialog', {}, { timeout: 5000 });
     },
 };
-
-// @sfdc-extension-block-start SFDC_EXT_RATINGS_REVIEWS
-export const StarRatingDistributionHighlyRated: Story = {
-    args: {
-        data: {
-            type: 'star-rating-distribution',
-            rating: 4.9,
-            reviewCount: 200,
-            distributions: [
-                { rating: 5, count: 180 },
-                { rating: 4, count: 15 },
-                { rating: 3, count: 3 },
-                { rating: 2, count: 1 },
-                { rating: 1, count: 1 },
-            ],
-            onSeeReviewsClick: action('see reviews clicked'),
-        },
-    },
-    parameters: {
-        docs: {
-            description: {
-                story: `
-Highly rated product with most reviews being 5-star. Demonstrates how the modal handles excellent ratings with heavily skewed distribution.
-
-### Features:
-- 4.9 rating with 90% 5-star reviews
-- Distribution bars show clear visual hierarchy
-- Modal title defaults to rating label when not explicitly provided
-                `,
-            },
-        },
-    },
-    play: async ({ canvasElement }) => {
-        await waitForStorybookReady(canvasElement);
-        const canvas = within(canvasElement);
-
-        const openButton = canvas.getByRole('button', { name: /open modal/i });
-        await userEvent.click(openButton);
-
-        await within(document.body).findByRole('dialog', {}, { timeout: 5000 });
-    },
-};
-// @sfdc-extension-block-end SFDC_EXT_RATINGS_REVIEWS

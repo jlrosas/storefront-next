@@ -28,30 +28,15 @@ export type {
     PaymentSchedule,
     StepInfo,
     PaymentScheduleModalData,
-    // @sfdc-extension-block-start SFDC_EXT_RATINGS_REVIEWS
-    WriteReviewModalData,
-    RatingDistributionData,
-    StarRatingDistributionModalData,
-    // @sfdc-extension-block-end SFDC_EXT_RATINGS_REVIEWS
     // @sfdc-extension-block-start SFDC_EXT_SHIPPING_DELIVERY
     EstimatedDeliveryModalData,
     // @sfdc-extension-block-end SFDC_EXT_SHIPPING_DELIVERY
-    // @sfdc-extension-block-start SFDC_EXT_PRODUCT_CONTENT
-    ReturnsAndWarrantyModalData,
-    // @sfdc-extension-block-end SFDC_EXT_PRODUCT_CONTENT
 } from './types';
 
 import { PaymentScheduleModalContent } from './renderers/payment-schedule-modal-content';
-// @sfdc-extension-block-start SFDC_EXT_RATINGS_REVIEWS
-import { WriteReviewModalContent } from './renderers/write-review-modal-content';
-import { StarRatingDistributionModalContent } from './renderers/star-rating-distribution-modal-content';
-// @sfdc-extension-block-end SFDC_EXT_RATINGS_REVIEWS
 // @sfdc-extension-block-start SFDC_EXT_SHIPPING_DELIVERY
 import { EstimatedDeliveryModalContent } from './renderers/estimated-delivery-modal-content';
 // @sfdc-extension-block-end SFDC_EXT_SHIPPING_DELIVERY
-// @sfdc-extension-block-start SFDC_EXT_PRODUCT_CONTENT
-import { ReturnsAndWarrantyModalContent } from './renderers/returns-and-warranty-modal-content';
-// @sfdc-extension-block-end SFDC_EXT_PRODUCT_CONTENT
 
 /** Escapes a string for safe use inside a RegExp. */
 function escapeRegex(s: string): string {
@@ -66,32 +51,18 @@ function getCurrencySymbolForRegex(currencyCode: string): string {
 
 /** Modal width classes by modal type. */
 const MODAL_WIDTH_CLASSES: Record<string, string> = {
-    // @sfdc-extension-block-start SFDC_EXT_RATINGS_REVIEWS
-    'write-review': 'max-w-lg sm:max-w-lg',
-    'star-rating-distribution': 'w-[304px] max-w-[304px] sm:w-[304px] sm:max-w-[304px]',
-    // @sfdc-extension-block-end SFDC_EXT_RATINGS_REVIEWS
     'payment-schedule': 'max-w-2xl sm:max-w-2xl',
     // @sfdc-extension-block-start SFDC_EXT_SHIPPING_DELIVERY
     'estimated-delivery': 'max-w-2xl sm:max-w-2xl',
     // @sfdc-extension-block-end SFDC_EXT_SHIPPING_DELIVERY
-    // @sfdc-extension-block-start SFDC_EXT_PRODUCT_CONTENT
-    'returns-and-warranty': 'max-w-2xl sm:max-w-2xl',
-    // @sfdc-extension-block-end SFDC_EXT_PRODUCT_CONTENT
 };
 
 /** Modal description i18n keys by modal type. */
 const MODAL_DESCRIPTIONS: Record<string, string> = {
     'payment-schedule': 'paymentScheduleDescription',
-    // @sfdc-extension-block-start SFDC_EXT_RATINGS_REVIEWS
-    'write-review': 'writeReviewDescription',
-    'star-rating-distribution': 'starRatingDistributionDescription',
-    // @sfdc-extension-block-end SFDC_EXT_RATINGS_REVIEWS
     // @sfdc-extension-block-start SFDC_EXT_SHIPPING_DELIVERY
     'estimated-delivery': 'estimatedDeliveryDescription',
     // @sfdc-extension-block-end SFDC_EXT_SHIPPING_DELIVERY
-    // @sfdc-extension-block-start SFDC_EXT_PRODUCT_CONTENT
-    'returns-and-warranty': 'returnsAndWarrantyDescription',
-    // @sfdc-extension-block-end SFDC_EXT_PRODUCT_CONTENT
 };
 
 /**
@@ -121,8 +92,6 @@ export default function InfoModal({
 }: InfoModalProps): ReactElement {
     const { currency } = useSite();
     const { t } = useTranslation('infoModal');
-    // @sfdc-extension-line SFDC_EXT_RATINGS_REVIEWS
-    const { t: tProduct } = useTranslation('product');
 
     if (!data) {
         return (
@@ -197,52 +166,6 @@ export default function InfoModal({
                         </div>
                     </>
                 )}
-                {/* @sfdc-extension-block-start SFDC_EXT_RATINGS_REVIEWS */}
-                {data.type === 'write-review' && (
-                    <>
-                        {data.formConfig != null && (
-                            <DialogHeader className="p-6 pt-8 pb-0 pr-12 text-left">
-                                <DialogTitle className="text-2xl font-semibold text-foreground">
-                                    {data.formConfig.title}
-                                </DialogTitle>
-                            </DialogHeader>
-                        )}
-                        <div className="mt-4 border-b border-muted-foreground/25" aria-hidden />
-                        <div className="overflow-y-auto max-h-[calc(90vh-180px)]">
-                            {/* Key forces remount when modal opens so form state resets. */}
-                            <WriteReviewModalContent
-                                key={open ? 'open' : 'closed'}
-                                onClose={() => onOpenChange(false)}
-                                formConfig={data.formConfig}
-                                onAfterSubmit={data.onAfterSubmit}
-                            />
-                        </div>
-                    </>
-                )}
-                {data.type === 'star-rating-distribution' && (
-                    <>
-                        <DialogHeader className="px-6 pt-4 pb-0 pr-12 flex-row items-center justify-between">
-                            <DialogTitle className="text-sm font-medium text-foreground" aria-hidden="true">
-                                {data.title ||
-                                    tProduct('rating.ratingOutOfTotal', {
-                                        rating: Number(data.rating.toFixed(1)).toString(),
-                                        total: 5,
-                                    })}
-                            </DialogTitle>
-                        </DialogHeader>
-                        <div className="overflow-y-auto max-h-[calc(90vh-180px)]">
-                            <div className="p-6">
-                                <StarRatingDistributionModalContent
-                                    rating={data.rating}
-                                    reviewCount={data.reviewCount}
-                                    distributions={data.distributions}
-                                    onSeeReviewsClick={data.onSeeReviewsClick}
-                                />
-                            </div>
-                        </div>
-                    </>
-                )}
-                {/* @sfdc-extension-block-end SFDC_EXT_RATINGS_REVIEWS */}
                 {/* @sfdc-extension-block-start SFDC_EXT_SHIPPING_DELIVERY */}
                 {data.type === 'estimated-delivery' && (
                     <>
@@ -271,26 +194,6 @@ export default function InfoModal({
                     </>
                 )}
                 {/* @sfdc-extension-block-end SFDC_EXT_SHIPPING_DELIVERY */}
-                {/* @sfdc-extension-block-start SFDC_EXT_PRODUCT_CONTENT */}
-                {data.type === 'returns-and-warranty' && (
-                    <>
-                        <DialogHeader className="p-6 pt-8 pb-0 pr-12 text-left">
-                            <DialogTitle className="text-2xl font-semibold text-foreground">{data.title}</DialogTitle>
-                        </DialogHeader>
-                        <div className="mt-4 border-b border-muted-foreground/25" aria-hidden />
-                        <div className="overflow-y-auto max-h-[calc(90vh-180px)]">
-                            <div className="p-6 space-y-6">
-                                <ReturnsAndWarrantyModalContent returnsAndWarrantyData={data.returnsAndWarrantyData} />
-                            </div>
-                        </div>
-                        <div className="p-6 pt-4 border-t border-border">
-                            <Button className="w-full" onClick={() => onOpenChange(false)}>
-                                {t('close')}
-                            </Button>
-                        </div>
-                    </>
-                )}
-                {/* @sfdc-extension-block-end SFDC_EXT_PRODUCT_CONTENT */}
             </DialogContent>
         </Dialog>
     );

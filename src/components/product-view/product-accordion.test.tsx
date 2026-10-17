@@ -28,23 +28,6 @@ import { createMemoryRouter, RouterProvider } from 'react-router';
 // Components
 import ProductAccordion from './product-accordion';
 
-// @sfdc-extension-block-start SFDC_EXT_RATINGS_REVIEWS
-vi.mock('@/extensions/ratings-reviews/providers/product-reviews-context', () => ({
-    useProductReviews: () => ({
-        reviewsSummary: null,
-        reviewsSummaryLoading: false,
-        reviews: [],
-        reviewsLoading: false,
-        loadReviewsIfNeeded: () => {},
-        aiSummary: '',
-        addReviewOptimistic: () => {},
-        removeReviewOptimistic: () => {},
-        expandReviews: () => {},
-        registerExpand: () => {},
-    }),
-}));
-// @sfdc-extension-block-end SFDC_EXT_RATINGS_REVIEWS
-
 const renderProductAccordion = (props: React.ComponentProps<typeof ProductAccordion>) => {
     // Using createMemoryRouter in framework mode is fine
     // because both framework and data routers share the same underlying architecture, so it provides a valid navigation context for hooks and <Link>.

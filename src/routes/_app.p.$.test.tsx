@@ -161,23 +161,6 @@ vi.mock('@/providers/product-view', () => ({ default: ({ children }: any) => chi
 vi.mock('@/targets/ui-target', () => ({ UITarget: () => null }));
 vi.mock('@/hooks/use-analytics', () => ({ useAnalytics: () => ({ trackViewProduct: vi.fn() }) }));
 vi.mock('@/lib/product/product-utils', () => ({ isProductSet: () => false, isProductBundle: () => false }));
-// @sfdc-extension-block-start SFDC_EXT_RATINGS_REVIEWS
-vi.mock('@/extensions/ratings-reviews/providers/product-reviews-context', () => ({
-    ProductReviewsProvider: ({ children }: any) => children,
-}));
-vi.mock('@/extensions/ratings-reviews/context/write-review-form-context', () => ({
-    WriteReviewFormProvider: ({ children }: any) => children,
-    useWriteReviewForm: () => null,
-}));
-// @sfdc-extension-block-end SFDC_EXT_RATINGS_REVIEWS
-// @sfdc-extension-block-start SFDC_EXT_PRODUCT_CONTENT
-vi.mock('@/extensions/product-content/context/product-content-data-context', () => ({
-    ProductContentDataProvider: ({ children }: any) => children,
-}));
-// @sfdc-extension-block-end SFDC_EXT_PRODUCT_CONTENT
-// @sfdc-extension-block-start SFDC_EXT_BNPL
-vi.mock('@/extensions/bnpl/context/bnpl-context', () => ({ BnplProvider: ({ children }: any) => children }));
-// @sfdc-extension-block-end SFDC_EXT_BNPL
 // @sfdc-extension-block-start SFDC_EXT_BOPIS
 vi.mock('@/extensions/bopis/context/pickup-context', () => ({ default: ({ children }: any) => children }));
 // @sfdc-extension-block-end SFDC_EXT_BOPIS
@@ -205,57 +188,6 @@ describe('Foundations product detail route', () => {
             pageKey: product.id,
             pageUrl: '/product/foundations-product',
             productSchema: Promise.resolve(null),
-            // @sfdc-extension-block-start SFDC_EXT_BNPL
-            bnplMessage: Promise.resolve({ paymentCount: 4, amountPerPayment: 0 }),
-            bnplLearnMore: Promise.resolve({
-                paymentSchedule: { amountPerPayment: 0, totalAmount: 0, schedule: [] },
-                howItWorks: [],
-                disclosures: '',
-            }),
-            // @sfdc-extension-block-end SFDC_EXT_BNPL
-            // @sfdc-extension-block-start SFDC_EXT_RATINGS_REVIEWS
-            reviewsSummary: {
-                totalCount: 0,
-                averageRating: 0,
-                distribution: { oneStar: 0, twoStars: 0, threeStars: 0, fourStars: 0, fiveStars: 0 },
-                basedOnLabel: '',
-            },
-            reviewsList: Promise.resolve({
-                heading: '',
-                subtitle: '',
-                writeReviewButtonLabel: '',
-                summary: {
-                    averageRating: 0,
-                    totalCount: 0,
-                    basedOnLabel: '',
-                    distribution: { oneStar: 0, twoStars: 0, threeStars: 0, fourStars: 0, fiveStars: 0 },
-                },
-                searchPlaceholder: '',
-                sortOptions: [],
-                reviews: [],
-            }),
-            writeReviewForm: Promise.resolve({
-                title: '',
-                overallRating: { label: '', required: true, placeholder: '' },
-                reviewTitle: { label: '', placeholder: '', maxCharacters: 0 },
-                reviewBody: { label: '', placeholder: '', minCharacters: 0, maxCharacters: 0 },
-                recommend: { label: '', yesLabel: '', noLabel: '' },
-                addPhotos: { label: '', hint: '', accept: '', maxSize: '' },
-                termsText: '',
-                cancelLabel: '',
-                submitLabel: '',
-            }),
-            // @sfdc-extension-block-end SFDC_EXT_RATINGS_REVIEWS
-            // @sfdc-extension-block-start SFDC_EXT_PRODUCT_CONTENT
-            returnsWarranty: Promise.resolve({
-                title: '',
-                description: '',
-                returnsPolicy: { heading: '', intro: '', conditions: [], howToReturn: [] },
-                warranty: { heading: '', intro: '', whatsCovered: [], whatsNotCovered: [], claimsProcess: '' },
-                exchanges: { heading: '', intro: '', process: '' },
-            }),
-            pdpCollapsibles: Promise.resolve([]),
-            // @sfdc-extension-block-end SFDC_EXT_PRODUCT_CONTENT
         };
 
         render(<ProductPage loaderData={loaderData} />);

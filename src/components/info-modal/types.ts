@@ -16,12 +16,6 @@
 
 import type { Ref } from 'react';
 
-// @sfdc-extension-block-start SFDC_EXT_RATINGS_REVIEWS
-import type { WriteReviewFormData, ReviewItem } from '@/extensions/ratings-reviews/lib/api/reviews.server';
-// @sfdc-extension-block-end SFDC_EXT_RATINGS_REVIEWS
-// @sfdc-extension-block-start SFDC_EXT_PRODUCT_CONTENT
-import type { ReturnsAndWarrantyData } from '@/extensions/product-content/lib/api/product-content.server';
-// @sfdc-extension-block-end SFDC_EXT_PRODUCT_CONTENT
 // @sfdc-extension-block-start SFDC_EXT_SHIPPING_DELIVERY
 import type { ShippingEstimateOption } from '@/lib/shipping-estimate/types';
 // @sfdc-extension-block-end SFDC_EXT_SHIPPING_DELIVERY
@@ -67,38 +61,6 @@ export interface PaymentScheduleModalData extends InfoModalDataBase {
     disclaimer?: string;
 }
 
-// @sfdc-extension-block-start SFDC_EXT_RATINGS_REVIEWS
-/** Data for write a review modal */
-export interface WriteReviewModalData extends InfoModalDataBase {
-    type: 'write-review';
-    /** Form labels, placeholders, and config from product content adapter (e.g. getWriteReviewForm). Optional until loaded. */
-    formConfig?: WriteReviewFormData;
-    /** Called after a successful submit (e.g. order details: mark line as reviewed). PDP omits this. */
-    onAfterSubmit?: (review: ReviewItem) => void;
-}
-
-/** Rating distribution data for a single star rating */
-export interface RatingDistributionData {
-    /** Star rating (1-5) */
-    rating: number;
-    /** Number of reviews for this rating */
-    count: number;
-}
-
-/** Data for star rating distribution modal */
-export interface StarRatingDistributionModalData extends InfoModalDataBase {
-    type: 'star-rating-distribution';
-    /** Overall rating value (0-5) */
-    rating: number;
-    /** Total number of reviews */
-    reviewCount: number;
-    /** Array of rating distribution data for 1-5 stars */
-    distributions: RatingDistributionData[];
-    /** Optional callback when "See customer reviews" button is clicked */
-    onSeeReviewsClick?: () => void;
-}
-// @sfdc-extension-block-end SFDC_EXT_RATINGS_REVIEWS
-
 // @sfdc-extension-block-start SFDC_EXT_SHIPPING_DELIVERY
 /** Data for destination-specific delivery options. */
 export interface EstimatedDeliveryModalData extends InfoModalDataBase {
@@ -109,14 +71,6 @@ export interface EstimatedDeliveryModalData extends InfoModalDataBase {
 
 // @sfdc-extension-block-end SFDC_EXT_SHIPPING_DELIVERY
 
-// @sfdc-extension-block-start SFDC_EXT_PRODUCT_CONTENT
-/** Data for returns & warranty modal */
-export interface ReturnsAndWarrantyModalData extends InfoModalDataBase {
-    type: 'returns-and-warranty';
-    returnsAndWarrantyData: ReturnsAndWarrantyData;
-}
-// @sfdc-extension-block-end SFDC_EXT_PRODUCT_CONTENT
-
 /**
  * Structured data for the info modal. Add new modal types by defining a new variant
  * (e.g. SizeGuideModalData) and extending this union.
@@ -125,13 +79,6 @@ export type InfoModalData =
     // @sfdc-extension-block-start SFDC_EXT_SHIPPING_DELIVERY
     | EstimatedDeliveryModalData
     // @sfdc-extension-block-end SFDC_EXT_SHIPPING_DELIVERY
-    // @sfdc-extension-block-start SFDC_EXT_RATINGS_REVIEWS
-    | WriteReviewModalData
-    | StarRatingDistributionModalData
-    // @sfdc-extension-block-end SFDC_EXT_RATINGS_REVIEWS
-    // @sfdc-extension-block-start SFDC_EXT_PRODUCT_CONTENT
-    | ReturnsAndWarrantyModalData
-    // @sfdc-extension-block-end SFDC_EXT_PRODUCT_CONTENT
     | PaymentScheduleModalData;
 
 export interface InfoModalProps {

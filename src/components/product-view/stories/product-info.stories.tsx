@@ -333,7 +333,6 @@ export const Playground: StoryWithSynthetic = {
         showQuantityInEditMode: false,
         isVariantInventoryLoading: false,
         hideActionIcons: false,
-        disableRatingInteraction: false,
     },
     argTypes: {
         inventoryStatus: {
@@ -367,7 +366,6 @@ export const Playground: StoryWithSynthetic = {
         showQuantityInEditMode: { control: 'boolean' },
         isVariantInventoryLoading: { control: 'boolean' },
         hideActionIcons: { control: 'boolean' },
-        disableRatingInteraction: { control: 'boolean' },
     },
     render: (args) => {
         const { inventoryStatus, hasVariations, productName, shortDescription, brand, ...componentProps } = args;

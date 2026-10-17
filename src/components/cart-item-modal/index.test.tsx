@@ -76,26 +76,6 @@ vi.mock('@/hooks/use-scapi-fetcher', () => ({
     useScapiFetcher: (...args: unknown[]) => mockUseScapiFetcher(...args),
 }));
 
-// @sfdc-extension-block-start SFDC_EXT_RATINGS_REVIEWS
-vi.mock('@/extensions/ratings-reviews/providers/product-reviews-context', () => ({
-    ProductReviewsProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
-    useProductReviews: () => ({
-        reviewsSummary: null,
-        reviewsSummaryLoading: false,
-        reviews: [],
-        reviewsLoading: false,
-        loadReviewsIfNeeded: () => {},
-        aiSummary: '',
-        addReviewOptimistic: () => {},
-        removeReviewOptimistic: () => {},
-        expandReviews: () => {},
-        registerExpand: () => {},
-        registerOnExpanded: () => {},
-        triggerOnExpanded: () => {},
-    }),
-}));
-// @sfdc-extension-block-end SFDC_EXT_RATINGS_REVIEWS
-
 // @sfdc-extension-block-start SFDC_EXT_BOPIS
 vi.mock('@/extensions/store-locator/providers/store-locator', async () => {
     const actual = await vi.importActual<typeof import('@/extensions/store-locator/providers/store-locator')>(

@@ -39,25 +39,6 @@ vi.mock('@/hooks/use-scapi-fetcher', () => ({
 
 // useDeferredRenderSequence is consumed transitively by the carousel's image-gallery; stub to `0`
 // to preserve the real hook's "no preloads until the first idle frame" contract.
-// @sfdc-extension-block-start SFDC_EXT_RATINGS_REVIEWS
-vi.mock('@/extensions/ratings-reviews/providers/product-reviews-context', () => ({
-    ProductReviewsProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
-    useProductReviews: () => ({
-        reviewsSummary: null,
-        reviewsSummaryLoading: false,
-        reviews: [],
-        reviewsLoading: false,
-        loadReviewsIfNeeded: () => {},
-        aiSummary: '',
-        addReviewOptimistic: () => {},
-        removeReviewOptimistic: () => {},
-        expandReviews: () => {},
-        registerExpand: () => {},
-        registerOnExpanded: () => {},
-        triggerOnExpanded: () => {},
-    }),
-}));
-// @sfdc-extension-block-end SFDC_EXT_RATINGS_REVIEWS
 
 vi.mock('@/hooks/use-deferred-render', () => ({
     useDeferredRenderSequence: () => 0,

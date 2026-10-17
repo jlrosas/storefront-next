@@ -51,37 +51,6 @@ import { UITarget } from '@/targets/ui-target';
 import { selectedStoreContext } from '@/extensions/store-locator/middlewares/selected-store.server';
 import PickupProvider from '@/extensions/bopis/context/pickup-context';
 // @sfdc-extension-block-end SFDC_EXT_BOPIS
-// @sfdc-extension-block-start SFDC_EXT_BNPL
-import {
-    getBuyNowPayLaterMessage,
-    getBuyNowPayLaterLearnMore,
-    type BuyNowPayLaterMessageData,
-    type BuyNowPayLaterLearnMoreData,
-} from '@/extensions/bnpl/lib/api/bnpl.server';
-import { BnplProvider } from '@/extensions/bnpl/context/bnpl-context';
-// @sfdc-extension-block-end SFDC_EXT_BNPL
-// @sfdc-extension-block-start SFDC_EXT_RATINGS_REVIEWS
-import {
-    getReviewsSummary,
-    getReviews,
-    getWriteReviewForm,
-    type ReviewsSummaryData,
-    type ReviewsData,
-    type WriteReviewFormData,
-} from '@/extensions/ratings-reviews/lib/api/reviews.server';
-import { ProductReviewsProvider } from '@/extensions/ratings-reviews/providers/product-reviews-context';
-import { WriteReviewFormProvider } from '@/extensions/ratings-reviews/context/write-review-form-context';
-// @sfdc-extension-block-end SFDC_EXT_RATINGS_REVIEWS
-// @sfdc-extension-block-start SFDC_EXT_PRODUCT_CONTENT
-import {
-    getReturnsAndWarranty,
-    pdpSectionApi,
-    type ReturnsAndWarrantyData,
-    type HtmlContent,
-} from '@/extensions/product-content/lib/api/product-content.server';
-import { resolvePdpSections } from '@/extensions/product-content/lib/pdp-sections';
-import { ProductContentDataProvider } from '@/extensions/product-content/context/product-content-data-context';
-// @sfdc-extension-block-end SFDC_EXT_PRODUCT_CONTENT
 // @sfdc-extension-block-start SFDC_EXT_SHIPPING_DELIVERY
 import { ShippingDeliveryProvider } from '@/extensions/shipping-delivery/context/shipping-delivery-context';
 // @sfdc-extension-block-end SFDC_EXT_SHIPPING_DELIVERY
@@ -113,19 +82,6 @@ export type ProductPageData = {
     pageKey: string;
     pageUrl: string;
     productSchema: Promise<ReturnType<typeof generateProductSchema> | null>;
-    // @sfdc-extension-block-start SFDC_EXT_BNPL
-    bnplMessage: Promise<BuyNowPayLaterMessageData>;
-    bnplLearnMore: Promise<BuyNowPayLaterLearnMoreData>;
-    // @sfdc-extension-block-end SFDC_EXT_BNPL
-    // @sfdc-extension-block-start SFDC_EXT_RATINGS_REVIEWS
-    reviewsSummary: ReviewsSummaryData;
-    reviewsList: Promise<ReviewsData>;
-    writeReviewForm: Promise<WriteReviewFormData>;
-    // @sfdc-extension-block-end SFDC_EXT_RATINGS_REVIEWS
-    // @sfdc-extension-block-start SFDC_EXT_PRODUCT_CONTENT
-    returnsWarranty: Promise<ReturnsAndWarrantyData>;
-    pdpCollapsibles: Promise<Array<HtmlContent | null>>;
-    // @sfdc-extension-block-end SFDC_EXT_PRODUCT_CONTENT
 };
 
 /**
@@ -177,11 +133,6 @@ export async function loader(args: Route.LoaderArgs): Promise<ProductPageData> {
     // so the route error boundary renders the 404 page with the correct HTTP status.
     const productLookupId = variantPid || productId;
 
-    // @sfdc-extension-block-start SFDC_EXT_RATINGS_REVIEWS
-    // Start reviews summary fetch in parallel with the product fetch — it only
-    // needs the product ID and drives above-the-fold star display + SEO.
-    const reviewsSummaryPromise = getReviewsSummary(productLookupId);
-    // @sfdc-extension-block-end SFDC_EXT_RATINGS_REVIEWS
     let product: ShopperProducts.schemas['Product'] | null;
     try {
         product = await fetchProductById(context, productLookupId, {
@@ -261,36 +212,12 @@ export async function loader(args: Route.LoaderArgs): Promise<ProductPageData> {
         ...(primaryCategoryId ? { categoryId: primaryCategoryId } : {}),
     });
 
-    // @sfdc-extension-block-start SFDC_EXT_RATINGS_REVIEWS
-    // Await the summary started earlier (ran in parallel with fetchProductById).
-    const reviewsSummary = await reviewsSummaryPromise;
-    const reviewsList = getReviews(productLookupId);
-    const writeReviewForm = getWriteReviewForm(productLookupId);
-    // @sfdc-extension-block-end SFDC_EXT_RATINGS_REVIEWS
-
     return {
         product,
         page,
         pageKey: productId,
         pageUrl,
         productSchema: productSchemaPromise,
-        // @sfdc-extension-block-start SFDC_EXT_BNPL
-        bnplMessage: getBuyNowPayLaterMessage(productLookupId),
-        bnplLearnMore: getBuyNowPayLaterLearnMore(productLookupId),
-        // @sfdc-extension-block-end SFDC_EXT_BNPL
-        // @sfdc-extension-block-start SFDC_EXT_RATINGS_REVIEWS
-        reviewsSummary,
-        reviewsList,
-        writeReviewForm,
-        // @sfdc-extension-block-end SFDC_EXT_RATINGS_REVIEWS
-        // @sfdc-extension-block-start SFDC_EXT_PRODUCT_CONTENT
-        returnsWarranty: getReturnsAndWarranty(productLookupId),
-        pdpCollapsibles: Promise.all(
-            resolvePdpSections(product).map((section) =>
-                pdpSectionApi[section.apiMethod](productLookupId).catch(() => null)
-            )
-        ),
-        // @sfdc-extension-block-end SFDC_EXT_PRODUCT_CONTENT
     };
 }
 
@@ -299,31 +226,7 @@ export async function loader(args: Route.LoaderArgs): Promise<ProductPageData> {
 // its denylist live in the shared module so the rationale is documented and unit-tested in one place.
 export const shouldRevalidate = shouldRevalidateProduct;
 
-function ProductContent({
-    product,
-    url,
-    // @sfdc-extension-block-start SFDC_EXT_RATINGS_REVIEWS
-    reviewsSummary,
-    reviewsList,
-    writeReviewForm,
-    // @sfdc-extension-block-end SFDC_EXT_RATINGS_REVIEWS
-    // @sfdc-extension-block-start SFDC_EXT_PRODUCT_CONTENT
-    returnsWarrantyPromise,
-    pdpCollapsiblesPromise,
-    // @sfdc-extension-block-end SFDC_EXT_PRODUCT_CONTENT
-}: {
-    product: ShopperProducts.schemas['Product'];
-    url: string;
-    // @sfdc-extension-block-start SFDC_EXT_RATINGS_REVIEWS
-    reviewsSummary: ReviewsSummaryData;
-    reviewsList: Promise<ReviewsData>;
-    writeReviewForm: Promise<WriteReviewFormData>;
-    // @sfdc-extension-block-end SFDC_EXT_RATINGS_REVIEWS
-    // @sfdc-extension-block-start SFDC_EXT_PRODUCT_CONTENT
-    returnsWarrantyPromise: Promise<ReturnsAndWarrantyData>;
-    pdpCollapsiblesPromise: Promise<Array<HtmlContent | null>>;
-    // @sfdc-extension-block-end SFDC_EXT_PRODUCT_CONTENT
-}) {
+function ProductContent({ product, url }: { product: ShopperProducts.schemas['Product']; url: string }) {
     const analytics = useAnalytics();
     const lastTrackedProductIdRef = useRef<string | null>(null);
 
@@ -347,57 +250,35 @@ function ProductContent({
 
     return (
         <ProductProvider product={product}>
-            {/* @sfdc-extension-block-start SFDC_EXT_PRODUCT_CONTENT */}
-            <ProductContentDataProvider
+            <SeoMeta
+                title={product.name}
+                description={product.pageDescription || product.shortDescription}
+                openGraph={{
+                    type: 'product',
+                    url,
+                    image: primaryImage,
+                }}
+            />
+            <ProductViewProvider
                 product={product}
-                returnsWarrantyPromise={returnsWarrantyPromise}
-                pdpCollapsiblesPromise={pdpCollapsiblesPromise}>
-                {/* @sfdc-extension-block-end SFDC_EXT_PRODUCT_CONTENT */}
-                {/* @sfdc-extension-block-start SFDC_EXT_RATINGS_REVIEWS */}
-                {/* Provider wraps ProductView so the in-page rating summary shares state
-                        with the customer reviews accordion (expand/jump-to coordination). */}
-                <ProductReviewsProvider summary={reviewsSummary} reviewsListPromise={reviewsList}>
-                    <WriteReviewFormProvider writeReviewFormPromise={writeReviewForm}>
-                        {/* @sfdc-extension-block-end SFDC_EXT_RATINGS_REVIEWS */}
-                        <SeoMeta
-                            title={product.name}
-                            description={product.pageDescription || product.shortDescription}
-                            openGraph={{
-                                type: 'product',
-                                url,
-                                image: primaryImage,
-                            }}
-                        />
-                        <ProductViewProvider
-                            product={product}
-                            mode="add"
-                            // @sfdc-extension-block-start SFDC_EXT_BOPIS
-                            clearDeferredPickupSelection
-                            // @sfdc-extension-block-end SFDC_EXT_BOPIS
-                        >
-                            <div className="space-y-8">
-                                {isProductASet || isProductABundle ? (
-                                    <>
-                                        <ProductView product={product} />
-                                        <ChildProducts parentProduct={product} />
-                                    </>
-                                ) : (
-                                    <ProductView product={product} />
-                                )}
+                mode="add"
+                // @sfdc-extension-block-start SFDC_EXT_BOPIS
+                clearDeferredPickupSelection
+                // @sfdc-extension-block-end SFDC_EXT_BOPIS
+            >
+                <div className="space-y-8">
+                    {isProductASet || isProductABundle ? (
+                        <>
+                            <ProductView product={product} />
+                            <ChildProducts parentProduct={product} />
+                        </>
+                    ) : (
+                        <ProductView product={product} />
+                    )}
 
-                                {/* @sfdc-extension-block-start SFDC_EXT_RATINGS_REVIEWS */}
-                                <UITarget targetId="sfcc.pdp.reviews.section" />
-                                {/* @sfdc-extension-block-end SFDC_EXT_RATINGS_REVIEWS */}
-                                <UITarget targetId="sfcc.pdp.reviews.qna" />
-                            </div>
-                        </ProductViewProvider>
-                        {/* @sfdc-extension-block-start SFDC_EXT_RATINGS_REVIEWS */}
-                    </WriteReviewFormProvider>
-                </ProductReviewsProvider>
-                {/* @sfdc-extension-block-end SFDC_EXT_RATINGS_REVIEWS */}
-                {/* @sfdc-extension-block-start SFDC_EXT_PRODUCT_CONTENT */}
-            </ProductContentDataProvider>
-            {/* @sfdc-extension-block-end SFDC_EXT_PRODUCT_CONTENT */}
+                    <UITarget targetId="sfcc.pdp.reviews.qna" />
+                </div>
+            </ProductViewProvider>
         </ProductProvider>
     );
 }
@@ -432,19 +313,7 @@ function ProductDetailView({ loaderData }: { loaderData: ProductPageData }) {
                 ) : null}
 
                 {/* Main Product Content — product is resolved synchronously by the loader */}
-                <ProductContent
-                    product={loaderData.product}
-                    url={loaderData.pageUrl}
-                    // @sfdc-extension-block-start SFDC_EXT_RATINGS_REVIEWS
-                    reviewsSummary={loaderData.reviewsSummary}
-                    reviewsList={loaderData.reviewsList}
-                    writeReviewForm={loaderData.writeReviewForm}
-                    // @sfdc-extension-block-end SFDC_EXT_RATINGS_REVIEWS
-                    // @sfdc-extension-block-start SFDC_EXT_PRODUCT_CONTENT
-                    returnsWarrantyPromise={loaderData.returnsWarranty}
-                    pdpCollapsiblesPromise={loaderData.pdpCollapsibles}
-                    // @sfdc-extension-block-end SFDC_EXT_PRODUCT_CONTENT
-                />
+                <ProductContent product={loaderData.product} url={loaderData.pageUrl} />
 
                 {/* Engagement Content Region - PD-authored engagement content, layered
                     above the always-on recommendations below. No errorElement: when the
@@ -480,13 +349,6 @@ function ProductDetailView({ loaderData }: { loaderData: ProductPageData }) {
     // @sfdc-extension-block-start SFDC_EXT_BOPIS
     finalContent = <PickupProvider>{finalContent}</PickupProvider>;
     // @sfdc-extension-block-end SFDC_EXT_BOPIS
-    // @sfdc-extension-block-start SFDC_EXT_BNPL
-    finalContent = (
-        <BnplProvider messagePromise={loaderData.bnplMessage} learnMorePromise={loaderData.bnplLearnMore}>
-            {finalContent}
-        </BnplProvider>
-    );
-    // @sfdc-extension-block-end SFDC_EXT_BNPL
     // @sfdc-extension-block-start SFDC_EXT_SHIPPING_DELIVERY
     finalContent = (
         <ShippingDeliveryProvider productId={loaderData.product.id}>{finalContent}</ShippingDeliveryProvider>

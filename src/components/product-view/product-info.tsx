@@ -31,9 +31,6 @@ import ProductPrice from '../product-price';
 import { isProductSet, isProductBundle } from '@/lib/product/product-utils';
 import { getInventoryForResolvedSelection, hasDeferredAvailability } from '@/lib/product/inventory-utils';
 import InventoryMessage, { InventoryStatus } from '../inventory-message';
-// @sfdc-extension-block-start SFDC_EXT_RATINGS_REVIEWS
-import { ProductRatingSummary } from './product-rating-summary';
-// @sfdc-extension-block-end SFDC_EXT_RATINGS_REVIEWS
 import { useCurrentVariant } from '@/hooks/product/use-current-variant';
 import { useTranslation } from 'react-i18next';
 import { WishlistButton } from '@/components/buttons/wishlist-button';
@@ -68,10 +65,6 @@ type ProductInfoBaseProps = {
     // @sfdc-extension-block-end SFDC_EXT_BOPIS
     /** Show the quantity picker (default true). Set false to render quantity elsewhere (e.g. inline with Add-to-Cart). */
     showQuantityPicker?: boolean;
-    // @sfdc-extension-block-start SFDC_EXT_RATINGS_REVIEWS
-    /** Disable rating summary interactions (hover popover and review links) */
-    disableRatingInteraction?: boolean;
-    // @sfdc-extension-block-end SFDC_EXT_RATINGS_REVIEWS
 };
 type ProductInfoUncontrolledProps = ProductInfoBaseProps & {
     /** Mode for swatch interaction: 'uncontrolled' uses URL navigation */
@@ -149,8 +142,6 @@ export default function ProductInfo({
     enableDeliveryEstimatePresentation = false,
     // @sfdc-extension-block-end SFDC_EXT_BOPIS
     showQuantityPicker = true,
-    // @sfdc-extension-line SFDC_EXT_RATINGS_REVIEWS
-    disableRatingInteraction = false,
 }: ProductInfoProps): ReactElement {
     const config = useConfig();
     // Axes that render as a grouped/tabbed (categorized) swatch selector. Gated per-vertical via the
@@ -373,13 +364,6 @@ export default function ProductInfo({
                 </div>
             )}
             {/* Rating summary - visible on both mobile and desktop */}
-            {/* @sfdc-extension-block-start SFDC_EXT_RATINGS_REVIEWS */}
-            {!isCompactStyle && (
-                <UITarget targetId="sfcc.pdp.reviews.rating">
-                    <ProductRatingSummary interactive={!disableRatingInteraction} />
-                </UITarget>
-            )}
-            {/* @sfdc-extension-block-end SFDC_EXT_RATINGS_REVIEWS */}
 
             {/* Price - show unit price on PDP */}
             <div className="space-y-3">
