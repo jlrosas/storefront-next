@@ -38,6 +38,7 @@ import {
     stripCountryCode,
     formatPhoneDisplay,
     extractCountryCode,
+    DEFAULT_PHONE_COUNTRY_CODE,
 } from '@/lib/address/phone-utils';
 import type { OtpFlowActiveRef } from '@/hooks/use-checkout-actions';
 import { Spinner } from '@/components/spinner';
@@ -242,7 +243,7 @@ export default function ContactInfo({
               customerContactInfo.phone || cart?.billingAddress?.phone || cart?.customerInfo?.phone || formPhone || ''
           )
         : String(formPhone || cart?.billingAddress?.phone || cart?.customerInfo?.phone || '');
-    const summaryCountryCode = formCountryCode || '+1';
+    const summaryCountryCode = formCountryCode || DEFAULT_PHONE_COUNTRY_CODE;
 
     const countryCodeOptions = useMemo(
         () =>

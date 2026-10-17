@@ -54,10 +54,10 @@ describe('phone-utils', () => {
             expect(extractCountryCode('+33 123456789')).toBe('+33');
         });
 
-        it('returns +1 as default when no country code present', () => {
-            expect(extractCountryCode('(123) 456-7890')).toBe('+1');
-            expect(extractCountryCode('1234567890')).toBe('+1');
-            expect(extractCountryCode('')).toBe('+1');
+        it('returns the default country code (+56) when no country code present', () => {
+            expect(extractCountryCode('(123) 456-7890')).toBe('+56');
+            expect(extractCountryCode('1234567890')).toBe('+56');
+            expect(extractCountryCode('')).toBe('+56');
         });
 
         it('handles multi-digit country codes', () => {
@@ -66,7 +66,7 @@ describe('phone-utils', () => {
         });
 
         it('only extracts prefix at the beginning', () => {
-            expect(extractCountryCode('123 +1 456')).toBe('+1');
+            expect(extractCountryCode('123 +1 456')).toBe('+56');
         });
     });
 
@@ -144,8 +144,8 @@ describe('phone-utils', () => {
 
     describe('formatPhoneDisplay', () => {
         it('formats 10-digit phone with default country code', () => {
-            expect(formatPhoneDisplay('1234567890')).toBe('+1 (123) 456-7890');
-            expect(formatPhoneDisplay('5551234567')).toBe('+1 (555) 123-4567');
+            expect(formatPhoneDisplay('1234567890')).toBe('+56 (123) 456-7890');
+            expect(formatPhoneDisplay('5551234567')).toBe('+56 (555) 123-4567');
         });
 
         it('formats phone with custom country code', () => {
@@ -154,14 +154,14 @@ describe('phone-utils', () => {
         });
 
         it('strips existing country code before formatting', () => {
-            expect(formatPhoneDisplay('+1 1234567890')).toBe('+1 (123) 456-7890');
-            expect(formatPhoneDisplay('+1 (123) 456-7890')).toBe('+1 (123) 456-7890');
-            expect(formatPhoneDisplay('+44 1234567890')).toBe('+1 (123) 456-7890');
+            expect(formatPhoneDisplay('+1 1234567890')).toBe('+56 (123) 456-7890');
+            expect(formatPhoneDisplay('+1 (123) 456-7890')).toBe('+56 (123) 456-7890');
+            expect(formatPhoneDisplay('+44 1234567890')).toBe('+56 (123) 456-7890');
         });
 
         it('handles 11-digit phone starting with 1', () => {
-            expect(formatPhoneDisplay('11234567890')).toBe('+1 (123) 456-7890');
-            expect(formatPhoneDisplay('15551234567')).toBe('+1 (555) 123-4567');
+            expect(formatPhoneDisplay('11234567890')).toBe('+56 (123) 456-7890');
+            expect(formatPhoneDisplay('15551234567')).toBe('+56 (555) 123-4567');
         });
 
         it('returns unformatted phone for non-10-digit input', () => {
@@ -171,8 +171,8 @@ describe('phone-utils', () => {
         });
 
         it('handles already formatted phone numbers', () => {
-            expect(formatPhoneDisplay('(123) 456-7890')).toBe('+1 (123) 456-7890');
-            expect(formatPhoneDisplay('123-456-7890')).toBe('+1 (123) 456-7890');
+            expect(formatPhoneDisplay('(123) 456-7890')).toBe('+56 (123) 456-7890');
+            expect(formatPhoneDisplay('123-456-7890')).toBe('+56 (123) 456-7890');
         });
 
         it('handles empty string', () => {
@@ -180,8 +180,8 @@ describe('phone-utils', () => {
         });
 
         it('handles phone with country code already prepended', () => {
-            expect(formatPhoneDisplay('+1(123)456-7890')).toBe('+1 (123) 456-7890');
-            expect(formatPhoneDisplay('+11234567890')).toBe('+1 (123) 456-7890');
+            expect(formatPhoneDisplay('+1(123)456-7890')).toBe('+56 (123) 456-7890');
+            expect(formatPhoneDisplay('+11234567890')).toBe('+56 (123) 456-7890');
         });
 
         it('preserves partial phone numbers without formatting', () => {

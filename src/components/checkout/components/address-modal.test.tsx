@@ -210,8 +210,8 @@ describe('AddressModal', () => {
         const data = onSave.mock.calls[0][0];
         // phoneCountryCode should not be in the result
         expect(data).not.toHaveProperty('phoneCountryCode');
-        // phone should include country code
-        expect(data.phone).toContain('+1');
+        // phone should include the default country code
+        expect(data.phone).toContain('+56');
     });
 
     describe('isLoading prop', () => {

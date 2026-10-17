@@ -26,7 +26,12 @@ import { MIN_INPUT_LENGTH, useAutocompleteSuggestions } from '@/hooks/use-autoco
 import { processAddressSuggestion } from '@/lib/address/address-suggestions';
 import { UITarget } from '@/targets/ui-target';
 import { getCommonPhoneCountryCodes } from '@/lib/address/country-codes';
-import { formatPhoneInput, stripNonDigits, stripCountryCode } from '@/lib/address/phone-utils';
+import {
+    formatPhoneInput,
+    stripNonDigits,
+    stripCountryCode,
+    DEFAULT_PHONE_COUNTRY_CODE,
+} from '@/lib/address/phone-utils';
 import { useGoogleMaps } from '@/providers/google-maps-context';
 
 /**
@@ -500,7 +505,7 @@ export function AddressFormFields<TFormValues extends FieldValues>({
                                 </FormLabel>
                                 <FormNativeSelect
                                     aria-label={t('addressForm.codeLabel')}
-                                    value={field.value || '+1'}
+                                    value={field.value || DEFAULT_PHONE_COUNTRY_CODE}
                                     onChange={(e: ChangeEvent<HTMLSelectElement>) => field.onChange(e.target.value)}>
                                     {countryCodeOptions}
                                 </FormNativeSelect>

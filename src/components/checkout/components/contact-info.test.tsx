@@ -554,7 +554,7 @@ describe('ContactInfo Integration Tests', () => {
             await waitFor(() => {
                 expect(handleSubmit).toHaveBeenCalledWith({
                     email: 'valid.email@example.com',
-                    countryCode: '+1',
+                    countryCode: '+56',
                     phone: '5551234567',
                 });
             });

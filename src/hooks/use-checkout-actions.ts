@@ -27,6 +27,7 @@ import {
     type CheckoutStep,
 } from '@/components/checkout/utils/checkout-context-types';
 import { getOrCreateCheckoutCorrelationId } from '@/lib/checkout/correlation';
+import { DEFAULT_PHONE_COUNTRY_CODE } from '@/lib/address/phone-utils';
 import { resourceRoutes } from '@/route-paths';
 
 /** Persists create-account intent across reloads (mirrors handleCreateAccountPreferenceChange). */
@@ -396,7 +397,7 @@ export function useCheckoutActions(options?: {
 
         // Persist the full phone (with country code) for place-order and OTP/basket merges
         if (data.phone) {
-            const fullPhone = `${data.countryCode || '+1'} ${data.phone}`;
+            const fullPhone = `${data.countryCode || DEFAULT_PHONE_COUNTRY_CODE} ${data.phone}`;
             contactPhoneRef.current = fullPhone;
             if (typeof sessionStorage !== 'undefined') {
                 sessionStorage.setItem(SESSION_CHECKOUT_CONTACT_PHONE, fullPhone);

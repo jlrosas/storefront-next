@@ -14,18 +14,21 @@
  * limitations under the License.
  */
 
+/** Dialing code used when a phone number has none (the storefront's home country). */
+export const DEFAULT_PHONE_COUNTRY_CODE = '+56';
+
 /**
  * Extracts country code from a phone number.
- * Returns '+1' as default if no country code is found.
+ * Returns DEFAULT_PHONE_COUNTRY_CODE if no country code is found.
  *
  * @example
  * extractCountryCode("+1 (123) 456-7890") // "+1"
  * extractCountryCode("+44 1234567890")    // "+44"
- * extractCountryCode("(123) 456-7890")    // "+1" (default)
+ * extractCountryCode("(123) 456-7890")    // "+56" (default)
  */
 export const extractCountryCode = (phone: string): string => {
     const match = phone.match(/^(\+\d+)/);
-    return match ? match[1] : '+1';
+    return match ? match[1] : DEFAULT_PHONE_COUNTRY_CODE;
 };
 
 /**
@@ -87,13 +90,13 @@ export const formatPhoneInput = (value: string): string => {
  * Strips any existing country code prefix, then formats as: +1 (123) 456-7890
  *
  * @param phone - Phone number to format
- * @param countryCode - Country code to prepend (default: '+1')
+ * @param countryCode - Country code to prepend (default: DEFAULT_PHONE_COUNTRY_CODE)
  * @example
  * formatPhoneDisplay("1234567890")        // "+1 (123) 456-7890"
  * formatPhoneDisplay("+1 1234567890")     // "+1 (123) 456-7890" (strips existing prefix)
  * formatPhoneDisplay("11234567890")       // "+1 (123) 456-7890" (handles 11-digit with leading 1)
  */
-export const formatPhoneDisplay = (phone: string, countryCode = '+1'): string => {
+export const formatPhoneDisplay = (phone: string, countryCode = DEFAULT_PHONE_COUNTRY_CODE): string => {
     const cleanPhone = stripCountryCode(phone);
 
     const digits = cleanPhone.replace(/\D/g, '');

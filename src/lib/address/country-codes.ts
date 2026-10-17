@@ -25,5 +25,8 @@ export interface PhoneCountryCode {
  * @returns Array of phone country codes with their dialing codes and country names
  */
 export function getCommonPhoneCountryCodes(): PhoneCountryCode[] {
-    return [{ dialingCode: '+1', countryName: 'United States' }];
+    return [
+        { dialingCode: '+56', countryName: 'Chile' },
+        { dialingCode: '+1', countryName: 'United States' },
+    ];
 }
