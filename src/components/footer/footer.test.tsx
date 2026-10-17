@@ -89,21 +89,14 @@ describe('Footer', () => {
     test('renders social media links with correct aria-labels and hrefs', () => {
         renderWithRouter(<Footer />);
 
-        const youtubeLink = screen.getByLabelText(t('footer:socialMedia.youtubeLabel'));
-        expect(youtubeLink).toBeInTheDocument();
-        expect(youtubeLink).toHaveAttribute('href', 'https://youtube.com/channel/UCSTGHqzR1Q9yAVbiS3dAFHg');
-
         const instagramLink = screen.getByLabelText(t('footer:socialMedia.instagramLabel'));
-        expect(instagramLink).toBeInTheDocument();
-        expect(instagramLink).toHaveAttribute('href', 'https://instagram.com/commercecloud');
-
-        const xLink = screen.getByLabelText(t('footer:socialMedia.xLabel'));
-        expect(xLink).toBeInTheDocument();
-        expect(xLink).toHaveAttribute('href', 'https://x.com/CommerceCloud');
+        expect(instagramLink).toHaveAttribute('href', 'https://www.instagram.com/papajohnschile/');
 
         const facebookLink = screen.getByLabelText(t('footer:socialMedia.facebookLabel'));
-        expect(facebookLink).toBeInTheDocument();
-        expect(facebookLink).toHaveAttribute('href', 'https://facebook.com/CommerceCloud/');
+        expect(facebookLink).toHaveAttribute('href', 'https://www.facebook.com/PapaJohnsChile');
+
+        const tiktokLink = screen.getByLabelText(t('footer:socialMedia.tiktokLabel'));
+        expect(tiktokLink).toHaveAttribute('href', 'https://www.tiktok.com/@papajohns.chile');
     });
 
     test('renders newsletter section with signup form', () => {

@@ -7,21 +7,21 @@
  * cube + gray wordmark), so it renders as-is with NO filter.
  */
 :root {
-    /* header & navigation — white bar, dark-gray text (Figma header/*) */
-    --header-background: #ffffff;               /* header/header */
-    --header-foreground: #3f3f46;               /* header/foreground */
-    --header-border: #eeeeee;                   /* hairline, matches --border */
+    /* header & navigation — Papa Johns green bar with white text */
+    --header-background: #2d5f2c;
+    --header-foreground: #ffffff;               /* 7.6:1 on the green bar */
+    --header-border: #24502a;
     --header-divider: var(--header-border);
-    /* header menu dropdowns — same light chrome; hover tints to the blue accent */
-    --header-menu-background: var(--header-background);
-    --header-menu-foreground: #3f3f46;          /* header/menu-foreground */
-    --header-menu-border: var(--header-border);
-    --header-menu-hover-background: #dbeafe;     /* header/accent */
-    --header-menu-hover-foreground: #1e3a8a;     /* header/accent-foreground */
-    --header-menu-active-background: #dbeafe;
-    --header-menu-icon: #3f3f46;
-    /* Delivered logo is full-color (blue cube + gray wordmark) on white — no filter. */
-    --header-logo-filter: none;
+    /* header menu dropdowns — white panel; hover tints to the lime accent */
+    --header-menu-background: #ffffff;
+    --header-menu-foreground: #3f3f46;
+    --header-menu-border: #eeeeee;
+    --header-menu-hover-background: #f2f8b0;
+    --header-menu-hover-foreground: #2d5f2c;
+    --header-menu-active-background: #f2f8b0;
+    --header-menu-icon: #ffffff;
+    /* The logo ships in brand green; render it white on the green bar. */
+    --header-logo-filter: brightness(0) invert(1);
 
     /* footer — page background to avoid a hard chrome edge */
     --footer-background: var(--background);
@@ -32,6 +32,6 @@
      * variable panel mis-binds this band to --primary; the rendered fill is the
      * authority — same class of mis-map as the destructive-green note in
      * core.css.) White text/input and the blue CTA button read correctly on it. */
-    --newsletter-background: var(--foreground);
+    --newsletter-background: var(--primary);
     --newsletter-foreground: #ffffff;
 }

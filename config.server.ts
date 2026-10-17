@@ -41,6 +41,10 @@ export default defineConfig(
                 // El fallback debe ir al final.
                 supportedLngs: ['es-CL', 'en-GB'],
             },
+            global: {
+                ...baseConfig?.app?.global,
+                branding: { name: 'Papa Johns', logoAlt: 'Papa Johns Chile' },
+            },
         },
     },
     { protectedPaths: protectedConfigPaths }

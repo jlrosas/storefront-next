@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import { type ReactElement } from 'react';
-import { SiFacebook, SiInstagram, SiX, SiYoutube } from '@icons-pack/react-simple-icons';
+import { SiFacebook, SiInstagram, SiTiktok } from '@icons-pack/react-simple-icons';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 
@@ -23,28 +23,22 @@ export default function SocialIcons({ className }: { className?: string }): Reac
     return (
         <div className={cn('flex items-end gap-4', className)}>
             <a
-                href="https://youtube.com/channel/UCSTGHqzR1Q9yAVbiS3dAFHg"
-                aria-label={t('socialMedia.youtubeLabel')}
-                className="text-muted-foreground hover:text-foreground transition-colors">
-                <SiYoutube className="w-5 h-5" />
-            </a>
-            <a
-                href="https://instagram.com/commercecloud"
+                href="https://www.instagram.com/papajohnschile/"
                 aria-label={t('socialMedia.instagramLabel')}
                 className="text-muted-foreground hover:text-foreground transition-colors">
                 <SiInstagram className="w-5 h-5" />
             </a>
             <a
-                href="https://x.com/CommerceCloud"
-                aria-label={t('socialMedia.xLabel')}
-                className="text-muted-foreground hover:text-foreground transition-colors">
-                <SiX className="w-5 h-5" />
-            </a>
-            <a
-                href="https://facebook.com/CommerceCloud/"
+                href="https://www.facebook.com/PapaJohnsChile"
                 aria-label={t('socialMedia.facebookLabel')}
                 className="text-muted-foreground hover:text-foreground transition-colors">
                 <SiFacebook className="w-5 h-5" />
+            </a>
+            <a
+                href="https://www.tiktok.com/@papajohns.chile"
+                aria-label={t('socialMedia.tiktokLabel')}
+                className="text-muted-foreground hover:text-foreground transition-colors">
+                <SiTiktok className="w-5 h-5" />
             </a>
         </div>
     );

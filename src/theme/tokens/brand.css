@@ -5,9 +5,9 @@
  * button); the gray ramp is the neutral scale used across chrome and surfaces.
  */
 :root {
-    /* brand primary (e.g. Write a Review button) — blue to match --primary */
-    --brand-primary: #2563eb;
-    --brand-primary-hover: #1d4ed8;
+    /* brand primary (e.g. Write a Review button) — green to match --primary */
+    --brand-primary: #2d5f2c;
+    --brand-primary-hover: #234a22;
 
     /* Brand colors */
     --brand-black: #000000;

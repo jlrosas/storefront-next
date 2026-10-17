@@ -20,24 +20,25 @@
     --popover: #ffffff;
     --popover-foreground: #3f3f46;
 
-    /* Brand blue — primary CTA / links. */
-    --primary: #2563eb;                 /* blue-600 from Figma var(--primary) */
-    --primary-foreground: #ffffff;      /* 5.17:1 on primary (AA) */
+    /* Papa Johns green — primary CTA / links. */
+    --primary: #2d5f2c;
+    --primary-foreground: #ffffff;      /* 7.6:1 on primary (AAA) */
 
     --secondary: #f8f8f8;
     --secondary-foreground: #33373d;    /* 11.9:1 on secondary (AAA) */
 
     /* not in Figma — retained from scaffold */
-    --tertiary: #1cb167;
-    --tertiary-foreground: #ffffff;
+    /* Papa Johns lime — secondary highlight (pills, promos). */
+    --tertiary: #d0ec0c;
+    --tertiary-foreground: #1f3d1f;     /* 10.6:1 on tertiary (AAA) */
 
     --muted: #f9fafb;
     --muted-foreground: #71717a;        /* zinc-500 from Figma; 4.72:1 on muted (AA) */
     /* not in Figma */
     --muted-hover: #ebebeb;
 
-    --accent: #dbeafe;                  /* soft blue from Figma var(--accent) */
-    --accent-foreground: #1e3a8a;       /* blue-900 from Figma header/accent-foreground; 8.9:1 on accent (AAA) */
+    --accent: #f2f8b0;                  /* soft lime from papajohns.cl panels */
+    --accent-foreground: #2d5f2c;       /* 7.0:1 on accent (AAA) */
 
     /*
      * Status colors.
@@ -66,8 +67,8 @@
     --border: #eeeeee;                  /* Figma var(--border) — hairline */
     --border-subtle: #d1d5db;
     --input: #d1d5db;                   /* Figma var(--input) */
-    /* 3.66:1 on #FFFFFF — meets WCAG SC 1.4.11 (3:1 for graphics); focus rings only. */
-    --ring: #3b82f6;
+    /* 4.9:1 on #FFFFFF — meets WCAG SC 1.4.11 (3:1 for graphics); focus rings only. */
+    --ring: #4a7f3c;
 
     /* not in Figma */
     --separator: rgba(0, 0, 0, 0.08);

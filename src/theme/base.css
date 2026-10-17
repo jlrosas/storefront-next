@@ -8,6 +8,22 @@
     font-display: swap;
 }
 
+/* Barlow Condensed (OFL) — headings; a free stand-in for Papa Johns' PapaSans. */
+@font-face {
+    font-family: 'Barlow Condensed';
+    src: url('/fonts/barlow-condensed-700.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Barlow Condensed';
+    src: url('/fonts/barlow-condensed-800.woff2') format('woff2');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
+
 @layer components {
     .section-container {
         @apply px-4 sm:px-8 lg:px-16 max-w-screen-2xl mx-auto;
@@ -20,7 +36,7 @@
  * to an illegible mark. In Figma the desktop header bar is 84px tall and the logo
  * is drawn at its natural 28px height (x=64 inset). Match that: 28px everywhere. */
 [data-testid="header-logo"] img {
-    height: 1.75rem;   /* 28px — the logo's natural drawn height in Figma */
+    height: 2.25rem;   /* 36px — the Papa Johns wordmark (viewBox 190x50) */
     width: auto;
 }
 
@@ -33,7 +49,7 @@
  * utility without !important; changes computed color only, so DOM/snapshots are
  * unaffected. Scoped to the tint+primary-text combo, so it covers every such pill. */
 .bg-primary\/10.text-primary {
-    color: #1d4ed8;
+    color: #234a22;
 }
 
 /* Product-tile "Sale"/"New" badge — the shared ProductTile paints the corner
@@ -48,6 +64,26 @@
     color: var(--primary-foreground);
 }
 
+/* Papa Johns header — the bar is painted in --primary, so primary-colored pieces inside it
+ * (announcement strip, cart count badge) switch to the lime highlight to stay visible, and
+ * the search field gets a solid white surface. Compound + unlayered, same as above. */
+header [role='status'].bg-primary,
+header [data-slot='badge'] {
+    background-color: var(--tertiary);
+    color: var(--tertiary-foreground);
+    border-color: var(--tertiary);
+}
+header [role='status'].bg-primary a {
+    color: var(--tertiary-foreground);
+}
+header form input[role='combobox'] {
+    background-color: var(--background);
+    color: var(--foreground);
+}
+header form svg {
+    color: var(--muted-foreground);
+}
+
 @layer base {
     * {
         @apply border-border outline-ring/50;
@@ -55,6 +91,14 @@
     body {
         @apply bg-background text-foreground;
         font-family: var(--font-sans);
+    }
+    /* Papa Johns headings: condensed, heavy, uppercase. */
+    h1,
+    h2 {
+        font-family: var(--font-heading);
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.01em;
     }
     html {
         scrollbar-gutter: stable;

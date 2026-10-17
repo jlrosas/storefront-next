@@ -45,6 +45,15 @@ CATEGORIES = [
     ("salsas-extras", "Salsas y extras", "root", "Complementa tu pedido."),
 ]
 
+# Fotos de las secciones del menú de papajohns.cl (formato 21:9) para las tarjetas de categoría.
+CATEGORY_IMAGES = {
+    "pizzas": "https://cdn.papajohns.cl/assets/landing/pizzas.webp",
+    "acompanamientos": "https://cdn.papajohns.cl/assets/landing/sides.webp",
+    "postres": "https://cdn.papajohns.cl/assets/landing/desserts.webp",
+    "bebidas": "https://cdn.papajohns.cl/assets/landing/drinks.webp",
+    "salsas-extras": "https://cdn.papajohns.cl/assets/landing/extras.webp",
+}
+
 COMPLEMENT_CATEGORY = {
     "side": "acompanamientos",
     "dessert": "postres",
@@ -280,6 +289,7 @@ def storefront_catalog(assignments):
             "        <online-flag>true</online-flag>",
             f"        <parent>{parent}</parent>",
             f"        <position>{pos}.0</position>",
+            *([f"        <image>images/{fetch_image(CATEGORY_IMAGES[cid])}</image>"] if cid in CATEGORY_IMAGES else []),
             "        <custom-attributes>",
             '            <custom-attribute attribute-id="showInMenu">true</custom-attribute>',
             "        </custom-attributes>",
@@ -741,6 +751,12 @@ def main():
     write(site / "stores.xml", stores_xml(stores))
     for name in ("payment-methods.xml", "payment-processors.xml"):
         shutil.copy(ROOT / "reference" / name, site / name)
+
+    category_static = OUT / "catalogs" / STOREFRONT / "static" / "default" / "images"
+    category_static.mkdir(parents=True, exist_ok=True)
+    for url in CATEGORY_IMAGES.values():
+        name = fetch_image(url)
+        shutil.copy(CACHE / name, category_static / name)
 
     static = OUT / "catalogs" / MASTER / "static" / "default" / "images"
     static.mkdir(parents=True, exist_ok=True)

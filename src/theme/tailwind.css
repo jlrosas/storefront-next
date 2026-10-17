@@ -3,6 +3,8 @@
     --font-sans: 'Geist', -apple-system, 'system-ui', 'Helvetica Neue', Arial, sans-serif;
     --font-serif: 'Geist', Georgia, serif;
     --font-mono: 'Geist', 'Courier New', monospace;
+    /* Headings — condensed, close to Papa Johns' proprietary PapaSans */
+    --font-heading: 'Barlow Condensed', 'Arial Narrow', var(--font-sans);
 
     /* Error page tokens */
     --text-error-status: 12rem;  /* Large status code display for error pages */
