@@ -16,7 +16,7 @@
     --swatch-border: var(--input);
     --swatch-border-selected: var(--pj-green);
     --swatch-text: var(--secondary-foreground);
-    --swatch-text-selected: #FFFFFF;
+    --swatch-text-selected: var(--pj-dough);
     --swatch-color-label: inline;
     --swatch-color-size: auto;
     --swatch-color-padding: 0.25rem 0.75rem 0.25rem 0.375rem;

@@ -1,5 +1,36 @@
-/* Tipografía del lienzo (OFL), servida desde /public/fonts (subconjunto latino de Google Fonts):
- * Barlow para texto y Barlow Condensed para títulos, precios grandes y la marca. */
+/* Tipografía oficial de Papa Johns (la de papajohns.cl), servida desde /public/fonts.
+ * Papa Sans Regular / Bold / Heavy para texto y Papa Sans Medium Condensed para titulares
+ * (siempre en MAYÚSCULAS, playbook BGYS p. 33). Cada archivo cubre un rango de pesos para que el
+ * navegador no sintetice negritas falsas: cualquier font-bold/extrabold sobre el titular usa el
+ * Medium Condensed real. Barlow / Barlow Condensed (OFL) quedan como respaldo. */
+@font-face {
+    font-family: 'Papa Sans';
+    src: url('/fonts/papa-sans-regular.woff2') format('woff2');
+    font-weight: 100 549;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Papa Sans';
+    src: url('/fonts/papa-sans-bold.woff2') format('woff2');
+    font-weight: 550 849;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Papa Sans';
+    src: url('/fonts/papa-sans-heavy.woff2') format('woff2');
+    font-weight: 850 1000;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Papa Sans Condensed';
+    src: url('/fonts/papa-sans-medium-condensed.woff2') format('woff2');
+    font-weight: 100 1000;
+    font-style: normal;
+    font-display: swap;
+}
 @font-face {
     font-family: 'Barlow';
     src: url('/fonts/barlow-400.woff2') format('woff2');
@@ -97,11 +128,16 @@
     color: var(--pj-sale);
 }
 
-/* Textos de tamaño display (títulos de banner, precios grandes): en el lienzo van en Barlow
- * Condensed 800. Sin capa para ganarle a font-light/font-semibold del template. */
+/* Textos de tamaño display (títulos de banner, precios grandes): Papa Sans Medium Condensed en
+ * mayúsculas. Sin capa para ganarle a font-light/font-semibold del template. */
 :where(.text-4xl, .text-5xl, .text-6xl, .text-7xl, .text-8xl, .text-9xl) {
     font-family: var(--font-heading);
-    font-weight: 800;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+/* Todo lo que use la familia de titulares va en mayúsculas (regla del playbook). */
+.font-heading {
+    text-transform: uppercase;
 }
 
 /* Botones del lienzo: píldora y área táctil de al menos 44 px (INT-01 · criterio 3). */
@@ -141,14 +177,15 @@ nav > ol > li > a {
     body {
         @apply bg-background text-foreground;
         font-family: var(--font-sans);
+        font-synthesis: none;
     }
-    /* Títulos del lienzo: Barlow Condensed 800 en mayúsculas. */
+    /* Titulares: Papa Sans Medium Condensed, siempre en MAYÚSCULAS, kerning 0 (playbook p. 33). */
     h1,
     h2 {
         font-family: var(--font-heading);
-        font-weight: 800;
+        font-weight: 500;
         text-transform: uppercase;
-        letter-spacing: 0.01em;
+        letter-spacing: 0;
         line-height: 1;
     }
     html {
@@ -266,6 +303,51 @@ nav > ol > li > a {
  * la barra, como en el lienzo (Home.dc.html: aviso a 72 px del borde). */
 @media (width < 64rem) {
     body:has([data-testid='pj-bottom-nav']) [role='dialog'].fixed.bottom-0 {
+        bottom: calc(var(--pj-bottom-nav-height) + env(safe-area-inset-bottom) + 8px);
+    }
+}
+
+/* Aviso de cookies compacto (~130 px, Home.dc.html): texto corto, botones en una fila y, en móvil,
+ * fijo a 8 px de los bordes sobre la barra inferior para no tapar el precio ni el botón del hero. */
+[role='dialog'][aria-labelledby='tracking-consent-banner-title'] [data-slot='card'] {
+    gap: 8px;
+    padding: 10px 12px;
+    border-radius: var(--pj-radius-card);
+    box-shadow: 0 6px 18px rgb(30 63 28 / 0.16);
+}
+[role='dialog'][aria-labelledby='tracking-consent-banner-title'] [data-slot='card-content'] {
+    padding: 0 40px 0 0;
+}
+[role='dialog'][aria-labelledby='tracking-consent-banner-title'] [data-slot='card-content'] > div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+[role='dialog'][aria-labelledby='tracking-consent-banner-title'] h2 {
+    font-size: 1rem;
+    line-height: 1.1;
+    color: var(--pj-basil);
+}
+[role='dialog'][aria-labelledby='tracking-consent-banner-title'] p {
+    font-size: 0.8125rem;
+    line-height: 1.3;
+    margin: 0;
+}
+[role='dialog'][aria-labelledby='tracking-consent-banner-title'] [data-slot='card-footer'] {
+    padding: 0;
+}
+[role='dialog'][aria-labelledby='tracking-consent-banner-title'] [data-slot='card'] > button:first-child {
+    top: 2px;
+    right: 2px;
+}
+@media (width < 64rem) {
+    [role='dialog'][aria-labelledby='tracking-consent-banner-title'] {
+        left: 8px;
+        right: 8px;
+        width: auto;
+        bottom: 8px;
+    }
+    body:has([data-testid='pj-bottom-nav']) [role='dialog'][aria-labelledby='tracking-consent-banner-title'] {
         bottom: calc(var(--pj-bottom-nav-height) + env(safe-area-inset-bottom) + 8px);
     }
 }

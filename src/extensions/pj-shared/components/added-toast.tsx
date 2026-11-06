@@ -16,9 +16,7 @@
 /** @sfdc-extension-file SFDC_EXT_PJ_SHARED */
 import type { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from '@/components/link';
 import { cn } from '@/lib/utils';
-import { PJ_ROUTES } from '../lib/routes';
 import { formatCount } from '../lib/format';
 
 export interface AddedToastProps {
@@ -28,8 +26,11 @@ export interface AddedToastProps {
     points?: number;
     /** «Deshacer»: quita lo recién agregado. Sin función, no se muestra. */
     onUndo?: () => void;
-    /** Destino de «Ver mi pedido» (por defecto /cart). */
-    orderHref?: string;
+    /**
+     * «Ver mi pedido». Es un callback (no un `Link`) porque el Toaster global vive fuera de los
+     * providers del sitio: `useShowAddedToast()` lo arma con `useNavigate` de quien llama.
+     */
+    onViewOrder: () => void;
     /** Se llama al tocar cualquiera de las acciones (para cerrar el aviso). */
     onDismiss?: () => void;
     className?: string;
@@ -38,13 +39,14 @@ export interface AddedToastProps {
 /**
  * Aviso de «agregado» del lienzo (Simple-Add.dc.html): «¡Agregada! +N Papa Puntos por
  * acreditar», «Deshacer» y «Ver mi pedido». Es un `role="status"` para que se anuncie.
- * Para mostrarlo como toast se usa `showAddedToast` (lib/added-toast.tsx).
+ * Para mostrarlo como toast se usa `useShowAddedToast()` (lib/added-toast.tsx). No usa `Link` ni
+ * hooks de sitio: se puede pintar fuera de `SiteProvider`.
  */
 export function AddedToast({
     productName,
     points = 0,
     onUndo,
-    orderHref = PJ_ROUTES.cart,
+    onViewOrder,
     onDismiss,
     className,
 }: AddedToastProps): ReactElement {
@@ -54,37 +56,42 @@ export function AddedToast({
             role="status"
             data-testid="pj-added-toast"
             className={cn(
-                'flex w-full max-w-[420px] items-center gap-3 rounded-pj-card bg-pj-green-dark px-4 py-3 text-pj-surface shadow-pj-strip',
+                'flex w-full max-w-[420px] flex-wrap items-center gap-x-2 gap-y-1 rounded-pj-card bg-pj-basil px-4 py-3 text-pj-dough shadow-pj-strip',
                 className
             )}>
-            <div className="min-w-0 flex-1">
+            <div className="min-w-0 flex-1 basis-[11.5rem]">
                 <p className="truncate text-[15px] font-bold">
                     {t('toast.added')}
                     {productName ? ` ${productName}` : ''}
                 </p>
                 {points > 0 && (
-                    <p className="text-sm font-semibold text-pj-lime">
+                    <p className="text-sm font-semibold text-pj-pepperoncini">
                         {t('toast.addedPoints', { points: formatCount(points) })}
                     </p>
                 )}
             </div>
-            {onUndo && (
+            <div className="ml-auto flex shrink-0 items-center gap-2">
+                {onUndo && (
+                    <button
+                        type="button"
+                        onClick={() => {
+                            onUndo();
+                            onDismiss?.();
+                        }}
+                        className="min-h-11 shrink-0 px-2 text-sm font-bold text-pj-dough underline underline-offset-4">
+                        {t('toast.undo')}
+                    </button>
+                )}
                 <button
                     type="button"
                     onClick={() => {
-                        onUndo();
+                        onViewOrder();
                         onDismiss?.();
                     }}
-                    className="min-h-11 shrink-0 px-2 text-sm font-bold text-pj-surface underline underline-offset-4">
-                    {t('toast.undo')}
+                    className="flex min-h-11 shrink-0 items-center rounded-full bg-pj-pepperoncini px-3.5 text-sm font-bold text-pj-basil">
+                    {t('toast.viewOrder')}
                 </button>
-            )}
-            <Link
-                to={orderHref}
-                onClick={onDismiss}
-                className="flex min-h-11 shrink-0 items-center rounded-full bg-pj-lime px-4 text-sm font-bold text-pj-green-dark no-underline">
-                {t('toast.viewOrder')}
-            </Link>
+            </div>
         </div>
     );
 }

@@ -34,6 +34,8 @@ import { renderToPipeableStream, type RenderToPipeableStreamOptions } from 'reac
 import { securityContext } from '@salesforce/storefront-next-runtime/security';
 import { NonceContext } from '@salesforce/storefront-next-runtime/security/react';
 import { initializeRegistry } from '@/lib/page-designer/static-registry';
+// @sfdc-extension-line SFDC_EXT_PJ_SHARED
+import { PJ_SITE_PREFIX, unprefixedRedirectTarget } from '@/extensions/pj-shared/lib/routes';
 
 // Route loaders execute before the React tree renders. Initialize the static
 // registry when the server module starts so critical components can be loaded
@@ -57,6 +59,20 @@ export default function handleRequest(
             })
         );
     }
+
+    // @sfdc-extension-block-start SFDC_EXT_PJ_SHARED
+    // Rutas de la demo sin prefijo de sitio con un solo segmento (/promos, /menu): ninguna ruta las
+    // reconoce (404 sin pasar por los middlewares), así que se redirigen aquí a /cl/es-CL/….
+    if (responseStatusCode === 404 && request.method.toUpperCase() === 'GET') {
+        const url = new URL(request.url);
+        const target = unprefixedRedirectTarget(url.pathname, PJ_SITE_PREFIX);
+        if (target) {
+            return Promise.resolve(
+                new Response(null, { status: 302, headers: { Location: `${target}${url.search}` } })
+            );
+        }
+    }
+    // @sfdc-extension-block-end SFDC_EXT_PJ_SHARED
 
     const nonce = loadContext.get(securityContext)?.nonce;
 

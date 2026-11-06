@@ -39,7 +39,7 @@ export function PointsBadge({ points, variant = 'earn', className }: PointsBadge
     return (
         <span
             className={cn(
-                'inline-flex w-fit items-center rounded-full bg-pj-lime-soft px-3 py-1 text-[13px] font-bold text-pj-green-dark',
+                'inline-flex w-fit items-center rounded-full bg-pj-pepperoncini px-3 py-1 text-[13px] font-bold text-pj-basil',
                 className
             )}
             data-testid="pj-points-badge">

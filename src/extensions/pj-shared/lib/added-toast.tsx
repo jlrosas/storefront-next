@@ -13,16 +13,45 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+/** @sfdc-extension-file SFDC_EXT_PJ_HOME */
 /** @sfdc-extension-file SFDC_EXT_PJ_SHARED */
+import { useCallback } from 'react';
 import { toast } from 'sonner';
+import { useNavigate } from '@/hooks/use-navigate';
 import { AddedToast, type AddedToastProps } from '../components/added-toast';
+import { PJ_ROUTES } from './routes';
+
+/** Clase del toast propio: quita el estilo de los avisos del template (ver theme/overrides/sonner.css). */
+export const PJ_TOAST_CLASS = 'pj-toast';
 
 /**
- * Muestra el aviso «¡Agregada!» con el Toaster global del template (arriba, bajo el encabezado).
- * Devuelve el id del toast por si se quiere cerrar antes.
- *
- * @example showAddedToast({ productName: 'Pollo BBQ Familiar', points: pointsFor(16900), onUndo })
+ * Muestra el aviso «¡Agregada!» con el Toaster global (arriba, bajo el encabezado).
+ * `onViewOrder` es obligatorio: el Toaster está fuera de los providers del sitio, así que la
+ * navegación la resuelve quien llama. Lo normal es usar `useShowAddedToast()`.
  */
 export function showAddedToast(props: Omit<AddedToastProps, 'onDismiss'>, duration = 6000): string | number {
-    return toast.custom((id) => <AddedToast {...props} onDismiss={() => toast.dismiss(id)} />, { duration });
+    return toast.custom((id) => <AddedToast {...props} onDismiss={() => toast.dismiss(id)} />, {
+        duration,
+        className: PJ_TOAST_CLASS,
+    });
+}
+
+export type ShowAddedToastOptions = Omit<AddedToastProps, 'onDismiss' | 'onViewOrder'> & {
+    /** Destino de «Ver mi pedido» (por defecto /cart). */
+    orderHref?: string;
+    duration?: number;
+};
+
+/**
+ * Hook para mostrar el aviso desde cualquier ruta:
+ * `const showAdded = useShowAddedToast(); showAdded({ productName, points: pointsFor(total), onUndo })`.
+ * «Ver mi pedido» navega con el `useNavigate` del template (con prefijo de sitio).
+ */
+export function useShowAddedToast(): (options: ShowAddedToastOptions) => string | number {
+    const navigate = useNavigate();
+    return useCallback(
+        ({ orderHref = PJ_ROUTES.cart, duration, ...props }: ShowAddedToastOptions) =>
+            showAddedToast({ ...props, onViewOrder: () => void navigate(orderHref) }, duration),
+        [navigate]
+    );
 }

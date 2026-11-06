@@ -187,13 +187,18 @@ const WEEK = 60 * 60 * 24 * 7;
 /**
  * Cookies que hay que escribir según los parámetros de la URL:
  * `?perfil=` → `pj_perfil`, `?hora=` → `pj_hora`, `?utm_campaign=` → `pj_campana`.
- * Valores desconocidos se ignoran; `auto` y `ahora` borran la cookie.
+ * Valores desconocidos se ignoran; `ahora` borra `pj_hora`; `?perfil=auto` borra `pj_perfil`,
+ * `pj_hora` y `pj_campana` (vuelve a la regla del contrato).
  */
 export function demoCookieUpdates(searchParams: URLSearchParams): DemoCookieUpdate[] {
     const updates: DemoCookieUpdate[] = [];
     const perfil = searchParams.get('perfil')?.toLowerCase();
-    if (perfil === 'auto') updates.push({ name: PJ_PROFILE_COOKIE, value: null });
-    else if (isDemoProfile(perfil)) updates.push({ name: PJ_PROFILE_COOKIE, value: perfil, maxAge: WEEK });
+    if (perfil === 'auto') {
+        // Vuelve a la regla: también olvida la campaña y la hora forzada (salvo que vengan en la URL).
+        updates.push({ name: PJ_PROFILE_COOKIE, value: null });
+        if (!searchParams.get('hora')) updates.push({ name: PJ_MOMENT_COOKIE, value: null });
+        if (!searchParams.get('utm_campaign')) updates.push({ name: PJ_CAMPAIGN_COOKIE, value: null });
+    } else if (isDemoProfile(perfil)) updates.push({ name: PJ_PROFILE_COOKIE, value: perfil, maxAge: WEEK });
 
     const hora = searchParams.get('hora')?.toLowerCase();
     if (hora === 'ahora') updates.push({ name: PJ_MOMENT_COOKIE, value: null });

@@ -2,10 +2,10 @@
     /* sidebar palette (Figma: colors.light.sidebar) */
     --sidebar: #FFFFFF;
     --sidebar-foreground: #1B1D1A;
-    --sidebar-primary: #1E4D33;
-    --sidebar-primary-foreground: #FFFFFF;
-    --sidebar-accent: #EEF6C8;
-    --sidebar-accent-foreground: #133423;
-    --sidebar-border: #E4E2DA;
-    --sidebar-ring: #1E4D33;
+    --sidebar-primary: #2D5D2A;
+    --sidebar-primary-foreground: #F5E8DC;
+    --sidebar-accent: #EFE2D5;
+    --sidebar-accent-foreground: #2D5D2A;
+    --sidebar-border: #E2D2C2;
+    --sidebar-ring: #2D5D2A;
 }

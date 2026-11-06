@@ -30,7 +30,7 @@
             "geoError": "Para usar tu ubicación, activa el uso compartido de ubicación.",
             "noResults": "Lo sentimos, no hay tiendas en esta zona.",
             "statusInput": "Mostrando tiendas a menos de {{distanceText}} de {{postal}} en {{countryName}}",
-            "statusLocation": "Mostrando tiendas cerca de tu ubicación",
+            "statusLocation": "Mostrando las tiendas más cercanas",
             "loadMoreButton": "Cargar más",
             "fetchError": "Algo salió mal. ¡Inténtalo nuevamente!"
         },

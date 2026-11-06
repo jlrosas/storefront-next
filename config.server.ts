@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { defineConfig } from '@salesforce/storefront-next-runtime/config';
+import { defineConfig, defaultSecurityHeaders } from '@salesforce/storefront-next-runtime/config';
 import baseConfig, { protectedConfigPaths } from './config.server.base';
 
 export default defineConfig(
@@ -49,6 +49,14 @@ export default defineConfig(
             global: {
                 ...baseConfig?.app?.global,
                 branding: { name: 'Papa Johns', logoAlt: 'Papa Johns Chile' },
+            },
+            security: {
+                ...baseConfig?.app?.security,
+                headers: {
+                    ...defaultSecurityHeaders,
+                    // «Usar mi ubicación» (TIE) necesita geolocalización en el propio sitio.
+                    permissionsPolicy: { camera: [], microphone: [], geolocation: ['self'] },
+                },
             },
         },
     },

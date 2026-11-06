@@ -104,9 +104,22 @@ describe('cookies de ?perfil= y ?hora=', () => {
     it('?perfil=auto y ?hora=ahora borran la cookie; valores desconocidos se ignoran', () => {
         expect(demoCookieUpdates(new URLSearchParams('perfil=auto&hora=ahora'))).toEqual([
             { name: 'pj_perfil', value: null },
+            { name: 'pj_campana', value: null },
             { name: 'pj_hora', value: null },
         ]);
         expect(demoCookieUpdates(new URLSearchParams('perfil=pedro&hora=cena'))).toEqual([]);
+    });
+
+    it('?perfil=auto borra también pj_hora y pj_campana (vuelve a la regla)', () => {
+        expect(demoCookieUpdates(new URLSearchParams('perfil=auto'))).toEqual([
+            { name: 'pj_perfil', value: null },
+            { name: 'pj_hora', value: null },
+            { name: 'pj_campana', value: null },
+        ]);
+        const request = new Request('https://x.test/?perfil=auto', {
+            headers: { Cookie: 'pj_perfil=diego; pj_hora=bajon; pj_campana=PJSD26' },
+        });
+        expect(readDemoSignals(request)).toMatchObject({ forcedProfile: null, forcedMoment: null, campaign: null });
     });
 
     it('utm_campaign se recuerda en la cookie de sesión pj_campana', () => {

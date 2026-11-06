@@ -26,7 +26,7 @@ import { pointsFor } from '../../lib/points';
 
 function Showcase() {
     return (
-        <div className="mx-auto flex max-w-[1240px] flex-col gap-6 bg-pj-cream p-4 pb-24 text-pj-ink lg:pb-4">
+        <div className="mx-auto flex max-w-[1240px] flex-col gap-6 bg-pj-dough p-4 pb-24 text-pj-ink lg:pb-4">
             <h1>Piezas de pj-shared</h1>
             <div className="flex items-center bg-header-background p-3">
                 <FulfillmentChip top="Retiro · listo en 15 min" bottom="El Bosque" to="/tienda" />
@@ -52,7 +52,12 @@ function Showcase() {
                     <PriceTag price={23890} size="lg" />
                     <PointsBadge points={pointsFor(23890, 0)} variant="pending" />
                     <PointsBadge points={pointsFor(23890, 0, true)} />
-                    <AddedToast productName="Pollo BBQ Familiar" points={16} onUndo={() => undefined} />
+                    <AddedToast
+                        productName="Pollo BBQ Familiar"
+                        points={16}
+                        onUndo={() => undefined}
+                        onViewOrder={() => undefined}
+                    />
                     <TrackingStrip
                         status="En preparación"
                         eta="Listo 20:45"

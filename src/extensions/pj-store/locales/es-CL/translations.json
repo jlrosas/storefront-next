@@ -1,1 +1,75 @@
-{}
+{
+    "chip": {
+        "emptyTop": "Retiro o delivery",
+        "emptyBottom": "Elige cómo lo quieres",
+        "pickupTop": "Retiro · {{time}}",
+        "deliveryTop": "Delivery · {{time}}",
+        "pickupScheduledTop": "Retiro · {{time}}"
+    },
+    "panel": {
+        "title": "¿Cómo lo quieres?",
+        "reasonDefault": "Elige cómo quieres tu pedido.",
+        "remember": "Lo recordamos para la próxima.",
+        "modeLabel": "Modalidad",
+        "pickup": "Retiro",
+        "delivery": "Delivery",
+        "confirm": "Confirmar",
+        "confirmAndAdd": "Confirmar y agregar"
+    },
+    "pickup": {
+        "useLocation": "Usar mi ubicación",
+        "locating": "Buscando tu ubicación…",
+        "locationError": "No pudimos usar tu ubicación. Busca por comuna.",
+        "searchLabel": "O busca por comuna",
+        "searchPlaceholder": "Ej.: Providencia",
+        "listLabel": "Tiendas",
+        "open": "Abierta · cierra {{time}}",
+        "closed": "Cerrada · abre {{time}}",
+        "ready": "Listo en\n{{minutes}} min",
+        "onlyScheduled": "Solo programado",
+        "noResults": "No encontramos tiendas con ese nombre. Prueba con otra comuna.",
+        "loadError": "No pudimos cargar las tiendas. Inténtalo de nuevo.",
+        "showMore": "Ver más tiendas",
+        "showLess": "Ver menos",
+        "closedTitle": "{{name}} está cerrada ahora",
+        "closedBody": "(abre a las {{time}}). Tu pedido no se pierde: elige otra opción.",
+        "suggestNow": "{{name}}",
+        "suggestNowSub": "listo en {{minutes}} min",
+        "suggestLater": "Programar",
+        "suggestLaterSub": "desde {{time}}",
+        "distanceAria": "a {{distance}}",
+        "closedTomorrow": "Cerrada · abre mañana {{time}}",
+        "closedBodyTomorrow": "(abre mañana a las {{time}}). Tu pedido no se pierde: elige otra opción.",
+        "suggestLaterSubTomorrow": "mañana desde {{time}}"
+    },
+    "delivery": {
+        "addressLabel": "Dirección de entrega",
+        "addressPlaceholder": "Calle y número",
+        "suggestionsLabel": "Sugerencias de dirección",
+        "poweredByGoogle": "Con tecnología de Google",
+        "simpleHint": "Elige una de estas direcciones de ejemplo.",
+        "apartmentLabel": "Depto, casa u oficina (opcional)",
+        "apartmentPlaceholder": "Ej.: depto 504",
+        "resolving": "Buscando tu tienda…",
+        "resolveError": "No pudimos ubicar esa dirección. Elige otra.",
+        "noStore": "Ahora no hay tiendas abiertas que lleguen a esa dirección. Prueba programar tu pedido.",
+        "assigned": "Te lo lleva Papa Johns {{name}}",
+        "arrival": "Llega en {{time}} · Despacho {{fee}}",
+        "minimum": "Pedido mínimo {{amount}}",
+        "changeAddress": "Cambiar dirección"
+    },
+    "when": {
+        "title": "¿Cuándo?",
+        "asap": "Lo antes posible",
+        "later": "Programar",
+        "day": "Día",
+        "hour": "Hora",
+        "today": "Hoy",
+        "tomorrow": "Mañana",
+        "noSlots": "No hay horas disponibles para ese día."
+    },
+    "locales": {
+        "title": "Nuestros locales",
+        "subtitle": "Encuentra el local más cercano y pide para retirar o por delivery."
+    }
+}

@@ -99,7 +99,7 @@ export function FoodImage({
                     aria-pressed={paused}
                     aria-label={paused ? t('foodImage.play') : t('foodImage.pause')}
                     data-testid="pj-food-image-toggle"
-                    className="absolute right-2 bottom-2 flex size-11 items-center justify-center rounded-full bg-pj-ink/60 text-pj-surface backdrop-blur-sm hover:bg-pj-ink/75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-lime">
+                    className="absolute right-2 bottom-2 flex size-11 items-center justify-center rounded-full bg-pj-ink/60 text-pj-dough backdrop-blur-sm hover:bg-pj-ink/75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-pepperoncini">
                     {paused ? <PlayIcon size={18} /> : <PauseIcon size={18} />}
                 </button>
             )}

@@ -60,7 +60,7 @@ export function BottomSheet({
                 <Content
                     data-testid="pj-bottom-sheet"
                     className={cn(
-                        'fixed z-50 flex flex-col bg-pj-cream text-pj-ink shadow-pj-float outline-none',
+                        'fixed z-50 flex flex-col bg-pj-dough text-pj-ink shadow-pj-float outline-none',
                         'inset-x-0 bottom-0 max-h-[92dvh] rounded-t-[20px] pb-[env(safe-area-inset-bottom)]',
                         'data-[state=open]:animate-in data-[state=open]:slide-in-from-bottom data-[state=closed]:animate-out data-[state=closed]:slide-out-to-bottom',
                         'lg:inset-y-0 lg:right-0 lg:left-auto lg:max-h-none lg:w-[480px] lg:rounded-none lg:rounded-l-[20px]',
@@ -83,7 +83,7 @@ export function BottomSheet({
                         </div>
                         <Close
                             aria-label={t('sheet.close')}
-                            className="ml-auto flex size-11 shrink-0 items-center justify-center rounded-full bg-pj-surface text-pj-ink shadow-pj-card focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green">
+                            className="ml-auto flex size-11 shrink-0 items-center justify-center rounded-full bg-pj-surface text-pj-ink shadow-pj-card focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-basil">
                             <CloseIcon size={20} />
                         </Close>
                     </div>

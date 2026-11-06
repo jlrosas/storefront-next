@@ -75,7 +75,7 @@ import {
 import type { SelectedStoreInfo } from '@/extensions/store-locator/stores/store-locator-store';
 // @sfdc-extension-block-end SFDC_EXT_STORE_LOCATOR
 // @sfdc-extension-line SFDC_EXT_PJ_SHARED
-import { pjDemoMiddleware } from '@/extensions/pj-shared/middlewares/demo.server';
+import { pjDemoMiddleware, pjUnprefixedRedirectMiddleware } from '@/extensions/pj-shared/middlewares/demo.server';
 import { correlationMiddleware } from '@/middlewares/correlation.server';
 import { requestOriginMiddleware } from '@/middlewares/request-origin';
 import { getAppOrigin } from '@/lib/origin';
@@ -122,7 +122,7 @@ import { buildSeoMetaDescriptors } from '@/utils/seo';
 import favicon from '/favicon.ico';
 
 // Fonts
-import { primaryFont } from '@/lib/fonts';
+import { primaryFont, headingFont } from '@/lib/fonts';
 
 // Styles
 import { PageDesignerInit } from '@/page-designer-init';
@@ -143,6 +143,7 @@ export const links: Route.LinksFunction = () => {
     return [
         // Preload critical fonts
         { rel: 'preload', href: primaryFont, as: 'font', type: 'font/woff2', crossOrigin: 'anonymous' },
+        { rel: 'preload', href: headingFont, as: 'font', type: 'font/woff2', crossOrigin: 'anonymous' },
         { rel: 'preload', href: appStylesHref, as: 'style' },
         createStorefrontStylesheetLink(appStylesHref),
     ];
@@ -165,6 +166,7 @@ export const middleware: MiddlewareFunction<Response>[] = [
     // populates the config contexts and before siteContextMiddleware resolves the site.
     sitesMiddlewareLazy,
     sitesConfigMiddleware,
+    pjUnprefixedRedirectMiddleware /** @sfdc-extension-line SFDC_EXT_PJ_SHARED */,
     siteContextMiddleware, // Must run after appConfig, before i18next and currency
     ...dataStoreMiddlewareLazy,
     siteUrlConfigMiddleware, // Must run after siteContextMiddleware (entry key uses site id)

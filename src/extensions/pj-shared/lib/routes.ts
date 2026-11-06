@@ -43,17 +43,47 @@ export const PJ_ROUTES = {
 
 /**
  * Pantallas con barra inferior móvil, como en el lienzo (Home, Menu, Simple-Add, Ofertas, Puntos y
- * Puntos-Cuenta). Pedido, ficha, cuenta, tienda, checkout y confirmación usan su propia barra de
- * acción abajo, así que no la muestran.
+ * Puntos-Cuenta). Coincidencia EXACTA, salvo las que terminan en `/*` (listados de categoría): los
+ * constructores `/promos/<id>`, la ficha, Pedido, cuenta, tienda, checkout y confirmación usan su
+ * propia barra de acción abajo y no la muestran.
  */
 export const PJ_BOTTOM_NAV_ROUTES: readonly string[] = [
     PJ_ROUTES.home,
     PJ_ROUTES.menu,
-    '/c',
+    '/c/*',
     '/search',
     PJ_ROUTES.promos,
     PJ_ROUTES.points,
 ];
+
+/** Si la ruta (sin prefijo de sitio) lleva barra inferior. */
+export function showsBottomNav(path: string, routes: readonly string[] = PJ_BOTTOM_NAV_ROUTES): boolean {
+    const clean = path.length > 1 ? path.replace(/\/+$/, '') : path;
+    return routes.some((route) => (route.endsWith('/*') ? clean.startsWith(route.slice(0, -1)) : clean === route));
+}
+
+/** Prefijo del único sitio de la demo (sitio `PapaJohnsCL` con alias `cl`, locale `es-CL`). */
+export const PJ_SITE_PREFIX = '/cl/es-CL';
+
+/** Rutas propias de la demo que se aceptan sin prefijo de sitio y se redirigen (prefijo de sección). */
+export const PJ_UNPREFIXED_REDIRECTS: readonly string[] = [
+    PJ_ROUTES.menu,
+    PJ_ROUTES.promos,
+    PJ_ROUTES.points,
+    PJ_ROUTES.tracking,
+    PJ_ROUTES.cart,
+    PJ_ROUTES.account,
+];
+
+/**
+ * Destino con prefijo para una ruta escrita sin él (`/promos/super-duo` → `/cl/es-CL/promos/super-duo`),
+ * o `null` si ya trae el prefijo o no es una ruta de la demo.
+ */
+export function unprefixedRedirectTarget(pathname: string, prefix: string): string | null {
+    if (!prefix || prefix === '/' || pathname === prefix || pathname.startsWith(`${prefix}/`)) return null;
+    const match = PJ_UNPREFIXED_REDIRECTS.some((route) => pathname === route || pathname.startsWith(`${route}/`));
+    return match ? `${prefix}${pathname}` : null;
+}
 
 export type PjRoute = (typeof PJ_ROUTES)[keyof typeof PJ_ROUTES];
 

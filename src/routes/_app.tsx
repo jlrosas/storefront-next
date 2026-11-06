@@ -30,8 +30,8 @@ import { UITarget } from '@/targets/ui-target';
 import { cn } from '@/lib/utils';
 import { useBasketSnapshot } from '@/providers/basket';
 import { BottomNav } from '@/extensions/pj-shared/components/bottom-nav';
-import { matchesPath, usePjPath } from '@/extensions/pj-shared/hooks/use-pj-path';
-import { PJ_BOTTOM_NAV_ROUTES } from '@/extensions/pj-shared/lib/routes';
+import { usePjPath } from '@/extensions/pj-shared/hooks/use-pj-path';
+import { showsBottomNav } from '@/extensions/pj-shared/lib/routes';
 // @sfdc-extension-block-end SFDC_EXT_PJ_SHARED
 import {
     fetchComponentWithComponentData,
@@ -172,7 +172,7 @@ export default function DefaultLayout(_props: { loaderData: LoaderData }) {
     // @sfdc-extension-block-start SFDC_EXT_PJ_SHARED
     const currentPath = usePjPath();
     const cartCount = useBasketSnapshot()?.totalItemCount ?? 0;
-    const showBottomNav = matchesPath(currentPath, PJ_BOTTOM_NAV_ROUTES);
+    const showBottomNav = showsBottomNav(currentPath);
     // @sfdc-extension-block-end SFDC_EXT_PJ_SHARED
 
     // Papa Johns (INT-02): el lienzo no tiene mega-menú, franja de anuncio ni lista de deseos.

@@ -9,23 +9,23 @@
 :root {
     /* header & navigation — Papa Johns green bar with white text */
     --header-background: var(--pj-green);
-    --header-foreground: #FFFFFF;               /* 9.7:1 sobre el verde */
+    --header-foreground: var(--pj-dough);       /* Fluffy Dough sobre Fresh Basil: 6,4:1 */
     --header-border: rgb(255 255 255 / 0.15);
     --header-divider: var(--header-border);
     /* header menu dropdowns — white panel; hover tints to the lime accent */
     --header-menu-background: #FFFFFF;
     --header-menu-foreground: var(--pj-ink);
     --header-menu-border: var(--pj-line);
-    --header-menu-hover-background: var(--pj-lime-soft);
-    --header-menu-hover-foreground: var(--pj-green-dark);
-    --header-menu-active-background: var(--pj-lime-soft);
-    --header-menu-icon: #FFFFFF;
+    --header-menu-hover-background: var(--pj-dough-deep);
+    --header-menu-hover-foreground: var(--pj-basil);
+    --header-menu-active-background: var(--pj-dough-deep);
+    --header-menu-icon: var(--pj-dough);
     /* The logo ships in brand green; render it white on the green bar. */
     --header-logo-filter: brightness(0) invert(1);
 
     /* footer — page background to avoid a hard chrome edge */
     --footer-background: var(--pj-green-dark);
-    --footer-foreground: #FFFFFF;              /* 13.6:1 sobre el verde oscuro */
+    --footer-foreground: var(--pj-dough);      /* Fluffy Dough sobre Fresh Basil oscurecido: 9,8:1 */
 
     /* newsletter band — Figma renders the homepage "Stay Updated" block in the
      * dark foreground gray (#3f3f46), NOT the blue --primary. (The kit's Figma
@@ -33,5 +33,5 @@
      * authority — same class of mis-map as the destructive-green note in
      * core.css.) White text/input and the blue CTA button read correctly on it. */
     --newsletter-background: var(--primary);
-    --newsletter-foreground: #ffffff;
+    --newsletter-foreground: var(--pj-dough);
 }

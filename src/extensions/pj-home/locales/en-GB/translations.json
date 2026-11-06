@@ -1,1 +1,129 @@
-{}
+{
+    "greeting": {
+        "returningStrong": "Hola de nuevo.",
+        "returningRest": "Tu pedido de vuelta suma Papa Puntos dobles."
+    },
+    "hero": {
+        "seasonEyebrow": "Pizza del mes de noviembre",
+        "seasonCta": "Lo quiero",
+        "seasonSecondary": "Ver todo el menú",
+        "adEyebrow": "La oferta que viste",
+        "adCta": "Armar mi Super Dúo",
+        "serves": "Para {{serves}}",
+        "discount": "-{{percent}}%",
+        "beforeFrom": "Antes desde {{price}}",
+        "before": "Antes {{price}}",
+        "pause": "Pausar movimiento",
+        "play": "Reanudar movimiento",
+        "section": "Oferta destacada"
+    },
+    "start": {
+        "title": "Empieza tu pedido",
+        "delivery": "Delivery",
+        "deliveryTime": "Llega en 35–45 min",
+        "pickup": "Retiro",
+        "pickupTime": "Listo en 15 min",
+        "menu": "Menú",
+        "menuHint": "Pizzas, acompañamientos y más",
+        "promos": "Promos",
+        "promosHint": "Combos para compartir"
+    },
+    "popular": {
+        "title": "Las más pedidas",
+        "titleBestSellers": "Más vendidos",
+        "weekly": "{{n}} esta semana",
+        "family": "Familiar",
+        "badge": {
+            "mas-pedida": "Más pedida",
+            "ideal-para-2": "Ideal para 2",
+            "novedad": "Novedad"
+        }
+    },
+    "benefits": {
+        "title": "Pedir aquí tiene premio",
+        "points": "Ganas Papa Puntos desde tu primer pedido",
+        "tracking": "Sigues tu pedido en vivo",
+        "payment": "Pagas con Mercado Pago o en efectivo, al retirar o al recibir"
+    },
+    "serves": {
+        "title": "¿Para cuántos?",
+        "who": {
+            "para-1": "Para 1",
+            "para-2": "Para 2",
+            "para-3": "Para 3",
+            "para-4": "Para 4",
+            "para-6": "Para 6+"
+        },
+        "desc": {
+            "para-1": "Pizza individual, mini palitos y bebida",
+            "para-2": "Pizza, acompañamiento y bebida 1,5 L",
+            "para-3": "The Works Familiar, Palitos de Ajo y Coca-Cola 1,5 L",
+            "para-4": "2 pizzas familiares a elección",
+            "para-6": "3 pizzas familiares a elección"
+        },
+        "forThreeName": "Pizza del Mes + Palitos + bebida",
+        "forThreeNote": "armado para 3",
+        "forThreeAdd": "Agregar al pedido",
+        "forThreeToast": "Armado para 3",
+        "addFailed": "No pudimos agregarlo. Intenta de nuevo."
+    },
+    "moment": {
+        "title": "¿Y para este momento?",
+        "choose": "Elige el momento",
+        "almuerzo": {
+            "label": "Almuerzo",
+            "tag": "Hora de almuerzo · 12 a 15 h",
+            "title": "Almuerzo en 15 minutos",
+            "desc": "Pizza individual, mini palitos y bebida. Lista en 15 min en El Bosque.",
+            "cta": "Lo quiero"
+        },
+        "partido": {
+            "label": "Partido",
+            "tag": "Esta noche hay partido",
+            "title": "Para ver el partido",
+            "desc": "Tres familiares a elección para todo el grupo. Pide antes del pitazo: llega en 35–45 min.",
+            "cta": "Armar Super Trío"
+        },
+        "celebracion": {
+            "label": "Celebración",
+            "tag": "Fin de semana · Celebración",
+            "title": "¿Hay algo que celebrar?",
+            "desc": "Pizza, bebida 1,5 L y un postre horneado: el trío perfecto.",
+            "cta": "Lo quiero"
+        },
+        "bajon": {
+            "label": "Bajón",
+            "tag": "Después de las 22 h",
+            "title": "Antojo de noche",
+            "desc": "Pizza, palitos de ajo y bebida 1,5 L. Delivery hasta las 23:30.",
+            "cta": "Lo quiero"
+        }
+    },
+    "sofia": {
+        "greeting": "Hola, {{name}}",
+        "balance": "{{points}} Papa Puntos",
+        "balanceValue": "{{points}} Papa Puntos = {{amount}}",
+        "balanceAria": "Tienes {{points}} Papa Puntos, equivalen a {{amount}}",
+        "usualEyebrow": "¿Lo de siempre? · Tu último pedido, {{date}}",
+        "usualMeta": "Retiro en {{store}} · listo en 15 min · Mercado Pago, Visa ····4521",
+        "reorder": "Repetir pedido",
+        "reorderBusy": "Cargando tu pedido…",
+        "reorderFailed": "No pudimos cargar tu pedido. Intenta de nuevo.",
+        "favorites": "Tus favoritas",
+        "addFor": "Agregar · {{price}}",
+        "redeemTitle": "Ya puedes canjear una {{name}} mediana",
+        "redeemMeta": "Tienes {{points}} puntos ({{amount}}) · la canjeas con {{needed}}",
+        "redeemCta": "Canjear en mi pedido",
+        "redeemBar": "Papa Puntos",
+        "monthEyebrow": "Para tu viernes · Pizza del mes",
+        "monthAdd": "Agregar",
+        "times_one": "La pediste 1 vez",
+        "times_other": "La pediste {{count}} veces"
+    },
+    "cookies": {
+        "label": "Aviso de cookies"
+    },
+    "pd": {
+        "empty": "Configura este componente en Page Designer."
+    }
+}

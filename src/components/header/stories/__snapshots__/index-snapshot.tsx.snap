@@ -30,7 +30,7 @@ exports[`Header stories snapshot > CheckoutVariant story renders and matches sna
         />
         <a
           aria-label="Mi pedido, 0 productos"
-          class="flex min-h-11 items-center rounded-pj-control bg-pj-lime px-4 font-bold text-pj-green-dark no-underline"
+          class="flex min-h-11 items-center rounded-pj-control bg-pj-pepperoncini px-4 font-bold text-pj-basil no-underline"
           data-testid="cart-badge"
           href="/RefArchGlobal/en-GB/cart"
         >
@@ -175,7 +175,7 @@ exports[`Header stories snapshot > Default story renders and matches snapshot 1`
       </a>
       <a
         aria-label="Mi pedido, 0 productos"
-        class="relative flex size-11 shrink-0 items-center justify-center rounded-pj-control bg-pj-lime font-bold text-pj-green-dark no-underline lg:w-auto lg:px-4"
+        class="relative flex size-11 shrink-0 items-center justify-center rounded-pj-control bg-pj-pepperoncini font-bold text-pj-basil no-underline lg:w-auto lg:px-4"
         data-testid="pj-header-cart"
         href="/RefArchGlobal/en-GB/cart"
       >
@@ -372,7 +372,7 @@ exports[`Header stories snapshot > MobileView story renders and matches snapshot
         </a>
         <a
           aria-label="Mi pedido, 0 productos"
-          class="relative flex size-11 shrink-0 items-center justify-center rounded-pj-control bg-pj-lime font-bold text-pj-green-dark no-underline lg:w-auto lg:px-4"
+          class="relative flex size-11 shrink-0 items-center justify-center rounded-pj-control bg-pj-pepperoncini font-bold text-pj-basil no-underline lg:w-auto lg:px-4"
           data-testid="pj-header-cart"
           href="/RefArchGlobal/en-GB/cart"
         >
@@ -563,7 +563,7 @@ exports[`Header stories snapshot > WithAnnouncementBanner story renders and matc
       </a>
       <a
         aria-label="Mi pedido, 0 productos"
-        class="relative flex size-11 shrink-0 items-center justify-center rounded-pj-control bg-pj-lime font-bold text-pj-green-dark no-underline lg:w-auto lg:px-4"
+        class="relative flex size-11 shrink-0 items-center justify-center rounded-pj-control bg-pj-pepperoncini font-bold text-pj-basil no-underline lg:w-auto lg:px-4"
         data-testid="pj-header-cart"
         href="/RefArchGlobal/en-GB/cart"
       >

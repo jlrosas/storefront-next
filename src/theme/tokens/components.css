@@ -14,5 +14,5 @@
 
     /* product badge — promo variant (Sale, Best Seller); values per Figma design system */
     --product-badge-promo-bg: var(--pj-sale);
-    --product-badge-promo-foreground: #FFFFFF;
+    --product-badge-promo-foreground: var(--pj-dough); /* Fluffy Dough sobre Rich Sauce */
 }
