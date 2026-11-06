@@ -44,13 +44,13 @@
     },
     "stars": {
         "label": "{{rating}} de 5 estrellas",
-        "labelWithCount": "{{rating}} de 5 estrellas, {{count}} opiniones",
-        "reviews": "{{count}} opiniones"
+        "labelWithCount": "{{rating}} de 5 estrellas, {{reviews}} opiniones",
+        "reviews": "{{reviews}} opiniones"
     },
     "points": {
-        "earn": "Ganas {{count}} Papa Puntos",
-        "earn_one": "Ganas {{count}} Papa Punto",
-        "pending": "+{{count}} por acreditar"
+        "earn": "Ganas {{points}} Papa Puntos",
+        "earnOne": "Ganas {{points}} Papa Punto",
+        "pending": "+{{points}} por acreditar"
     },
     "foodImage": {
         "pause": "Pausar movimiento",
@@ -61,7 +61,7 @@
     },
     "toast": {
         "added": "¡Agregada!",
-        "addedPoints": "+{{count}} Papa Puntos por acreditar",
+        "addedPoints": "+{{points}} Papa Puntos por acreditar",
         "undo": "Deshacer",
         "viewOrder": "Ver mi pedido"
     },

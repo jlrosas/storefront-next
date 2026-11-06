@@ -6,3 +6,13 @@
         transform: translateY(0);
     }
 }
+
+/* Papa Johns: movimiento lento de la comida (R4.7). FoodImage lo pausa y lo omite con «reducir movimiento». */
+@keyframes pj-ken-burns {
+    from {
+        transform: scale(1) translate(0, 0);
+    }
+    to {
+        transform: scale(1.1) translate(-2%, -2%);
+    }
+}
