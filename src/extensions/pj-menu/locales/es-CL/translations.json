@@ -1,1 +1,120 @@
-{}
+{
+    "title": "Menú",
+    "description": "Todo el menú de Papa Johns: ofertas, pizzas, acompañamientos, bebidas y postres.",
+    "search": {
+        "label": "Buscar en el menú",
+        "placeholder": "Busca entre {{count}} productos",
+        "placeholderDesktop": "Buscar pizza, palitos, bebida…",
+        "submit": "Buscar",
+        "resultsFor": "Resultados para «{{query}}»",
+        "resultsCount_one": "{{count}} producto",
+        "resultsCount_other": "{{count}} productos",
+        "empty": "No encontramos «{{query}}». Prueba con «pepperoni», «palitos» o «coca».",
+        "viewAll": "Ver todo el menú"
+    },
+    "categories": {
+        "label": "Categorías",
+        "offers": "Ofertas",
+        "pizzas": "Pizzas",
+        "sides": "Acompañamientos",
+        "drinks": "Bebidas",
+        "desserts": "Postres",
+        "extras": "Extras"
+    },
+    "offers": {
+        "title": "Ofertas",
+        "titleDesktop": "Ofertas de hoy",
+        "viewAll": "Ver las {{count}}",
+        "viewAllDesktop": "Ver las {{count}} ofertas",
+        "off": "-{{percent}}%"
+    },
+    "pizzas": {
+        "title": "Pizzas",
+        "count": "{{count}}"
+    },
+    "size": {
+        "label": "Ver precios en tamaño",
+        "labelDesktop": "Precios en",
+        "medium": "Mediana",
+        "family": "Familiar",
+        "extra_large": "Extra grande",
+        "single": "Única"
+    },
+    "filter": {
+        "label": "Filtrar pizzas",
+        "all": "Todas ({{count}})",
+        "top": "Más vendidas",
+        "veg": "Vegetarianas",
+        "spicy": "Picantes",
+        "count": "{{count}} pizzas",
+        "empty": "No hay pizzas con este filtro. Prueba con «Todas»."
+    },
+    "group": {
+        "pizzas-clasicas": "Clásicas",
+        "pizzas-favoritas": "Favoritas",
+        "pizzas-premium": "Premium",
+        "pan-pizza": "Pan Pizza",
+        "pizzas-croissant": "Croissant",
+        "rangeFrom": "{{size}} desde {{price}}",
+        "rangeOne": "{{size}} {{price}}",
+        "panPizza": "Solo mediana · sin mitades",
+        "croissant": "Un tamaño · sin mitades"
+    },
+    "build": {
+        "halvesTitle": "Mitad y mitad",
+        "halvesShort": "Dos sabores, pagas el promedio",
+        "halvesLong": "Dos sabores en una pizza. Pagas el promedio de las dos mitades.",
+        "halvesCta": "Armar mi pizza por mitades →",
+        "armaTitle": "Arma tu pizza",
+        "armaLong": "Elige salsa, queso y hasta 10 ingredientes.",
+        "armaFrom": "Desde {{price}} en {{size}}"
+    },
+    "pizza": {
+        "add": "Agregar",
+        "addAria": "Agregar {{name}}",
+        "half": "½ Mitad",
+        "halfShort": "½",
+        "halfAria": "Usar {{name}} en una pizza mitad y mitad",
+        "from": "desde"
+    },
+    "badge": {
+        "top": "Más vendida",
+        "spicy": "Picante",
+        "new": "Novedad",
+        "forTwo": "Ideal para 2"
+    },
+    "sections": {
+        "sides": "Acompañamientos",
+        "drinks": "Bebidas",
+        "desserts": "Postres",
+        "extras": "Extras",
+        "viewMore_one": "Ver el {{count}}",
+        "viewMore_other": "Ver los {{count}}",
+        "viewMoreDrinks": "Ver las {{count}}",
+        "viewLess": "Ver menos"
+    },
+    "compact": {
+        "options": "Opciones de {{name}}",
+        "add": "Agregar {{name}}",
+        "addOption": "Agregar {{name}} {{option}}",
+        "remove": "Quitar {{name}}",
+        "quantity": "{{name}}: {{count}} en tu pedido"
+    },
+    "toast": {
+        "line": "{{name}} agregada · {{total}}",
+        "failed": "No pudimos agregarlo. Inténtalo otra vez."
+    },
+    "order": {
+        "title": "Tu pedido",
+        "empty": "Todavía no agregas nada. Empieza con una pizza o arma una mitad y mitad.",
+        "total": "Total",
+        "checkout": "Ir a pagar",
+        "earn": "Ganas {{points}} Papa Puntos",
+        "line": "{{count}}×",
+        "viewOrder": "Ver pedido"
+    },
+    "cartBar": {
+        "view": "Ver pedido ({{count}})",
+        "aria": "Ver pedido, {{count}} productos, total {{total}}"
+    }
+}
