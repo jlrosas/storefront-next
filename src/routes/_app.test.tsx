@@ -348,6 +348,29 @@ describe('_app.tsx - Default Layout Route', () => {
             });
         });
 
+        it('hides the bottom navigation on screens the design draws without it (cart)', async () => {
+            const Stub = createRoutesStub([
+                {
+                    id: 'root',
+                    path: '/',
+                    Component: DefaultLayout,
+                    loader: () => ({}),
+                    children: [{ path: 'cart', Component: () => <div data-testid="cart-page">Cart</div> }],
+                },
+            ]);
+
+            render(
+                <AllProvidersWrapper>
+                    <Stub initialEntries={['/cart']} />
+                </AllProvidersWrapper>
+            );
+
+            await waitFor(() => {
+                expect(screen.getByTestId('cart-page')).toBeInTheDocument();
+            });
+            expect(screen.queryByTestId('pj-bottom-nav')).not.toBeInTheDocument();
+        });
+
         // Papa Johns (INT-02): no category refs to keep anymore; the layout must stay stable on re-render.
         it('keeps the layout across re-renders', async () => {
             const Stub = createRoutesStub([

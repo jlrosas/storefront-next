@@ -36,7 +36,7 @@ export default function MainFooter(): ReactElement {
             <div className="mx-auto flex max-w-[1240px] flex-wrap items-center gap-x-10 gap-y-2 px-6 py-7 text-sm">
                 <Link
                     to={PJ_ROUTES.home}
-                    className="font-heading text-xl font-extrabold tracking-[0.5px] text-footer-foreground no-underline">
+                    className="inline-flex min-h-11 items-center font-heading text-xl font-extrabold tracking-[0.5px] text-footer-foreground no-underline">
                     {t('footer.brand')}
                 </Link>
                 <nav aria-label={t('footer.brand')} className="flex flex-wrap gap-x-10 gap-y-0">

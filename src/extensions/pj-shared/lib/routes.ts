@@ -41,6 +41,20 @@ export const PJ_ROUTES = {
     login: '/login',
 } as const;
 
+/**
+ * Pantallas con barra inferior móvil, como en el lienzo (Home, Menu, Simple-Add, Ofertas, Puntos y
+ * Puntos-Cuenta). Pedido, ficha, cuenta, tienda, checkout y confirmación usan su propia barra de
+ * acción abajo, así que no la muestran.
+ */
+export const PJ_BOTTOM_NAV_ROUTES: readonly string[] = [
+    PJ_ROUTES.home,
+    PJ_ROUTES.menu,
+    '/c',
+    '/search',
+    PJ_ROUTES.promos,
+    PJ_ROUTES.points,
+];
+
 export type PjRoute = (typeof PJ_ROUTES)[keyof typeof PJ_ROUTES];
 
 /** Enlaces externos del footer (papajohns.cl). */

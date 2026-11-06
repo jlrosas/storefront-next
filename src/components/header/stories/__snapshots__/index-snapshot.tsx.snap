@@ -28,42 +28,14 @@ exports[`Header stories snapshot > CheckoutVariant story renders and matches sna
         <div
           class="flex-1"
         />
-        <button
-          aria-label="My cart, number of items: 0"
-          class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-ui text-sm font-medium disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 relative cursor-pointer lg:has-[>svg]:px-4 has-[>svg]:px-1 hover:bg-transparent hover:opacity-50 transition-opacity"
-          data-size="default"
-          data-slot="button"
-          data-variant="ghost"
+        <a
+          aria-label="Mi pedido, 0 productos"
+          class="flex min-h-11 items-center rounded-pj-control bg-pj-lime px-4 font-bold text-pj-green-dark no-underline"
+          data-testid="cart-badge"
+          href="/RefArchGlobal/en-GB/cart"
         >
-          <svg
-            aria-hidden="true"
-            class="lucide lucide-shopping-cart size-5"
-            data-testid="shopping-cart-icon"
-            fill="none"
-            height="24"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-            width="24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <circle
-              cx="8"
-              cy="21"
-              r="1"
-            />
-            <circle
-              cx="19"
-              cy="21"
-              r="1"
-            />
-            <path
-              d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"
-            />
-          </svg>
-        </button>
+          Mi pedido
+        </a>
       </div>
     </div>
   </header>
@@ -83,7 +55,7 @@ exports[`Header stories snapshot > Default story renders and matches snapshot 1`
     >
       <a
         aria-label="Papa Johns, inicio"
-        class="flex shrink-0 items-center"
+        class="flex min-h-11 shrink-0 items-center"
         data-testid="header-logo"
         href="/RefArchGlobal/en-GB/"
       >
@@ -98,31 +70,31 @@ exports[`Header stories snapshot > Default story renders and matches snapshot 1`
         class="hidden lg:flex lg:flex-wrap lg:gap-x-[22px] lg:gap-y-1"
       >
         <a
-          class="flex min-h-11 items-center border-b-[3px] text-[15px] font-semibold text-header-foreground no-underline hover:border-header-foreground/40 border-transparent"
+          class="flex min-h-11 min-w-11 items-center justify-center border-b-[3px] text-[15px] font-semibold text-header-foreground no-underline hover:border-header-foreground/40 border-transparent"
           href="/RefArchGlobal/en-GB/menu"
         >
           Menú
         </a>
         <a
-          class="flex min-h-11 items-center border-b-[3px] text-[15px] font-semibold text-header-foreground no-underline hover:border-header-foreground/40 border-transparent"
+          class="flex min-h-11 min-w-11 items-center justify-center border-b-[3px] text-[15px] font-semibold text-header-foreground no-underline hover:border-header-foreground/40 border-transparent"
           href="/RefArchGlobal/en-GB/promos"
         >
           Promos
         </a>
         <a
-          class="flex min-h-11 items-center border-b-[3px] text-[15px] font-semibold text-header-foreground no-underline hover:border-header-foreground/40 border-transparent"
+          class="flex min-h-11 min-w-11 items-center justify-center border-b-[3px] text-[15px] font-semibold text-header-foreground no-underline hover:border-header-foreground/40 border-transparent"
           href="/RefArchGlobal/en-GB/puntos"
         >
           Papa Puntos
         </a>
         <a
-          class="flex min-h-11 items-center border-b-[3px] text-[15px] font-semibold text-header-foreground no-underline hover:border-header-foreground/40 border-transparent"
+          class="flex min-h-11 min-w-11 items-center justify-center border-b-[3px] text-[15px] font-semibold text-header-foreground no-underline hover:border-header-foreground/40 border-transparent"
           href="/RefArchGlobal/en-GB/store-locator"
         >
           Locales
         </a>
         <a
-          class="flex min-h-11 items-center border-b-[3px] text-[15px] font-semibold text-header-foreground no-underline hover:border-header-foreground/40 border-transparent"
+          class="flex min-h-11 min-w-11 items-center justify-center border-b-[3px] text-[15px] font-semibold text-header-foreground no-underline hover:border-header-foreground/40 border-transparent"
           href="/RefArchGlobal/en-GB/seguimiento"
         >
           Sigue tu pedido
@@ -280,7 +252,7 @@ exports[`Header stories snapshot > MobileView story renders and matches snapshot
       >
         <a
           aria-label="Papa Johns, inicio"
-          class="flex shrink-0 items-center"
+          class="flex min-h-11 shrink-0 items-center"
           data-testid="header-logo"
           href="/RefArchGlobal/en-GB/"
         >
@@ -295,31 +267,31 @@ exports[`Header stories snapshot > MobileView story renders and matches snapshot
           class="hidden lg:flex lg:flex-wrap lg:gap-x-[22px] lg:gap-y-1"
         >
           <a
-            class="flex min-h-11 items-center border-b-[3px] text-[15px] font-semibold text-header-foreground no-underline hover:border-header-foreground/40 border-transparent"
+            class="flex min-h-11 min-w-11 items-center justify-center border-b-[3px] text-[15px] font-semibold text-header-foreground no-underline hover:border-header-foreground/40 border-transparent"
             href="/RefArchGlobal/en-GB/menu"
           >
             Menú
           </a>
           <a
-            class="flex min-h-11 items-center border-b-[3px] text-[15px] font-semibold text-header-foreground no-underline hover:border-header-foreground/40 border-transparent"
+            class="flex min-h-11 min-w-11 items-center justify-center border-b-[3px] text-[15px] font-semibold text-header-foreground no-underline hover:border-header-foreground/40 border-transparent"
             href="/RefArchGlobal/en-GB/promos"
           >
             Promos
           </a>
           <a
-            class="flex min-h-11 items-center border-b-[3px] text-[15px] font-semibold text-header-foreground no-underline hover:border-header-foreground/40 border-transparent"
+            class="flex min-h-11 min-w-11 items-center justify-center border-b-[3px] text-[15px] font-semibold text-header-foreground no-underline hover:border-header-foreground/40 border-transparent"
             href="/RefArchGlobal/en-GB/puntos"
           >
             Papa Puntos
           </a>
           <a
-            class="flex min-h-11 items-center border-b-[3px] text-[15px] font-semibold text-header-foreground no-underline hover:border-header-foreground/40 border-transparent"
+            class="flex min-h-11 min-w-11 items-center justify-center border-b-[3px] text-[15px] font-semibold text-header-foreground no-underline hover:border-header-foreground/40 border-transparent"
             href="/RefArchGlobal/en-GB/store-locator"
           >
             Locales
           </a>
           <a
-            class="flex min-h-11 items-center border-b-[3px] text-[15px] font-semibold text-header-foreground no-underline hover:border-header-foreground/40 border-transparent"
+            class="flex min-h-11 min-w-11 items-center justify-center border-b-[3px] text-[15px] font-semibold text-header-foreground no-underline hover:border-header-foreground/40 border-transparent"
             href="/RefArchGlobal/en-GB/seguimiento"
           >
             Sigue tu pedido
@@ -471,7 +443,7 @@ exports[`Header stories snapshot > WithAnnouncementBanner story renders and matc
     >
       <a
         aria-label="Papa Johns, inicio"
-        class="flex shrink-0 items-center"
+        class="flex min-h-11 shrink-0 items-center"
         data-testid="header-logo"
         href="/RefArchGlobal/en-GB/"
       >
@@ -486,31 +458,31 @@ exports[`Header stories snapshot > WithAnnouncementBanner story renders and matc
         class="hidden lg:flex lg:flex-wrap lg:gap-x-[22px] lg:gap-y-1"
       >
         <a
-          class="flex min-h-11 items-center border-b-[3px] text-[15px] font-semibold text-header-foreground no-underline hover:border-header-foreground/40 border-transparent"
+          class="flex min-h-11 min-w-11 items-center justify-center border-b-[3px] text-[15px] font-semibold text-header-foreground no-underline hover:border-header-foreground/40 border-transparent"
           href="/RefArchGlobal/en-GB/menu"
         >
           Menú
         </a>
         <a
-          class="flex min-h-11 items-center border-b-[3px] text-[15px] font-semibold text-header-foreground no-underline hover:border-header-foreground/40 border-transparent"
+          class="flex min-h-11 min-w-11 items-center justify-center border-b-[3px] text-[15px] font-semibold text-header-foreground no-underline hover:border-header-foreground/40 border-transparent"
           href="/RefArchGlobal/en-GB/promos"
         >
           Promos
         </a>
         <a
-          class="flex min-h-11 items-center border-b-[3px] text-[15px] font-semibold text-header-foreground no-underline hover:border-header-foreground/40 border-transparent"
+          class="flex min-h-11 min-w-11 items-center justify-center border-b-[3px] text-[15px] font-semibold text-header-foreground no-underline hover:border-header-foreground/40 border-transparent"
           href="/RefArchGlobal/en-GB/puntos"
         >
           Papa Puntos
         </a>
         <a
-          class="flex min-h-11 items-center border-b-[3px] text-[15px] font-semibold text-header-foreground no-underline hover:border-header-foreground/40 border-transparent"
+          class="flex min-h-11 min-w-11 items-center justify-center border-b-[3px] text-[15px] font-semibold text-header-foreground no-underline hover:border-header-foreground/40 border-transparent"
           href="/RefArchGlobal/en-GB/store-locator"
         >
           Locales
         </a>
         <a
-          class="flex min-h-11 items-center border-b-[3px] text-[15px] font-semibold text-header-foreground no-underline hover:border-header-foreground/40 border-transparent"
+          class="flex min-h-11 min-w-11 items-center justify-center border-b-[3px] text-[15px] font-semibold text-header-foreground no-underline hover:border-header-foreground/40 border-transparent"
           href="/RefArchGlobal/en-GB/seguimiento"
         >
           Sigue tu pedido

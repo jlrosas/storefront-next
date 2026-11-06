@@ -112,11 +112,25 @@
 [data-slot='button'][data-size^='icon'] {
     min-width: var(--pj-touch);
 }
+[data-slot$='-button'] {
+    min-height: var(--pj-touch);
+}
+/* Selector de cantidad del template (ficha y carrito): botones − / + de 44 px. */
+.inline-flex.border.border-input.overflow-hidden > button {
+    min-width: var(--pj-touch);
+    min-height: var(--pj-touch);
+}
 [data-slot='button'][data-variant='link'] {
     min-height: 0;
 }
 input[data-slot='input'],
 [data-slot='select-trigger'] {
+    min-height: var(--pj-touch);
+}
+[data-slot='breadcrumb-link'],
+nav > ol > li > a {
+    display: inline-flex;
+    align-items: center;
     min-height: var(--pj-touch);
 }
 

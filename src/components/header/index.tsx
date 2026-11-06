@@ -15,7 +15,6 @@
  */
 import { type ReactElement, type ReactNode, type PropsWithChildren, useRef, useEffect, useCallback } from 'react';
 import { Link } from '@/components/link';
-import CartBadge from './cart-badge';
 import { useTranslation } from 'react-i18next';
 import logo from '/images/logo.svg';
 import { UITarget } from '@/targets/ui-target';
@@ -92,7 +91,8 @@ export default function Header({
                             />
                         </Link>
                         <div className="flex-1" />
-                        <CartBadge />
+                        {/* @sfdc-extension-line SFDC_EXT_PJ_SHARED */}
+                        <PjCheckoutOrderLink />
                     </div>
                 </div>
             </header>
@@ -113,6 +113,21 @@ export default function Header({
 }
 
 // @sfdc-extension-block-start SFDC_EXT_PJ_SHARED
+/** Checkout: solo el botón lima para volver al pedido (sin mini-carrito). */
+function PjCheckoutOrderLink(): ReactElement {
+    const { t } = useTranslation('extPjShared');
+    const count = useBasketSnapshot()?.totalItemCount ?? 0;
+    return (
+        <Link
+            to={PJ_ROUTES.cart}
+            data-testid="cart-badge"
+            aria-label={t('header.myOrderAria', { count })}
+            className="flex min-h-11 items-center rounded-pj-control bg-pj-lime px-4 font-bold text-pj-green-dark no-underline">
+            {count > 0 ? t('header.myOrderWithCount', { count }) : t('header.myOrder')}
+        </Link>
+    );
+}
+
 const PJ_HEADER_NAV = [
     { key: 'nav.menu', to: PJ_ROUTES.menu, matches: [PJ_ROUTES.menu, '/c', '/p', '/search'] },
     { key: 'nav.promos', to: PJ_ROUTES.promos, matches: [PJ_ROUTES.promos] },
@@ -140,7 +155,7 @@ function PjHeaderRow({ children }: PropsWithChildren): ReactElement {
         <div className="mx-auto flex min-h-[60px] max-w-[1240px] items-center gap-3 px-4 lg:min-h-[72px] lg:gap-7 lg:px-6">
             <Link
                 to={PJ_ROUTES.home}
-                className="flex shrink-0 items-center"
+                className="flex min-h-11 shrink-0 items-center"
                 data-testid="header-logo"
                 aria-label={t('header.homeAria')}>
                 <img src={logo} alt={tHeader('logoAlt')} className="w-auto [filter:var(--header-logo-filter)]" />
@@ -155,7 +170,7 @@ function PjHeaderRow({ children }: PropsWithChildren): ReactElement {
                             to={item.to}
                             aria-current={active ? 'page' : undefined}
                             className={cn(
-                                'flex min-h-11 items-center border-b-[3px] text-[15px] font-semibold text-header-foreground no-underline hover:border-header-foreground/40',
+                                'flex min-h-11 min-w-11 items-center justify-center border-b-[3px] text-[15px] font-semibold text-header-foreground no-underline hover:border-header-foreground/40',
                                 active ? 'border-pj-lime' : 'border-transparent'
                             )}>
                             {t(item.key)}

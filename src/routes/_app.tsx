@@ -27,9 +27,11 @@ import type { CategoryItemsFilter } from '@/components/navigation-menu';
 import { SkipLink } from '@/components/skip-link';
 // @sfdc-extension-block-start SFDC_EXT_PJ_SHARED
 import { UITarget } from '@/targets/ui-target';
+import { cn } from '@/lib/utils';
 import { useBasketSnapshot } from '@/providers/basket';
 import { BottomNav } from '@/extensions/pj-shared/components/bottom-nav';
-import { usePjPath } from '@/extensions/pj-shared/hooks/use-pj-path';
+import { matchesPath, usePjPath } from '@/extensions/pj-shared/hooks/use-pj-path';
+import { PJ_BOTTOM_NAV_ROUTES } from '@/extensions/pj-shared/lib/routes';
 // @sfdc-extension-block-end SFDC_EXT_PJ_SHARED
 import {
     fetchComponentWithComponentData,
@@ -170,6 +172,7 @@ export default function DefaultLayout(_props: { loaderData: LoaderData }) {
     // @sfdc-extension-block-start SFDC_EXT_PJ_SHARED
     const currentPath = usePjPath();
     const cartCount = useBasketSnapshot()?.totalItemCount ?? 0;
+    const showBottomNav = matchesPath(currentPath, PJ_BOTTOM_NAV_ROUTES);
     // @sfdc-extension-block-end SFDC_EXT_PJ_SHARED
 
     // Papa Johns (INT-02): el lienzo no tiene mega-menú, franja de anuncio ni lista de deseos.
@@ -184,7 +187,13 @@ export default function DefaultLayout(_props: { loaderData: LoaderData }) {
             {/* Franja del pedido en curso (SEG): bajo el encabezado en escritorio y fija sobre la barra inferior en móvil. Vacía no ocupa espacio. */}
             <div
                 data-pj-slot="tracking-strip"
-                className="pointer-events-none fixed inset-x-2 bottom-[calc(var(--pj-bottom-nav-height)+env(safe-area-inset-bottom)+6px)] z-40 *:pointer-events-auto lg:pointer-events-auto lg:static lg:inset-auto lg:z-auto">
+                data-with-bottom-nav={showBottomNav ? 'true' : 'false'}
+                className={cn(
+                    'pointer-events-none fixed inset-x-2 z-40 *:pointer-events-auto lg:pointer-events-auto lg:static lg:inset-auto lg:z-auto',
+                    showBottomNav
+                        ? 'bottom-[calc(var(--pj-bottom-nav-height)+env(safe-area-inset-bottom)+6px)]'
+                        : 'bottom-[calc(env(safe-area-inset-bottom)+8px)]'
+                )}>
                 <UITarget targetId="pj.layout.tracking" />
             </div>
             {/* @sfdc-extension-block-end SFDC_EXT_PJ_SHARED */}
@@ -193,7 +202,7 @@ export default function DefaultLayout(_props: { loaderData: LoaderData }) {
             </main>
             <Footer />
             {/* @sfdc-extension-line SFDC_EXT_PJ_SHARED */}
-            <BottomNav currentPath={currentPath} cartCount={cartCount} />
+            {showBottomNav && <BottomNav currentPath={currentPath} cartCount={cartCount} />}
         </>
     );
 }

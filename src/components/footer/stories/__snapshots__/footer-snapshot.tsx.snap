@@ -46,7 +46,7 @@ exports[`Footer stories snapshot > Default story renders and matches snapshot 1`
     class="mx-auto flex max-w-[1240px] flex-wrap items-center gap-x-10 gap-y-2 px-6 py-7 text-sm"
   >
     <a
-      class="font-heading text-xl font-extrabold tracking-[0.5px] text-footer-foreground no-underline"
+      class="inline-flex min-h-11 items-center font-heading text-xl font-extrabold tracking-[0.5px] text-footer-foreground no-underline"
       href="/"
     >
       PAPA JOHNS
@@ -165,7 +165,7 @@ exports[`Footer stories snapshot > FooterSelectsForcedFocus story renders and ma
     class="mx-auto flex max-w-[1240px] flex-wrap items-center gap-x-10 gap-y-2 px-6 py-7 text-sm"
   >
     <a
-      class="font-heading text-xl font-extrabold tracking-[0.5px] text-footer-foreground no-underline"
+      class="inline-flex min-h-11 items-center font-heading text-xl font-extrabold tracking-[0.5px] text-footer-foreground no-underline"
       href="/"
     >
       PAPA JOHNS
@@ -284,7 +284,7 @@ exports[`Footer stories snapshot > MobileView story renders and matches snapshot
     class="mx-auto flex max-w-[1240px] flex-wrap items-center gap-x-10 gap-y-2 px-6 py-7 text-sm"
   >
     <a
-      class="font-heading text-xl font-extrabold tracking-[0.5px] text-footer-foreground no-underline"
+      class="inline-flex min-h-11 items-center font-heading text-xl font-extrabold tracking-[0.5px] text-footer-foreground no-underline"
       href="/"
     >
       PAPA JOHNS
