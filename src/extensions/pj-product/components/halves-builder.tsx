@@ -20,6 +20,7 @@ import type { ShopperBasketsV2 } from '@/scapi';
 import { cn } from '@/lib/utils';
 import { Link } from '@/components/link';
 import { useNavigate } from '@/hooks/use-navigate';
+import { FoodImage } from '@/extensions/pj-shared/components/food-image';
 import { formatClp } from '@/extensions/pj-shared/lib/format';
 import { pointsFor } from '@/extensions/pj-shared/lib/points';
 import { PJ_ROUTES } from '@/extensions/pj-shared/lib/routes';
@@ -225,7 +226,7 @@ export function HalvesBuilder({ data, layout, onClose, onSaved }: HalvesBuilderP
                                         'flex min-h-[44px] flex-col items-start rounded-[10px] border-2 px-2.5 py-1 text-left',
                                         on ? 'border-pj-green bg-pj-lime-soft' : 'border-pj-sand bg-pj-surface'
                                     )}>
-                                    <span className="text-[11px] text-pj-gray">{t(HALF_LABEL_KEYS[index])}</span>
+                                    <span className="text-xs text-pj-gray">{t(HALF_LABEL_KEYS[index])}</span>
                                     <span className="text-sm font-bold">{flavor?.name ?? t('halves.choose')}</span>
                                 </button>
                             );
@@ -294,14 +295,12 @@ export function HalvesBuilder({ data, layout, onClose, onSaved }: HalvesBuilderP
                                         on ? 'border-pj-green' : 'border-transparent shadow-pj-card'
                                     )}>
                                     {flavor.image ? (
-                                        <img
-                                            src={url(flavor.image, 128)}
+                                        <FoodImage
+                                            src={url(flavor.image, 128) ?? flavor.image}
                                             alt=""
-                                            width={64}
-                                            height={64}
-                                            loading="lazy"
-                                            decoding="async"
-                                            className="size-16 rounded-full bg-pj-sand object-cover"
+                                            bleed
+                                            crop="macro"
+                                            className="size-16 shrink-0 rounded-full"
                                         />
                                     ) : (
                                         <span aria-hidden="true" className="size-16 rounded-full bg-pj-sand" />

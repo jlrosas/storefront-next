@@ -20,6 +20,7 @@ import { toast } from 'sonner';
 import { useNavigate } from '@/hooks/use-navigate';
 import { AddedToast, type AddedToastProps } from '../components/added-toast';
 import { PJ_ROUTES } from './routes';
+import { flyToCart } from './fly-to-cart';
 
 /** Clase del toast propio: quita el estilo de los avisos del template (ver theme/overrides/sonner.css). */
 export const PJ_TOAST_CLASS = 'pj-toast';
@@ -30,6 +31,8 @@ export const PJ_TOAST_CLASS = 'pj-toast';
  * navegación la resuelve quien llama. Lo normal es usar `useShowAddedToast()`.
  */
 export function showAddedToast(props: Omit<AddedToastProps, 'onDismiss'>, duration = 6000): string | number {
+    // VIS-05: la foto vuela al carrito y el contador salta (nada con «reducir movimiento»).
+    void flyToCart();
     return toast.custom((id) => <AddedToast {...props} onDismiss={() => toast.dismiss(id)} />, {
         duration,
         className: PJ_TOAST_CLASS,

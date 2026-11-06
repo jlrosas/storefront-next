@@ -97,4 +97,25 @@ describe('FoodImage (R4.7)', () => {
         expect(screen.getByRole('img')).toHaveAttribute('loading', 'eager');
         expect(screen.getByRole('img')).toHaveAttribute('fetchpriority', 'high');
     });
+
+    it('crop macro, hero y combo acercan la foto sin letterbox; none la deja tal cual (VIS-01)', () => {
+        const { rerender } = render(<FoodImage src="/pizza.jpg" alt="Pizza" crop="macro" />);
+        const wrapper = screen.getByTestId('pj-food-image');
+        expect(wrapper).toHaveAttribute('data-crop', 'macro');
+        expect(screen.getByRole('img').className).toContain('object-cover');
+        expect(screen.getByRole('img').className).toContain('scale-[1.45]');
+        expect(screen.getByRole('img').className).toContain('object-[50%_60%]');
+
+        rerender(<FoodImage src="/pizza.jpg" alt="Pizza" crop="hero" />);
+        expect(screen.getByRole('img').className).toContain('scale-[1.55]');
+        expect(screen.getByRole('img').className).toContain('lg:scale-[1.35]');
+
+        rerender(<FoodImage src="/pizza.jpg" alt="Pizza" crop="combo" />);
+        expect(screen.getByRole('img').className).toContain('object-[0%_55%]');
+        expect(screen.getByRole('img').className).toContain('scale-[1.7]');
+
+        rerender(<FoodImage src="/pizza.jpg" alt="Pizza" />);
+        expect(screen.getByTestId('pj-food-image')).toHaveAttribute('data-crop', 'none');
+        expect(screen.getByRole('img').className).not.toContain('scale-');
+    });
 });

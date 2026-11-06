@@ -17,15 +17,15 @@
 import type { CSSProperties } from 'react';
 
 /**
- * Colores del lienzo que `pj.css` (INT) todavía no tiene: chips de ingredientes (Sheet-Pizza, PDP) y el
+ * Alias de PRO sobre la paleta oficial (VIS-03: sin hex fuera de S-D18). Antes eran colores del lienzo que `pj.css` no tenía: chips de ingredientes (Sheet-Pizza, PDP) y el
  * separador de secciones de la hoja. Se declaran como variables CSS en la raíz de cada pantalla de PRO
  * y se usan con `bg-[var(--pj-chip)]`. Candidatos a `pj-shared` (tokens).
  */
 export const PRO_TOKENS = {
-    '--pj-chip': '#FFF3E6',
-    '--pj-chip-line': '#E9C9A6',
-    '--pj-removed': '#8A3B12',
-    '--pj-removed-line': '#C9906F',
-    '--pj-section': '#F4F3EE',
-    '--pj-split-line': '#E9C9A6',
+    '--pj-chip': 'var(--pj-dough-deep)',
+    '--pj-chip-line': 'var(--pj-dough-line)',
+    '--pj-removed': 'var(--pj-sauce)',
+    '--pj-removed-line': 'var(--pj-input-line)',
+    '--pj-section': 'var(--pj-dough-deep)',
+    '--pj-split-line': 'var(--pj-dough-line)',
 } as CSSProperties;

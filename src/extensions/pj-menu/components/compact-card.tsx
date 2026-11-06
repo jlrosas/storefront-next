@@ -52,6 +52,7 @@ export function CompactCard({ product, className }: { product: MenuProduct; clas
                         sizes="64px"
                         alt={product.image.alt}
                         aspect="1/1"
+                        crop="none"
                         className="size-[52px] shrink-0 rounded-[10px] lg:size-16"
                     />
                 )}

@@ -1684,11 +1684,11 @@
         "each": "c/u"
     },
     "trackingConsent": {
-        "title": "Tú eliges tus cookies",
+        "title": "Estas cookies no se comen.",
         "accept": "Aceptar",
         "decline": "Rechazar",
         "closeAriaLabel": "Cerrar",
-        "description": "Las usamos para recordar tu tienda y tu pedido, y para mostrarte ofertas que te sirvan."
+        "description": "Las usamos para recordar tu tienda y tu pedido."
     },
     "localeSwitcher": {
         "ariaLabel": "Selector de idioma",

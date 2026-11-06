@@ -26,7 +26,7 @@ const meta: Meta<typeof PriceTag> = {
         docs: {
             description: {
                 component:
-                    'Precio del lienzo: ahora, antes tachado y ahorro en pesos (CLP `$22.590`). Con precio antes, el precio ahora va en rojo tomate.',
+                    'Precio del lienzo: ahora, antes tachado y ahorro en pesos (CLP `$22.590`). Con precio antes, el precio ahora va en Rich Sauce. `variant="display"`: precio protagonista con `$` en superíndice, Condensed, Rich Sauce sobre crema y lima sobre verde o granate (`surface`).',
             },
         },
     },
@@ -50,3 +50,32 @@ export const OnSale: Story = {
 export const Large: Story = { args: { price: 10990, listPrice: 21900, size: 'lg' } };
 
 export const FromPrice: Story = { args: { price: 12400, prefix: 'desde', size: 'sm' } };
+
+/** VIS-02: precio display del hero (44/72 px) sobre crema. */
+export const Display: Story = {
+    args: { price: 10990, listPrice: 21900, variant: 'display', size: 'lg' },
+    play: async ({ canvasElement }) => {
+        const canvas = within(canvasElement);
+        await expect(canvas.getByTestId('pj-price-display')).toHaveTextContent('$10.990');
+    },
+};
+
+export const DisplayOnBasil: Story = {
+    args: { price: 22590, listPrice: 27800, variant: 'display', size: 'md', surface: 'basil' },
+    decorators: [(Story) => <div className="bg-pj-basil p-6">{Story()}</div>],
+};
+
+export const DisplayOnSauce: Story = {
+    args: { price: 17490, variant: 'display', size: 'md', surface: 'sauce' },
+    decorators: [(Story) => <div className="bg-pj-sauce p-6">{Story()}</div>],
+};
+
+export const DisplaySizes: Story = {
+    render: () => (
+        <div className="flex flex-col gap-3 bg-pj-dough p-4">
+            {(['sm', 'md', 'lg'] as const).map((size) => (
+                <PriceTag key={size} variant="display" size={size} price={22590} listPrice={27800} />
+            ))}
+        </div>
+    ),
+};

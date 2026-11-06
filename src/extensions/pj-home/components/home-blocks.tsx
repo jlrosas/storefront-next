@@ -99,12 +99,12 @@ export function Popular({ items, title, compact = false, best = false }: Popular
                                 sizes="(min-width: 1024px) 33vw, 230px"
                                 alt={p.imageAlt}
                                 bleed
+                                crop="macro"
                                 className={compact ? 'h-[140px] lg:h-[230px]' : 'h-[170px] lg:h-[260px]'}
-                                imgClassName="object-[center_40%]"
                             />
                             <span className="flex flex-col gap-0.5 px-3 pt-2.5 pb-3 lg:gap-1.5 lg:px-[18px] lg:pt-4 lg:pb-5">
                                 {p.badge && !compact && (
-                                    <span className="self-start rounded-full bg-pj-sand px-2 py-0.5 text-[11px] font-bold text-pj-ink">
+                                    <span className="self-start rounded-full bg-pj-sand px-2 py-0.5 text-xs font-bold text-pj-ink">
                                         {t(`popular.badge.${p.badge}`, { defaultValue: p.badge })}
                                     </span>
                                 )}

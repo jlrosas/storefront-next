@@ -223,7 +223,8 @@ function PjHeaderRow({ children }: PropsWithChildren): ReactElement {
                 {count > 0 && (
                     <span
                         aria-hidden="true"
-                        className="absolute -top-1 -right-1 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-pj-basil px-1 text-[11px] leading-none text-header-foreground lg:hidden">
+                        data-pj-cart-count=""
+                        className="absolute -top-1 -right-1 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-pj-basil px-1 text-xs leading-none text-header-foreground lg:hidden">
                         {count > 99 ? '99+' : count}
                     </span>
                 )}

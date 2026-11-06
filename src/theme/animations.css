@@ -16,3 +16,16 @@
         transform: scale(1.1) translate(-2%, -2%);
     }
 }
+
+/* Sello LTO (VIS-02, UX-1 §3.5): entra una sola vez con escala 0,6 → 1 y giro −8° → 0°. En reposo no
+ * rota (playbook p. 121). LtoBadge lo usa solo con motion-safe. */
+@keyframes pj-lto-in {
+    from {
+        transform: scale(0.6) rotate(-8deg);
+        opacity: 0;
+    }
+    to {
+        transform: none;
+        opacity: 1;
+    }
+}

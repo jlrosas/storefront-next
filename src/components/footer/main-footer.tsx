@@ -22,9 +22,10 @@ import { PJ_EXTERNAL_LINKS, PJ_ROUTES } from '@/extensions/pj-shared/lib/routes'
 import SocialIcons from './social-icons';
 
 /**
- * Footer de Papa Johns Chile (Home-Desktop.dc.html): banda verde oscuro con la marca, Locales,
- * Preguntas frecuentes, Bases legales de promociones y Política de privacidad, más las redes de
- * Papa Johns Chile. Sin newsletter, selector de idioma ni de moneda (INT-02 · criterio 4).
+ * Footer de Papa Johns Chile (Home-Desktop.dc.html, VIS-05): banda Fresh Basil con el lockup
+ * «MEJORES INGREDIENTES. MEJOR PIZZA.» (BIBP, playbook p. 118) en lima, Locales, Preguntas frecuentes,
+ * Bases legales de promociones y Política de privacidad (2 columnas en móvil), y el © en la misma línea
+ * que las redes. Sin newsletter, selector de idioma ni de moneda (INT-02 · criterio 4).
  */
 export default function MainFooter(): ReactElement {
     const { t } = useTranslation('extPjShared');
@@ -33,13 +34,16 @@ export default function MainFooter(): ReactElement {
 
     return (
         <footer className="mt-auto bg-footer-background text-footer-foreground" data-testid="pj-footer">
-            <div className="mx-auto flex max-w-[1240px] flex-wrap items-center gap-x-10 gap-y-2 px-6 py-7 text-sm">
-                <Link
-                    to={PJ_ROUTES.home}
-                    className="inline-flex min-h-11 items-center font-heading text-xl font-extrabold tracking-[0.5px] text-footer-foreground no-underline">
-                    {t('footer.brand')}
-                </Link>
-                <nav aria-label={t('footer.brand')} className="flex flex-wrap gap-x-10 gap-y-0">
+            <div className="mx-auto flex max-w-[1240px] flex-col gap-y-1 px-4 py-5 text-sm lg:flex-row lg:flex-wrap lg:items-center lg:gap-x-10 lg:px-6 lg:py-7">
+                {/* @sfdc-extension-block-start SFDC_EXT_PJ_SHARED */}
+                <p
+                    data-testid="pj-footer-bibp"
+                    className="w-full font-heading text-[22px] leading-none tracking-normal text-pj-pepperoncini uppercase lg:text-[28px]">
+                    {t('footer.bibp')}
+                </p>
+                <nav
+                    aria-label={t('footer.brand')}
+                    className="grid grid-cols-2 gap-x-4 lg:flex lg:flex-wrap lg:gap-x-10">
                     <Link to={PJ_ROUTES.stores} className={linkClass}>
                         {t('footer.stores')}
                     </Link>
@@ -53,8 +57,11 @@ export default function MainFooter(): ReactElement {
                         {t('footer.privacy')}
                     </a>
                 </nav>
-                <SocialIcons className="lg:ml-auto" />
-                <p className="w-full text-xs opacity-85">{t('footer.copyright', { year: new Date().getFullYear() })}</p>
+                <div className="flex items-center justify-between gap-3 lg:ml-auto lg:flex-row-reverse">
+                    <SocialIcons className="-ml-3 lg:ml-0" />
+                    <p className="text-xs opacity-90">{t('footer.copyright', { year: new Date().getFullYear() })}</p>
+                </div>
+                {/* @sfdc-extension-block-end SFDC_EXT_PJ_SHARED */}
             </div>
         </footer>
     );

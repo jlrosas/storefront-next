@@ -29,7 +29,7 @@ const meta: Meta<typeof FoodImage> = {
         docs: {
             description: {
                 component:
-                    'Foto de comida con srcset, recorte, sombra opcional y movimiento lento con pausa (R4.7). Con «reducir movimiento» queda quieta y sin botón.',
+                    'Foto de comida con srcset, recorte (`crop`: macro, hero, combo, none), sombra opcional y movimiento lento con pausa (R4.7). Con «reducir movimiento» queda quieta y sin botón.',
             },
         },
     },
@@ -55,3 +55,21 @@ export const Animated: Story = {
         }
     },
 };
+
+/** VIS-01: las 4 variantes de `crop` con la misma foto del CDN (1440×1080). */
+export const Crops: Story = {
+    render: (args) => (
+        <div className="grid max-w-4xl grid-cols-2 gap-4">
+            {(['macro', 'hero', 'combo', 'none'] as const).map((crop) => (
+                <figure key={crop} className="flex flex-col gap-1">
+                    <FoodImage {...args} className="" crop={crop} aspect={crop === 'hero' ? '16/10' : '4/3'} />
+                    <figcaption className="text-sm font-bold">crop=&quot;{crop}&quot;</figcaption>
+                </figure>
+            ))}
+        </div>
+    ),
+};
+
+export const Macro: Story = { args: { crop: 'macro', shadow: true } };
+export const Hero: Story = { args: { crop: 'hero', bleed: true, aspect: '16/10', className: 'max-w-2xl' } };
+export const Combo: Story = { args: { crop: 'combo', aspect: '1/1' } };

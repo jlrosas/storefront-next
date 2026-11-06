@@ -18,6 +18,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useFetcher } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
+import { flyToCart } from '@/extensions/pj-shared/lib/fly-to-cart';
 import { useBasket, useBasketError, useBasketHydrated, useBasketSnapshot, useBasketUpdater } from '@/providers/basket';
 import { resourceRoutes } from '@/route-paths';
 import type { BasketActionResponse } from '@/routes/types/action-responses';
@@ -125,6 +126,7 @@ export function useCartLine({ productId, name }: UseCartLineArgs): CartLine {
         if (result.success && result.basket) {
             updateBasket(result.basket);
             if (sent?.increase) {
+                void flyToCart();
                 const total = result.basket.productTotal ?? result.basket.productSubTotal ?? 0;
                 toast.custom(
                     (id) => (

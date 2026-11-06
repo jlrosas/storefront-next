@@ -20,6 +20,7 @@ import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { Link } from '@/components/link';
 import { FoodImage } from '@/extensions/pj-shared/components/food-image';
+import { PriceTag } from '@/extensions/pj-shared/components/price-tag';
 import { formatClp, formatCount, formatRating } from '@/extensions/pj-shared/lib/format';
 import { pointsFor } from '@/extensions/pj-shared/lib/points';
 import { PJ_ROUTES } from '@/extensions/pj-shared/lib/routes';
@@ -204,7 +205,7 @@ export function PizzaPdp({ config, sides, initialSize }: PizzaPdpProps): ReactEl
     const badges = (
         <div className="flex flex-wrap items-center gap-1.5">
             {config.badges.includes('mas-pedida') && (
-                <span className="rounded-full bg-pj-lime px-2.5 py-0.5 text-[11px] font-bold tracking-wide text-pj-green-dark uppercase lg:text-xs">
+                <span className="rounded-full bg-pj-lime px-2.5 py-0.5 text-xs font-bold tracking-wide text-pj-green-dark uppercase">
                     {t('pdp.bestSeller')}
                 </span>
             )}
@@ -268,10 +269,11 @@ export function PizzaPdp({ config, sides, initialSize }: PizzaPdpProps): ReactEl
                                     animate
                                     priority
                                     bleed
-                                    className="h-[320px] w-full lg:aspect-[5/4] lg:h-auto lg:rounded-[18px]"
+                                    crop="macro"
+                                    className="aspect-square w-full lg:aspect-[5/4] lg:rounded-[18px]"
                                 />
                             ) : (
-                                <div className="h-[320px] bg-pj-sand lg:aspect-[5/4] lg:h-auto lg:rounded-[18px]" />
+                                <div className="aspect-square bg-pj-sand lg:aspect-[5/4] lg:rounded-[18px]" />
                             )}
                             <span className="pointer-events-none absolute top-3 left-3 rounded-full bg-pj-ink/70 px-2.5 py-1 text-xs font-bold text-pj-surface lg:text-[13px]">
                                 {t('pdp.fresh')}
@@ -301,6 +303,7 @@ export function PizzaPdp({ config, sides, initialSize }: PizzaPdpProps): ReactEl
                             <h1 className="font-heading text-[38px] leading-none font-extrabold uppercase lg:text-5xl">
                                 {config.name}
                             </h1>
+                            <PriceTag variant="display" size="md" price={pizzaTotal} />
                             {rating}
                             {config.sensory && (
                                 <p className="text-[15px] leading-[1.45] text-pj-gray-strong lg:text-base">
@@ -368,12 +371,12 @@ export function PizzaPdp({ config, sides, initialSize }: PizzaPdpProps): ReactEl
                                                     on ? 'border-pj-green' : 'border-transparent'
                                                 )}>
                                                 {side.image && (
-                                                    <img
-                                                        src={url(side.image, 320)}
+                                                    <FoodImage
+                                                        src={url(side.image, 320) ?? side.image}
                                                         alt={side.name}
-                                                        loading="lazy"
-                                                        decoding="async"
-                                                        className="h-24 w-full rounded-[10px] object-cover lg:h-32"
+                                                        bleed
+                                                        crop="none"
+                                                        className="h-24 w-full rounded-[10px] lg:h-32"
                                                     />
                                                 )}
                                                 <p className="text-sm leading-tight font-bold">{side.name}</p>

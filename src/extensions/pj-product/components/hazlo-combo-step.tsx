@@ -18,6 +18,7 @@ import { type ReactElement, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { ShopperBasketsV2 } from '@/scapi';
 import { cn } from '@/lib/utils';
+import { FoodImage } from '@/extensions/pj-shared/components/food-image';
 import { formatClp } from '@/extensions/pj-shared/lib/format';
 import { DEFAULT_DRINK_FLAVOR, type SheetUpsell, type SideProduct } from '../lib/upsell';
 import type { PjCartPayload, PjCartResult } from '../lib/cart-payload';
@@ -139,12 +140,12 @@ export function HazloComboStep({
                         data-testid="pj-combo-offer">
                         <div className="relative">
                             {offer.image && (
-                                <img
-                                    src={url(offer.image, 800)}
+                                <FoodImage
+                                    src={url(offer.image, 800) ?? offer.image}
                                     alt={t('upsell.imageAlt')}
-                                    className="block h-[170px] w-full object-cover"
-                                    loading="lazy"
-                                    decoding="async"
+                                    bleed
+                                    crop="none"
+                                    className="h-[170px] w-full"
                                 />
                             )}
                             {offer.savings > 0 && (
@@ -226,13 +227,12 @@ export function HazloComboStep({
                                         key={side.productId}
                                         className="flex items-center gap-3 border-b border-pj-sand py-2">
                                         {side.image && (
-                                            <img
-                                                src={url(side.image, 120)}
+                                            <FoodImage
+                                                src={url(side.image, 120) ?? side.image}
                                                 alt={side.name}
-                                                width={60}
-                                                height={60}
-                                                loading="lazy"
-                                                className="size-[60px] shrink-0 rounded-[10px] object-cover"
+                                                bleed
+                                                crop="none"
+                                                className="size-[60px] shrink-0 rounded-[10px]"
                                             />
                                         )}
                                         <div className="min-w-0 flex-1">
