@@ -85,7 +85,7 @@ export function PizzasSection({ menu, size, filter, onSize, onFilter }: PizzasSe
                                 aria-pressed={on}
                                 onClick={() => onSize(candidate)}
                                 className={cn(
-                                    'min-h-11 cursor-pointer rounded-[9px] px-3.5 text-sm font-bold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green',
+                                    'min-h-[44px] cursor-pointer rounded-[9px] px-3.5 text-sm font-bold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green',
                                     on
                                         ? 'bg-pj-surface text-pj-green-dark shadow-[0_1px_3px_rgb(0_0_0/0.12)]'
                                         : 'text-pj-gray'
@@ -109,7 +109,7 @@ export function PizzasSection({ menu, size, filter, onSize, onFilter }: PizzasSe
                                 aria-pressed={on}
                                 onClick={() => onFilter(candidate)}
                                 className={cn(
-                                    'min-h-11 shrink-0 cursor-pointer rounded-full px-3.5 text-sm font-bold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green',
+                                    'min-h-[44px] shrink-0 cursor-pointer rounded-full px-3.5 text-sm font-bold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green',
                                     on ? 'bg-pj-green text-pj-surface' : 'bg-[#FBE9D7] text-[#7A3A12]'
                                 )}>
                                 {candidate === 'all' ? t('filter.all', { count: total }) : tr(`filter.${candidate}`)}

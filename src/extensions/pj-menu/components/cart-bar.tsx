@@ -36,7 +36,7 @@ export function CartBar(): ReactElement | null {
             to={PJ_ROUTES.cart}
             data-testid="pj-menu-cart-bar"
             aria-label={t('cartBar.aria', { count, total })}
-            className="fixed inset-x-3 bottom-[calc(var(--pj-bottom-nav-height)+env(safe-area-inset-bottom)+12px+var(--pj-menu-strip,0px))] z-30 flex h-13 items-center justify-between rounded-full bg-pj-green px-5 font-bold text-pj-surface no-underline shadow-pj-float focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-lime lg:hidden">
+            className="fixed inset-x-3 bottom-[calc(var(--pj-bottom-nav-height)+env(safe-area-inset-bottom)+12px+var(--pj-menu-strip,0px))] z-30 flex h-[52px] items-center justify-between rounded-full bg-pj-green px-5 font-bold text-pj-surface no-underline shadow-pj-float focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-lime lg:hidden">
             <span>{t('cartBar.view', { count })}</span>
             <span>{total}</span>
         </Link>

@@ -13,55 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/** @sfdc-extension-file SFDC_EXT_PJ_OFFERS */
+/** @sfdc-extension-file SFDC_EXT_PJ_MENU */
 import type { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
-import { formatCount } from '@/extensions/pj-shared';
 
 /**
- * Aviso «¡Agregada!» con la forma de `AddedToast` de pj-shared (puntos, «Deshacer», «Ver pedido»).
- * Existe porque el Toaster global está fuera de `SiteProvider` y `AddedToast` usa `Link`: aquí el
- * destino es un callback con `useNavigate`. Candidato a corregir en pj-shared.
+ * Aviso de Simple-Add: «<nombre> agregada · $total» con «Ver pedido», sin «Deshacer» ni puntos
+ * (eso es de las pizzas, en PRO). El destino es un callback con `useNavigate`: el Toaster global
+ * está fuera de `SiteProvider` y `Link` no funciona ahí.
  */
-export function MenuAddedToast({
-    title,
-    name,
-    points,
-    onUndo,
-    onView,
-}: {
-    title: string;
-    name: string;
-    points: number;
-    onUndo: () => void;
-    onView: () => void;
-}): ReactElement {
+export function MenuAddedToast({ name, onView }: { name: string; onView: () => void }): ReactElement {
     const { t } = useTranslation('extPjMenu');
     return (
         <div
             role="status"
             data-testid="pj-menu-added-toast"
             className="flex w-full max-w-[420px] items-center gap-3 rounded-pj-card bg-pj-green-dark px-4 py-3 text-pj-surface shadow-pj-strip">
-            <div className="min-w-0 flex-1">
-                <p className="truncate text-[15px] font-bold">
-                    {title} {name}
-                </p>
-                {points > 0 && (
-                    <p className="text-sm font-semibold text-pj-lime">
-                        {t('toast.points', { points: formatCount(points) })}
-                    </p>
-                )}
-            </div>
-            <button
-                type="button"
-                onClick={onUndo}
-                className="min-h-11 shrink-0 cursor-pointer px-2 text-sm font-bold underline underline-offset-4">
-                {t('toast.undo')}
-            </button>
+            <p className="min-w-0 flex-1 truncate text-sm font-semibold">{name}</p>
             <button
                 type="button"
                 onClick={onView}
-                className="flex min-h-11 shrink-0 cursor-pointer items-center rounded-full bg-pj-lime px-4 text-sm font-bold text-pj-green-dark">
+                className="flex min-h-[44px] shrink-0 cursor-pointer items-center rounded-full bg-pj-lime px-4 text-sm font-bold text-pj-green-dark">
                 {t('order.viewOrder')}
             </button>
         </div>

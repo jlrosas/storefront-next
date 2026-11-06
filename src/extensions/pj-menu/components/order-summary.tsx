@@ -50,7 +50,7 @@ function DefaultSummary(): ReactElement {
                 </div>
                 <Link
                     to={'/checkout'}
-                    className="flex min-h-13 items-center justify-center rounded-full bg-pj-green text-base font-bold text-pj-surface no-underline hover:bg-pj-green-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green">
+                    className="flex min-h-[52px] items-center justify-center rounded-full bg-pj-green text-base font-bold text-pj-surface no-underline hover:bg-pj-green-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green">
                     {t('order.checkout')}
                 </Link>
                 <PointsBadge points={pointsFor(total)} className="self-start" />

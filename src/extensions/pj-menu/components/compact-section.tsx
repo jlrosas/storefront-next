@@ -59,7 +59,7 @@ export function CompactSection({
                         type="button"
                         aria-expanded={open}
                         onClick={() => setOpen((value) => !value)}
-                        className="min-h-11 cursor-pointer px-1 text-sm font-bold text-pj-green lg:text-base">
+                        className="min-h-[44px] cursor-pointer px-1 text-sm font-bold text-pj-green lg:text-base">
                         {open ? t('sections.viewLess') : tr(moreKey, { count: products.length })}
                     </button>
                 )}

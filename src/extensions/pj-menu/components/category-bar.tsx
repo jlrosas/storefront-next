@@ -106,7 +106,7 @@ export function CategoryBar({
                                 onClick={go(category.id)}
                                 aria-current={on ? 'true' : undefined}
                                 className={cn(
-                                    'flex min-h-11 shrink-0 items-center gap-1 border-b-[3px] px-2.5 text-[15px] no-underline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-pj-green lg:rounded-full lg:border-b-0 lg:px-4',
+                                    'flex min-h-[44px] shrink-0 items-center gap-1 border-b-[3px] px-2.5 text-[15px] no-underline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-pj-green lg:rounded-full lg:border-b-0 lg:px-4',
                                     on
                                         ? 'border-pj-green font-bold text-pj-green lg:bg-pj-green lg:text-pj-surface'
                                         : 'border-transparent font-semibold text-pj-gray hover:text-pj-green'

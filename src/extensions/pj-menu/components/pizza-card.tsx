@@ -84,7 +84,9 @@ export function PizzaCard({
                 )}
             </Link>
             <div className="flex flex-1 flex-col gap-1 p-2 pb-2.5 lg:p-3">
-                <Link to={href} className="text-sm leading-tight font-bold text-pj-ink no-underline lg:text-base">
+                <Link
+                    to={href}
+                    className="-my-3.5 py-3.5 text-sm leading-tight font-bold text-pj-ink no-underline lg:text-base">
                     {product.name}
                 </Link>
                 {product.sensory && (
@@ -106,7 +108,7 @@ export function PizzaCard({
                         onClick={configure(addDetail)}
                         aria-label={t('pizza.addAria', { name: product.name })}
                         data-testid="pj-menu-pizza-add"
-                        className="flex min-h-11 flex-1 items-center justify-center rounded-full bg-pj-green text-[13px] font-bold text-pj-surface no-underline hover:bg-pj-green-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green lg:text-sm">
+                        className="flex min-h-[44px] flex-1 items-center justify-center rounded-full bg-pj-green text-[13px] font-bold text-pj-surface no-underline hover:bg-pj-green-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green lg:text-sm">
                         {t('pizza.add')}
                     </Link>
                     {product.halves && (
@@ -115,7 +117,7 @@ export function PizzaCard({
                             onClick={configure(halfDetail)}
                             aria-label={t('pizza.halfAria', { name: product.name })}
                             data-testid="pj-menu-pizza-half"
-                            className="flex min-h-11 min-w-11 items-center justify-center rounded-full border-[1.5px] border-pj-green px-3 text-sm font-bold text-pj-green no-underline hover:bg-pj-lime-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green">
+                            className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full border-[1.5px] border-pj-green px-3 text-sm font-bold text-pj-green no-underline hover:bg-pj-lime-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green">
                             <span aria-hidden="true" className="lg:hidden">
                                 {t('pizza.halfShort')}
                             </span>

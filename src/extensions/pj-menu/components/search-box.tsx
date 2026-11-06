@@ -61,7 +61,7 @@ export function SearchBox({
             </label>
             <div
                 className={cn(
-                    'flex h-11 items-center gap-2 rounded-[12px] border-[1.5px] border-pj-input-line bg-pj-cream px-3',
+                    'flex h-[44px] items-center gap-2 rounded-[12px] border-[1.5px] border-pj-input-line bg-pj-cream px-3',
                     variant === 'desktop' && 'w-70'
                 )}>
                 <SearchIcon size={20} className="shrink-0 text-pj-gray" />

@@ -58,7 +58,7 @@ export function CompactCard({ product, className }: { product: MenuProduct; clas
                 <div className="min-w-0 flex-1">
                     <Link
                         to={`/p/${product.id}`}
-                        className="block text-sm font-bold text-pj-ink no-underline lg:text-[15px]">
+                        className="-my-3 block py-3 text-sm font-bold text-pj-ink no-underline lg:text-[15px]">
                         {product.name}
                     </Link>
                     <PriceTag price={price} size="sm" className="text-pj-gray" />
@@ -79,7 +79,7 @@ export function CompactCard({ product, className }: { product: MenuProduct; clas
                                 aria-pressed={on}
                                 onClick={() => setOptionId(candidate.id)}
                                 className={cn(
-                                    'min-h-11 shrink-0 cursor-pointer rounded-[10px] border-2 px-3 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green',
+                                    'min-h-[44px] shrink-0 cursor-pointer rounded-[10px] border-2 px-3 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green',
                                     on
                                         ? 'border-pj-green bg-pj-lime-soft text-pj-green-dark'
                                         : 'border-pj-line bg-pj-surface text-pj-ink'

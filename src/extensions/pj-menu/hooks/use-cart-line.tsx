@@ -22,7 +22,7 @@ import { useBasket, useBasketError, useBasketHydrated, useBasketSnapshot, useBas
 import { resourceRoutes } from '@/route-paths';
 import type { BasketActionResponse } from '@/routes/types/action-responses';
 import { useNavigate } from '@/hooks/use-navigate';
-import { formatClp, pointsFor } from '@/extensions/pj-shared';
+import { formatClp } from '@/extensions/pj-shared';
 import { PJ_ROUTES } from '@/extensions/pj-shared/lib/routes';
 import { MenuAddedToast } from '../components/menu-added-toast';
 import { ensureStore } from '../lib/menu-bridge';
@@ -54,7 +54,7 @@ export interface CartLine {
  * cantidad al instante y avisa con `AddedToast` cada vez que sube. Con `AllowRepeats` del sitio
  * un producto puede tener varias líneas: se suman y se modifica la primera.
  */
-export function useCartLine({ productId, name, price }: UseCartLineArgs): CartLine {
+export function useCartLine({ productId, name }: UseCartLineArgs): CartLine {
     const { t } = useTranslation('extPjMenu');
     const basket = useBasket();
     const snapshot = useBasketSnapshot();
@@ -129,13 +129,7 @@ export function useCartLine({ productId, name, price }: UseCartLineArgs): CartLi
                 toast.custom(
                     (id) => (
                         <MenuAddedToast
-                            title={t('toast.added')}
                             name={t('toast.line', { name, total: formatClp(total) })}
-                            points={pointsFor(price)}
-                            onUndo={() => {
-                                setTarget(sent.previous);
-                                toast.dismiss(id);
-                            }}
                             onView={() => {
                                 toast.dismiss(id);
                                 void navigate(PJ_ROUTES.cart);
@@ -150,7 +144,7 @@ export function useCartLine({ productId, name, price }: UseCartLineArgs): CartLi
             toast.error(t('toast.failed'));
         }
         setSettling(false);
-    }, [fetcher.data, fetcher.state, updateBasket, t, name, price, navigate]);
+    }, [fetcher.data, fetcher.state, updateBasket, t, name, navigate]);
 
     const increment = useCallback(() => {
         void (async () => {

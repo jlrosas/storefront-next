@@ -42,7 +42,7 @@ export function AddControl({
                 disabled={line.resolving}
                 onClick={line.increment}
                 data-testid="pj-menu-add"
-                className="flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-full bg-pj-green text-pj-surface hover:bg-pj-green-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green disabled:opacity-60">
+                className="flex size-[44px] shrink-0 cursor-pointer items-center justify-center rounded-full bg-pj-green text-pj-surface hover:bg-pj-green-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green disabled:opacity-60">
                 <PlusIcon />
             </button>
         );
@@ -52,12 +52,12 @@ export function AddControl({
             role="group"
             aria-label={t('compact.quantity', { name, count: line.quantity })}
             data-testid="pj-menu-stepper"
-            className="flex h-11 shrink-0 items-center rounded-full bg-pj-green text-pj-surface">
+            className="flex h-[44px] shrink-0 items-center rounded-full bg-pj-green text-pj-surface">
             <button
                 type="button"
                 aria-label={t('compact.remove', { name })}
                 onClick={line.decrement}
-                className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-lime">
+                className="flex h-[44px] w-[44px] cursor-pointer items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-lime">
                 <MinusIcon />
             </button>
             <span aria-live="polite" className="min-w-4 text-center font-bold">
@@ -67,7 +67,7 @@ export function AddControl({
                 type="button"
                 aria-label={addLabel}
                 onClick={line.increment}
-                className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-lime">
+                className="flex h-[44px] w-[44px] cursor-pointer items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-lime">
                 <PlusIcon />
             </button>
         </div>

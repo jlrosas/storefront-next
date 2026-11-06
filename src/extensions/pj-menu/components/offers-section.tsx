@@ -67,18 +67,20 @@ export function OffersSection({ offers, total }: { offers: MenuProduct[]; total:
             id="ofertas"
             aria-labelledby="menu-ofertas"
             tabIndex={-1}
-            className="flex scroll-mt-(--pj-menu-offset) flex-col gap-2.5 lg:gap-3">
+            className="flex min-w-0 scroll-mt-(--pj-menu-offset) flex-col gap-2.5 lg:gap-3">
             <div className="flex items-baseline justify-between">
                 <h2 id="menu-ofertas" className="text-[26px] lg:text-[32px]">
                     <span className="lg:hidden">{t('offers.title')}</span>
                     <span className="hidden lg:inline">{t('offers.titleDesktop')}</span>
                 </h2>
-                <Link to={PJ_ROUTES.promos} className="text-sm font-bold text-pj-green lg:text-base">
+                <Link
+                    to={PJ_ROUTES.promos}
+                    className="inline-flex min-h-[44px] items-center text-sm font-bold text-pj-green lg:text-base">
                     <span className="lg:hidden">{t('offers.viewAll', { count: total })}</span>
                     <span className="hidden lg:inline">{t('offers.viewAllDesktop', { count: total })}</span>
                 </Link>
             </div>
-            <div className="-mx-4 flex scroll-pl-4 snap-x snap-mandatory gap-2.5 overflow-x-auto px-4 pb-1 lg:mx-0 lg:grid lg:grid-cols-4 lg:gap-3.5 lg:overflow-visible lg:px-0">
+            <div className="relative -mx-4 flex scroll-pl-4 snap-x snap-mandatory gap-2.5 overflow-x-auto px-4 pb-1 lg:mx-0 lg:grid lg:grid-cols-4 lg:gap-3.5 lg:overflow-visible lg:px-0">
                 {featured.map((offer, index) => (
                     <OfferCard key={offer.id} offer={offer} priority={index === 0} />
                 ))}

@@ -112,7 +112,7 @@ export default function MenuRoute({ loaderData }: Route.ComponentProps) {
 
     return (
         <div
-            className="[--pj-menu-offset:calc(var(--header-height,60px)+3.5rem)] -mt-8 bg-pj-cream"
+            className="[--pj-menu-offset:calc(var(--header-height,60px)+3.5rem)] -mt-8 overflow-x-clip bg-pj-cream"
             data-testid="pj-menu">
             <SeoMeta title={t('title')} description={t('description')} />
             <h1 className="sr-only">{t('title')}</h1>
@@ -128,7 +128,7 @@ export default function MenuRoute({ loaderData }: Route.ComponentProps) {
                     <SearchBox total={total} defaultValue={q} variant="desktop" className="hidden lg:block" />
                 </CategoryBar>
             )}
-            <div className="mx-auto grid max-w-[1360px] items-start gap-7 px-4 pt-4 pb-[calc(8rem+var(--pj-menu-strip,0px))] lg:grid-cols-[minmax(0,1fr)_320px] lg:px-6 lg:pt-6 lg:pb-14">
+            <div className="mx-auto grid max-w-[1360px] grid-cols-[minmax(0,1fr)] items-start gap-7 px-4 pt-4 pb-[calc(8rem+var(--pj-menu-strip,0px))] lg:grid-cols-[minmax(0,1fr)_320px] lg:px-6 lg:pt-6 lg:pb-14">
                 <div className="flex min-w-0 flex-col gap-[22px] lg:gap-9">
                     {q && results ? (
                         <ResultsSection query={q} results={results} size={size} />

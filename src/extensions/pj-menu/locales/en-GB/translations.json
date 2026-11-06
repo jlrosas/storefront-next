@@ -101,11 +101,8 @@
         "quantity": "{{name}}: {{count}} en tu pedido"
     },
     "toast": {
-        "line": "{{name}} · Total {{total}}",
-        "failed": "No pudimos agregarlo. Inténtalo otra vez.",
-        "added": "¡Agregada!",
-        "points": "+{{points}} Papa Puntos por acreditar",
-        "undo": "Deshacer"
+        "line": "{{name}} agregada · {{total}}",
+        "failed": "No pudimos agregarlo. Inténtalo otra vez."
     },
     "order": {
         "title": "Tu pedido",
