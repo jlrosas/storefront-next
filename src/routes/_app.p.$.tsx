@@ -54,6 +54,10 @@ import PickupProvider from '@/extensions/bopis/context/pickup-context';
 // @sfdc-extension-block-start SFDC_EXT_SHIPPING_DELIVERY
 import { ShippingDeliveryProvider } from '@/extensions/shipping-delivery/context/shipping-delivery-context';
 // @sfdc-extension-block-end SFDC_EXT_SHIPPING_DELIVERY
+// @sfdc-extension-block-start SFDC_EXT_PJ_PRODUCT
+import { loadPizzaPdp, type PizzaPdpData } from '@/extensions/pj-product/lib/pdp.server';
+import { PizzaProductView } from '@/extensions/pj-product/components/pizza-product-view';
+// @sfdc-extension-block-end SFDC_EXT_PJ_PRODUCT
 
 @PageType({
     name: 'Product Detail Page',
@@ -82,6 +86,10 @@ export type ProductPageData = {
     pageKey: string;
     pageUrl: string;
     productSchema: Promise<ReturnType<typeof generateProductSchema> | null>;
+    // @sfdc-extension-block-start SFDC_EXT_PJ_PRODUCT
+    /** Ficha de pizza de Papa Johns (PRO-03); `null` para los demás productos. */
+    pjPizza?: PizzaPdpData | null;
+    // @sfdc-extension-block-end SFDC_EXT_PJ_PRODUCT
 };
 
 /**
@@ -184,6 +192,11 @@ export async function loader(args: Route.LoaderArgs): Promise<ProductPageData> {
 
     const pageUrl = buildSeoPageUrl(context, requestUrl);
 
+    // @sfdc-extension-block-start SFDC_EXT_PJ_PRODUCT
+    // La pizza se arma con su configurador (crítico: precio en el tamaño y el botón); `pz-mitades` redirige.
+    const pjPizza = await loadPizzaPdp(context, request, product);
+    // @sfdc-extension-block-end SFDC_EXT_PJ_PRODUCT
+
     // Generate product schema in loader (server-side) for SEO.
     // Wrapped in a Promise so it can be rendered through Suspense without blocking
     // the loader response. The inner try/catch logs synchronous schema-generation failures
@@ -218,6 +231,8 @@ export async function loader(args: Route.LoaderArgs): Promise<ProductPageData> {
         pageKey: productId,
         pageUrl,
         productSchema: productSchemaPromise,
+        // @sfdc-extension-line SFDC_EXT_PJ_PRODUCT
+        pjPizza,
     };
 }
 
@@ -299,6 +314,17 @@ function ProductContent({ product, url }: { product: ShopperProducts.schemas['Pr
  */
 function ProductDetailView({ loaderData }: { loaderData: ProductPageData }) {
     const { t } = useTranslation('product');
+    // @sfdc-extension-block-start SFDC_EXT_PJ_PRODUCT
+    if (loaderData.pjPizza) {
+        return (
+            <PizzaProductView
+                data={loaderData.pjPizza}
+                url={loaderData.pageUrl}
+                description={loaderData.product.pageDescription}
+            />
+        );
+    }
+    // @sfdc-extension-block-end SFDC_EXT_PJ_PRODUCT
     const content = (
         <div className="min-h-screen bg-background">
             <div className="section-container pb-4 lg:pb-8">
