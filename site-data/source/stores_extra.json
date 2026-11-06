@@ -1,0 +1,166 @@
+[
+ {
+  "id": 48,
+  "name": "El Bosque.",
+  "text_address": "Tobalaba 201",
+  "latitude": "-33.419657",
+  "longitude": "-70.599999",
+  "phone": "+56 2 22441020",
+  "menu_id": 40,
+  "commune": "Las Condes",
+  "delivery_wait_time": 30,
+  "pick_up_wait_time": 15,
+  "payment_methods": {
+   "cash": true,
+   "fpay": false,
+   "credit": true,
+   "fintoc": true,
+   "onepay": true,
+   "rutpay": true,
+   "sodexo": true,
+   "oneclick": true,
+   "web_online": true,
+   "mercado_pago": true
+  },
+  "region": "Región Metropolitana",
+  "order_method": "both",
+  "future_orders_enabled": true,
+  "external_delivery": false,
+  "external_delivery_company": "uber_direct",
+  "menu_peya_id": null,
+  "menu_just_eat_id": null,
+  "menu_totem_id": null,
+  "location": "Región Metropolitana",
+  "seo_description": null,
+  "seo_business_url": null,
+  "seo_enabled": true,
+  "close_reason": null,
+  "delivery_open": true,
+  "pick_up_open": true,
+  "business_info": null,
+  "store_groups": [
+   {
+    "id": 23,
+    "name": "Piloto Delivery Fee Junio 2026 (NO TOCAR)",
+    "delivery_price": 990.0,
+    "minimum_value_for_free_delivery": null,
+    "minimum_price_for_delivery": 4990.0,
+    "external_delivery_disabled": {}
+   }
+  ],
+  "business_hours": [
+   {
+    "id": 1150,
+    "opening_time": "2000-01-01T12:15:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 14431,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 22510,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 24949,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 24950,
+    "opening_time": "2000-01-01T12:15:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "thursday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 18986,
+    "opening_time": "2000-01-01T12:15:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "wednesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 33785,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 33786,
+    "opening_time": "2000-01-01T00:00:00.000Z",
+    "closing_time": "2000-01-01T01:00:00.000Z",
+    "day": "saturday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 14432,
+    "opening_time": "2000-01-01T12:15:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "monday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 388,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "saturday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34550,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "tuesday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34783,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 34784,
+    "opening_time": "2000-01-01T12:15:00.000Z",
+    "closing_time": "2000-01-01T23:00:00.000Z",
+    "day": "sunday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 35086,
+    "opening_time": "2000-01-01T12:15:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "tuesday",
+    "dispatch_method": "pj_delivery"
+   },
+   {
+    "id": 35234,
+    "opening_time": "2000-01-01T11:00:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "in_store"
+   },
+   {
+    "id": 35235,
+    "opening_time": "2000-01-01T12:15:00.000Z",
+    "closing_time": "2000-01-01T23:59:59.999Z",
+    "day": "friday",
+    "dispatch_method": "pj_delivery"
+   }
+  ]
+ }
+]

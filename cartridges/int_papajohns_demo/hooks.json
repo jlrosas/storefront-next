@@ -1,0 +1,11 @@
+{
+    "hooks": [
+        { "name": "dw.order.calculate", "script": "./cartridge/scripts/hooks/calculate.js" },
+        { "name": "dw.order.calculateShipping", "script": "./cartridge/scripts/hooks/calculate.js" },
+        { "name": "dw.order.calculateTax", "script": "./cartridge/scripts/hooks/calculate.js" },
+        { "name": "dw.ocapi.shop.basket.items.beforePOST", "script": "./cartridge/scripts/hooks/basketItems.js" },
+        { "name": "dw.ocapi.shop.basket.item.beforePATCH", "script": "./cartridge/scripts/hooks/basketItems.js" },
+        { "name": "dw.ocapi.shop.order.beforePOST", "script": "./cartridge/scripts/hooks/order.js" },
+        { "name": "dw.ocapi.shop.order.afterPOST", "script": "./cartridge/scripts/hooks/order.js" }
+    ]
+}

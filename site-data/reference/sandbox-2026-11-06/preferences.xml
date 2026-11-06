@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<preferences xmlns="http://www.demandware.com/xml/impex/preferences/2007-03-31">
+    <standard-preferences>
+        <all-instances>
+            <preference preference-id="AccountNumberRetentionDays">30</preference>
+            <preference preference-id="AddProductToBasketBehavior">IncrementQuantities</preference>
+            <preference preference-id="BogoProrationEnabled">legacy</preference>
+            <preference preference-id="BonusProductProrationEnabled">true</preference>
+            <preference preference-id="CouponGeneratorIncludeDashes">true</preference>
+            <preference preference-id="CouponGeneratorIncludeVowels">true</preference>
+            <preference preference-id="EnableSiteOrderNumbers">false</preference>
+            <preference preference-id="IntegrationOrderCenterIncludeSite">true</preference>
+            <preference preference-id="OrderLifetime">0</preference>
+            <preference preference-id="SiteCatalog">papajohns-cl-storefront</preference>
+            <preference preference-id="SiteCurrencies">CLP</preference>
+            <preference preference-id="SiteCustomerList">PapaJohnsCL</preference>
+            <preference preference-id="SiteDefaultLocale">es_CL</preference>
+            <preference preference-id="SiteInventoryList">inventory_papajohns_cl</preference>
+            <preference preference-id="SiteLibrary">PapaJohnsCLLibrary</preference>
+            <preference preference-id="SiteLocales">default:es_CL</preference>
+            <preference preference-id="SitePriceBooks">papajohns-cl-list-prices</preference>
+            <preference preference-id="SiteTimezone">America/Santiago</preference>
+            <preference preference-id="StorefrontURLsEnabled">true</preference>
+        </all-instances>
+        <development>
+            <preference preference-id="ExternallyPublishProductIndex">false</preference>
+            <preference preference-id="MergedVariationGroupsDisplayMode">false</preference>
+            <preference preference-id="RobotsTxtContent"/>
+            <preference preference-id="RobotsTxtMode">Cartridge</preference>
+        </development>
+        <staging>
+            <preference preference-id="ExternallyPublishProductIndex">false</preference>
+            <preference preference-id="MergedVariationGroupsDisplayMode">false</preference>
+            <preference preference-id="RobotsTxtContent"/>
+            <preference preference-id="RobotsTxtMode">Cartridge</preference>
+        </staging>
+        <production>
+            <preference preference-id="ExternallyPublishProductIndex">false</preference>
+            <preference preference-id="MergedVariationGroupsDisplayMode">false</preference>
+            <preference preference-id="RobotsTxtContent"/>
+            <preference preference-id="RobotsTxtMode">Cartridge</preference>
+        </production>
+    </standard-preferences>
+    <custom-preferences>
+        <all-instances/>
+        <development>
+            <preference preference-id="countryCode">CL</preference>
+        </development>
+        <staging>
+            <preference preference-id="countryCode">CL</preference>
+        </staging>
+        <production>
+            <preference preference-id="countryCode">CL</preference>
+        </production>
+    </custom-preferences>
+</preferences>
+
