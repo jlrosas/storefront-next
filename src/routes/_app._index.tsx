@@ -13,141 +13,71 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+/** @sfdc-extension-file SFDC_EXT_PJ_HOME */
 
 /**
- * Foundations home route overlay.
+ * Home de Papa Johns (HOM-01 a HOM-04): una sola portada que cambia según quién llega.
  *
- * A full replacement of the canonical `src/routes/_app._index.tsx` (route overlays
- * replace, they do not merge — see docs/internal/multi-vertical/README-VITE-RESOLVER.md).
+ * Reemplaza la portada del template (carrusel de héroes, «Featured Collection», categorías).
+ * El perfil lo decide `getDemoProfile` (Valentina, Diego o Sofía) y el momento, `getDemoMoment`.
  *
- * Foundations follows the Figma "Storefront Home" design (node 10002:82198), which
- * structures the page as fixed static sections with empty Page Designer slots
- * (`🧩 Custom Region 1–7`) interspersed between them. So this overlay differs from
- * the canonical layout in two structural ways:
- *
- *   1. The marketing sections (hero, featured collection, content cards, category
- *      rail) are ALWAYS rendered as static content — not as the `errorElement`
- *      fallback of an empty region. Adding a Page Designer component therefore
- *      renders IN ADDITION to the static content (in the adjacent slot), rather
- *      than replacing the whole section as the canonical/fallback pattern does.
- *   2. Empty `<Region>` slots are placed between each section. With no components
- *      and no `errorElement`, an empty slot renders nothing until a merchant drops
- *      a component into it via Page Designer.
- *
- * Copy/typography also match Figma: "Featured Collection" (via the foundations
- * locale override `home.featuredProducts.title`) and the H2 section-heading scale
- * (text-4xl / font-medium / leading-none). The Newsletter band is rendered by the
- * footer (`main-footer.tsx`, gated by `isHomepage`), not here.
- *
- * Fashion and cosmetic keep the canonical layout untouched.
+ * - Si la página `homepage` de Page Designer trae componentes en la región `home`, se muestran esos
+ *   (una sola página sirve a los tres perfiles con visibilidad por grupo de clientes).
+ * - Si no, se muestra la composición por defecto (`HomeDefault`), armada con los mismos bloques y
+ *   con datos del catálogo y del cliente.
  */
-import { Suspense } from 'react';
-import { Await, redirect, useAsyncError } from 'react-router';
+import { useTranslation } from 'react-i18next';
+import { redirect } from 'react-router';
 import type { Route } from './+types/_app._index';
-import type { ShopperProducts, ShopperSearch } from '@/scapi';
-import { fetchCarouselProducts } from '@/components/product-carousel/loaders';
-import { fetchCategories } from '@/lib/api/categories.server';
-import { siteContext, resolvePrefix, type SiteContext } from '@salesforce/storefront-next-runtime/site-context';
-import { Region } from '@/components/region';
-import PopularCategories from '@/components/home/popular-categories';
+import { resolvePrefix } from '@salesforce/storefront-next-runtime/site-context';
 import { getConfig } from '@salesforce/storefront-next-runtime/config';
+import { Region } from '@/components/region';
+import { SeoMeta } from '@/components/seo-meta';
 import { PageType } from '@/lib/decorators/page-type';
 import { RegionDefinition } from '@/lib/decorators/region-definition';
-
 import { fetchPageWithComponentData } from '@/lib/page-designer/page-loader.server';
 import { getLogger } from '@/lib/logger.server';
-
-import hero1 from '/images/foundations/hero-carousel/hero1.webp';
-import { ProductCarouselSkeleton } from '@/components/product-carousel';
-import { ProductCarouselWithData } from '@/components/product-carousel/carousel';
-import { SeoMeta } from '@/components/seo-meta';
 import { buildCanonicalUrl } from '@/utils/canonical-url';
-import { useTranslation } from 'react-i18next';
-import type { NormalizedApiError } from '@/lib/api/normalized-api-error';
-import { createCategoryUrlFromLegacyPath } from '@/route-paths';
-import { useSeoUrlContext } from '@/hooks/use-seo-url-context';
+import { getDemoMoment, getDemoProfile, type DemoProfile } from '@/extensions/pj-shared/lib/profile';
+import { loadHomeData } from '@/extensions/pj-home/lib/home-data.server';
+import { HomeDefault } from '@/extensions/pj-home/components/home-default';
+import type { HomeData } from '@/extensions/pj-home/lib/types';
 
 export { shouldRevalidate } from '@/lib/revalidation/routes/home';
 
-/** Figma home section-heading scale (H2): text-4xl / font-medium / leading-none, standard Tailwind tokens. */
-const featuredHeadingClassName = 'text-4xl font-medium leading-none tracking-tight text-foreground';
-
 @PageType({
     name: 'Home Page',
-    description: 'Main landing page with static marketing sections and interspersed Page Designer slots',
+    description: 'Portada por perfil: una sola página para Valentina, Diego y Sofía',
     supportedAspectTypes: [],
 })
 @RegionDefinition([
     {
-        id: 'top',
-        name: 'Top Slot',
-        description: 'Empty slot above the hero carousel',
-        maxComponents: 3,
-    },
-    {
-        id: 'afterHero',
-        name: 'After Hero Slot',
-        description: 'Empty slot between the hero carousel and the featured collection',
-        maxComponents: 3,
-    },
-    {
-        id: 'afterFeatured',
-        name: 'After Featured Slot',
-        description: 'Empty slot between the featured collection and the content cards',
-        maxComponents: 3,
-    },
-    {
-        id: 'afterContent',
-        name: 'After Content Slot',
-        description: 'Empty slot between the content cards and the category section',
-        maxComponents: 3,
-    },
-    {
-        id: 'bottom',
-        name: 'Bottom Slot',
-        description: 'Empty slot below the category section',
-        maxComponents: 3,
+        id: 'home',
+        name: 'Portada',
+        description:
+            'Hero de comida, ocasiones, «¿Para cuántos?», más pedidas, beneficios, «¿Lo de siempre?» y saldo. Cada bloque se muestra al perfil que corresponde con grupos de clientes.',
+        maxComponents: 12,
     },
 ])
 export class HomePageMetadata {}
 
-function FeaturedProductsError() {
-    const error = useAsyncError() as NormalizedApiError;
-    const { t } = useTranslation('home');
-    return (
-        <div role="alert" className="py-8 text-center text-muted-foreground">
-            <p>{t('featuredProducts.loadFailed')}</p>
-            {import.meta.env.DEV && (
-                <div className="mt-2 text-xs font-mono text-muted-foreground/70">
-                    {error.status && <span>{error.status}</span>}
-                    {error.message && <p>{error.message}</p>}
-                </div>
-            )}
-        </div>
-    );
-}
-
 export type HomePageData = {
     page: Awaited<ReturnType<typeof fetchPageWithComponentData>>;
-    searchResult: Promise<ShopperSearch.schemas['ProductSearchResult']>;
-    categories: Promise<ShopperProducts.schemas['Category'][]>;
+    /** Datos de la composición por defecto; `null` cuando manda Page Designer. */
+    home: HomeData | null;
+    profile: DemoProfile;
     pageUrl: string;
-    ogImageUrl: string;
 };
 
 /**
- * Server-side loader function that fetches home page data.
- * This function runs on the server during SSR and prepares data for the home page.
- * @returns Promise that resolves to an object containing search result promise
+ * La portada depende del perfil y de la hora: no se comparte en cachés intermedios.
  */
 export async function loader(args: Route.LoaderArgs): Promise<HomePageData> {
     const logger = getLogger(args.context);
-    logger.debug('HomePage: loader starting');
-
     const config = getConfig(args.context);
     const requestUrl = new URL(args.request.url);
 
-    // Redirect bare "/" to the default site/locale prefixed homepage
+    // «/» sin prefijo de sitio y locale: va a la portada del sitio por defecto.
     if (requestUrl.pathname === '/' && config.url?.prefix && config.url.prefix !== '/') {
         const siteRef = config.siteAliasMap?.[config.defaultSiteId] ?? config.defaultSiteId;
         const defaultSite = config.commerce.sites.find((s) => s.id === config.defaultSiteId);
@@ -160,99 +90,36 @@ export async function loader(args: Route.LoaderArgs): Promise<HomePageData> {
         throw redirect(`${prefixedPath}/`);
     }
 
-    const currency = (args.context.get(siteContext) as SiteContext).currency;
+    const profile = getDemoProfile(args.context);
+    const moment = getDemoMoment(args.context);
     const pageUrl = buildCanonicalUrl(requestUrl.origin, requestUrl.pathname, requestUrl.search);
 
-    const page = fetchPageWithComponentData(args, {
-        pageId: 'homepage',
-    });
-    const searchResult = fetchCarouselProducts(args.context, {
-        categoryId: 'root',
-        limit: config.pages.home.featuredProductsCount,
-        currency: currency ?? undefined,
-    });
-    const categories = fetchCategories(args.context, 'root', 1);
+    const page = await fetchPageWithComponentData(args, { pageId: 'homepage' });
+    const region = page?.regions?.find((r) => r.id === 'home');
+    const hasPageDesignerContent = (region?.components?.length ?? 0) > 0;
+    logger.debug('HomePage: loader', { profile, moment, hasPageDesignerContent });
 
-    // These requests remain deferred, but must be observed if the blocking page request rejects.
-    void Promise.allSettled([searchResult, categories]);
-
-    return {
-        page: await page,
-        searchResult,
-        categories,
-        pageUrl,
-        ogImageUrl: new URL(hero1, requestUrl.origin).href,
-    };
+    const home = hasPageDesignerContent ? null : await loadHomeData({ context: args.context, profile, moment });
+    return { page, home, profile, pageUrl };
 }
 
-/**
- * Home page component.
- *
- * Renders fixed static marketing sections with empty Page Designer slots
- * interspersed between them (see the file header for the Figma rationale).
- * @returns JSX element representing the home page layout
- */
 export default function HomePage({ loaderData }: { loaderData: HomePageData }) {
     const { t } = useTranslation('home');
-    const seoUrlContext = useSeoUrlContext();
-    const categoryUrl = (path: string) => createCategoryUrlFromLegacyPath(path, seoUrlContext);
-
+    const { home, page, pageUrl } = loaderData;
     return (
-        <div className="pb-16 -mt-8">
-            <h1 className="sr-only">{t('meta.title', { defaultValue: 'NextGen PWA Kit Store' })}</h1>
+        <div className="-mt-8 pb-16" data-profile={loaderData.profile}>
             <SeoMeta
                 rawTitle
-                title={t('meta.title', { defaultValue: 'NextGen PWA Kit Store' })}
-                description={t('meta.description', {
-                    defaultValue: 'Welcome to our web store for high performers!',
-                })}
-                openGraph={{
-                    type: 'website',
-                    url: loaderData.pageUrl,
-                    image: loaderData.ogImageUrl,
-                }}
+                title={t('meta.title', { defaultValue: 'Papa Johns Chile' })}
+                description={t('meta.description', { defaultValue: 'Pizzas a domicilio y retiro' })}
+                openGraph={{ type: 'website', url: pageUrl }}
             />
-
-            {/* PD slot for the hero carousel: Papa John's promotions are authored in Page Designer. */}
-            <Region page={loaderData.page} regionId="top" critical={true} />
-
-            {/* Empty PD slot between hero and featured collection (Figma: Custom Region 2). */}
-            <Region page={loaderData.page} regionId="afterHero" />
-
-            {/* Featured Collection — static (Suspense while product data resolves) */}
-            <Suspense fallback={<ProductCarouselSkeleton title={t('featuredProducts.title')} />}>
-                <Await resolve={loaderData.searchResult} errorElement={<FeaturedProductsError />}>
-                    {(searchResult) => (
-                        <ProductCarouselWithData
-                            data={searchResult}
-                            title={t('featuredProducts.title')}
-                            titleClassName={featuredHeadingClassName}
-                            shopAllUrl={categoryUrl('/category/root')}
-                            shopAllText={t('featuredProducts.shopAll')}
-                        />
-                    )}
-                </Await>
-            </Suspense>
-
-            {/* Empty PD slot between featured collection and content cards (Figma: Custom Region 3). */}
-            <Region page={loaderData.page} regionId="afterFeatured" />
-
-            {/* Empty PD slot before the category section (Figma: Custom Region 4). */}
-            <Region page={loaderData.page} regionId="afterContent" />
-
-            {/* "Style for Real Life" category rail — static (Suspense while categories resolve).
-                Center the cards when they don't fill the track (foundations opts in; the shared
-                component left-aligns by default). */}
-            <div className="pt-16">
-                <PopularCategories
-                    categoriesPromise={loaderData.categories}
-                    centerWhenPartial
-                    fallbackImageUrl={hero1}
-                />
-            </div>
-
-            {/* Empty PD slot below the category section (Figma: Custom Region 5). */}
-            <Region page={loaderData.page} regionId="bottom" />
+            <Region
+                page={page}
+                regionId="home"
+                critical
+                errorElement={home ? <HomeDefault data={home} /> : undefined}
+            />
         </div>
     );
 }
