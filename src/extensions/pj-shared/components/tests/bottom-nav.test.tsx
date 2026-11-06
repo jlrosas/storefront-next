@@ -65,4 +65,17 @@ describe('BottomNav (INT-02 · criterio 1)', () => {
         await screen.findByTestId('pj-bottom-nav');
         expect(screen.queryByTestId('pj-bottom-nav-count')).not.toBeInTheDocument();
     });
+
+    it('el activo lleva la píldora lila con el punto Tangy Tomato, etiquetas de 12 px y contador que salta (VIS-05)', async () => {
+        renderNav('/menu', 2);
+        const menu = await screen.findByTestId('pj-bottom-nav-menu');
+        const pill = screen.getByTestId('pj-bottom-nav-pill');
+        expect(menu).toContainElement(pill);
+        expect(pill.className).toContain('bg-pj-garlic/60');
+        expect(screen.getByTestId('pj-bottom-nav-dot').className).toContain('bg-pj-tomato');
+        expect(screen.getAllByTestId('pj-bottom-nav-pill')).toHaveLength(1);
+        expect(menu.className).toContain('text-xs');
+        expect(menu.className).not.toContain('text-[11px]');
+        expect(screen.getByTestId('pj-bottom-nav-count')).toHaveAttribute('data-pj-cart-count');
+    });
 });

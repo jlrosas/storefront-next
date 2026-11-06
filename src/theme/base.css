@@ -310,16 +310,30 @@ nav > ol > li > a {
     }
 }
 
-/* Aviso de cookies compacto (~130 px, Home.dc.html): texto corto, botones en una fila y, en móvil,
- * fijo a 8 px de los bordes sobre la barra inferior para no tapar el precio ni el botón del hero. */
+/* Aviso de cookies (VIS-05, UX-1 §3.4): barra compacta de ~72 px en Basil oscuro con texto Dough,
+ * «Aceptar» en lima y «Rechazar» como enlace. En móvil va fija justo sobre la barra inferior y no tapa
+ * el CTA del hero; en escritorio, abajo a la derecha. «Estas cookies no se comen» (pilar Unexpected). */
+[role='dialog'][aria-labelledby='tracking-consent-banner-title'] {
+    --pj-heading-color: var(--pj-pepperoncini);
+}
 [role='dialog'][aria-labelledby='tracking-consent-banner-title'] [data-slot='card'] {
-    gap: 8px;
-    padding: 10px 12px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 4px 12px;
+    padding: 6px 8px 6px 14px;
+    border: 0;
     border-radius: var(--pj-radius-card);
-    box-shadow: 0 6px 18px rgb(30 63 28 / 0.16);
+    background: var(--pj-basil-deep);
+    color: var(--pj-dough);
+    box-shadow: var(--pj-shadow-float);
+}
+/* La X cierra con el consentimiento por defecto: «Rechazar» ya cubre esa salida en la barra compacta. */
+[role='dialog'][aria-labelledby='tracking-consent-banner-title'] [data-slot='card'] > button:first-child {
+    display: none;
 }
 [role='dialog'][aria-labelledby='tracking-consent-banner-title'] [data-slot='card-content'] {
-    padding: 0 40px 0 0;
+    padding: 0;
 }
 [role='dialog'][aria-labelledby='tracking-consent-banner-title'] [data-slot='card-content'] > div {
     display: flex;
@@ -327,31 +341,67 @@ nav > ol > li > a {
     gap: 2px;
 }
 [role='dialog'][aria-labelledby='tracking-consent-banner-title'] h2 {
-    font-size: 1rem;
-    line-height: 1.1;
-    color: var(--pj-basil);
+    font-size: 1.0625rem;
+    line-height: 1;
+    color: var(--pj-pepperoncini);
 }
 [role='dialog'][aria-labelledby='tracking-consent-banner-title'] p {
     font-size: 0.8125rem;
-    line-height: 1.3;
+    line-height: 1.25;
     margin: 0;
+    color: var(--pj-dough);
 }
 [role='dialog'][aria-labelledby='tracking-consent-banner-title'] [data-slot='card-footer'] {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    gap: 2px;
     padding: 0;
 }
-[role='dialog'][aria-labelledby='tracking-consent-banner-title'] [data-slot='card'] > button:first-child {
-    top: 2px;
-    right: 2px;
+[role='dialog'][aria-labelledby='tracking-consent-banner-title'] [data-slot='card-footer'] > [data-slot='button'] {
+    flex: none;
+    min-height: var(--pj-touch);
+    font-weight: 700;
+    font-size: 0.875rem;
+}
+[role='dialog'][aria-labelledby='tracking-consent-banner-title'] [data-slot='button'][data-variant='default'] {
+    padding: 0 18px;
+    background: var(--pj-pepperoncini);
+    color: var(--pj-basil);
+    border-color: var(--pj-pepperoncini);
+}
+[role='dialog'][aria-labelledby='tracking-consent-banner-title'] [data-slot='button'][data-variant='outline'] {
+    padding: 0 8px;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    color: var(--pj-dough);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+[role='dialog'][aria-labelledby='tracking-consent-banner-title'] [data-slot='button']:focus-visible {
+    outline: 2px solid var(--pj-pepperoncini);
+    outline-offset: 2px;
 }
 @media (width < 64rem) {
     [role='dialog'][aria-labelledby='tracking-consent-banner-title'] {
         left: 8px;
         right: 8px;
         width: auto;
+        max-width: none;
         bottom: 8px;
+        translate: none;
     }
     body:has([data-testid='pj-bottom-nav']) [role='dialog'][aria-labelledby='tracking-consent-banner-title'] {
-        bottom: calc(var(--pj-bottom-nav-height) + env(safe-area-inset-bottom) + 8px);
+        bottom: calc(var(--pj-bottom-nav-height) + env(safe-area-inset-bottom) + 6px);
+    }
+}
+@media (width >= 64rem) {
+    [role='dialog'][aria-labelledby='tracking-consent-banner-title'] {
+        left: auto;
+        right: 16px;
+        max-width: 34rem;
+        translate: none;
     }
 }
 
@@ -538,4 +588,10 @@ nav > ol > li > a {
     --pj-price-color: var(--pj-sauce);
     --pj-price-muted: var(--pj-basil);
     --pj-accent: var(--pj-sauce);
+}
+
+/* Grano sobre la crema (VIS-05 · P3-20, UX-1 §3.1): ruido SVG al 4 % en el fondo del body. Le quita a la
+ * crema el aspecto de «pantalla vacía»; pesa menos de 1 KB y no tapa nada (es solo fondo). */
+body {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.44 0 0 0 0 0.02 0 0 0 0 0 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
 }

@@ -63,7 +63,8 @@ export interface BottomNavProps {
 
 /**
  * Barra inferior móvil del lienzo (Home.dc.html, Menu.dc.html): cinco destinos con ícono y
- * texto, el activo en verde con una barra arriba y el contador del pedido. Fija abajo y solo
+ * texto (12 px), el activo en Basil con una píldora lila detrás del ícono y el punto Tangy Tomato
+ * (VIS-05, UX-1 §3.4), y el contador del pedido, que salta al agregar (`flyToCart`). Fija abajo y solo
  * bajo `lg`; deja su propio espacio en el flujo para no tapar el footer.
  */
 export function BottomNav({ currentPath, cartCount = 0, className }: BottomNavProps): ReactElement {
@@ -93,22 +94,29 @@ export function BottomNav({ currentPath, cartCount = 0, className }: BottomNavPr
                             aria-label={showCount ? t('nav.orderWithCount', { count: cartCount }) : undefined}
                             data-testid={`pj-bottom-nav-${id}`}
                             className={cn(
-                                'relative flex h-[var(--pj-bottom-nav-height)] flex-col items-center justify-center gap-[3px] text-xs no-underline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-pj-basil',
+                                'relative flex h-[var(--pj-bottom-nav-height)] flex-col items-center justify-center gap-0.5 text-xs no-underline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-pj-basil',
                                 active ? 'font-bold text-pj-basil' : 'font-semibold text-pj-gray'
                             )}>
-                            {active && (
-                                <span
-                                    aria-hidden="true"
-                                    className="absolute inset-x-1/4 top-0 h-[3px] rounded-b-[3px] bg-pj-basil"
-                                />
-                            )}
-                            <span className="relative">
+                            <span
+                                data-testid={active ? 'pj-bottom-nav-pill' : undefined}
+                                className={cn(
+                                    'relative flex h-8 w-14 items-center justify-center rounded-full transition-colors',
+                                    active && 'bg-pj-garlic/60'
+                                )}>
                                 <Icon size={24} strong={active} />
+                                {active && (
+                                    <span
+                                        aria-hidden="true"
+                                        data-testid="pj-bottom-nav-dot"
+                                        className="absolute top-0.5 right-2 size-1.5 rounded-full bg-pj-tomato"
+                                    />
+                                )}
                                 {showCount && (
                                     <span
                                         aria-hidden="true"
                                         data-testid="pj-bottom-nav-count"
-                                        className="absolute -top-1.5 -right-2.5 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-pj-pepperoncini px-1 text-xs font-bold leading-none text-pj-basil">
+                                        data-pj-cart-count=""
+                                        className="absolute -top-1.5 right-0.5 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-pj-pepperoncini px-1 text-xs font-bold leading-none text-pj-basil">
                                         {cartCount > 99 ? '99+' : cartCount}
                                     </span>
                                 )}

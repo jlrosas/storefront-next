@@ -15,9 +15,11 @@
  */
 /** @sfdc-extension-file SFDC_EXT_PJ_OFFERS */
 import { toast } from 'sonner';
+import { flyToCart } from '@/extensions/pj-shared/lib/fly-to-cart';
 import { ComboAddedToast, type ComboAddedToastProps } from '../components/combo-added-toast';
 
 export function showComboAddedToast(props: Omit<ComboAddedToastProps, 'onView'> & { onView: () => void }): void {
+    void flyToCart();
     toast.custom(
         (id) => (
             <ComboAddedToast

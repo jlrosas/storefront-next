@@ -21,6 +21,7 @@
  */
 export { PriceTag, type PriceTagProps } from './components/price-tag';
 export { Stars, type StarsProps } from './components/stars';
+export { AccentWord, type AccentWordProps } from './components/accent-word';
 export { LtoBadge, type LtoBadgeProps, type LtoBadgeVariant, type LtoBadgeSize } from './components/lto-badge';
 export { PointsBadge, type PointsBadgeProps } from './components/points-badge';
 export { FoodImage, type FoodImageProps } from './components/food-image';
@@ -29,6 +30,13 @@ export { AddedToast, type AddedToastProps } from './components/added-toast';
 export { BottomNav, type BottomNavProps } from './components/bottom-nav';
 export { FulfillmentChip, type FulfillmentChipProps } from './components/fulfillment-chip';
 export { TrackingStrip, type TrackingStripProps } from './components/tracking-strip';
+export {
+    flyToCart,
+    bumpCartCount,
+    findCartTarget,
+    CART_COUNT_SELECTOR,
+    CART_TARGET_SELECTORS,
+} from './lib/fly-to-cart';
 export { showAddedToast, useShowAddedToast, type ShowAddedToastOptions } from './lib/added-toast';
 export * from './lib/events';
 export * from './lib/points';

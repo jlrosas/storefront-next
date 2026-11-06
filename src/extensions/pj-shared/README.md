@@ -56,6 +56,7 @@ y punto de «Cerrada». **Ripened Vine** tampoco lleva texto.
 
 - Sombras cálidas: `shadow-pj-card` (tarjetas, Rich Sauce al 10 %) y `shadow-pj-float` (tarjeta que
   flota sobre la foto, hojas y barras fijas).
+- Grano: el `body` lleva un ruido SVG al 4 % sobre la crema (`base.css`).
 - Radio de sección: `rounded-pj-section` (24 px) para bloques de lealtad, momentos y la tarjeta flotante
   del hero. Tarjetas: `rounded-pj-card` (14 px). Controles: `rounded-pj-control` (10 px).
 
@@ -79,3 +80,7 @@ blanco, Dough sobre verde o granate. **Nunca en negro.** Ningún texto baja de 1
 
 - `FoodImage crop="macro" | "hero" | "combo" | "none"` y `cropForPhoto(idOrSrc, fallback)`.
 - `LtoBadge` (sello LTO circular) y `PriceTag variant="display"`.
+- `flyToCart(source?)` y `bumpCartCount()` (`lib/fly-to-cart.ts`): al agregar, la foto vuela al
+  carrito y el contador salta. `showAddedToast` ya lo llama; nada se mueve con «reducir movimiento».
+- `AccentWord`: palabra de acento en un sello rotado −3° (en lugar de Pappy).
+

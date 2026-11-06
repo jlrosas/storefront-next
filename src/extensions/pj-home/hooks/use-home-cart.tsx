@@ -18,6 +18,7 @@ import { useCallback, useEffect, useRef } from 'react';
 import { useFetcher } from 'react-router';
 import { useNavigate } from '@/hooks/use-navigate';
 import { toast } from 'sonner';
+import { flyToCart } from '@/extensions/pj-shared/lib/fly-to-cart';
 import { PJ_ROUTES } from '@/extensions/pj-shared/lib/routes';
 import { HomeAddedToast } from '../components/home-added-toast';
 import { readFulfillmentFromDocument } from '@/extensions/pj-shared/lib/fulfillment';
@@ -71,6 +72,7 @@ export function useAddLines(productName: string) {
         if (!result || handled.current === result) return;
         handled.current = result;
         if (result.success) {
+            void flyToCart();
             const total = result.basket?.productTotal ?? result.basket?.orderTotal ?? 0;
             toast.custom(
                 (id) => (
