@@ -14,12 +14,14 @@
  * limitations under the License.
  */
 /** @sfdc-extension-file SFDC_EXT_PJ_HOME */
-import type { ReactElement } from 'react';
+import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from '@/components/link';
 import { cn } from '@/lib/utils';
 import { FoodImage } from '@/extensions/pj-shared/components/food-image';
 import { formatClp } from '@/extensions/pj-shared/lib/format';
+import { PauseIcon, PlayIcon } from '@/extensions/pj-shared/components/icons';
+import { useReducedMotion } from '@/extensions/pj-shared/hooks/use-reduced-motion';
 import { imageSrcSet, scaledImage } from '../lib/images';
 import { HOME_ROUTES } from '../lib/constants';
 import type { OfferVM } from '../lib/types';
@@ -40,9 +42,62 @@ export interface HomeHeroProps {
     showSecondary?: boolean;
     /** Movimiento lento con botón de pausa (R4.7). */
     animate?: boolean;
+    /** URL de un MP4 corto (hasta 6 s). Con video, la foto es el póster; sin video, el movimiento lento de la foto. */
+    video?: string;
 }
 
 const WIDTHS = [480, 800, 1200, 1600];
+
+/**
+ * Video del hero: se monta después del primer pintado (la foto sigue siendo el LCP), no se
+ * reproduce con «reducir movimiento» y tiene botón de pausa.
+ */
+function HeroVideo({ src, poster }: { src: string; poster: string }): ReactElement | null {
+    const { t } = useTranslation('extPjHome');
+    const reduced = useReducedMotion();
+    const [ready, setReady] = useState(false);
+    const [paused, setPaused] = useState(false);
+    const ref = useRef<HTMLVideoElement>(null);
+
+    useEffect(() => {
+        const timer = window.setTimeout(() => setReady(true), 1200);
+        return () => window.clearTimeout(timer);
+    }, []);
+
+    if (reduced || !ready) return null;
+    const toggle = () => {
+        const video = ref.current;
+        if (!video) return;
+        if (video.paused) void video.play();
+        else video.pause();
+        setPaused(!video.paused);
+    };
+    return (
+        <>
+            <video
+                ref={ref}
+                src={src}
+                poster={poster}
+                muted
+                loop
+                playsInline
+                autoPlay
+                preload="none"
+                aria-hidden="true"
+                data-testid="pj-home-hero-video"
+                className="absolute inset-0 size-full object-cover"
+            />
+            <button
+                type="button"
+                onClick={toggle}
+                aria-pressed={paused}
+                aria-label={paused ? t('hero.play') : t('hero.pause')}
+                className="absolute right-2 bottom-2 flex size-11 items-center justify-center rounded-full bg-pj-ink/60 text-pj-surface backdrop-blur-sm hover:bg-pj-ink/75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-lime">
+                {paused ? <PlayIcon size={18} /> : <PauseIcon size={18} />}
+            </button>
+        </>
+    );
+}
 
 /**
  * Hero de comida (HOM-01/02): foto a sangre en primer plano con movimiento lento y pausa, y el
@@ -57,6 +112,7 @@ export function HomeHero({
     ctaHref,
     showSecondary = variant === 'season',
     animate = true,
+    video,
 }: HomeHeroProps): ReactElement | null {
     const { t } = useTranslation('extPjHome');
     if (!offer) return null;
@@ -67,24 +123,27 @@ export function HomeHero({
             ? t('hero.beforeFrom', { price: formatClp(offer.listPrice) })
             : formatClp(offer.listPrice)
         : null;
-    const spoken = [formatClp(offer.price), before && t('hero.before', { price: before })].filter(Boolean).join(', ');
+    // «Antes desde $X» ya dice «Antes»: se lee una sola vez.
+    const spokenBefore = before && (variant === 'season' ? before : t('hero.before', { price: before }));
+    const spoken = [formatClp(offer.price), spokenBefore].filter(Boolean).join(', ');
 
     return (
         <section
             aria-label={t('hero.section')}
             data-testid="pj-home-hero"
             className="bg-pj-surface lg:flex lg:bg-pj-green-dark lg:text-pj-surface">
-            <div className="h-[250px] lg:order-2 lg:h-auto lg:min-h-[520px] lg:flex-[1.4]">
+            <div className="relative h-[250px] lg:order-2 lg:h-auto lg:min-h-[520px] lg:flex-[1.4]">
                 <FoodImage
                     src={scaledImage(offer.image, 1200)}
                     srcSet={imageSrcSet(offer.image, WIDTHS)}
                     sizes="(min-width: 1024px) 58vw, 100vw"
                     alt={offer.imageAlt}
                     bleed
-                    animate={animate}
+                    animate={animate && !video}
                     priority
                     className="h-full"
                 />
+                {video && <HeroVideo src={video} poster={scaledImage(offer.image, 1200)} />}
             </div>
             <div className="flex flex-col gap-1.5 px-4 pt-3.5 pb-[18px] lg:order-1 lg:flex-1 lg:justify-center lg:gap-3.5 lg:px-12 lg:py-14">
                 <div className="flex gap-1.5">

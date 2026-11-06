@@ -80,6 +80,15 @@ export class PjHeroFoodMetadata {
     variant?: string;
 
     @AttributeDefinition({
+        id: 'video',
+        name: 'Video (URL de un MP4, hasta 6 s)',
+        description:
+            'Opcional. Con video, la foto es el póster y el video se carga después del primer pintado; con «reducir movimiento» no se reproduce. Sin video, la foto se mueve lento.',
+        type: 'url',
+    })
+    video?: string;
+
+    @AttributeDefinition({
         id: 'animate',
         name: 'Movimiento lento (con botón de pausa)',
         type: 'boolean',
@@ -111,6 +120,7 @@ interface Props {
     destination?: string;
     variant?: string;
     animate?: boolean;
+    video?: string;
     data?: HeroFoodData;
 }
 
@@ -142,6 +152,7 @@ export default function PjHeroFood({
     destination,
     variant,
     animate = true,
+    video,
     data,
 }: Props) {
     if (!data?.visible) return null;
@@ -154,6 +165,7 @@ export default function PjHeroFood({
             ctaLabel={ctaLabel || undefined}
             ctaHref={destination || undefined}
             animate={animate}
+            video={video || undefined}
         />
     );
 }

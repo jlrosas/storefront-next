@@ -56,6 +56,13 @@
                     "default_value": "season"
                 },
                 {
+                    "id": "video",
+                    "name": "Video (URL de un MP4, hasta 6 s)",
+                    "type": "url",
+                    "required": false,
+                    "description": "Opcional. Con video, la foto es el póster y el video se carga después del primer pintado; con «reducir movimiento» no se reproduce. Sin video, la foto se mueve lento."
+                },
+                {
                     "id": "animate",
                     "name": "Movimiento lento (con botón de pausa)",
                     "type": "boolean",
