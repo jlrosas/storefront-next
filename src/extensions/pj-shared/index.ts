@@ -21,6 +21,7 @@
  */
 export { PriceTag, type PriceTagProps } from './components/price-tag';
 export { Stars, type StarsProps } from './components/stars';
+export { LtoBadge, type LtoBadgeProps, type LtoBadgeVariant, type LtoBadgeSize } from './components/lto-badge';
 export { PointsBadge, type PointsBadgeProps } from './components/points-badge';
 export { FoodImage, type FoodImageProps } from './components/food-image';
 export { BottomSheet, type BottomSheetProps } from './components/bottom-sheet';

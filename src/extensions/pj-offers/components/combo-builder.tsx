@@ -206,7 +206,13 @@ export function ComboBuilder({
                             className="flex flex-wrap items-baseline gap-x-2 text-[13px] text-pj-gray"
                             data-testid="pj-combo-price">
                             <span>{subtitle}</span>
-                            <PriceTag price={offer.price} listPrice={offer.priceBefore} showSavings={false} size="sm" />
+                            <PriceTag
+                                variant="display"
+                                size="sm"
+                                price={offer.price}
+                                listPrice={offer.priceBefore}
+                                showSavings={false}
+                            />
                         </div>
                     </div>
                     <p

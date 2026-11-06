@@ -20,6 +20,7 @@ import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { Link } from '@/components/link';
 import { FoodImage } from '@/extensions/pj-shared/components/food-image';
+import { PriceTag } from '@/extensions/pj-shared/components/price-tag';
 import { formatClp, formatCount, formatRating } from '@/extensions/pj-shared/lib/format';
 import { pointsFor } from '@/extensions/pj-shared/lib/points';
 import { PJ_ROUTES } from '@/extensions/pj-shared/lib/routes';
@@ -302,6 +303,7 @@ export function PizzaPdp({ config, sides, initialSize }: PizzaPdpProps): ReactEl
                             <h1 className="font-heading text-[38px] leading-none font-extrabold uppercase lg:text-5xl">
                                 {config.name}
                             </h1>
+                            <PriceTag variant="display" size="md" price={pizzaTotal} />
                             {rating}
                             {config.sensory && (
                                 <p className="text-[15px] leading-[1.45] text-pj-gray-strong lg:text-base">

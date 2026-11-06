@@ -20,6 +20,8 @@ import { Link } from '@/components/link';
 import { cn } from '@/lib/utils';
 import { FoodImage } from '@/extensions/pj-shared/components/food-image';
 import { formatClp } from '@/extensions/pj-shared/lib/format';
+import { LtoBadge } from '@/extensions/pj-shared/components/lto-badge';
+import { PriceTag } from '@/extensions/pj-shared/components/price-tag';
 import { PauseIcon, PlayIcon } from '@/extensions/pj-shared/components/icons';
 import { useReducedMotion } from '@/extensions/pj-shared/hooks/use-reduced-motion';
 import { imageSrcSet, scaledImage } from '../lib/images';
@@ -123,9 +125,8 @@ export function HomeHero({
             ? t('hero.beforeFrom', { price: formatClp(offer.listPrice) })
             : formatClp(offer.listPrice)
         : null;
-    // «Antes desde $X» ya dice «Antes»: se lee una sola vez.
-    const spokenBefore = before && (variant === 'season' ? before : t('hero.before', { price: before }));
-    const spoken = [formatClp(offer.price), spokenBefore].filter(Boolean).join(', ');
+    // «Antes desde $X» ya dice «Antes»: se muestra y se lee tal cual. En `ad`, PriceTag lee «antes $X».
+    const beforeLabel = variant === 'season' && before ? before : undefined;
 
     return (
         <section
@@ -147,14 +148,14 @@ export function HomeHero({
                 {video && <HeroVideo src={video} poster={scaledImage(offer.image, 1200)} />}
             </div>
             <div className="flex flex-col gap-1.5 px-4 pt-3.5 pb-[18px] lg:order-1 lg:flex-1 lg:justify-center lg:gap-3.5 lg:px-12 lg:py-14">
-                <div className="flex gap-1.5">
+                <div className="flex items-center gap-1.5">
                     <span className="rounded-full bg-pj-green-dark px-2.5 py-1 text-[11px] font-bold tracking-wide text-pj-lime uppercase lg:bg-pj-lime lg:text-pj-green-dark">
                         {eyebrow ?? t(variant === 'season' ? 'hero.seasonEyebrow' : 'hero.adEyebrow')}
                     </span>
                     {discount > 0 && (
-                        <span className="rounded-full bg-pj-sale px-2.5 py-1 text-[11px] font-bold text-pj-surface">
+                        <LtoBadge variant="sauce" size="md" animate className="lg:bg-pj-pepperoncini lg:text-pj-basil">
                             {t('hero.discount', { percent: discount })}
-                        </span>
+                        </LtoBadge>
                     )}
                 </div>
                 <h1 className="font-heading text-[34px] leading-[0.95] font-extrabold uppercase lg:text-[68px] lg:leading-[0.92]">
@@ -168,20 +169,27 @@ export function HomeHero({
                             : ''}
                     </p>
                 )}
-                <p className="mt-1.5 flex flex-wrap items-baseline gap-x-2.5">
-                    <span className="sr-only">{spoken}</span>
-                    <strong
-                        aria-hidden="true"
-                        className="text-3xl font-extrabold text-pj-sale lg:text-5xl lg:text-pj-lime">
-                        {formatClp(offer.price)}
-                    </strong>
-                    {before && (
-                        <span
-                            aria-hidden="true"
-                            className="text-[15px] text-pj-gray line-through lg:text-xl lg:text-pj-surface/80">
-                            {before}
-                        </span>
-                    )}
+                <p className="mt-1.5" data-testid="pj-home-hero-price">
+                    <PriceTag
+                        variant="display"
+                        size="lg"
+                        surface="dough"
+                        price={offer.price}
+                        listPrice={offer.listPrice}
+                        listPriceLabel={beforeLabel}
+                        showSavings={false}
+                        className="lg:hidden"
+                    />
+                    <PriceTag
+                        variant="display"
+                        size="lg"
+                        surface="basil"
+                        price={offer.price}
+                        listPrice={offer.listPrice}
+                        listPriceLabel={beforeLabel}
+                        showSavings={false}
+                        className="hidden lg:inline-flex"
+                    />
                 </p>
                 <div className="mt-1.5 flex flex-wrap gap-3">
                     <Link

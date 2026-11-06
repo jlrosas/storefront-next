@@ -23,8 +23,8 @@ import { useSeoUrlContext } from '@/hooks/use-seo-url-context';
 import { FoodImage } from '@/extensions/pj-shared/components/food-image';
 import { cropForPhoto } from '@/extensions/pj-shared/lib/photo';
 import { PriceTag } from '@/extensions/pj-shared/components/price-tag';
+import { LtoBadge } from '@/extensions/pj-shared/components/lto-badge';
 import { PJ_ROUTES } from '@/extensions/pj-shared/lib/routes';
-import { formatClp } from '@/extensions/pj-shared/lib/format';
 import type { FulfillmentMode } from '@/extensions/pj-shared/lib/fulfillment';
 import {
     type Offer,
@@ -32,7 +32,6 @@ import {
     dispatchKey,
     formatDayMonth,
     imageSrcSet,
-    savings,
     showsValidity,
     whoLabel,
     withUtm,
@@ -103,9 +102,9 @@ export function OfferCard({
                     className={cn('h-[180px] lg:h-[210px]', featured && 'lg:h-full lg:min-h-[420px]')}
                 />
                 {percent > 0 && (
-                    <span className="absolute top-2.5 left-2.5 rounded-full bg-pj-sale px-2.5 py-0.5 text-xs font-bold text-pj-surface">
+                    <LtoBadge size="md" animate={priority} className="absolute top-2.5 left-2.5">
                         {t('card.off', { percent })}
-                    </span>
+                    </LtoBadge>
                 )}
                 {who && (
                     <span className="absolute top-2.5 right-2.5 rounded-full bg-pj-surface px-2.5 py-0.5 text-xs font-bold text-pj-green-dark">
@@ -178,33 +177,26 @@ export function OfferCard({
     );
 }
 
-/** Precio de la portada: en escritorio va sobre verde oscuro, así que cambia de colores. */
+/** Precio de la portada (VIS-02): precio display; en escritorio va sobre verde oscuro, así que usa lima. */
 function FeaturedPrice({ offer }: { offer: Offer }): ReactElement {
-    const { t } = useTranslation('extPjShared');
-    const save = savings(offer);
     return (
         <>
-            <span className="lg:hidden">
-                <PriceTag price={offer.price} listPrice={offer.priceBefore} size="md" />
-            </span>
+            <PriceTag
+                variant="display"
+                size="md"
+                surface="dough"
+                price={offer.price}
+                listPrice={offer.priceBefore}
+                className="lg:hidden"
+            />
             <span className="hidden lg:block" data-testid="pj-featured-price">
-                <span className="sr-only">
-                    {t('price.now', { price: formatClp(offer.price) })}
-                    {offer.priceBefore ? `, ${t('price.before', { price: formatClp(offer.priceBefore) })}` : ''}
-                </span>
-                <span aria-hidden="true" className="flex flex-wrap items-baseline gap-x-3">
-                    <strong className="text-[40px] leading-none font-extrabold text-pj-lime">
-                        {formatClp(offer.price)}
-                    </strong>
-                    {offer.priceBefore && (
-                        <span className="text-lg text-pj-surface/75 line-through">{formatClp(offer.priceBefore)}</span>
-                    )}
-                </span>
-                {save > 0 && (
-                    <span aria-hidden="true" className="mt-1 block text-sm font-bold text-pj-lime">
-                        {t('price.save', { amount: formatClp(save) })}
-                    </span>
-                )}
+                <PriceTag
+                    variant="display"
+                    size="md"
+                    surface="basil"
+                    price={offer.price}
+                    listPrice={offer.priceBefore}
+                />
             </span>
         </>
     );

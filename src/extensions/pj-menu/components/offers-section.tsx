@@ -17,7 +17,7 @@
 import type { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from '@/components/link';
-import { cropForPhoto, FoodImage, PriceTag } from '@/extensions/pj-shared';
+import { cropForPhoto, FoodImage, LtoBadge, PriceTag } from '@/extensions/pj-shared';
 import { PJ_ROUTES } from '@/extensions/pj-shared/lib/routes';
 import { discountPercent, FEATURED_OFFERS, type MenuProduct } from '../lib/menu-model';
 
@@ -45,9 +45,9 @@ export function OfferCard({ offer, priority = false }: { offer: MenuProduct; pri
                     <div className="bg-pj-sand" style={{ aspectRatio: '2/1' }} />
                 )}
                 {off !== null && (
-                    <span className="absolute top-2 left-2 hidden rounded-full bg-pj-sale px-2 py-0.5 text-xs font-bold text-pj-surface lg:inline">
+                    <LtoBadge size="sm" className="absolute top-2 left-2">
                         {t('offers.off', { percent: off })}
-                    </span>
+                    </LtoBadge>
                 )}
             </div>
             <div className="px-3 pt-2 pb-3">
