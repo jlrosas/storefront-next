@@ -28,7 +28,7 @@ export function MenuAddedToast({ name, onView }: { name: string; onView: () => v
         <div
             role="status"
             data-testid="pj-menu-added-toast"
-            className="flex w-full max-w-[420px] items-center gap-3 rounded-pj-card bg-pj-green-dark px-4 py-3 text-pj-surface shadow-pj-strip">
+            className="flex w-full max-w-[min(420px,calc(100vw-64px))] items-center gap-3 rounded-pj-card bg-pj-green-dark px-4 py-3 text-pj-surface shadow-pj-strip">
             <p className="min-w-0 flex-1 truncate text-sm font-semibold">{name}</p>
             <button
                 type="button"
