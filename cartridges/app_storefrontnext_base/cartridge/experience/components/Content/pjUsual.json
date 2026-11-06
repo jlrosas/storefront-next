@@ -1,0 +1,25 @@
+{
+    "name": "Papa Johns · ¿Lo de siempre?",
+    "description": "Último pedido real del cliente con foto en primer plano y «Repetir pedido», que lleva directo al checkout.",
+    "group": "Content",
+    "arch_type": "headless",
+    "region_definitions": [],
+    "attribute_definition_groups": [
+        {
+            "id": "pjUsual",
+            "name": "Papa Johns · ¿Lo de siempre?",
+            "description": "Último pedido real del cliente con foto en primer plano y «Repetir pedido», que lleva directo al checkout.",
+            "attribute_definitions": [
+                {
+                    "id": "profile",
+                    "name": "Perfil",
+                    "type": "enum",
+                    "required": false,
+                    "description": "A quién se muestra además de los grupos de clientes de la página: todos, Valentina, Diego o Sofía.",
+                    "values": ["all", "valentina", "diego", "sofia"],
+                    "default_value": "all"
+                }
+            ]
+        }
+    ]
+}

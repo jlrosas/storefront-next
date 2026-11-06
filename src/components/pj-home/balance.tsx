@@ -1,0 +1,74 @@
+/**
+ * Copyright 2026 Salesforce, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/** @sfdc-extension-file SFDC_EXT_PJ_HOME */
+import type { LoaderFunctionArgs } from 'react-router';
+import { Component } from '@/lib/decorators/component';
+import { AttributeDefinition } from '@/lib/decorators/attribute-definition';
+import { RegionDefinition } from '@/lib/decorators';
+import { getDemoMoment, getDemoProfile } from '@/extensions/pj-shared/lib/profile';
+import { loadProfileBlock, type ProfileGate } from '@/extensions/pj-home/lib/home-data.server';
+import { RedeemCard } from '@/extensions/pj-home/components/home-sofia';
+import type { HomeData } from '@/extensions/pj-home/lib/types';
+
+@Component('pjBalance', {
+    name: 'Papa Johns · Saldo de Papa Puntos',
+    description: 'Saldo del cliente y «Ya puedes canjear una Super Pepperoni mediana».',
+    group: 'Content',
+})
+@RegionDefinition([])
+// oxlint-disable-next-line react-refresh/only-export-components
+export class PjBalanceMetadata {
+    @AttributeDefinition({
+        id: 'profile',
+        name: 'Perfil',
+        description:
+            'A quién se muestra además de los grupos de clientes de la página: todos, Valentina, Diego o Sofía.',
+        type: 'enum',
+        values: ['all', 'valentina', 'diego', 'sofia'],
+        defaultValue: 'all',
+    })
+    profile?: string;
+}
+
+interface Props {
+    data?: { visible: boolean; data: HomeData | null };
+}
+
+// oxlint-disable-next-line react-refresh/only-export-components
+export const loader = ({
+    componentData,
+    context,
+}: {
+    componentData: unknown;
+    context: LoaderFunctionArgs['context'];
+}) => {
+    const attrs = ((componentData as { data?: { profile?: ProfileGate } }).data ?? {}) as { profile?: ProfileGate };
+    return loadProfileBlock(context, attrs.profile, getDemoProfile(context), getDemoMoment(context), 'sofia');
+};
+
+// oxlint-disable-next-line react-refresh/only-export-components
+export function fallback() {
+    return <div aria-hidden="true" className="mx-4 h-24 animate-pulse rounded-[18px] bg-pj-sand lg:mx-0" />;
+}
+
+export default function PjBalance({ data }: Props) {
+    if (!data?.visible) return null;
+    return data.data?.sofia ? (
+        <div className="mx-4 lg:mx-auto lg:max-w-[1240px] lg:px-6">
+            <RedeemCard sofia={data.data.sofia} />
+        </div>
+    ) : null;
+}

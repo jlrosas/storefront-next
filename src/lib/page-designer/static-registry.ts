@@ -22,6 +22,17 @@ const staticRegistryImporters = [
     () => import('../../components/content-card/index'),
     () => import('../../components/hero/index'),
     () => import('../../components/dynamic-image/index'),
+    () => import('../../components/pj-home/balance'),
+    () => import('../../components/pj-home/benefits'),
+    () => import('../../components/pj-home/favorites'),
+    () => import('../../components/pj-home/greeting'),
+    () => import('../../components/pj-home/hero-food'),
+    () => import('../../components/pj-home/moments'),
+    () => import('../../components/pj-home/month'),
+    () => import('../../components/pj-home/popular'),
+    () => import('../../components/pj-home/serves'),
+    () => import('../../components/pj-home/start-order'),
+    () => import('../../components/pj-home/usual'),
     () => import('../../components/home/popular-category/index'),
     () => import('../../components/product-recommendations/index'),
     () => import('../../components/product-tile/index'),
@@ -40,26 +51,72 @@ const staticRegistryImporters = [
  *
  * DO NOT EDIT THIS FUNCTION MANUALLY - it will be overwritten on next build.
  *
- * Components registered: Content.announcementBanner, Content.contentCard, Content.hero, Content.pdImage, Content.popularCategory, Content.productRecommendations, Content.productTile, Layout.grid, Layout.header, Layout.heroCarousel, Layout.megaMenu, Layout.popularCategories, Layout.productCarousel, Layout.productMerchandisingGrid
+ * Components registered: Content.announcementBanner, Content.contentCard, Content.hero, Content.pdImage, Content.pjBalance, Content.pjBenefits, Content.pjFavorites, Content.pjGreeting, Content.pjHeroFood, Content.pjMoments, Content.pjMonth, Content.pjPopular, Content.pjServes, Content.pjStartOrder, Content.pjUsual, Content.popularCategory, Content.productRecommendations, Content.productTile, Layout.grid, Layout.header, Layout.heroCarousel, Layout.megaMenu, Layout.popularCategories, Layout.productCarousel, Layout.productMerchandisingGrid
  */
 export function initializeRegistry(targetRegistry = registry): void {
     targetRegistry.registerImporter('Content.announcementBanner', staticRegistryImporters[0], { fallback: 'fallback' });
     targetRegistry.registerImporter('Content.contentCard', staticRegistryImporters[1]);
     targetRegistry.registerImporter('Content.hero', staticRegistryImporters[2]);
     targetRegistry.registerImporter('Content.pdImage', staticRegistryImporters[3]);
-    targetRegistry.registerImporter('Content.popularCategory', staticRegistryImporters[4], { loader: 'loader' });
-    targetRegistry.registerImporter('Content.productRecommendations', staticRegistryImporters[5], { loader: 'loader' });
-    targetRegistry.registerImporter('Content.productTile', staticRegistryImporters[6], { loader: 'loader' });
-    targetRegistry.registerImporter('Layout.grid', staticRegistryImporters[7]);
-    targetRegistry.registerImporter('Layout.header', staticRegistryImporters[8]);
-    targetRegistry.registerImporter('Layout.heroCarousel', staticRegistryImporters[9], { fallback: 'fallback' });
-    targetRegistry.registerImporter('Layout.megaMenu', staticRegistryImporters[10]);
-    targetRegistry.registerImporter('Layout.popularCategories', staticRegistryImporters[11], { loader: 'loader' });
-    targetRegistry.registerImporter('Layout.productCarousel', staticRegistryImporters[12], {
+    targetRegistry.registerImporter('Content.pjBalance', staticRegistryImporters[4], {
         loader: 'loader',
         fallback: 'fallback',
     });
-    targetRegistry.registerImporter('Layout.productMerchandisingGrid', staticRegistryImporters[13], {
+    targetRegistry.registerImporter('Content.pjBenefits', staticRegistryImporters[5], {
+        loader: 'loader',
+        fallback: 'fallback',
+    });
+    targetRegistry.registerImporter('Content.pjFavorites', staticRegistryImporters[6], {
+        loader: 'loader',
+        fallback: 'fallback',
+    });
+    targetRegistry.registerImporter('Content.pjGreeting', staticRegistryImporters[7], {
+        loader: 'loader',
+        fallback: 'fallback',
+    });
+    targetRegistry.registerImporter('Content.pjHeroFood', staticRegistryImporters[8], {
+        loader: 'loader',
+        fallback: 'fallback',
+    });
+    targetRegistry.registerImporter('Content.pjMoments', staticRegistryImporters[9], {
+        loader: 'loader',
+        fallback: 'fallback',
+    });
+    targetRegistry.registerImporter('Content.pjMonth', staticRegistryImporters[10], {
+        loader: 'loader',
+        fallback: 'fallback',
+    });
+    targetRegistry.registerImporter('Content.pjPopular', staticRegistryImporters[11], {
+        loader: 'loader',
+        fallback: 'fallback',
+    });
+    targetRegistry.registerImporter('Content.pjServes', staticRegistryImporters[12], {
+        loader: 'loader',
+        fallback: 'fallback',
+    });
+    targetRegistry.registerImporter('Content.pjStartOrder', staticRegistryImporters[13], {
+        loader: 'loader',
+        fallback: 'fallback',
+    });
+    targetRegistry.registerImporter('Content.pjUsual', staticRegistryImporters[14], {
+        loader: 'loader',
+        fallback: 'fallback',
+    });
+    targetRegistry.registerImporter('Content.popularCategory', staticRegistryImporters[15], { loader: 'loader' });
+    targetRegistry.registerImporter('Content.productRecommendations', staticRegistryImporters[16], {
+        loader: 'loader',
+    });
+    targetRegistry.registerImporter('Content.productTile', staticRegistryImporters[17], { loader: 'loader' });
+    targetRegistry.registerImporter('Layout.grid', staticRegistryImporters[18]);
+    targetRegistry.registerImporter('Layout.header', staticRegistryImporters[19]);
+    targetRegistry.registerImporter('Layout.heroCarousel', staticRegistryImporters[20], { fallback: 'fallback' });
+    targetRegistry.registerImporter('Layout.megaMenu', staticRegistryImporters[21]);
+    targetRegistry.registerImporter('Layout.popularCategories', staticRegistryImporters[22], { loader: 'loader' });
+    targetRegistry.registerImporter('Layout.productCarousel', staticRegistryImporters[23], {
+        loader: 'loader',
+        fallback: 'fallback',
+    });
+    targetRegistry.registerImporter('Layout.productMerchandisingGrid', staticRegistryImporters[24], {
         loader: 'loader',
         fallback: 'fallback',
     });
