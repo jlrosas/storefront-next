@@ -1,1 +1,92 @@
-{}
+{
+    "page": {
+        "title": "Promos",
+        "metaTitle": "Promos y combos | Papa Johns",
+        "filterLabel": "¿Para cuántos?",
+        "filterAria": "Filtrar por ocasión",
+        "empty": "Todavía no hay ofertas para esa ocasión. Mira todas las promos.",
+        "seeAll": "Ver todas"
+    },
+    "filters": {
+        "todas": "Todas",
+        "1": "Para 1",
+        "2": "Para 2",
+        "4": "Para 4",
+        "6": "Para 6+"
+    },
+    "card": {
+        "build": "Armar",
+        "view": "Ver oferta",
+        "buildAria": "Armar {{name}}",
+        "viewAria": "Ver {{name}}",
+        "featured": "Pizza del mes",
+        "off": "-{{percent}}%",
+        "until": "Hasta el {{date}}",
+        "mode": {
+            "both": "Retiro y delivery",
+            "pickup": "Solo retiro",
+            "delivery": "Solo delivery"
+        },
+        "pickupOnlyTitle": "Solo para retiro",
+        "pickupOnlyBody": "Con delivery no está disponible. Retírala en {{store}} · listo en {{minutes}} min, o mira las ofertas con delivery."
+    },
+    "builder": {
+        "back": "Volver a promos",
+        "title": "Arma tu {{name}}",
+        "subtitle_one": "{{count}} pizza familiar",
+        "subtitle_other": "{{count}} pizzas familiares",
+        "subtitleGeneric": "{{count}} productos a elección",
+        "slotsLabel": "Pizzas del combo",
+        "slotLabel": "Pizza {{n}} de {{total}}",
+        "slotLabelSingle": "Tu pizza",
+        "slotEmpty": "Elige",
+        "progress": "{{filled}} de {{total}} elegidas",
+        "prompt": "Elige la pizza {{n}}",
+        "promptChange": "Elige la pizza {{n}} (o cámbiala)",
+        "optionsLabel": "Especialidades",
+        "missing_one": "Elige {{count}} pizza más",
+        "missing_other": "Elige {{count}} pizzas más",
+        "add": "Agregar {{name}}",
+        "adding": "Agregando…",
+        "waitingStore": "Elige tu tienda para agregar",
+        "addError": "No pudimos agregar el combo. Intenta de nuevo.",
+        "included": "Ya viene en tu combo",
+        "priceNow": "Precio del combo",
+        "priceBefore": "antes",
+        "mode": {
+            "both": "Retiro o delivery",
+            "pickup": "Solo retiro"
+        }
+    },
+    "unavailable": {
+        "title": "Esta oferta es solo para retiro.",
+        "body": "Elegiste delivery a {{address}}. Puedes armarla igual y elegir cómo seguir:",
+        "bodyNoAddress": "Elegiste delivery. Puedes armarla igual y elegir cómo seguir:",
+        "pickup": "Retirar en {{store}}",
+        "pickupDetail": "{{km}} km · listo en {{minutes}} min",
+        "seeDelivery": "Ver ofertas",
+        "seeDeliveryDetail": "con delivery",
+        "switched": "Listo: retiras en {{store}}, {{address}}. Tu combo sigue igual.",
+        "addDisabled": "Elige retiro para agregarla"
+    },
+    "expired": {
+        "title": "Esta oferta terminó el {{date}}",
+        "badge": "Terminó el {{date}}",
+        "body": "La oferta {{name}} fue hasta el {{date}}. Estas ofertas están vigentes hoy y se parecen a la que buscabas:",
+        "bodyNoName": "Estas ofertas están vigentes hoy y se parecen a la que buscabas:",
+        "listLabel": "Ofertas vigentes",
+        "seeAll": "Ver todas las ofertas",
+        "menu": "Ir al menú",
+        "why": {
+            "cb-pizza-del-mes": "Pizza del mes",
+            "cb-super-duo": "Para compartir",
+            "cb-papa-combo-postre": "Con postre"
+        },
+        "titleNoDate": "Esta oferta ya terminó"
+    },
+    "toast": {
+        "added": "¡Agregado! {{name}}",
+        "points": "+{{points}} Papa Puntos por acreditar",
+        "view": "Ver mi pedido"
+    }
+}
