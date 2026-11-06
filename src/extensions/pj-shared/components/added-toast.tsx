@@ -54,7 +54,7 @@ export function AddedToast({
             role="status"
             data-testid="pj-added-toast"
             className={cn(
-                'flex w-[min(100vw-16px,420px)] items-center gap-3 rounded-pj-card bg-pj-green-dark px-4 py-3 text-pj-surface shadow-pj-strip',
+                'flex w-full max-w-[420px] items-center gap-3 rounded-pj-card bg-pj-green-dark px-4 py-3 text-pj-surface shadow-pj-strip',
                 className
             )}>
             <div className="min-w-0 flex-1">

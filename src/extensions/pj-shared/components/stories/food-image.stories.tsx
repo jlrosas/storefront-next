@@ -17,7 +17,8 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, userEvent, within } from 'storybook/test';
 import { FoodImage } from '../food-image';
 
-const SRC = '/images/hero-02.webp';
+const SRC =
+    'https://edge.disstg.commercecloud.salesforce.com/dw/image/v2/ZYFJ_001/on/demandware.static/-/Sites-papajohns-cl-master/default/dw510bd525/images/1440x1080-1787585782.jpg';
 
 const meta: Meta<typeof FoodImage> = {
     title: 'Extensions/Papa Johns/Food Image',
