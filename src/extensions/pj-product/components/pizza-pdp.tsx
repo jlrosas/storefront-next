@@ -24,6 +24,7 @@ import { formatClp, formatCount, formatRating } from '@/extensions/pj-shared/lib
 import { pointsFor } from '@/extensions/pj-shared/lib/points';
 import { PJ_ROUTES } from '@/extensions/pj-shared/lib/routes';
 import { usePjMe } from '@/extensions/pj-shared/hooks/use-pj-me';
+import { useShowAddedToast } from '@/extensions/pj-shared/lib/added-toast';
 import {
     defaultSelection,
     findVariant,
@@ -43,7 +44,6 @@ import { PRO_TOKENS } from '../lib/tokens';
 import { reviewMockFor } from '../mocks/reviews';
 import { usePjCart } from '../hooks/use-pj-cart';
 import { PizzaConfigurator } from './pizza-configurator';
-import { useShowAddedToast } from './pizza-added-toast';
 import { CheckIcon, ClockIcon, GiftIcon, PeopleIcon, PlusIcon, TrendIcon, ZoomIcon } from './icons';
 import { useImageUrl } from '../hooks/use-image-url';
 
@@ -111,7 +111,7 @@ export function PizzaPdp({ config, sides, initialSize }: PizzaPdpProps): ReactEl
         if (busy) return;
         const variant = findVariant(config, current.size, current.crust);
         if (!variant) return;
-        const outcome = await ensureFulfillment(`${config.name} ${size?.label ?? ''}`.trim());
+        const outcome = await ensureFulfillment(`${config.name} ${size?.label ?? ''}`.trim(), formatClp(total));
         if (outcome.status === 'cancelled') return;
         // Con tienda recién elegida, la ficha recarga sus destacados («Lista en 15 min en …») e inventario.
         if (outcome.changed) void revalidator.revalidate();

@@ -16,7 +16,8 @@
 /** @sfdc-extension-file SFDC_EXT_PJ_PRODUCT */
 import { type ReactElement, type ReactNode, useEffect, useState } from 'react';
 import { PizzaSheet } from '../components/pizza-sheet-launcher';
-import { PJ_CONFIGURE_EVENT, sheetRequestFor, type PjConfigureDetail } from '../lib/configure-bridge';
+import { ensureStore, hasStore } from '@/extensions/pj-shared/lib/events';
+import { ARMA_TU_PIZZA_ID, PJ_CONFIGURE_EVENT, sheetRequestFor, type PjConfigureDetail } from '../lib/configure-bridge';
 
 /**
  * Provider global de PRO (`target-config.json` → `contextProviders`): atiende `pj:configure-product`
@@ -36,8 +37,18 @@ export default function PjConfigureProvider({ children }: { children: ReactNode 
             const next = sheetRequestFor((event as CustomEvent<PjConfigureDetail>).detail);
             if (!next) return;
             event.preventDefault();
-            setRequest({ ...next, key: Date.now() });
-            setOpen(true);
+            const show = () => {
+                setRequest({ ...next, key: Date.now() });
+                setOpen(true);
+            };
+            // «Arma tu pizza» pide la tienda primero (panel de TIE): sus ingredientes dependen del inventario.
+            if (next.productId === ARMA_TU_PIZZA_ID && !hasStore()) {
+                void ensureStore({ source: 'pj-product', reason: 'Para armar tu pizza, dinos cómo la quieres.' }).then(
+                    (ok) => ok && show()
+                );
+                return;
+            }
+            show();
         };
         window.addEventListener(PJ_CONFIGURE_EVENT, onConfigure);
         return () => window.removeEventListener(PJ_CONFIGURE_EVENT, onConfigure);

@@ -27,6 +27,7 @@ import { pointsFor } from '@/extensions/pj-shared/lib/points';
 import { PJ_ROUTES } from '@/extensions/pj-shared/lib/routes';
 import { readFulfillmentFromDocument } from '@/extensions/pj-shared/lib/fulfillment';
 import { usePjMe } from '@/extensions/pj-shared/hooks/use-pj-me';
+import { useShowAddedToast } from '@/extensions/pj-shared/lib/added-toast';
 import type { PizzaSheetData } from '../routes/resource.pj-pizza';
 import {
     MAX_QUANTITY,
@@ -42,7 +43,6 @@ import {
 import type { SheetUpsell } from '../lib/upsell';
 import { basketTotal, itemCount, linesTotal, pizzaLineCount } from '../lib/cart-lines';
 import { ensureFulfillment } from '../lib/fulfillment-request';
-import { useShowAddedToast } from './pizza-added-toast';
 import { PRO_TOKENS } from '../lib/tokens';
 import { usePjCart } from '../hooks/use-pj-cart';
 import { PizzaConfigurator } from './pizza-configurator';
@@ -50,6 +50,7 @@ import { HazloComboStep } from './hazlo-combo-step';
 import { HalvesBuilder } from './halves-builder';
 import { HALVES_PRODUCT_ID, type HalvesBuilderData } from '../lib/halves';
 import { MinusIcon, PlusIcon } from './icons';
+import { CloseIcon } from '@/extensions/pj-shared/components/icons';
 import { useImageUrl } from '../hooks/use-image-url';
 
 type Basket = ShopperBasketsV2.schemas['Basket'];
@@ -181,7 +182,7 @@ function PizzaSheetBody({
         const variant = findVariant(config, current.size, current.crust);
         if (!variant) return;
         if (!editItemId && !readFulfillmentFromDocument()) {
-            const outcome = await ensureFulfillment(`${config.name} ${size?.label ?? ''}`.trim());
+            const outcome = await ensureFulfillment(`${config.name} ${size?.label ?? ''}`.trim(), formatClp(total));
             if (outcome.status === 'cancelled') return;
             if (outcome.changed) {
                 // Recarga el inventario de la tienda elegida y agrega con todo lo elegido (TIE-01 crit. 6).
@@ -298,7 +299,7 @@ function PizzaSheetBody({
             onOpenChange={onOpenChange}
             title={t('sheet.title', { name: config?.name ?? '' })}
             hideTitle
-            className="[&>div:nth-of-type(2)]:absolute [&>div:nth-of-type(2)]:top-1 [&>div:nth-of-type(2)]:right-0 [&>div:nth-of-type(2)]:z-10 lg:[&>div:nth-of-type(2)]:top-0"
+            className="[&>div:nth-of-type(2)]:sr-only"
             footer={
                 step === 'configure' ? (
                     <div className="flex flex-col gap-2">
@@ -349,19 +350,23 @@ function PizzaSheetBody({
             <div className="-mx-4 lg:-mx-6" style={PRO_TOKENS}>
                 {config && current ? (
                     <>
-                        {config.image ? (
-                            <FoodImage
-                                src={url(config.image.src, 960) ?? config.image.src}
-                                srcSet={srcSet(config.image.src, [480, 780, 960, 1280])}
-                                sizes="(min-width: 1024px) 480px, 100vw"
-                                alt={t('sheet.imageAlt', { name: config.name })}
-                                bleed
-                                priority
-                                className="h-[230px] w-full lg:h-[260px]"
-                            />
-                        ) : (
-                            <div className="h-[230px] bg-pj-sand" aria-hidden="true" />
-                        )}
+                        <div className="relative">
+                            {config.image ? (
+                                <FoodImage
+                                    src={url(config.image.src, 960) ?? config.image.src}
+                                    srcSet={srcSet(config.image.src, [480, 780, 960, 1280])}
+                                    sizes="(min-width: 1024px) 480px, 100vw"
+                                    alt={t('sheet.imageAlt', { name: config.name })}
+                                    bleed
+                                    priority
+                                    className="h-[230px] w-full lg:h-[260px]"
+                                />
+                            ) : (
+                                <div className="h-[230px] bg-pj-sand" aria-hidden="true" />
+                            )}
+                            {/* Cerrar sobre la foto (como el lienzo): se va con el scroll y no tapa los precios. */}
+                            <SheetClose onClose={() => onOpenChange(false)} />
+                        </div>
                         <div className="flex flex-col gap-2 px-4 pt-4 pb-2 lg:px-6">
                             <div className="flex flex-wrap items-baseline justify-between gap-x-3">
                                 <h2 className="font-heading text-[30px] leading-none font-extrabold uppercase">
@@ -399,10 +404,27 @@ function PizzaSheetBody({
                         />
                     </>
                 ) : (
-                    <SheetSkeleton failed={pizzaFetcher.state === 'idle' && pizzaFetcher.data != null && !config} />
+                    <div className="relative">
+                        <SheetSkeleton failed={pizzaFetcher.state === 'idle' && pizzaFetcher.data != null && !config} />
+                        <SheetClose onClose={() => onOpenChange(false)} />
+                    </div>
                 )}
             </div>
         </BottomSheet>
+    );
+}
+
+function SheetClose({ onClose }: { onClose: () => void }): ReactElement {
+    const { t } = useTranslation('extPjProduct');
+    return (
+        <button
+            type="button"
+            onClick={onClose}
+            aria-label={t('sheet.close')}
+            data-testid="pj-sheet-close"
+            className="absolute top-3 right-3 flex size-[44px] items-center justify-center rounded-full bg-pj-surface text-pj-ink shadow-pj-card focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green">
+            <CloseIcon size={20} />
+        </button>
     );
 }
 

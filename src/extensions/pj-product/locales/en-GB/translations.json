@@ -11,7 +11,8 @@
         "increase": "Agregar una",
         "loading": "Cargando la pizza",
         "loadError": "No pudimos cargar esta pizza. Vuelve a intentarlo.",
-        "error": "No pudimos agregarla a tu pedido. Vuelve a intentarlo."
+        "error": "No pudimos agregarla a tu pedido. Vuelve a intentarlo.",
+        "close": "Cerrar"
     },
     "slices": {
         "individual": "4 trozos",

@@ -88,6 +88,7 @@ export function HazloComboStep({
     const pickFlavor = async (next: string) => {
         if (!offer || busy || next === flavor) return;
         setFlavor(next);
+        // Sin combo agregado solo se recuerda el sabor; con combo se cambia la línea de la bebida.
         const drink = offer.drinks.find((d) => d.flavor === next);
         if (combo && drink) await apply({ intent: 'swap', itemId: combo.drink, productId: drink.productId });
     };
@@ -169,33 +170,31 @@ export function HazloComboStep({
                                     </span>
                                 )}
                             </p>
-                            {combo && (
-                                <div
-                                    role="radiogroup"
-                                    aria-label={t('upsell.flavorLabel')}
-                                    className="flex flex-wrap gap-1.5">
-                                    {offer.drinks.map((drink) => {
-                                        const on = drink.flavor === flavor;
-                                        return (
-                                            <button
-                                                key={drink.flavor}
-                                                type="button"
-                                                role="radio"
-                                                data-labeled
-                                                aria-checked={on}
-                                                onClick={() => void pickFlavor(drink.flavor)}
-                                                className={cn(
-                                                    'min-h-[44px] rounded-full border-2 px-3.5 text-sm font-semibold',
-                                                    on
-                                                        ? 'border-pj-green bg-pj-lime-soft text-pj-green-dark'
-                                                        : 'border-pj-line bg-pj-surface text-pj-ink'
-                                                )}>
-                                                {t(`upsell.flavor.${drink.flavor}`, { defaultValue: drink.flavor })}
-                                            </button>
-                                        );
-                                    })}
-                                </div>
-                            )}
+                            <div
+                                role="radiogroup"
+                                aria-label={t('upsell.flavorLabel')}
+                                className="flex flex-wrap gap-1.5">
+                                {offer.drinks.map((drink) => {
+                                    const on = drink.flavor === flavor;
+                                    return (
+                                        <button
+                                            key={drink.flavor}
+                                            type="button"
+                                            role="radio"
+                                            data-labeled
+                                            aria-checked={on}
+                                            onClick={() => void pickFlavor(drink.flavor)}
+                                            className={cn(
+                                                'min-h-[44px] rounded-full border-2 px-3.5 text-sm font-semibold',
+                                                on
+                                                    ? 'border-pj-green bg-pj-lime-soft text-pj-green-dark'
+                                                    : 'border-pj-line bg-pj-surface text-pj-ink'
+                                            )}>
+                                            {t(`upsell.flavor.${drink.flavor}`, { defaultValue: drink.flavor })}
+                                        </button>
+                                    );
+                                })}
+                            </div>
                             <button
                                 type="button"
                                 aria-pressed={Boolean(combo)}
