@@ -83,6 +83,7 @@ export function UsualHero({ sofia }: { sofia: SofiaVM }): ReactElement | null {
                         sizes="(min-width: 1024px) 58vw, 100vw"
                         alt={order.heroAlt}
                         bleed
+                        crop="hero"
                         animate
                         priority
                         className="h-full"
@@ -103,13 +104,12 @@ export function UsualHero({ sofia }: { sofia: SofiaVM }): ReactElement | null {
                     <ul className="flex gap-2 lg:hidden">
                         {order.thumbs.map((thumb) => (
                             <li key={`-`}>
-                                <img
+                                <FoodImage
                                     src={scaledImage(thumb.src, 160)}
                                     alt={thumb.alt}
-                                    width={72}
-                                    height={72}
-                                    loading="lazy"
-                                    className="size-[72px] rounded-[10px] object-cover"
+                                    bleed
+                                    crop="macro"
+                                    className="size-[72px] rounded-[10px]"
                                 />
                             </li>
                         ))}
@@ -158,6 +158,7 @@ export function Favorites({ items }: { items: FavoriteVM[] }): ReactElement | nu
                             sizes="(min-width: 1024px) 30vw, 180px"
                             alt={p.imageAlt}
                             bleed
+                            crop="macro"
                             className="h-[120px] lg:h-[220px]"
                         />
                         <div className="flex flex-col gap-1.5 px-2.5 pt-2 pb-2.5 lg:px-[18px] lg:pt-3.5 lg:pb-[18px]">
@@ -188,13 +189,12 @@ export function RedeemCard({ sofia }: { sofia: SofiaVM }): ReactElement | null {
     const value = Math.min(sofia.points, redeem.points);
     return (
         <div className="flex items-center gap-3.5 rounded-[18px] bg-pj-surface p-4 shadow-pj-card lg:gap-[18px] lg:rounded-[20px] lg:p-6">
-            <img
+            <FoodImage
                 src={scaledImage(redeem.image, 240)}
                 alt=""
-                width={72}
-                height={72}
-                loading="lazy"
-                className="size-[72px] rounded-xl object-cover lg:size-[110px] lg:rounded-[14px]"
+                bleed
+                crop="macro"
+                className="size-[72px] shrink-0 rounded-xl lg:size-[110px] lg:rounded-[14px]"
             />
             <div className="flex flex-1 flex-col gap-1.5 lg:gap-2">
                 <p className="text-[15px] font-bold lg:text-[19px]">{t('sofia.redeemTitle', { name: redeem.name })}</p>
@@ -241,6 +241,7 @@ export function MonthCard({ offer }: { offer: OfferVM | null }): ReactElement | 
                 sizes="(min-width: 1024px) 30vw, 100vw"
                 alt={offer.imageAlt}
                 bleed
+                crop="macro"
                 className="h-[170px] lg:h-auto lg:min-h-[200px] lg:w-1/2"
             />
             <div className="flex items-center justify-between gap-2.5 px-4 pt-3 pb-3.5 lg:flex-col lg:items-start lg:justify-center lg:gap-1.5 lg:p-[22px]">

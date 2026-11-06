@@ -68,6 +68,7 @@ export function PizzaCard({
                         alt=""
                         aspect="4/3"
                         bleed
+                        crop="macro"
                         priority={priority}
                     />
                 ) : (

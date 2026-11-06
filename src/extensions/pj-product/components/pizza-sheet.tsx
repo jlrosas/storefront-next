@@ -360,6 +360,7 @@ function PizzaSheetBody({
                                     alt={t('sheet.imageAlt', { name: config.name })}
                                     bleed
                                     priority
+                                    crop="macro"
                                     className="h-[230px] w-full lg:h-[260px]"
                                 />
                             ) : (

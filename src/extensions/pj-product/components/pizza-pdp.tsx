@@ -268,10 +268,11 @@ export function PizzaPdp({ config, sides, initialSize }: PizzaPdpProps): ReactEl
                                     animate
                                     priority
                                     bleed
-                                    className="h-[320px] w-full lg:aspect-[5/4] lg:h-auto lg:rounded-[18px]"
+                                    crop="macro"
+                                    className="aspect-square w-full lg:aspect-[5/4] lg:rounded-[18px]"
                                 />
                             ) : (
-                                <div className="h-[320px] bg-pj-sand lg:aspect-[5/4] lg:h-auto lg:rounded-[18px]" />
+                                <div className="aspect-square bg-pj-sand lg:aspect-[5/4] lg:rounded-[18px]" />
                             )}
                             <span className="pointer-events-none absolute top-3 left-3 rounded-full bg-pj-ink/70 px-2.5 py-1 text-xs font-bold text-pj-surface lg:text-[13px]">
                                 {t('pdp.fresh')}
@@ -368,12 +369,12 @@ export function PizzaPdp({ config, sides, initialSize }: PizzaPdpProps): ReactEl
                                                     on ? 'border-pj-green' : 'border-transparent'
                                                 )}>
                                                 {side.image && (
-                                                    <img
-                                                        src={url(side.image, 320)}
+                                                    <FoodImage
+                                                        src={url(side.image, 320) ?? side.image}
                                                         alt={side.name}
-                                                        loading="lazy"
-                                                        decoding="async"
-                                                        className="h-24 w-full rounded-[10px] object-cover lg:h-32"
+                                                        bleed
+                                                        crop="none"
+                                                        className="h-24 w-full rounded-[10px] lg:h-32"
                                                     />
                                                 )}
                                                 <p className="text-sm leading-tight font-bold">{side.name}</p>

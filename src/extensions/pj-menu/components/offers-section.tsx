@@ -17,7 +17,7 @@
 import type { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from '@/components/link';
-import { FoodImage, PriceTag } from '@/extensions/pj-shared';
+import { cropForPhoto, FoodImage, PriceTag } from '@/extensions/pj-shared';
 import { PJ_ROUTES } from '@/extensions/pj-shared/lib/routes';
 import { discountPercent, FEATURED_OFFERS, type MenuProduct } from '../lib/menu-model';
 
@@ -38,6 +38,7 @@ export function OfferCard({ offer, priority = false }: { offer: MenuProduct; pri
                         alt={offer.image.alt}
                         aspect="2/1"
                         bleed
+                        crop={cropForPhoto(offer.id)}
                         priority={priority}
                     />
                 ) : (

@@ -19,6 +19,9 @@ import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { useReducedMotion } from '../hooks/use-reduced-motion';
 import { PauseIcon, PlayIcon } from './icons';
+import { FOOD_IMAGE_CROP, type FoodImageCrop } from '../lib/photo';
+
+export type { FoodImageCrop };
 
 export interface FoodImageProps {
     /** URL de la foto (S-D8: la mayor resolución disponible, sin texto incrustado). */
@@ -33,6 +36,8 @@ export interface FoodImageProps {
     aspect?: string;
     /** Recorte a sangre: sin bordes redondeados (hero y fichas). Por defecto redondea como tarjeta. */
     bleed?: boolean;
+    /** Recorte de la foto (`macro`, `hero`, `combo` o `none`). Por defecto `none`. */
+    crop?: FoodImageCrop;
     /** Sombra cálida de tarjeta. */
     shadow?: boolean;
     /** Movimiento lento (Ken Burns) con botón de pausa. Se omite con «reducir movimiento». */
@@ -44,7 +49,8 @@ export interface FoodImageProps {
 }
 
 /**
- * Foto de comida del lienzo (CONTRATO §5, R4.7): `srcset`, recorte `object-cover`, sombra
+ * Foto de comida del lienzo (CONTRATO §5, R4.7): `srcset`, recorte `object-cover` (sin *letterbox*) con
+ * zoom macro por `crop`, sombra
  * opcional y movimiento lento con pausa. Con «reducir movimiento» la foto queda quieta y no se
  * muestra el botón (no hay nada que pausar).
  */
@@ -55,6 +61,7 @@ export function FoodImage({
     sizes,
     aspect,
     bleed = false,
+    crop = 'none',
     shadow = false,
     animate = false,
     priority = false,
@@ -76,6 +83,7 @@ export function FoodImage({
             )}
             style={aspect ? { aspectRatio: aspect } : undefined}
             data-testid="pj-food-image"
+            data-crop={crop}
             data-motion={moving ? (paused ? 'paused' : 'running') : 'none'}>
             <img
                 src={src}
@@ -87,6 +95,7 @@ export function FoodImage({
                 decoding="async"
                 className={cn(
                     'block h-full w-full object-cover',
+                    FOOD_IMAGE_CROP[crop],
                     moving && 'animate-[pj-ken-burns_14s_ease-in-out_infinite_alternate] motion-reduce:animate-none',
                     imgClassName
                 )}

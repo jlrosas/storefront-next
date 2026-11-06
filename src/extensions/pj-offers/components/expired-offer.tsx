@@ -20,6 +20,7 @@ import { Link } from '@/components/link';
 import { createProductUrl } from '@/route-paths';
 import { useSeoUrlContext } from '@/hooks/use-seo-url-context';
 import { FoodImage } from '@/extensions/pj-shared/components/food-image';
+import { cropForPhoto } from '@/extensions/pj-shared/lib/photo';
 import { PriceTag } from '@/extensions/pj-shared/components/price-tag';
 import { PJ_ROUTES } from '@/extensions/pj-shared/lib/routes';
 import { formatDayMonth, imageAt, imageSrcSet, type Offer, withUtm } from '../lib/offers';
@@ -52,6 +53,7 @@ export function ExpiredOffer({ expired, alternatives, search }: ExpiredOfferProp
                             alt={expired.name}
                             bleed
                             priority
+                            crop={cropForPhoto(expired.id)}
                             className="h-[170px] opacity-75 grayscale-[0.7] lg:h-[260px]"
                         />
                         {endedOn && (
@@ -95,6 +97,7 @@ export function ExpiredOffer({ expired, alternatives, search }: ExpiredOfferProp
                                 sizes="120px"
                                 alt=""
                                 bleed
+                                crop={cropForPhoto(offer.id)}
                                 className="size-[120px] shrink-0"
                             />
                             <div className="flex min-w-0 flex-1 flex-col justify-center gap-[3px] px-3 py-2.5">

@@ -20,6 +20,7 @@ import type { ShopperBasketsV2 } from '@/scapi';
 import { cn } from '@/lib/utils';
 import { Link } from '@/components/link';
 import { useNavigate } from '@/hooks/use-navigate';
+import { FoodImage } from '@/extensions/pj-shared/components/food-image';
 import { formatClp } from '@/extensions/pj-shared/lib/format';
 import { pointsFor } from '@/extensions/pj-shared/lib/points';
 import { PJ_ROUTES } from '@/extensions/pj-shared/lib/routes';
@@ -294,14 +295,12 @@ export function HalvesBuilder({ data, layout, onClose, onSaved }: HalvesBuilderP
                                         on ? 'border-pj-green' : 'border-transparent shadow-pj-card'
                                     )}>
                                     {flavor.image ? (
-                                        <img
-                                            src={url(flavor.image, 128)}
+                                        <FoodImage
+                                            src={url(flavor.image, 128) ?? flavor.image}
                                             alt=""
-                                            width={64}
-                                            height={64}
-                                            loading="lazy"
-                                            decoding="async"
-                                            className="size-16 rounded-full bg-pj-sand object-cover"
+                                            bleed
+                                            crop="macro"
+                                            className="size-16 shrink-0 rounded-full"
                                         />
                                     ) : (
                                         <span aria-hidden="true" className="size-16 rounded-full bg-pj-sand" />

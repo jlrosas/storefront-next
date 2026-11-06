@@ -139,6 +139,7 @@ export function HomeHero({
                     sizes="(min-width: 1024px) 58vw, 100vw"
                     alt={offer.imageAlt}
                     bleed
+                    crop="hero"
                     animate={animate && !video}
                     priority
                     className="h-full"

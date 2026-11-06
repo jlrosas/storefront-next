@@ -19,6 +19,7 @@ import { useTranslation } from 'react-i18next';
 import { Link } from '@/components/link';
 import { cn } from '@/lib/utils';
 import { FoodImage } from '@/extensions/pj-shared/components/food-image';
+import { cropForPhoto } from '@/extensions/pj-shared/lib/photo';
 import { formatClp } from '@/extensions/pj-shared/lib/format';
 import type { DemoMoment } from '@/extensions/pj-shared/lib/profile';
 import { useAddLines } from '../hooks/use-home-cart';
@@ -39,6 +40,7 @@ function OccasionBody({ o }: { o: OccasionVM }): ReactElement {
                 sizes="(min-width: 1024px) 20vw, 160px"
                 alt={o.imageAlt}
                 bleed
+                crop={cropForPhoto(o.image)}
                 className="h-[100px] lg:h-[190px]"
             />
             <span className="flex flex-col gap-0.5 px-2.5 pt-2 pb-2.5 lg:gap-1 lg:px-4 lg:pt-3.5 lg:pb-[18px]">
@@ -163,6 +165,7 @@ export function Moments({ items, initial, title }: MomentsProps): ReactElement |
                     sizes="(min-width: 1024px) 320px, 120px"
                     alt={offer.imageAlt}
                     bleed
+                    crop={cropForPhoto(offer.image ?? offer.id, 'combo')}
                     className="h-[140px] w-[120px] shrink-0 lg:h-[200px] lg:w-80"
                 />
                 <span className="flex min-w-0 flex-1 flex-col justify-center gap-1 px-3 py-2.5 lg:gap-1.5 lg:px-6 lg:py-5">

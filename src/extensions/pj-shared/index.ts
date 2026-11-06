@@ -34,6 +34,7 @@ export * from './lib/points';
 export * from './lib/format';
 export * from './lib/profile';
 export * from './lib/fulfillment';
+export { cropForPhoto, ROW_COMBO_IDS, FOOD_IMAGE_CROP, type FoodImageCrop } from './lib/photo';
 export { PJ_ROUTES, PJ_EXTERNAL_LINKS, PJ_BOTTOM_NAV_ROUTES, showsBottomNav } from './lib/routes';
 export { PJ_TARGETS } from './lib/targets';
 export { PJ_FEATURES } from './lib/features';

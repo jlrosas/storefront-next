@@ -21,6 +21,7 @@ import { cn } from '@/lib/utils';
 import { createProductUrl } from '@/route-paths';
 import { useSeoUrlContext } from '@/hooks/use-seo-url-context';
 import { FoodImage } from '@/extensions/pj-shared/components/food-image';
+import { cropForPhoto } from '@/extensions/pj-shared/lib/photo';
 import { PriceTag } from '@/extensions/pj-shared/components/price-tag';
 import { PJ_ROUTES } from '@/extensions/pj-shared/lib/routes';
 import { formatClp } from '@/extensions/pj-shared/lib/format';
@@ -97,6 +98,7 @@ export function OfferCard({
                     sizes={featured ? '(min-width: 1024px) 700px, 100vw' : '(min-width: 1024px) 400px, 100vw'}
                     alt={offer.name}
                     bleed
+                    crop={cropForPhoto(offer.id)}
                     priority={priority}
                     className={cn('h-[180px] lg:h-[210px]', featured && 'lg:h-full lg:min-h-[420px]')}
                 />

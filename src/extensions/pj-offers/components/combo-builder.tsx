@@ -241,12 +241,12 @@ export function ComboBuilder({
                                     active ? 'border-pj-green bg-pj-lime-soft' : 'border-pj-line bg-pj-surface'
                                 )}>
                                 {option?.image ? (
-                                    <img
+                                    <FoodImage
                                         src={imageAt(option.image, 96) ?? ''}
                                         alt=""
-                                        width={40}
-                                        height={40}
-                                        className="size-[40px] shrink-0 rounded-full object-cover"
+                                        bleed
+                                        crop="macro"
+                                        className="size-[40px] shrink-0 rounded-full"
                                     />
                                 ) : (
                                     <span
@@ -341,6 +341,7 @@ export function ComboBuilder({
                                     sizes="(min-width: 1024px) 280px, 50vw"
                                     alt=""
                                     bleed
+                                    crop="macro"
                                     className="h-[110px]"
                                 />
                                 {on && (

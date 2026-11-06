@@ -102,6 +102,7 @@ export function BuildCards({ mitades, arma, size, left, right, armaImage }: Buil
                             sizes="110px"
                             alt=""
                             aspect="1/1"
+                            crop="macro"
                             className="size-[84px] shrink-0 rounded-full lg:size-[110px]"
                         />
                     )}
