@@ -217,16 +217,17 @@ function PizzaSheetBody({
             return;
         }
         const pizzaId = ids[0] ?? null;
-        showAddedToast({
-            productName: `${config.name} ${size?.label ?? ''}`.trim(),
-            points: pointsFor(linesTotal(result.basket, ids), 0, me?.doublePoints ?? false),
-            onUndo: ids.length ? () => void submit({ intent: 'remove', itemIds: ids }) : undefined,
-        });
         if (pizzaLineCount(result.basket) === 1 && pizzaId) {
+            // La franja «<pizza> agregada · Editar» de «Hazlo combo» ya confirma: sin aviso encima (VAL-PRO R2).
             setAddedPizzaId(pizzaId);
             setEditItemId(undefined);
             setStep('upsell');
         } else {
+            showAddedToast({
+                productName: `${config.name} ${size?.label ?? ''}`.trim(),
+                points: pointsFor(linesTotal(result.basket, ids), 0, me?.doublePoints ?? false),
+                onUndo: ids.length ? () => void submit({ intent: 'remove', itemIds: ids }) : undefined,
+            });
             onOpenChange(false);
         }
     };
