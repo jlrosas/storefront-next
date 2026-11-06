@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import type { ReactElement } from 'react';
-import StoreLocator from '@/extensions/store-locator/components/store-locator';
+import LocalesPage from '@/extensions/pj-store/components/locales-page';
 
 /**
  * StoreLocatorPage
@@ -24,5 +24,5 @@ import StoreLocator from '@/extensions/store-locator/components/store-locator';
  * @returns ReactElement
  */
 export default function StoreLocatorPage(): ReactElement {
-    return <StoreLocator />;
+    return <LocalesPage />; // PJ: partida con las tiendas reales (sin código postal)
 }

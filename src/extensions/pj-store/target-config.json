@@ -1,3 +1,15 @@
 {
-    "components": []
+    "components": [
+        {
+            "targetId": "pj.header.fulfillment",
+            "path": "extensions/pj-store/components/fulfillment-chip-target.tsx",
+            "order": 0
+        }
+    ],
+    "contextProviders": [
+        {
+            "path": "extensions/pj-store/providers/fulfillment-provider.tsx",
+            "order": 0
+        }
+    ]
 }
