@@ -1,5 +1,36 @@
-/* Tipografía del lienzo (OFL), servida desde /public/fonts (subconjunto latino de Google Fonts):
- * Barlow para texto y Barlow Condensed para títulos, precios grandes y la marca. */
+/* Tipografía oficial de Papa Johns (la de papajohns.cl), servida desde /public/fonts.
+ * Papa Sans Regular / Bold / Heavy para texto y Papa Sans Medium Condensed para titulares
+ * (siempre en MAYÚSCULAS, playbook BGYS p. 33). Cada archivo cubre un rango de pesos para que el
+ * navegador no sintetice negritas falsas: cualquier font-bold/extrabold sobre el titular usa el
+ * Medium Condensed real. Barlow / Barlow Condensed (OFL) quedan como respaldo. */
+@font-face {
+    font-family: 'Papa Sans';
+    src: url('/fonts/papa-sans-regular.woff2') format('woff2');
+    font-weight: 100 549;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Papa Sans';
+    src: url('/fonts/papa-sans-bold.woff2') format('woff2');
+    font-weight: 550 849;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Papa Sans';
+    src: url('/fonts/papa-sans-heavy.woff2') format('woff2');
+    font-weight: 850 1000;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Papa Sans Condensed';
+    src: url('/fonts/papa-sans-medium-condensed.woff2') format('woff2');
+    font-weight: 100 1000;
+    font-style: normal;
+    font-display: swap;
+}
 @font-face {
     font-family: 'Barlow';
     src: url('/fonts/barlow-400.woff2') format('woff2');
@@ -97,11 +128,16 @@
     color: var(--pj-sale);
 }
 
-/* Textos de tamaño display (títulos de banner, precios grandes): en el lienzo van en Barlow
- * Condensed 800. Sin capa para ganarle a font-light/font-semibold del template. */
+/* Textos de tamaño display (títulos de banner, precios grandes): Papa Sans Medium Condensed en
+ * mayúsculas. Sin capa para ganarle a font-light/font-semibold del template. */
 :where(.text-4xl, .text-5xl, .text-6xl, .text-7xl, .text-8xl, .text-9xl) {
     font-family: var(--font-heading);
-    font-weight: 800;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+/* Todo lo que use la familia de titulares va en mayúsculas (regla del playbook). */
+.font-heading {
+    text-transform: uppercase;
 }
 
 /* Botones del lienzo: píldora y área táctil de al menos 44 px (INT-01 · criterio 3). */
@@ -141,14 +177,15 @@ nav > ol > li > a {
     body {
         @apply bg-background text-foreground;
         font-family: var(--font-sans);
+        font-synthesis: none;
     }
-    /* Títulos del lienzo: Barlow Condensed 800 en mayúsculas. */
+    /* Titulares: Papa Sans Medium Condensed, siempre en MAYÚSCULAS, kerning 0 (playbook p. 33). */
     h1,
     h2 {
         font-family: var(--font-heading);
-        font-weight: 800;
+        font-weight: 500;
         text-transform: uppercase;
-        letter-spacing: 0.01em;
+        letter-spacing: 0;
         line-height: 1;
     }
     html {

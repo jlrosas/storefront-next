@@ -54,7 +54,7 @@ export function AddedToast({
             role="status"
             data-testid="pj-added-toast"
             className={cn(
-                'flex w-full max-w-[420px] items-center gap-3 rounded-pj-card bg-pj-green-dark px-4 py-3 text-pj-surface shadow-pj-strip',
+                'flex w-full max-w-[420px] items-center gap-3 rounded-pj-card bg-pj-basil px-4 py-3 text-pj-dough shadow-pj-strip',
                 className
             )}>
             <div className="min-w-0 flex-1">
@@ -63,7 +63,7 @@ export function AddedToast({
                     {productName ? ` ${productName}` : ''}
                 </p>
                 {points > 0 && (
-                    <p className="text-sm font-semibold text-pj-lime">
+                    <p className="text-sm font-semibold text-pj-pepperoncini">
                         {t('toast.addedPoints', { points: formatCount(points) })}
                     </p>
                 )}
@@ -75,14 +75,14 @@ export function AddedToast({
                         onUndo();
                         onDismiss?.();
                     }}
-                    className="min-h-11 shrink-0 px-2 text-sm font-bold text-pj-surface underline underline-offset-4">
+                    className="min-h-11 shrink-0 px-2 text-sm font-bold text-pj-dough underline underline-offset-4">
                     {t('toast.undo')}
                 </button>
             )}
             <Link
                 to={orderHref}
                 onClick={onDismiss}
-                className="flex min-h-11 shrink-0 items-center rounded-full bg-pj-lime px-4 text-sm font-bold text-pj-green-dark no-underline">
+                className="flex min-h-11 shrink-0 items-center rounded-full bg-pj-pepperoncini px-4 text-sm font-bold text-pj-basil no-underline">
                 {t('toast.viewOrder')}
             </Link>
         </div>

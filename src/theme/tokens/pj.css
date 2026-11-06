@@ -1,44 +1,68 @@
 /*
- * Papa Johns Chile — tokens propios del lienzo (pj-*).
+ * Papa Johns Chile — paleta OFICIAL de marca (playbook BGYS, p. 58) y tipografía Papa Sans.
  *
- * Los usan las extensiones pj-* a través de las utilidades de Tailwind registradas en
- * tailwind.css (bg-pj-green, text-pj-sale, shadow-pj-card, rounded-pj-card…). Los tokens
- * semánticos del template (--primary, --background…) apuntan a estos mismos colores en core.css.
+ * Reglas ADA del playbook (p. 60, 64 y 65) para texto en digital:
+ *   sobre Fluffy Dough        → Fresh Basil o Rich Sauce
+ *   sobre Fresh Basil         → Fluffy Dough, Punchy Garlic o Pickled Pepperoncini
+ *   sobre Pickled Pepperoncini → Fresh Basil o Rich Sauce
+ *   sobre Rich Sauce          → Fluffy Dough, Punchy Garlic o Pickled Pepperoncini
+ *   sobre Punchy Garlic       → Fresh Basil o Rich Sauce
+ * Tangy Tomato y Ripened Vine nunca llevan texto (solo formas decorativas).
+ * Texto corrido sobre blanco o Fluffy Dough puede ir en tinta (#1B1D1A) o gris (#5A5F57).
+ *
+ * Los nombres del lienzo (--pj-green, --pj-lime, --pj-cream, --pj-sale…) se mantienen como alias
+ * de los colores oficiales para que el código de las extensiones siga funcionando.
  */
 :root {
-    /* colores del lienzo */
-    --pj-cream: #FFFBF5;          /* fondo */
-    --pj-green: #1E4D33;          /* botones, navegación, encabezado */
-    --pj-green-dark: #133423;     /* footer, franja de pedido, texto sobre lima */
-    --pj-lime: #D7EA4A;           /* «Mi pedido», destacados */
-    --pj-lime-soft: #EEF6C8;      /* avisos y chips de puntos */
-    --pj-sale: #B3261E;           /* precio de oferta (6.3:1 sobre la crema) */
-    --pj-ink: #1B1D1A;            /* texto */
-    --pj-gray: #5A5F57;           /* texto secundario (6.4:1 sobre la crema) */
-    --pj-gray-strong: #3E423C;    /* texto de apoyo sobre blanco */
-    --pj-star: #8F5400;           /* estrella de calificación */
-    --pj-line: #E4E2DA;           /* separadores y bordes */
-    --pj-sand: #EFE6DA;           /* borde de barras sobre blanco */
-    --pj-input-line: #E2D6C6;     /* borde decorativo del buscador */
-    --pj-surface: #FFFFFF;        /* tarjetas */
-    --pj-track: #EFEEE7;          /* fondo de barras de progreso */
+    /* paleta oficial (playbook p. 58) */
+    --pj-basil: #2D5D2A;          /* Fresh Basil · verde marca: encabezado, botones, navegación */
+    --pj-pepperoncini: #CFEB0C;   /* Pickled Pepperoncini · lima: «Mi pedido», acentos */
+    --pj-dough: #F5E8DC;          /* Fluffy Dough · crema: fondos y texto sobre verde/granate */
+    --pj-sauce: #710500;          /* Rich Sauce · granate: precio de oferta, insignias de oferta */
+    --pj-tomato: #FF0000;         /* Tangy Tomato · rojo marca: SOLO formas decorativas, sin texto */
+    --pj-garlic: #E3C2ED;         /* Punchy Garlic · lila de acento */
+    --pj-vine: #65A17A;           /* Ripened Vine · verde salvia: SOLO decorativo, nunca con texto */
 
-    /* tipografía */
-    --pj-font-body: 'Barlow', -apple-system, 'system-ui', 'Helvetica Neue', Arial, sans-serif;
-    --pj-font-display: 'Barlow Condensed', 'Arial Narrow', var(--pj-font-body);
+    /* derivados (no están en el playbook; documentados) */
+    --pj-basil-deep: #1E3F1C;     /* Fresh Basil oscurecido ~32 %: footer, hover y franja de pedido */
+    --pj-dough-deep: #EFE2D5;     /* Fluffy Dough oscurecido: superficies apagadas (muted) */
+    --pj-dough-line: #E2D2C2;     /* línea sobre Fluffy Dough */
+    --pj-input-line: #7D7467;     /* borde de campos: 3,8:1 sobre Fluffy Dough (WCAG 1.4.11) */
+
+    /* neutros funcionales */
+    --pj-ink: #1B1D1A;            /* texto: 14,1:1 sobre Fluffy Dough */
+    --pj-gray: #5A5F57;           /* texto secundario: 5,4:1 sobre Fluffy Dough, 6,5:1 sobre blanco */
+    --pj-gray-strong: #3E423C;
+    --pj-star: #8F5400;           /* estrella: 5,1:1 sobre Fluffy Dough */
+    --pj-surface: #FFFFFF;        /* tarjetas blancas sobre crema */
+
+    /* alias del lienzo → paleta oficial */
+    --pj-cream: var(--pj-dough);
+    --pj-green: var(--pj-basil);
+    --pj-green-dark: var(--pj-basil-deep);
+    --pj-lime: var(--pj-pepperoncini);
+    --pj-lime-soft: var(--pj-pepperoncini); /* sin tinte suave en la paleta: avisos en lima + Fresh Basil */
+    --pj-sale: var(--pj-sauce);             /* precio de oferta y «Ahorras $X» (Tangy Tomato no es apto para texto) */
+    --pj-line: var(--pj-dough-line);
+    --pj-sand: var(--pj-dough-deep);
+    --pj-track: var(--pj-dough-deep);
+
+    /* tipografía: Papa Sans (papajohns.cl); Barlow solo como respaldo */
+    --pj-font-body: 'Papa Sans', 'Barlow', -apple-system, 'system-ui', 'Helvetica Neue', Arial, sans-serif;
+    --pj-font-display: 'Papa Sans Condensed', 'Barlow Condensed', 'Arial Narrow', var(--pj-font-body);
 
     /* radios */
-    --pj-radius-control: 10px;    /* botones del encabezado */
-    --pj-radius-card: 14px;       /* tarjetas */
-    --pj-radius-section: 18px;    /* bloques grandes de la portada */
-    --pj-radius-pill: 999px;      /* botones y chips */
+    --pj-radius-control: 10px;
+    --pj-radius-card: 14px;
+    --pj-radius-section: 18px;
+    --pj-radius-pill: 999px;
 
     /* sombras */
     --pj-shadow-card: 0 2px 10px rgb(60 30 10 / 0.1);
     --pj-shadow-float: 0 8px 20px rgb(0 0 0 / 0.25);
-    --pj-shadow-strip: 0 6px 18px rgb(19 52 35 / 0.35);
+    --pj-shadow-strip: 0 6px 18px rgb(30 63 28 / 0.35);
 
     /* layout */
     --pj-bottom-nav-height: 64px;
-    --pj-touch: 44px;             /* área táctil mínima */
+    --pj-touch: 44px;
 }

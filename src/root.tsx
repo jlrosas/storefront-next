@@ -122,7 +122,7 @@ import { buildSeoMetaDescriptors } from '@/utils/seo';
 import favicon from '/favicon.ico';
 
 // Fonts
-import { primaryFont } from '@/lib/fonts';
+import { primaryFont, headingFont } from '@/lib/fonts';
 
 // Styles
 import { PageDesignerInit } from '@/page-designer-init';
@@ -143,6 +143,7 @@ export const links: Route.LinksFunction = () => {
     return [
         // Preload critical fonts
         { rel: 'preload', href: primaryFont, as: 'font', type: 'font/woff2', crossOrigin: 'anonymous' },
+        { rel: 'preload', href: headingFont, as: 'font', type: 'font/woff2', crossOrigin: 'anonymous' },
         { rel: 'preload', href: appStylesHref, as: 'style' },
         createStorefrontStylesheetLink(appStylesHref),
     ];

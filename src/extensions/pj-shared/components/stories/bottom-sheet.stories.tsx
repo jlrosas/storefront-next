@@ -25,7 +25,7 @@ function Demo({ initiallyOpen = true }: { initiallyOpen?: boolean }) {
             <button
                 type="button"
                 onClick={() => setOpen(true)}
-                className="min-h-11 rounded-full bg-pj-green px-5 font-bold text-pj-surface">
+                className="min-h-11 rounded-full bg-pj-basil px-5 font-bold text-pj-dough">
                 Abrir hoja
             </button>
             <BottomSheet
@@ -36,9 +36,9 @@ function Demo({ initiallyOpen = true }: { initiallyOpen?: boolean }) {
                 footer={
                     <button
                         type="button"
-                        className="flex min-h-12 w-full items-center justify-between rounded-full bg-pj-green px-5 font-bold text-pj-surface">
+                        className="flex min-h-12 w-full items-center justify-between rounded-full bg-pj-basil px-5 font-bold text-pj-dough">
                         <span>Agregar</span>
-                        <PriceTag price={16900} className="[&_strong]:text-pj-surface" />
+                        <PriceTag price={16900} className="[&_strong]:text-pj-dough" />
                     </button>
                 }>
                 <p className="py-4 text-[15px]">Tamaño, masa e ingredientes van aquí.</p>

@@ -1,10 +1,11 @@
 @theme inline {
-    /* Tipografía del lienzo: Barlow para texto y Barlow Condensed para títulos */
-    --font-sans: 'Barlow', -apple-system, 'system-ui', 'Helvetica Neue', Arial, sans-serif;
-    --font-serif: 'Barlow', Georgia, serif;
+    /* Tipografía oficial: Papa Sans (texto) y Papa Sans Medium Condensed (titulares, en mayúsculas).
+       Barlow / Barlow Condensed quedan solo como respaldo. */
+    --font-sans: 'Papa Sans', 'Barlow', -apple-system, 'system-ui', 'Helvetica Neue', Arial, sans-serif;
+    --font-serif: 'Papa Sans', 'Barlow', Georgia, serif;
     --font-mono: ui-monospace, 'SFMono-Regular', Menlo, 'Courier New', monospace;
-    --font-heading: 'Barlow Condensed', 'Arial Narrow', var(--font-sans);
-    --font-display: 'Barlow Condensed', 'Arial Narrow', var(--font-sans);
+    --font-heading: 'Papa Sans Condensed', 'Barlow Condensed', 'Arial Narrow', var(--font-sans);
+    --font-display: 'Papa Sans Condensed', 'Barlow Condensed', 'Arial Narrow', var(--font-sans);
 
     /* Error page tokens */
     --text-error-status: 12rem;  /* Large status code display for error pages */
@@ -158,6 +159,15 @@
     --color-brand-gray-900: var(--brand-gray-900);
 
     /* -- Papa Johns (pj.css) -- */
+    --color-pj-basil: var(--pj-basil);
+    --color-pj-basil-deep: var(--pj-basil-deep);
+    --color-pj-pepperoncini: var(--pj-pepperoncini);
+    --color-pj-dough: var(--pj-dough);
+    --color-pj-dough-deep: var(--pj-dough-deep);
+    --color-pj-sauce: var(--pj-sauce);
+    --color-pj-tomato: var(--pj-tomato);
+    --color-pj-garlic: var(--pj-garlic);
+    --color-pj-vine: var(--pj-vine);
     --color-pj-cream: var(--pj-cream);
     --color-pj-green: var(--pj-green);
     --color-pj-green-dark: var(--pj-green-dark);

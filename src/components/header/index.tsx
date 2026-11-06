@@ -122,7 +122,7 @@ function PjCheckoutOrderLink(): ReactElement {
             to={PJ_ROUTES.cart}
             data-testid="cart-badge"
             aria-label={t('header.myOrderAria', { count })}
-            className="flex min-h-11 items-center rounded-pj-control bg-pj-lime px-4 font-bold text-pj-green-dark no-underline">
+            className="flex min-h-11 items-center rounded-pj-control bg-pj-pepperoncini px-4 font-bold text-pj-basil no-underline">
             {count > 0 ? t('header.myOrderWithCount', { count }) : t('header.myOrder')}
         </Link>
     );
@@ -171,7 +171,7 @@ function PjHeaderRow({ children }: PropsWithChildren): ReactElement {
                             aria-current={active ? 'page' : undefined}
                             className={cn(
                                 'flex min-h-11 min-w-11 items-center justify-center border-b-[3px] text-[15px] font-semibold text-header-foreground no-underline hover:border-header-foreground/40',
-                                active ? 'border-pj-lime' : 'border-transparent'
+                                active ? 'border-pj-pepperoncini' : 'border-transparent'
                             )}>
                             {t(item.key)}
                         </Link>
@@ -204,7 +204,7 @@ function PjHeaderRow({ children }: PropsWithChildren): ReactElement {
                     <>
                         <span>{t('header.greeting', { name: greetingName })}</span>
                         {greetingPoints !== null && (
-                            <span className="rounded-full bg-pj-lime-soft px-2.5 py-0.5 text-sm font-bold text-pj-green-dark">
+                            <span className="rounded-full bg-pj-pepperoncini px-2.5 py-0.5 text-sm font-bold text-pj-basil">
                                 {t('header.greetingPoints', { points: formatCount(greetingPoints) })}
                             </span>
                         )}
@@ -218,12 +218,12 @@ function PjHeaderRow({ children }: PropsWithChildren): ReactElement {
                 to={PJ_ROUTES.cart}
                 data-testid="pj-header-cart"
                 aria-label={t('header.myOrderAria', { count })}
-                className="relative flex size-11 shrink-0 items-center justify-center rounded-pj-control bg-pj-lime font-bold text-pj-green-dark no-underline lg:w-auto lg:px-4">
+                className="relative flex size-11 shrink-0 items-center justify-center rounded-pj-control bg-pj-pepperoncini font-bold text-pj-basil no-underline lg:w-auto lg:px-4">
                 <CartIcon size={22} className="lg:hidden" />
                 {count > 0 && (
                     <span
                         aria-hidden="true"
-                        className="absolute -top-1 -right-1 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-pj-green-dark px-1 text-[11px] leading-none text-header-foreground lg:hidden">
+                        className="absolute -top-1 -right-1 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-pj-basil px-1 text-[11px] leading-none text-header-foreground lg:hidden">
                         {count > 99 ? '99+' : count}
                     </span>
                 )}

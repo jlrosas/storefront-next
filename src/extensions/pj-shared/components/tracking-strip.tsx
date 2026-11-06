@@ -62,7 +62,7 @@ export function TrackingStrip({
                     key={index}
                     className={cn(
                         'h-1 rounded-full lg:h-[5px]',
-                        index < step - 1 ? 'bg-pj-lime' : index === step - 1 ? 'bg-pj-surface' : 'bg-pj-surface/25'
+                        index < step - 1 ? 'bg-pj-pepperoncini' : index === step - 1 ? 'bg-pj-dough' : 'bg-pj-dough/25'
                     )}
                 />
             ))}
@@ -74,19 +74,19 @@ export function TrackingStrip({
             aria-label={`${t('tracking.inProgress')}: ${status}, ${eta}. ${t('tracking.viewTracking')}`}
             data-testid="pj-tracking-strip"
             className={cn(
-                'block bg-pj-green-dark text-pj-surface no-underline',
-                'rounded-pj-card shadow-pj-strip lg:rounded-none lg:border-t lg:border-pj-surface/15 lg:shadow-none',
+                'block bg-pj-basil text-pj-dough no-underline',
+                'rounded-pj-card shadow-pj-strip lg:rounded-none lg:border-t lg:border-pj-dough/15 lg:shadow-none',
                 className
             )}>
             {/* Móvil */}
             <span className="flex min-h-[54px] items-center gap-2.5 px-3 py-2 lg:hidden">
-                <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-pj-lime text-pj-green-dark">
+                <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-pj-pepperoncini text-pj-basil">
                     <PizzaIcon size={20} strong />
                 </span>
                 <span className="flex flex-1 flex-col gap-1">
                     <span className="flex justify-between text-sm">
                         <strong>{status}</strong>
-                        <span className="font-bold text-pj-lime">{eta}</span>
+                        <span className="font-bold text-pj-pepperoncini">{eta}</span>
                     </span>
                     {progress}
                 </span>
@@ -94,7 +94,7 @@ export function TrackingStrip({
             </span>
             {/* Escritorio */}
             <span className="mx-auto hidden max-w-[1200px] items-center gap-4 px-6 py-2.5 lg:flex">
-                <span className="rounded-full bg-pj-lime px-2.5 py-1 text-xs font-extrabold uppercase tracking-[0.5px] text-pj-green-dark">
+                <span className="rounded-full bg-pj-pepperoncini px-2.5 py-1 text-xs font-extrabold uppercase tracking-[0.5px] text-pj-basil">
                     {t('tracking.inProgress')}
                 </span>
                 <strong className="text-base">
@@ -102,7 +102,7 @@ export function TrackingStrip({
                 </strong>
                 <span className="w-[220px]">{progress}</span>
                 <span className="flex-1 text-sm opacity-85">{detail}</span>
-                <span className="font-bold text-pj-lime">{t('tracking.viewTracking')}</span>
+                <span className="font-bold text-pj-pepperoncini">{t('tracking.viewTracking')}</span>
             </span>
         </Link>
     );

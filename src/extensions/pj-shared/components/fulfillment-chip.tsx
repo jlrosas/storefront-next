@@ -41,7 +41,7 @@ export function FulfillmentChip({ top, bottom, to, onClick, className }: Fulfill
     const classes = cn(
         'flex min-h-11 min-w-0 flex-col justify-center text-left text-header-foreground no-underline',
         'lg:rounded-pj-control lg:border lg:border-header-foreground/30 lg:bg-header-foreground/10 lg:px-3.5 lg:py-1',
-        'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-lime',
+        'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-pepperoncini',
         className
     );
     const content = (
