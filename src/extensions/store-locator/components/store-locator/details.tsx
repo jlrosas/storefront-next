@@ -149,7 +149,10 @@ export default function StoreDetails({
                     <Typography variant="muted" as="div" className="text-xs flex items-center gap-1">
                         <MapPin className="size-4" />
                         {t('storeLocator.details.distanceAway', {
-                            distance: store.distance.toFixed(2),
+                            distance: store.distance.toLocaleString('es-CL', {
+                                minimumFractionDigits: 1,
+                                maximumFractionDigits: 1,
+                            }),
                             unit: distanceUnit,
                         })}
                     </Typography>

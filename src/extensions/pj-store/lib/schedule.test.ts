@@ -15,7 +15,7 @@
  */
 /** @sfdc-extension-file SFDC_EXT_PJ_OFFERS */
 import { describe, expect, it } from 'vitest';
-import { buildSlots, chileWallTimeToDate, dayOf } from './schedule';
+import { buildSlots, chileWallTimeToDate, dayOf, nextOpening } from './schedule';
 import type { PjStore } from './store-info';
 
 const store: PjStore = {
@@ -54,5 +54,14 @@ describe('schedule', () => {
     it('reconoce el día de una hora programada', () => {
         expect(dayOf('2026-11-06T22:00:00.000Z', now)).toBe('today');
         expect(dayOf('2026-11-07T15:00:00.000Z', now)).toBe('tomorrow');
+    });
+
+    it('tienda cerrada: pasada su apertura, hoy no ofrece horas y la próxima apertura es mañana', () => {
+        const closed = { ...store, c_pjClosed: true, c_pjOpensAt: '12:00' };
+        expect(buildSlots(closed, 'today', now)).toHaveLength(0);
+        expect(nextOpening(closed, now)).toEqual({ tomorrow: true, time: '12:00' });
+        const morning = chileWallTimeToDate(2026, 11, 6, 9, 0);
+        expect(nextOpening(closed, morning).tomorrow).toBe(false);
+        expect(buildSlots(closed, 'today', morning)[0].label).toBe('12:00');
     });
 });

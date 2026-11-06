@@ -45,5 +45,12 @@ export default function FulfillmentChipTarget() {
         fulfillment.mode === 'delivery'
             ? (meta?.addressText ?? fulfillment.address ?? '')
             : (meta?.storeName ?? fulfillment.storeId);
-    return <FulfillmentChip top={top.replace(/ ·\s*$/, '')} bottom={bottom} onClick={() => openFulfillmentPanel()} />;
+    return (
+        <FulfillmentChip
+            top={top.replace(/ ·\s*$/, '')}
+            bottom={bottom}
+            onClick={() => openFulfillmentPanel()}
+            className="[&>span:first-child]:text-[11px] lg:[&>span:first-child]:text-xs"
+        />
+    );
 }

@@ -34,6 +34,7 @@ import {
     type RequireFulfillmentOptions,
 } from '../lib/fulfillment-store';
 import { deliveryWindowText } from '../lib/delivery-zones';
+import { fetchStoresNear, DEFAULT_CENTER } from '../hooks/use-stores-near';
 import { dayOf } from '../lib/schedule';
 import { isStoreClosed, pickupMinutes, shortStoreName, type PjStore } from '../lib/store-info';
 import { DeliverySection, type DeliveryValue } from './delivery-section';
@@ -85,6 +86,26 @@ function PanelBody({ open, options }: { open: boolean; options: RequireFulfillme
     const [pickupStore, setPickupStore] = useState<PjStore | null>(null);
     const [delivery, setDelivery] = useState<DeliveryValue | null>(null);
     const [apartment, setApartment] = useState('');
+
+    // Con delivery guardado, reabre con la dirección cargada y la tienda que la atiende.
+    const savedAddress = saved?.mode === 'delivery' ? saved.address : undefined;
+    const savedStoreId = saved?.storeId;
+    useEffect(() => {
+        if (!savedAddress || !savedStoreId) return;
+        const [street, ...rest] = savedAddress.split(',');
+        let cancelled = false;
+        fetchStoresNear(DEFAULT_CENTER, { radiusKm: 200, limit: 200 })
+            .then((stores) => {
+                const store = stores.find((s) => s.id === savedStoreId);
+                if (!store || cancelled) return;
+                setDelivery((prev) => prev ?? { address: street.trim(), assignment: { store, skippedClosed: null } });
+                setApartment((prev) => prev || rest.join(',').trim());
+            })
+            .catch(() => undefined);
+        return () => {
+            cancelled = true;
+        };
+    }, [savedAddress, savedStoreId]);
 
     const activeStore = mode === 'pickup' ? pickupStore : (delivery?.assignment.store ?? null);
     const closedAsap = mode === 'pickup' && pickupStore !== null && isStoreClosed(pickupStore) && when.mode === 'asap';
@@ -148,7 +169,9 @@ function PanelBody({ open, options }: { open: boolean; options: RequireFulfillme
         options.onConfirmed?.(fulfillment);
     };
 
-    const confirmLabel = options.confirmLabel ?? (options.onConfirmed ? t('panel.confirmAndAdd') : t('panel.confirm'));
+    const confirmLabel =
+        options.confirmLabel ??
+        (options.onConfirmed || options.amountLabel ? t('panel.confirmAndAdd') : t('panel.confirm'));
 
     return (
         <BottomSheet

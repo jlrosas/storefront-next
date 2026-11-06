@@ -105,5 +105,9 @@ describe('eventos de window', () => {
         expect(requestFromEventDetail({ reason: 'add-to-cart' })).toEqual({});
         expect(requestFromEventDetail({ productName: 'Pollo BBQ' }).reason).toBe('Para agregar tu Pollo BBQ.');
         expect(requestFromEventDetail({ reason: 'Para agregar tu combo.' }).reason).toBe('Para agregar tu combo.');
+        expect(requestFromEventDetail({ amountLabel: '$16.900', confirmLabel: 'Confirmar y agregar' })).toEqual({
+            amountLabel: '$16.900',
+            confirmLabel: 'Confirmar y agregar',
+        });
     });
 });

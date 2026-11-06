@@ -152,7 +152,7 @@ function PjHeaderRow({ children }: PropsWithChildren): ReactElement {
     const greetingName = me?.firstName ?? null;
     const greetingPoints = me?.points ?? null;
     return (
-        <div className="mx-auto flex min-h-[60px] max-w-[1240px] items-center gap-3 px-4 lg:min-h-[72px] lg:gap-7 lg:px-6">
+        <div className="mx-auto flex min-h-[60px] max-w-[1240px] items-center gap-2 px-4 sm:gap-3 lg:min-h-[72px] lg:gap-7 lg:px-6">
             <Link
                 to={PJ_ROUTES.home}
                 className="flex min-h-11 shrink-0 items-center"

@@ -18,6 +18,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type ReactElement } 
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { useStoresNear, DEFAULT_CENTER, type Coordinates } from '../hooks/use-stores-near';
+import { nextOpening } from '../lib/schedule';
 import {
     formatKm,
     isStoreClosed,
@@ -167,7 +168,9 @@ export function PickupSection({
                         <strong className="text-[#5C2408]">
                             {t('pickup.closedTitle', { name: shortStoreName(selected.name) })}
                         </strong>{' '}
-                        {t('pickup.closedBody', { time: opensAt(selected) })}
+                        {t(nextOpening(selected).tomorrow ? 'pickup.closedBodyTomorrow' : 'pickup.closedBody', {
+                            time: opensAt(selected),
+                        })}
                     </span>
                     <div className="grid grid-cols-2 gap-2">
                         {suggestion && (
@@ -189,7 +192,14 @@ export function PickupSection({
                             {t('pickup.suggestLater')}
                             <br />
                             <span className="text-xs font-medium">
-                                {t('pickup.suggestLaterSub', { time: opensAt(selected) })}
+                                {t(
+                                    nextOpening(selected).tomorrow
+                                        ? 'pickup.suggestLaterSubTomorrow'
+                                        : 'pickup.suggestLaterSub',
+                                    {
+                                        time: opensAt(selected),
+                                    }
+                                )}
                             </span>
                         </button>
                     </div>
@@ -228,7 +238,9 @@ function StoreOption({
 }): ReactElement {
     const { t } = useTranslation('extPjStore');
     const closed = isStoreClosed(store);
-    const status = closed ? t('pickup.closed', { time: opensAt(store) }) : t('pickup.open', { time: openUntil(store) });
+    const status = closed
+        ? t(nextOpening(store).tomorrow ? 'pickup.closedTomorrow' : 'pickup.closed', { time: opensAt(store) })
+        : t('pickup.open', { time: openUntil(store) });
     return (
         <button
             type="button"

@@ -155,14 +155,20 @@ export function notifyFulfillmentChanged(fulfillment: Fulfillment): void {
 
 /**
  * Convierte el `detail` de `pj:open-fulfillment` en solicitud: `reason` con espacios se usa como
- * frase; si trae `productName`, «Para agregar tu {productName}.»; un código como `add-to-cart` usa el texto por defecto.
+ * frase; `amountLabel` («$16.900») y `confirmLabel` («Confirmar y agregar») personalizan el botón; si trae `productName`, «Para agregar tu {productName}.»; un código como `add-to-cart` usa el texto por defecto.
  */
 export function requestFromEventDetail(detail: unknown): RequireFulfillmentOptions {
-    const d = (detail ?? {}) as { reason?: unknown; productName?: unknown; amountLabel?: unknown };
+    const d = (detail ?? {}) as {
+        reason?: unknown;
+        productName?: unknown;
+        amountLabel?: unknown;
+        confirmLabel?: unknown;
+    };
     const options: RequireFulfillmentOptions = {};
     if (typeof d.reason === 'string' && d.reason.includes(' ')) options.reason = d.reason;
     else if (typeof d.productName === 'string' && d.productName) options.reason = `Para agregar tu ${d.productName}.`;
     if (typeof d.amountLabel === 'string') options.amountLabel = d.amountLabel;
+    if (typeof d.confirmLabel === 'string') options.confirmLabel = d.confirmLabel;
     return options;
 }
 

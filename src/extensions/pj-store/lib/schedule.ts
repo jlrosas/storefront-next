@@ -15,7 +15,7 @@
  */
 /** @sfdc-extension-file SFDC_EXT_PJ_STORE */
 import { PJ_TIME_ZONE } from '@/extensions/pj-shared/lib/format';
-import { openUntil, opensAt, pickupMinutes, type PjStore } from './store-info';
+import { isStoreClosed, openUntil, opensAt, pickupMinutes, type PjStore } from './store-info';
 
 export type ScheduleDay = 'today' | 'tomorrow';
 
@@ -67,6 +67,21 @@ function pad(value: number): string {
 
 const STEP = 15;
 
+/** Minutos desde la medianoche, hora de Chile. */
+export function chileMinutesNow(now: Date = new Date()): number {
+    const p = chileParts(now);
+    return p.hour * 60 + p.minute;
+}
+
+/**
+ * Próxima apertura de una tienda cerrada: hoy si aún no llega su hora de apertura, si no, mañana.
+ * Una tienda cerrada por el interruptor no ofrece horas de «Hoy» una vez pasada su apertura.
+ */
+export function nextOpening(store: PjStore, now: Date = new Date()): { tomorrow: boolean; time: string } {
+    const time = opensAt(store);
+    return { tomorrow: chileMinutesNow(now) >= toMinutes(time), time };
+}
+
 /**
  * Horas disponibles para programar (de 15 en 15 min) entre la apertura y el cierre de la tienda.
  * Hoy parte desde ahora + el tiempo de preparación; mañana, desde la apertura.
@@ -80,6 +95,7 @@ export function buildSlots(store: PjStore, day: ScheduleDay, now: Date = new Dat
     const close = toMinutes(openUntil(store));
     let start = open;
     if (day === 'today') {
+        if (isStoreClosed(store) && nextOpening(store, now).tomorrow) return [];
         const earliest = today.hour * 60 + today.minute + pickupMinutes(store);
         start = Math.max(open, Math.ceil(earliest / STEP) * STEP);
     }
