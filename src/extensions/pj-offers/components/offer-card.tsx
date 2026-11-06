@@ -136,7 +136,7 @@ export function OfferCard({
                 <div className={cn('mt-0.5 flex gap-2.5 text-xs text-pj-gray', featured && 'lg:text-pj-surface/80')}>
                     <span>{t(`card.mode.${dispatchKey(offer)}`)}</span>
                     {validity && (
-                        <span className={cn('font-bold text-[#7A3A12]', featured && 'lg:text-pj-lime')}>
+                        <span className={cn('font-bold text-pj-sauce', featured && 'lg:text-pj-lime')}>
                             {t('card.until', { date: validity })}
                         </span>
                     )}
@@ -145,8 +145,8 @@ export function OfferCard({
                     <p
                         role="note"
                         data-testid="pj-offer-pickup-only"
-                        className="mt-1 rounded-xl border border-[#E9C9A6] bg-[#FFF3E6] px-3 py-2 text-[13px] leading-snug text-pj-gray-strong lg:text-pj-gray-strong">
-                        <strong className="text-[#5C2408]">{t('card.pickupOnlyTitle')}.</strong>{' '}
+                        className="mt-1 rounded-xl border border-pj-dough-line bg-pj-dough-deep px-3 py-2 text-[13px] leading-snug text-pj-gray-strong lg:text-pj-gray-strong">
+                        <strong className="text-pj-sauce">{t('card.pickupOnlyTitle')}.</strong>{' '}
                         {t('card.pickupOnlyBody', {
                             store: NEAREST_PICKUP_STORE.name,
                             minutes: NEAREST_PICKUP_STORE.pickupMinutes,

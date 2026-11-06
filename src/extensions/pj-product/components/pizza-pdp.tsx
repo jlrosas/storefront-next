@@ -205,7 +205,7 @@ export function PizzaPdp({ config, sides, initialSize }: PizzaPdpProps): ReactEl
     const badges = (
         <div className="flex flex-wrap items-center gap-1.5">
             {config.badges.includes('mas-pedida') && (
-                <span className="rounded-full bg-pj-lime px-2.5 py-0.5 text-[11px] font-bold tracking-wide text-pj-green-dark uppercase lg:text-xs">
+                <span className="rounded-full bg-pj-lime px-2.5 py-0.5 text-xs font-bold tracking-wide text-pj-green-dark uppercase">
                     {t('pdp.bestSeller')}
                 </span>
             )}

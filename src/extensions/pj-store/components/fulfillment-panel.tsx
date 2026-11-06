@@ -196,7 +196,7 @@ function PanelBody({ open, options }: { open: boolean; options: RequireFulfillme
                 <div
                     role="group"
                     aria-label={t('panel.modeLabel')}
-                    className="grid grid-cols-2 gap-1 rounded-xl bg-[#F4F3EE] p-1">
+                    className="grid grid-cols-2 gap-1 rounded-xl bg-pj-dough-deep p-1">
                     <button
                         type="button"
                         aria-pressed={mode === 'pickup'}

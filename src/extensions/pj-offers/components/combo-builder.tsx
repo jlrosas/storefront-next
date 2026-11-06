@@ -257,7 +257,7 @@ export function ComboBuilder({
                                 ) : (
                                     <span
                                         aria-hidden="true"
-                                        className="size-[40px] shrink-0 rounded-full border-2 border-dashed border-[#C9B8A3]"
+                                        className="size-[40px] shrink-0 rounded-full border-2 border-dashed border-pj-input-line"
                                     />
                                 )}
                                 <span className="flex min-w-0 flex-col">
@@ -279,9 +279,9 @@ export function ComboBuilder({
                     <section
                         role="alert"
                         data-testid="pj-combo-unavailable"
-                        className="flex flex-col gap-2.5 rounded-[14px] border-[1.5px] border-[#E9C9A6] bg-[#FFF3E6] px-3.5 py-3">
+                        className="flex flex-col gap-2.5 rounded-[14px] border-[1.5px] border-pj-dough-line bg-pj-dough-deep px-3.5 py-3">
                         <span className="text-sm leading-snug text-pj-gray-strong">
-                            <strong className="text-[#5C2408]">{t('unavailable.title')}</strong>{' '}
+                            <strong className="text-pj-sauce">{t('unavailable.title')}</strong>{' '}
                             {fulfillment?.address ? t('unavailable.body', { address }) : t('unavailable.bodyNoAddress')}
                         </span>
                         <div className="grid grid-cols-2 gap-2">
@@ -364,7 +364,7 @@ export function ComboBuilder({
                     })}
                 </div>
                 {failed && (
-                    <p role="alert" className="rounded-xl bg-[#FDECEA] px-3 py-2.5 text-sm font-semibold text-pj-sale">
+                    <p role="alert" className="rounded-xl bg-pj-garlic px-3 py-2.5 text-sm font-semibold text-pj-sale">
                         {t('builder.addError')}
                     </p>
                 )}
@@ -380,7 +380,7 @@ export function ComboBuilder({
                         'flex h-[54px] w-full items-center justify-center rounded-full px-[22px] text-base font-bold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green',
                         buttonEnabled
                             ? 'bg-pj-green text-pj-surface hover:bg-pj-green-dark lg:text-[17px]'
-                            : 'cursor-not-allowed bg-[#E9E4DA] text-pj-gray'
+                            : 'cursor-not-allowed bg-pj-dough-deep text-pj-gray'
                     )}>
                     <span>{buttonLabel}</span>
                     {buttonEnabled && <span>{` · ${formatClp(offer.price)}`}</span>}

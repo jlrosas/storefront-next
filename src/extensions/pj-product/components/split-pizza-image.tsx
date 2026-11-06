@@ -41,7 +41,7 @@ export function SplitPizzaImage({ images, label, size = 150, className }: SplitP
             aria-label={label}
             data-testid="pj-split-pizza"
             className={cn(
-                'relative shrink-0 overflow-hidden rounded-full border-[3px] border-[var(--pj-split-line,#E9C9A6)] bg-pj-sand',
+                'relative shrink-0 overflow-hidden rounded-full border-[3px] border-[var(--pj-split-line,var(--pj-dough-line))] bg-pj-sand',
                 className
             )}
             style={{ width: size, height: size }}>

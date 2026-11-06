@@ -226,7 +226,7 @@ export function HalvesBuilder({ data, layout, onClose, onSaved }: HalvesBuilderP
                                         'flex min-h-[44px] flex-col items-start rounded-[10px] border-2 px-2.5 py-1 text-left',
                                         on ? 'border-pj-green bg-pj-lime-soft' : 'border-pj-sand bg-pj-surface'
                                     )}>
-                                    <span className="text-[11px] text-pj-gray">{t(HALF_LABEL_KEYS[index])}</span>
+                                    <span className="text-xs text-pj-gray">{t(HALF_LABEL_KEYS[index])}</span>
                                     <span className="text-sm font-bold">{flavor?.name ?? t('halves.choose')}</span>
                                 </button>
                             );

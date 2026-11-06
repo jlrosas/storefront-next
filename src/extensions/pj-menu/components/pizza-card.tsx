@@ -77,7 +77,7 @@ export function PizzaCard({
                 {badge && (
                     <span
                         className={cn(
-                            'absolute top-1.5 left-1.5 rounded-full px-2 py-0.5 text-[11px] font-bold',
+                            'absolute top-1.5 left-1.5 rounded-full px-2 py-0.5 text-xs font-bold',
                             BADGE_STYLE[badge]
                         )}>
                         {tr(`badge.${badge}`)}

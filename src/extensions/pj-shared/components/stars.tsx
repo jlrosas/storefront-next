@@ -27,7 +27,7 @@ export interface StarsProps {
     className?: string;
 }
 
-/** «★ 4,7 · 1.240 opiniones» con la estrella en el color del token (#8F5400, 5,9:1). */
+/** «★ 4,7 · 1.240 opiniones» con la estrella en el color del token --pj-star (5,1:1 sobre Fluffy Dough). */
 export function Stars({ rating, count, className }: StarsProps): ReactElement {
     const { t } = useTranslation('extPjShared');
     const value = formatRating(Math.min(5, Math.max(0, rating)));

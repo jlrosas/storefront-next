@@ -163,9 +163,9 @@ export function PickupSection({
                 <div
                     role="alert"
                     ref={alertRef}
-                    className="flex flex-col gap-2.5 rounded-[14px] border-[1.5px] border-[#E9C9A6] bg-[#FFF3E6] px-3.5 py-3">
+                    className="flex flex-col gap-2.5 rounded-[14px] border-[1.5px] border-pj-dough-line bg-pj-dough-deep px-3.5 py-3">
                     <span className="text-sm leading-snug text-pj-gray-strong">
-                        <strong className="text-[#5C2408]">
+                        <strong className="text-pj-sauce">
                             {t('pickup.closedTitle', { name: shortStoreName(selected.name) })}
                         </strong>{' '}
                         {t(nextOpening(selected).tomorrow ? 'pickup.closedBodyTomorrow' : 'pickup.closedBody', {
@@ -258,7 +258,7 @@ function StoreOption({
                 aria-hidden="true"
                 className={cn(
                     'flex size-[22px] shrink-0 items-center justify-center rounded-full border-2',
-                    selected ? 'border-pj-green' : 'border-[#B9B7AE]'
+                    selected ? 'border-pj-green' : 'border-pj-input-line'
                 )}>
                 <span className={cn('size-3 rounded-full', selected ? 'bg-pj-green' : 'bg-transparent')} />
             </span>
@@ -267,7 +267,7 @@ function StoreOption({
                 <span className="text-[13px] text-pj-gray">
                     {[store.address1, formatKm(store.distance)].filter(Boolean).join(' · ')}
                 </span>
-                <span className={cn('text-[13px] font-semibold', closed ? 'text-[#8A3B12]' : 'text-[#1E6B3A]')}>
+                <span className={cn('text-[13px] font-semibold', closed ? 'text-pj-sauce' : 'text-pj-basil')}>
                     {status}
                 </span>
             </span>

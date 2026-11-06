@@ -104,7 +104,7 @@ export function Popular({ items, title, compact = false, best = false }: Popular
                             />
                             <span className="flex flex-col gap-0.5 px-3 pt-2.5 pb-3 lg:gap-1.5 lg:px-[18px] lg:pt-4 lg:pb-5">
                                 {p.badge && !compact && (
-                                    <span className="self-start rounded-full bg-pj-sand px-2 py-0.5 text-[11px] font-bold text-pj-ink">
+                                    <span className="self-start rounded-full bg-pj-sand px-2 py-0.5 text-xs font-bold text-pj-ink">
                                         {t(`popular.badge.${p.badge}`, { defaultValue: p.badge })}
                                     </span>
                                 )}

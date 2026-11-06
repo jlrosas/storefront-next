@@ -128,7 +128,7 @@ export function DeliverySection({ value, onChange, apartment, onApartmentChange 
                         ))}
                     </div>
                     {mode === 'google' && (
-                        <div className="bg-[#FAFAF7] px-3.5 py-1.5 text-right text-[11px] text-pj-gray">
+                        <div className="bg-pj-dough-deep px-3.5 py-1.5 text-right text-xs text-pj-gray">
                             {t('delivery.poweredByGoogle')}
                         </div>
                     )}

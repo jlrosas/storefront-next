@@ -94,7 +94,7 @@ export function BuildCards({ mitades, arma, size, left, right, armaImage }: Buil
                     to={configureFallbackHref(armaDetail)}
                     onClick={configure(armaDetail)}
                     data-testid="pj-menu-build-arma"
-                    className="flex flex-col items-center gap-1.5 rounded-[16px] border-[1.5px] border-[#E9C9A6] bg-[#FFF3E6] p-3 text-center text-pj-ink no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green lg:flex-row lg:gap-[18px] lg:rounded-[18px] lg:px-5 lg:py-4 lg:text-left">
+                    className="flex flex-col items-center gap-1.5 rounded-[16px] border-[1.5px] border-pj-garlic bg-pj-garlic p-3 text-center text-pj-ink no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green lg:flex-row lg:gap-[18px] lg:rounded-[18px] lg:px-5 lg:py-4 lg:text-left">
                     {armaPhoto && (
                         <FoodImage
                             src={armaPhoto.src}
@@ -107,7 +107,7 @@ export function BuildCards({ mitades, arma, size, left, right, armaImage }: Buil
                         />
                     )}
                     <span className="flex flex-col gap-1">
-                        <span className="font-heading text-xl leading-none font-extrabold text-[#7A3A12] uppercase lg:text-[28px]">
+                        <span className="font-heading text-xl leading-none font-extrabold text-pj-sauce uppercase lg:text-[28px]">
                             {t('build.armaTitle')}
                         </span>
                         <span className="hidden text-[15px] lg:block">{t('build.armaLong')}</span>

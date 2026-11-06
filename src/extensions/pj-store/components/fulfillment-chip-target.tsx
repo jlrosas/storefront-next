@@ -50,7 +50,7 @@ export default function FulfillmentChipTarget() {
             top={top.replace(/ ·\s*$/, '')}
             bottom={bottom}
             onClick={() => openFulfillmentPanel()}
-            className="[&>span:first-child]:text-[11px] lg:[&>span:first-child]:text-xs"
+            className="[&>span:first-child]:text-xs"
         />
     );
 }

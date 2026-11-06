@@ -102,7 +102,7 @@ export function ExpiredOffer({ expired, alternatives, search }: ExpiredOfferProp
                             />
                             <div className="flex min-w-0 flex-1 flex-col justify-center gap-[3px] px-3 py-2.5">
                                 {why && (
-                                    <span className="self-start rounded-full bg-[#FBE9D7] px-2 py-0.5 text-[11px] font-bold text-[#7A3A12]">
+                                    <span className="self-start rounded-full bg-pj-garlic px-2 py-0.5 text-xs font-bold text-pj-basil">
                                         {why}
                                     </span>
                                 )}

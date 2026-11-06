@@ -93,7 +93,7 @@ export function BottomNav({ currentPath, cartCount = 0, className }: BottomNavPr
                             aria-label={showCount ? t('nav.orderWithCount', { count: cartCount }) : undefined}
                             data-testid={`pj-bottom-nav-${id}`}
                             className={cn(
-                                'relative flex h-[var(--pj-bottom-nav-height)] flex-col items-center justify-center gap-[3px] text-[11px] no-underline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-pj-basil',
+                                'relative flex h-[var(--pj-bottom-nav-height)] flex-col items-center justify-center gap-[3px] text-xs no-underline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-pj-basil',
                                 active ? 'font-bold text-pj-basil' : 'font-semibold text-pj-gray'
                             )}>
                             {active && (
@@ -108,7 +108,7 @@ export function BottomNav({ currentPath, cartCount = 0, className }: BottomNavPr
                                     <span
                                         aria-hidden="true"
                                         data-testid="pj-bottom-nav-count"
-                                        className="absolute -top-1.5 -right-2.5 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-pj-pepperoncini px-1 text-[11px] font-bold leading-none text-pj-basil">
+                                        className="absolute -top-1.5 -right-2.5 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-pj-pepperoncini px-1 text-xs font-bold leading-none text-pj-basil">
                                         {cartCount > 99 ? '99+' : cartCount}
                                     </span>
                                 )}

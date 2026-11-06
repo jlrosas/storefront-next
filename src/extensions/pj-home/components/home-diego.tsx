@@ -169,7 +169,7 @@ export function Moments({ items, initial, title }: MomentsProps): ReactElement |
                     className="h-[140px] w-[120px] shrink-0 lg:h-[200px] lg:w-80"
                 />
                 <span className="flex min-w-0 flex-1 flex-col justify-center gap-1 px-3 py-2.5 lg:gap-1.5 lg:px-6 lg:py-5">
-                    <span className="self-start rounded-full bg-pj-sand px-2 py-0.5 text-[11px] font-extrabold uppercase lg:text-xs">
+                    <span className="self-start rounded-full bg-pj-sand px-2 py-0.5 text-xs font-extrabold uppercase">
                         {t(`moment.${current.id}.tag`)}
                     </span>
                     <span className="text-[17px] leading-tight font-extrabold lg:font-heading lg:text-[32px] lg:leading-none lg:uppercase">

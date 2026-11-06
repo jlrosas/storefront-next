@@ -149,7 +149,7 @@ export function HomeHero({
             </div>
             <div className="flex flex-col gap-1.5 px-4 pt-3.5 pb-[18px] lg:order-1 lg:flex-1 lg:justify-center lg:gap-3.5 lg:px-12 lg:py-14">
                 <div className="flex items-center gap-1.5">
-                    <span className="rounded-full bg-pj-green-dark px-2.5 py-1 text-[11px] font-bold tracking-wide text-pj-lime uppercase lg:bg-pj-lime lg:text-pj-green-dark">
+                    <span className="rounded-full bg-pj-green-dark px-2.5 py-1 text-xs font-bold tracking-wide text-pj-lime uppercase lg:bg-pj-lime lg:text-pj-green-dark">
                         {eyebrow ?? t(variant === 'season' ? 'hero.seasonEyebrow' : 'hero.adEyebrow')}
                     </span>
                     {discount > 0 && (

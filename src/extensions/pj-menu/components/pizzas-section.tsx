@@ -72,7 +72,7 @@ export function PizzasSection({ menu, size, filter, onSize, onFilter }: PizzasSe
                     role="group"
                     aria-label={t('size.label')}
                     data-testid="pj-menu-size"
-                    className="grid grid-cols-3 items-center rounded-[12px] bg-[#F3EBE0] p-1 lg:flex lg:gap-1">
+                    className="grid grid-cols-3 items-center rounded-[12px] bg-pj-dough-deep p-1 lg:flex lg:gap-1">
                     <span aria-hidden="true" className="hidden px-2 text-[13px] text-pj-gray lg:inline">
                         {t('size.labelDesktop')}
                     </span>
@@ -110,7 +110,7 @@ export function PizzasSection({ menu, size, filter, onSize, onFilter }: PizzasSe
                                 onClick={() => onFilter(candidate)}
                                 className={cn(
                                     'min-h-[44px] shrink-0 cursor-pointer rounded-full px-3.5 text-sm font-bold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green',
-                                    on ? 'bg-pj-green text-pj-surface' : 'bg-[#FBE9D7] text-[#7A3A12]'
+                                    on ? 'bg-pj-green text-pj-surface' : 'bg-pj-dough-deep text-pj-basil'
                                 )}>
                                 {candidate === 'all' ? t('filter.all', { count: total }) : tr(`filter.${candidate}`)}
                             </button>
@@ -137,7 +137,7 @@ export function PizzasSection({ menu, size, filter, onSize, onFilter }: PizzasSe
                             className="flex flex-col gap-2 lg:gap-3"
                             data-testid={`pj-menu-group-${group.id}`}>
                             <div className="mt-1 flex items-baseline justify-between gap-3 border-b-2 border-pj-sand pb-1 lg:justify-start lg:pb-1.5">
-                                <h3 className="text-[19px] font-extrabold lg:text-[22px]">{tr(`group.${group.id}`)}</h3>
+                                <h3 className="pj-card-title">{tr(`group.${group.id}`)}</h3>
                                 <span className="text-xs text-pj-gray lg:text-sm">
                                     {groupNote(group.id, range, size, tr)}
                                 </span>
@@ -158,7 +158,7 @@ export function PizzasSection({ menu, size, filter, onSize, onFilter }: PizzasSe
             ) : (
                 <div className="flex flex-col gap-2 lg:gap-3" data-testid="pj-menu-filtered">
                     <div className="mt-1 flex items-baseline justify-between gap-3 border-b-2 border-pj-sand pb-1 lg:justify-start lg:pb-1.5">
-                        <h3 className="text-[19px] font-extrabold lg:text-[22px]">{tr(`filter.${filter}`)}</h3>
+                        <h3 className="pj-card-title">{tr(`filter.${filter}`)}</h3>
                         <span className="text-xs text-pj-gray lg:text-sm">
                             {t('filter.count', { count: flat.length })}
                         </span>
