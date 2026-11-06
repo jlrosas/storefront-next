@@ -79,11 +79,12 @@ describe('Footer', () => {
         });
     });
 
-    test('renders newsletter heading on homepage', () => {
+    // Papa Johns (INT-02): the approved footer (Home-Desktop.dc.html) has no newsletter, locale/currency
+    // switchers or retail policy links; it keeps the brand, Locales, FAQ, promo terms, privacy and socials.
+    test('does not render the newsletter heading on the homepage', () => {
         renderWithRouter(<Footer />);
 
-        // Newsletter title appears as h2 in prominent section
-        expect(screen.getByRole('heading', { name: t('footer:newsletter.title'), level: 2 })).toBeInTheDocument();
+        expect(screen.queryByRole('heading', { name: t('footer:newsletter.title'), level: 2 })).not.toBeInTheDocument();
     });
 
     test('renders social media links with correct aria-labels and hrefs', () => {
@@ -99,60 +100,52 @@ describe('Footer', () => {
         expect(tiktokLink).toHaveAttribute('href', 'https://www.tiktok.com/@papajohns.chile');
     });
 
-    test('renders newsletter section with signup form', () => {
+    test('does not render the newsletter signup form', () => {
         renderWithRouter(<Footer />);
 
-        // Check for newsletter title and description
-        expect(screen.getByRole('heading', { name: t('footer:newsletter.title'), level: 2 })).toBeInTheDocument();
-        expect(screen.getByText(t('footer:newsletter.description'))).toBeInTheDocument();
-
-        // Check for Signup form elements
-        expect(screen.getByPlaceholderText(t('footer:newsletter.emailPlaceholder'))).toBeInTheDocument();
-        expect(screen.getByRole('button', { name: t('footer:newsletter.subscribeButton') })).toBeInTheDocument();
+        expect(screen.queryByText(t('footer:newsletter.description'))).not.toBeInTheDocument();
+        expect(screen.queryByPlaceholderText(t('footer:newsletter.emailPlaceholder'))).not.toBeInTheDocument();
+        expect(screen.queryByRole('button', { name: t('footer:newsletter.subscribeButton') })).not.toBeInTheDocument();
     });
 
-    test('renders all selectors, Locale and Currency Switcher', () => {
+    test('does not render the Locale and Currency switchers', () => {
         renderWithRouter(<Footer />);
 
-        // Check for Locale and Currency switchers
-        const selectors = screen.getAllByRole('combobox');
-        expect(selectors).toHaveLength(2);
+        expect(screen.queryAllByRole('combobox')).toHaveLength(0);
     });
 
-    test('renders LocaleSwitcher component with locale options', () => {
+    test('does not render locale options', () => {
         renderWithRouter(<Footer />);
-        expect(screen.getByRole('option', { name: 'English (UK)' })).toBeInTheDocument();
-        expect(screen.getByRole('option', { name: 'Italiano (Italia)' })).toBeInTheDocument();
+        expect(screen.queryByRole('option', { name: 'English (UK)' })).not.toBeInTheDocument();
+        expect(screen.queryByRole('option', { name: 'Italiano (Italia)' })).not.toBeInTheDocument();
     });
 
-    test('renders About Us links pointing to /about-us, before each Accessibility Statement', () => {
+    test('renders the Papa Johns links: Locales, FAQ, promo terms and privacy', () => {
         renderWithRouter(<Footer />);
 
-        // Footer renders PolicyLinks twice for responsive layout (mobile copy + desktop copy).
-        const aboutUsLinks = screen.getAllByRole('link', { name: t('footer:links.aboutUs') });
-        expect(aboutUsLinks).toHaveLength(2);
-        for (const link of aboutUsLinks) {
-            expect(link.getAttribute('href')).toMatch(/\/about-us$/);
-        }
-
-        const accessibilityLinks = screen.getAllByRole('link', { name: t('footer:links.accessibility') });
-        expect(accessibilityLinks).toHaveLength(2);
-
-        // Within each PolicyLinks block, About Us must precede Accessibility Statement.
-        for (let i = 0; i < aboutUsLinks.length; i++) {
-            expect(
-                aboutUsLinks[i].compareDocumentPosition(accessibilityLinks[i]) & Node.DOCUMENT_POSITION_FOLLOWING
-            ).toBeTruthy();
-        }
+        expect(screen.getByRole('link', { name: t('extPjShared:footer.stores') }).getAttribute('href')).toMatch(
+            /\/store-locator$/
+        );
+        expect(screen.getByRole('link', { name: t('extPjShared:footer.help') })).toHaveAttribute(
+            'href',
+            'https://www.papajohns.cl/centro-de-ayuda'
+        );
+        expect(screen.getByRole('link', { name: t('extPjShared:footer.promoTerms') })).toHaveAttribute(
+            'href',
+            'https://www.papajohns.cl/terminos-y-condiciones'
+        );
+        expect(screen.getByRole('link', { name: t('extPjShared:footer.privacy') })).toHaveAttribute(
+            'href',
+            'https://www.papajohns.cl/politica-de-privacidad'
+        );
+        expect(screen.queryByRole('link', { name: t('footer:links.aboutUs') })).not.toBeInTheDocument();
     });
 
     test('renders copyright text with current year', () => {
         renderWithRouter(<Footer />);
 
         const currentYear = new Date().getFullYear();
-        const copyrightText = `© ${currentYear} ${t('footer:copyright')}`;
-
-        expect(screen.getByText(copyrightText)).toBeInTheDocument();
+        expect(screen.getByText(t('extPjShared:footer.copyright', { year: currentYear }))).toBeInTheDocument();
     });
 
     test('renders footer element with theme-aware classes', () => {
@@ -160,21 +153,13 @@ describe('Footer', () => {
 
         const footer = container.querySelector('footer');
         expect(footer).toBeInTheDocument();
-
-        // Footer should have mt-auto class
         expect(footer).toHaveClass('mt-auto');
-
-        // Newsletter section should have the newsletter-band background
-        const newsletterSection = footer?.querySelector('.bg-newsletter-background');
-        expect(newsletterSection).toBeInTheDocument();
-
-        // Links section should have footer background
-        const linksSection = footer?.querySelector('.bg-footer-background');
-        expect(linksSection).toBeInTheDocument();
+        // Dark green band of the canvas, no newsletter band
+        expect(footer).toHaveClass('bg-footer-background');
+        expect(footer?.querySelector('.bg-newsletter-background')).not.toBeInTheDocument();
     });
 
-    test('renders newsletter section on homepage', () => {
-        // Explicitly mock homepage route
+    test('does not render newsletter section on homepage', () => {
         vi.mocked(useLocation).mockReturnValue({
             pathname: '/',
             search: '',
@@ -185,14 +170,10 @@ describe('Footer', () => {
 
         renderWithRouter(<Footer />);
 
-        // Newsletter should be visible
-        expect(screen.getByRole('heading', { name: t('footer:newsletter.title'), level: 2 })).toBeInTheDocument();
-        expect(screen.getByText(t('footer:newsletter.description'))).toBeInTheDocument();
-        expect(screen.getByPlaceholderText(t('footer:newsletter.emailPlaceholder'))).toBeInTheDocument();
+        expect(screen.queryByRole('heading', { name: t('footer:newsletter.title'), level: 2 })).not.toBeInTheDocument();
     });
 
-    test('renders newsletter section on site-prefixed homepage', () => {
-        // Mock site-prefixed homepage route
+    test('does not render newsletter section on site-prefixed homepage', () => {
         vi.mocked(useLocation).mockReturnValue({
             pathname: `${getSitePrefix()}`,
             search: '',
@@ -203,10 +184,7 @@ describe('Footer', () => {
 
         renderWithRouter(<Footer />);
 
-        // Newsletter should be visible
-        expect(screen.getByRole('heading', { name: t('footer:newsletter.title'), level: 2 })).toBeInTheDocument();
-        expect(screen.getByText(t('footer:newsletter.description'))).toBeInTheDocument();
-        expect(screen.getByPlaceholderText(t('footer:newsletter.emailPlaceholder'))).toBeInTheDocument();
+        expect(screen.queryByRole('heading', { name: t('footer:newsletter.title'), level: 2 })).not.toBeInTheDocument();
     });
 
     test('does not render newsletter section on non-homepage routes', () => {
@@ -259,7 +237,8 @@ describe('Footer', () => {
         expect(screen.queryByRole('heading', { name: t('footer:newsletter.title'), level: 2 })).not.toBeInTheDocument();
     });
 
-    test('renders guest order lookup link when enabled', () => {
+    // Papa Johns: the demo is for registered customers (S-D14); the footer has no guest order lookup.
+    test('does not render guest order lookup link even when enabled', () => {
         const configWithGuestOrderLookup: AppConfig = {
             ...mockConfig,
             guestOrderLookup: {
@@ -270,13 +249,7 @@ describe('Footer', () => {
 
         renderWithRouter(<Footer />, configWithGuestOrderLookup);
 
-        const guestOrderLookupLinks = screen.getAllByRole('link', {
-            name: t('guestOrderLookup:footerLinkLabel'),
-        });
-        expect(guestOrderLookupLinks).toHaveLength(2); // PolicyLinks renders twice for responsive layout
-        for (const link of guestOrderLookupLinks) {
-            expect(link.getAttribute('href')).toMatch(/\/order-lookup$/);
-        }
+        expect(screen.queryByRole('link', { name: t('guestOrderLookup:footerLinkLabel') })).not.toBeInTheDocument();
     });
 
     test('does not render guest order lookup link when disabled', () => {

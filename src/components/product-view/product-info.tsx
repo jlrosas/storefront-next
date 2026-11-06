@@ -37,6 +37,8 @@ import { WishlistButton } from '@/components/buttons/wishlist-button';
 import { ShareButton } from '@/components/buttons/share-button';
 import { UITarget } from '@/targets/ui-target';
 import DeliveryOptions from '@/components/fulfillment/delivery-options';
+// @sfdc-extension-line SFDC_EXT_PJ_SHARED
+import { PJ_FEATURES } from '@/extensions/pj-shared/lib/features';
 
 type ProductInfoBaseProps = {
     product: ShopperProducts.schemas['Product'];
@@ -340,17 +342,23 @@ export default function ProductInfo({
             {/* Action icons — top-right, after title in DOM for correct focus order */}
             {!isCompactStyle && !hideActionIcons && (
                 <div className="sm:absolute sm:top-0 sm:right-0 flex items-center gap-2 z-10">
-                    <WishlistButton
-                        product={{
-                            productId: product.id,
-                            productName: product.name,
-                            price: product.price,
-                            image: product.imageGroups?.[0]?.images?.[0],
-                        }}
-                        surface="pdp"
-                        size="sm"
-                        className="!static border border-border bg-background/90 hover:border-muted-foreground/50 hover:bg-background"
-                    />
+                    {/* @sfdc-extension-block-start SFDC_EXT_PJ_SHARED */}
+                    {PJ_FEATURES.wishlist && (
+                        /* @sfdc-extension-block-end SFDC_EXT_PJ_SHARED */
+                        <WishlistButton
+                            product={{
+                                productId: product.id,
+                                productName: product.name,
+                                price: product.price,
+                                image: product.imageGroups?.[0]?.images?.[0],
+                            }}
+                            surface="pdp"
+                            size="sm"
+                            className="!static border border-border bg-background/90 hover:border-muted-foreground/50 hover:bg-background"
+                        />
+                        /* @sfdc-extension-block-start SFDC_EXT_PJ_SHARED */
+                    )}
+                    {/* @sfdc-extension-block-end SFDC_EXT_PJ_SHARED */}
                     <ShareButton
                         product={product}
                         size="sm"

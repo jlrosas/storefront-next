@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { useRef } from 'react';
 import { Outlet } from 'react-router';
 import type { Route } from './+types/_app';
 import { usePageUIConfig, mainPaddingDataAttributes } from '@/lib/routes/page-ui-config';
@@ -23,13 +22,15 @@ import { fetchCategory, fetchCategoriesByIds } from '@/lib/api/categories.server
 import { getLogger } from '@/lib/logger.server';
 import Header from '@/components/header';
 import Footer from '@/components/footer';
-import ResponsiveNavigationMenu, { type MegaMenuCategoryFields } from '@/components/navigation-menu-mega';
+import { type MegaMenuCategoryFields } from '@/components/navigation-menu-mega';
 import type { CategoryItemsFilter } from '@/components/navigation-menu';
-import { WishlistMergeToast } from '@/components/wishlist/wishlist-merge-toast';
-import { useAuth } from '@/providers/auth';
-import { useWishlistSession } from '@/providers/wishlist';
-import { EmbeddedComponentRegion } from '@/components/region/embedded-component-region';
 import { SkipLink } from '@/components/skip-link';
+// @sfdc-extension-block-start SFDC_EXT_PJ_SHARED
+import { UITarget } from '@/targets/ui-target';
+import { useBasketSnapshot } from '@/providers/basket';
+import { BottomNav } from '@/extensions/pj-shared/components/bottom-nav';
+import { usePjPath } from '@/extensions/pj-shared/hooks/use-pj-path';
+// @sfdc-extension-block-end SFDC_EXT_PJ_SHARED
 import {
     fetchComponentWithComponentData,
     type ComponentWithComponentData,
@@ -159,58 +160,40 @@ export function loader({ context, request }: Route.LoaderArgs): LoaderData {
  * Routes that need this layout should be prefixed with `_app.` in their filename.
  * For routes without default header/footer (e.g., login), use the `_empty.` prefix instead.
  */
-export default function DefaultLayout({
-    loaderData: { root, subs, headerComponent, megaMenuComponent },
-}: {
-    loaderData: LoaderData;
-}) {
-    const refRoot = useRef<Promise<ShopperProducts.schemas['Category']> | undefined>(undefined);
-    const refSubs = useRef<Promise<ShopperProducts.schemas['Category'][]> | undefined>(undefined);
-    const refHeaderComponent = useRef<Promise<ComponentWithComponentData | null> | undefined>(undefined);
-    const refMegaMenuComponent = useRef<Promise<ComponentWithComponentData | null> | undefined>(undefined);
-    if (!refRoot.current && !refSubs.current && !refHeaderComponent.current && !refMegaMenuComponent.current) {
-        refRoot.current = root;
-        refSubs.current = subs;
-        refHeaderComponent.current = headerComponent;
-        refMegaMenuComponent.current = megaMenuComponent;
-    }
-
+export default function DefaultLayout(_props: { loaderData: LoaderData }) {
     // Reflect the route's `handle.ui` config onto <main> as data-* attributes
     // during render, so the correct top padding is present in the SSR'd HTML.
     // If your CSS keys <main> padding off these, emitting them at render (not
     // in a post-hydration effect) avoids a layout shift (CLS) when the padding
     // would otherwise be added after first paint. Inert if no CSS matches.
     const mainPaddingAttrs = mainPaddingDataAttributes(usePageUIConfig());
+    // @sfdc-extension-block-start SFDC_EXT_PJ_SHARED
+    const currentPath = usePjPath();
+    const cartCount = useBasketSnapshot()?.totalItemCount ?? 0;
+    // @sfdc-extension-block-end SFDC_EXT_PJ_SHARED
 
-    // Bind the module-level wishlist store (see providers/wishlist) to the current shopper here,
-    // once, from client auth context. `customerId` only changes on login/logout — both are
-    // redirects that revalidate the root loader, refreshing `useAuth()` — so the shell re-runs
-    // this on every identity change and evicts the prior shopper's hearts. Plain browse never
-    // changes it. The actual read stays lazy, fired by the first product intent.
-    useWishlistSession(useAuth()?.customerId ?? null);
-
-    // <WishlistMergeToast> stays at the app shell — it reads URL params and a one-time
-    // cookie set by the post-login redirect target, not wishlist state.
+    // Papa Johns (INT-02): el lienzo no tiene mega-menú, franja de anuncio ni lista de deseos.
+    // El encabezado trae su propia navegación (Menú, Promos, Papa Puntos, Locales, Sigue tu
+    // pedido) y en móvil se navega con la barra inferior. El loader sigue entregando las
+    // categorías por compatibilidad, pero el layout ya no las pinta.
     return (
         <>
             <SkipLink />
-            <WishlistMergeToast />
-            <Header
-                announcementSlot={
-                    <EmbeddedComponentRegion component={refHeaderComponent.current} regionId="announcement" />
-                }>
-                <ResponsiveNavigationMenu
-                    resolve={refRoot.current}
-                    defer={refSubs.current}
-                    itemsFilter={NAVIGATION_FIELDS_FILTER}
-                    megaMenu={NAVIGATION_FIELDS_MEGAMENU}
-                    embeddedComponent={refMegaMenuComponent.current}
-                />
-            </Header>
+            <Header />
+            {/* @sfdc-extension-block-start SFDC_EXT_PJ_SHARED */}
+            {/* Franja del pedido en curso (SEG): bajo el encabezado en escritorio y fija sobre la barra inferior en móvil. Vacía no ocupa espacio. */}
+            <div
+                data-pj-slot="tracking-strip"
+                className="pointer-events-none fixed inset-x-2 bottom-[calc(var(--pj-bottom-nav-height)+env(safe-area-inset-bottom)+6px)] z-40 *:pointer-events-auto lg:pointer-events-auto lg:static lg:inset-auto lg:z-auto">
+                <UITarget targetId="pj.layout.tracking" />
+            </div>
+            {/* @sfdc-extension-block-end SFDC_EXT_PJ_SHARED */}
             <main id="main-content" tabIndex={-1} className="grow pt-8" {...mainPaddingAttrs}>
                 <Outlet />
             </main>
             <Footer />
+            {/* @sfdc-extension-line SFDC_EXT_PJ_SHARED */}
+            <BottomNav currentPath={currentPath} cartCount={cartCount} />
         </>
     );
 }

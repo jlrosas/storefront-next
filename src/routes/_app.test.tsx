@@ -165,7 +165,9 @@ describe('_app.tsx - Default Layout Route', () => {
                 // Verify layout structure
                 expect(screen.getByTestId('header')).toBeInTheDocument();
                 expect(screen.getByTestId('footer')).toBeInTheDocument();
-                expect(screen.getByTestId('navigation-menu-mega')).toBeInTheDocument();
+                // Papa Johns (INT-02): mobile bottom navigation instead of the category mega-menu
+                expect(screen.getByTestId('pj-bottom-nav')).toBeInTheDocument();
+                expect(screen.queryByTestId('navigation-menu-mega')).not.toBeInTheDocument();
 
                 // Verify child content is rendered via Outlet
                 expect(screen.getByTestId('child-content')).toBeInTheDocument();
@@ -278,7 +280,9 @@ describe('_app.tsx - Default Layout Route', () => {
             });
         });
 
-        it('should pass category data to CategoryNavigationMenuMega', async () => {
+        // Papa Johns (INT-02): the approved design has no category mega-menu; the header carries its own
+        // navigation (Menú, Promos, Papa Puntos, Locales, Sigue tu pedido) and mobile uses the bottom nav.
+        it('does not render the category mega-menu even when category data is available', async () => {
             const Stub = createRoutesStub([
                 {
                     id: 'root',
@@ -304,13 +308,8 @@ describe('_app.tsx - Default Layout Route', () => {
             );
 
             await waitFor(() => {
-                const nav = screen.getByTestId('navigation-menu-mega');
-                expect(nav).toHaveAttribute('data-has-resolve', 'true');
-                expect(nav).toHaveAttribute('data-has-defer', 'true');
-                expect(nav).toHaveAttribute('data-items-filter', 'c_showInMenu');
-                expect(nav).toHaveAttribute('data-content-field', 'c_headerMenuBanner');
-                expect(nav).toHaveAttribute('data-image-field', 'c_slotBannerImage');
-                expect(nav).toHaveAttribute('data-orientation-field', 'c_headerMenuOrientation');
+                expect(screen.getByTestId('header')).toBeInTheDocument();
+                expect(screen.queryByTestId('navigation-menu-mega')).not.toBeInTheDocument();
             });
         });
 
@@ -344,14 +343,13 @@ describe('_app.tsx - Default Layout Route', () => {
                 expect(screen.getByTestId('footer')).toBeInTheDocument();
                 expect(screen.getByTestId('child-content')).toBeInTheDocument();
 
-                // Navigation should render but without data
-                const nav = screen.getByTestId('navigation-menu-mega');
-                expect(nav).toHaveAttribute('data-has-resolve', 'false');
-                expect(nav).toHaveAttribute('data-has-defer', 'false');
+                // Papa Johns (INT-02): the bottom navigation does not depend on category data
+                expect(screen.getByTestId('pj-bottom-nav')).toBeInTheDocument();
             });
         });
 
-        it('should preserve category refs across re-renders', async () => {
+        // Papa Johns (INT-02): no category refs to keep anymore; the layout must stay stable on re-render.
+        it('keeps the layout across re-renders', async () => {
             const Stub = createRoutesStub([
                 {
                     id: 'root',
@@ -377,8 +375,7 @@ describe('_app.tsx - Default Layout Route', () => {
             );
 
             await waitFor(() => {
-                // First render should have data
-                expect(screen.getByTestId('navigation-menu-mega')).toHaveAttribute('data-has-resolve', 'true');
+                expect(screen.getByTestId('pj-bottom-nav')).toBeInTheDocument();
             });
 
             // Re-render should preserve the refs
@@ -388,7 +385,7 @@ describe('_app.tsx - Default Layout Route', () => {
                 </AllProvidersWrapper>
             );
             await waitFor(() => {
-                expect(screen.getByTestId('navigation-menu-mega')).toHaveAttribute('data-has-resolve', 'true');
+                expect(screen.getByTestId('pj-bottom-nav')).toBeInTheDocument();
             });
         });
     });

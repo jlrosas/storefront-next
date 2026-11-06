@@ -32,6 +32,10 @@ import { mockAltSiteObject, mockBuildConfig } from '@/test-utils/config';
 import type { AppConfig } from '@/types/config';
 import { usesInlineAddToCartQuantity } from '@/lib/product/add-to-cart-quantity-mode';
 
+// Papa Johns (INT-02) turns the wishlist off for the demo through PJ_FEATURES. These tests cover the
+// template's wishlist controls, so they run with the feature on.
+vi.mock('@/extensions/pj-shared/lib/features', () => ({ PJ_FEATURES: { wishlist: true } }));
+
 vi.mock('@/lib/config.ui', async (importOriginal) => {
     const actual = await importOriginal<typeof import('@/lib/config.ui')>();
     return {

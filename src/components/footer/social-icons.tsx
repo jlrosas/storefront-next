@@ -21,23 +21,23 @@ import { cn } from '@/lib/utils';
 export default function SocialIcons({ className }: { className?: string }): ReactElement {
     const { t } = useTranslation('footer');
     return (
-        <div className={cn('flex items-end gap-4', className)}>
+        <div className={cn('flex items-center gap-1', className)}>
             <a
                 href="https://www.instagram.com/papajohnschile/"
                 aria-label={t('socialMedia.instagramLabel')}
-                className="text-muted-foreground hover:text-foreground transition-colors">
+                className="flex size-11 items-center justify-center text-footer-foreground opacity-90 transition-opacity hover:opacity-100">
                 <SiInstagram className="w-5 h-5" />
             </a>
             <a
                 href="https://www.facebook.com/PapaJohnsChile"
                 aria-label={t('socialMedia.facebookLabel')}
-                className="text-muted-foreground hover:text-foreground transition-colors">
+                className="flex size-11 items-center justify-center text-footer-foreground opacity-90 transition-opacity hover:opacity-100">
                 <SiFacebook className="w-5 h-5" />
             </a>
             <a
                 href="https://www.tiktok.com/@papajohns.chile"
                 aria-label={t('socialMedia.tiktokLabel')}
-                className="text-muted-foreground hover:text-foreground transition-colors">
+                className="flex size-11 items-center justify-center text-footer-foreground opacity-90 transition-opacity hover:opacity-100">
                 <SiTiktok className="w-5 h-5" />
             </a>
         </div>

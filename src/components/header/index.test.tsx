@@ -55,6 +55,12 @@ vi.mock('@/targets/ui-target', () => ({
     UITarget: () => null,
 }));
 
+// Papa Johns (INT-02): the greeting reads the customer through a fetcher; the header tests use a plain
+// MemoryRouter (no data router), so the hook is stubbed as a guest.
+vi.mock('@/extensions/pj-shared/hooks/use-pj-me', () => ({
+    usePjMe: () => null,
+}));
+
 vi.mock('@/hooks/use-analytics', () => ({
     useAnalytics: () => ({ trackCommerceAgentEngagement: vi.fn() }),
 }));
@@ -81,12 +87,20 @@ function renderHeader(ui: React.ReactElement) {
 
 describe('Header', () => {
     describe('full variant (default)', () => {
-        it('renders logo, search, user actions, and cart badge', () => {
+        // Papa Johns (INT-02): the approved design replaces the template's search field, user menu, wishlist
+        // and mini-cart badge with the green header of the canvas: Menú · Promos · Papa Puntos · Locales ·
+        // Sigue tu pedido, the account link («Ingresar» / greeting) and the lime «Mi pedido» button.
+        it('renders logo, the Papa Johns navigation, account link and «Mi pedido»', () => {
             renderHeader(<Header />);
             expect(screen.getByTestId('header-logo')).toBeInTheDocument();
-            expect(screen.getAllByTestId('search').length).toBeGreaterThan(0);
-            expect(screen.getByTestId('user-actions')).toBeInTheDocument();
-            expect(screen.getByTestId('cart-badge')).toBeInTheDocument();
+            for (const key of ['nav.menu', 'nav.promos', 'nav.points', 'nav.stores', 'nav.tracking']) {
+                expect(screen.getByText(key)).toBeInTheDocument();
+            }
+            expect(screen.getByTestId('pj-header-account')).toHaveTextContent('header.signIn');
+            expect(screen.getByTestId('pj-header-cart')).toHaveAttribute('href', '/cart');
+            expect(screen.queryByTestId('search')).not.toBeInTheDocument();
+            expect(screen.queryByTestId('user-actions')).not.toBeInTheDocument();
+            expect(screen.queryByTestId('cart-badge')).not.toBeInTheDocument();
         });
 
         it('renders children passed as navigation menu', () => {

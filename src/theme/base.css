@@ -247,3 +247,11 @@ input[data-slot='input'],
 [data-slot='pagination'] [data-slot='button'] {
     color: var(--primary);
 }
+
+/* Barra inferior móvil (INT-02): los avisos fijos abajo (consentimiento de cookies) quedan sobre
+ * la barra, como en el lienzo (Home.dc.html: aviso a 72 px del borde). */
+@media (width < 64rem) {
+    body:has([data-testid='pj-bottom-nav']) [role='dialog'].fixed.bottom-0 {
+        bottom: calc(var(--pj-bottom-nav-height) + env(safe-area-inset-bottom) + 8px);
+    }
+}

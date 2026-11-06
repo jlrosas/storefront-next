@@ -1,1 +1,79 @@
-{}
+{
+    "nav": {
+        "label": "Principal",
+        "home": "Inicio",
+        "menu": "Menú",
+        "promos": "Promos",
+        "order": "Pedido",
+        "orderWithCount_one": "Pedido, {{count}} producto",
+        "orderWithCount_other": "Pedido, {{count}} productos",
+        "account": "Cuenta",
+        "points": "Papa Puntos",
+        "stores": "Locales",
+        "tracking": "Sigue tu pedido"
+    },
+    "header": {
+        "search": "Buscar",
+        "viewOrder": "Ver pedido",
+        "myOrder": "Mi pedido",
+        "myOrderWithCount": "Mi pedido · {{count}}",
+        "myOrderAria_one": "Mi pedido, {{count}} producto",
+        "myOrderAria_other": "Mi pedido, {{count}} productos",
+        "signIn": "Ingresar",
+        "greeting": "Hola, {{name}}",
+        "greetingPoints": "{{points}} pts",
+        "greetingAria": "Mi cuenta: {{name}}, {{points}} Papa Puntos",
+        "homeAria": "Papa Johns, inicio"
+    },
+    "footer": {
+        "brand": "PAPA JOHNS",
+        "stores": "Locales",
+        "help": "Preguntas frecuentes",
+        "promoTerms": "Bases legales de promociones",
+        "privacy": "Política de privacidad",
+        "social": "Papa Johns Chile en redes sociales",
+        "instagram": "Instagram de Papa Johns Chile",
+        "facebook": "Facebook de Papa Johns Chile",
+        "tiktok": "TikTok de Papa Johns Chile",
+        "copyright": "© {{year}} Papa Johns Chile"
+    },
+    "price": {
+        "now": "Precio {{price}}",
+        "before": "antes {{price}}",
+        "save": "Ahorras {{amount}}"
+    },
+    "stars": {
+        "label": "{{rating}} de 5 estrellas",
+        "labelWithCount": "{{rating}} de 5 estrellas, {{count}} opiniones",
+        "reviews": "{{count}} opiniones"
+    },
+    "points": {
+        "earn": "Ganas {{count}} Papa Puntos",
+        "earn_one": "Ganas {{count}} Papa Punto",
+        "pending": "+{{count}} por acreditar"
+    },
+    "foodImage": {
+        "pause": "Pausar movimiento",
+        "play": "Reanudar movimiento"
+    },
+    "sheet": {
+        "close": "Cerrar"
+    },
+    "toast": {
+        "added": "¡Agregada!",
+        "addedPoints": "+{{count}} Papa Puntos por acreditar",
+        "undo": "Deshacer",
+        "viewOrder": "Ver mi pedido"
+    },
+    "fulfillment": {
+        "pickup": "Retiro",
+        "delivery": "Delivery",
+        "choose": "Retiro o delivery",
+        "chooseHint": "Elige cómo lo quieres",
+        "changeAria": "Cambiar modalidad y tienda: {{label}}"
+    },
+    "tracking": {
+        "inProgress": "Pedido en curso",
+        "viewTracking": "Ver seguimiento"
+    }
+}

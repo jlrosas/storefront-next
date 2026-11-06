@@ -64,6 +64,9 @@ import { getBonusDiscountSlotsForPromotion, getPromotionCalloutTextFromProduct }
 import { CartInventoryErrorBanner } from './cart-inventory-error-banner';
 import { routes } from '@/route-paths';
 
+// @sfdc-extension-line SFDC_EXT_PJ_SHARED
+import { PJ_FEATURES } from '@/extensions/pj-shared/lib/features';
+
 const LazyBonusProductSelection = lazy(() => import('@/components/cart/bonus-product-selection'));
 const LazyBonusProductModal = lazy(() =>
     import('@/components/bonus-product-modal').then((m) => ({ default: m.BonusProductModal }))
@@ -333,7 +336,9 @@ export default function CartContent({
         const isBonusProd = isBonusProduct(product);
         const isStandardProd = isStandardProduct(product);
         const shouldShowEditButton = !isStandardProd && !isBonusProd;
-        const shouldShowWishlist = !isBonusProd;
+        const shouldShowWishlist =
+            // @sfdc-extension-line SFDC_EXT_PJ_SHARED
+            PJ_FEATURES.wishlist && !isBonusProd;
 
         return (
             <div className="flex gap-2">

@@ -1,15 +1,18 @@
-/* Header navigation uses header-specific colors */
-header [data-slot="navigation-menu-trigger"] {
-    color: var(--header-foreground);
-}
+/* Header navigation uses header-specific colors. En capa base para que las utilidades de color
+ * (text-pj-green-dark del botón lima «Mi pedido») ganen sobre este valor por defecto. */
+@layer base {
+    header [data-slot="navigation-menu-trigger"] {
+        color: var(--header-foreground);
+    }
 
-header button:not([data-slot]),
-header a:not([data-slot]) {
-    color: var(--header-foreground);
-}
+    header button:not([data-slot]),
+    header a:not([data-slot]) {
+        color: var(--header-foreground);
+    }
 
-header svg {
-    color: var(--header-foreground);
+    header svg {
+        color: currentColor;
+    }
 }
 
 /* Remove gap between header and navigation dropdowns for seamless look */

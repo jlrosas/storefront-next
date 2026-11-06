@@ -38,6 +38,8 @@ import { getLogger } from '@/lib/logger.server';
 
 // middleware
 import { getAuth as getAuthServer } from '@/middlewares/auth.server';
+// @sfdc-extension-line SFDC_EXT_PJ_SHARED
+import { PJ_FEATURES } from '@/extensions/pj-shared/lib/features';
 
 /**
  * Type definition for the account page loader data
@@ -144,11 +146,19 @@ export default function AccountPage({ loaderData }: { loaderData: AccountPageDat
                 label: t('navigation.accountDetails'),
                 end: true,
             },
-            {
-                path: '/account/wishlist',
-                icon: Heart,
-                label: t('navigation.wishlist'),
-            },
+            // @sfdc-extension-block-start SFDC_EXT_PJ_SHARED
+            ...(PJ_FEATURES.wishlist
+                ? [
+                      // @sfdc-extension-block-end SFDC_EXT_PJ_SHARED
+                      {
+                          path: '/account/wishlist',
+                          icon: Heart,
+                          label: t('navigation.wishlist'),
+                      },
+                      // @sfdc-extension-block-start SFDC_EXT_PJ_SHARED
+                  ]
+                : []),
+            // @sfdc-extension-block-end SFDC_EXT_PJ_SHARED
             {
                 path: '/account/orders',
                 icon: ShoppingBag,

@@ -74,6 +74,8 @@ import {
 } from '@/extensions/store-locator/middlewares/selected-store.server';
 import type { SelectedStoreInfo } from '@/extensions/store-locator/stores/store-locator-store';
 // @sfdc-extension-block-end SFDC_EXT_STORE_LOCATOR
+// @sfdc-extension-line SFDC_EXT_PJ_SHARED
+import { pjDemoMiddleware } from '@/extensions/pj-shared/middlewares/demo.server';
 import { correlationMiddleware } from '@/middlewares/correlation.server';
 import { requestOriginMiddleware } from '@/middlewares/request-origin';
 import { getAppOrigin } from '@/lib/origin';
@@ -182,6 +184,8 @@ export const middleware: MiddlewareFunction<Response>[] = [
     // `__sfdc_usertype` hint in its response phase so AuthProvider can restore the header auth state
     // under a cached app shell. Writes only the userType hint — never the httpOnly token cookies.
     userTypeHintMiddleware,
+    // Perfil y momento de la demo (?perfil=, ?hora=, utm_campaign); lee el userType final.
+    pjDemoMiddleware /** @sfdc-extension-line SFDC_EXT_PJ_SHARED */,
 ];
 
 export const clientMiddleware: MiddlewareFunction<Record<string, DataStrategyResult>>[] = [

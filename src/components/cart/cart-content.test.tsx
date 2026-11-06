@@ -60,6 +60,10 @@ import CartContent from './cart-content';
 import { AllProvidersWrapper } from '@/test-utils/context-provider';
 import BasketProvider, { useBasket } from '@/providers/basket';
 
+// Papa Johns (INT-02) turns the wishlist off for the demo through PJ_FEATURES. These tests cover the
+// template's wishlist controls, so they run with the feature on.
+vi.mock('@/extensions/pj-shared/lib/features', () => ({ PJ_FEATURES: { wishlist: true } }));
+
 // Minimum-viable enriched recommendations that ProductCarousel + ProductTile can render.
 const buildRecs = (productNames: string[]) =>
     productNames.map((productName, idx) => ({

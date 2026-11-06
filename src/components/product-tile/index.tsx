@@ -47,6 +47,8 @@ import { useWishlistLoader } from '@/providers/wishlist';
 import { PickupIcon } from '@/components/icons';
 import { QuickAddButton } from './quick-add-button';
 import { ProductTileSwatchesSkeleton } from '@/components/category-skeleton';
+// @sfdc-extension-line SFDC_EXT_PJ_SHARED
+import { PJ_FEATURES } from '@/extensions/pj-shared/lib/features';
 import type { ComponentType } from '@/components/region';
 import { ProductImageContainer } from '@/components/product-image';
 import ProductPrice from '@/components/product-price';
@@ -426,15 +428,21 @@ const ProductTile = memo(
                                  * "Add to wishlist" on every resting tile (WCAG 1.3.1). Revealed on tile
                                  * hover and on keyboard focus reaching the tile (group-focus-within).
                                  */}
-                                <div className="invisible opacity-0 transition-[opacity,visibility] duration-300 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
-                                    <DeferredWishlistButton
-                                        product={product}
-                                        surface="plp"
-                                        size="sm"
-                                        preload={tileEngaged}
-                                        className="relative top-auto right-auto z-20 bg-muted hover:bg-background shadow-sm border-0"
-                                    />
-                                </div>
+                                {/* @sfdc-extension-block-start SFDC_EXT_PJ_SHARED */}
+                                {PJ_FEATURES.wishlist && (
+                                    /* @sfdc-extension-block-end SFDC_EXT_PJ_SHARED */
+                                    <div className="invisible opacity-0 transition-[opacity,visibility] duration-300 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+                                        <DeferredWishlistButton
+                                            product={product}
+                                            surface="plp"
+                                            size="sm"
+                                            preload={tileEngaged}
+                                            className="relative top-auto right-auto z-20 bg-muted hover:bg-background shadow-sm border-0"
+                                        />
+                                    </div>
+                                    /* @sfdc-extension-block-start SFDC_EXT_PJ_SHARED */
+                                )}
+                                {/* @sfdc-extension-block-end SFDC_EXT_PJ_SHARED */}
                             </div>
 
                             {/* Hover overlay — subtle dark tint */}
