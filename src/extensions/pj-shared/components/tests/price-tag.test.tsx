@@ -19,7 +19,7 @@ import { PriceTag } from '../price-tag';
 
 describe('PriceTag display (VIS-02)', () => {
     it('muestra el $ en superíndice, Condensed y Rich Sauce sobre crema', () => {
-        render(<PriceTag variant="display" size="lg" price={10990} listPrice={21900} />);
+        render(<PriceTag variant="display" size="lg" surface="dough" price={10990} listPrice={21900} />);
         const now = screen.getByTestId('pj-price-display');
         expect(now).toHaveTextContent('$10.990');
         expect(now.className).toContain('first-letter:text-[0.5em]');
@@ -54,5 +54,12 @@ describe('PriceTag display (VIS-02)', () => {
         render(<PriceTag price={16900} />);
         expect(screen.getByTestId('pj-price-tag')).not.toHaveAttribute('data-variant');
         expect(screen.getByText('$16.900').tagName).toBe('STRONG');
+    });
+
+    it('sin surface toma el color de precio de la superficie que lo contiene (VIS-04)', () => {
+        render(<PriceTag variant="display" price={17490} listPrice={19900} />);
+        expect(screen.getByTestId('pj-price-tag')).toHaveAttribute('data-surface', 'auto');
+        expect(screen.getByTestId('pj-price-display').className).toContain('text-pj-price');
+        expect(screen.getByText('$19.900')).toHaveClass('text-pj-price-muted');
     });
 });

@@ -54,16 +54,27 @@
     /* radios */
     --pj-radius-control: 10px;
     --pj-radius-card: 14px;
-    --pj-radius-section: 18px;
+    --pj-radius-section: 24px;    /* bloques de sección: lealtad, momentos, tarjeta flotante del hero */
     --pj-radius-pill: 999px;
 
-    /* sombras */
-    --pj-shadow-card: 0 2px 10px rgb(60 30 10 / 0.1);
-    --pj-shadow-float: 0 8px 20px rgb(0 0 0 / 0.25);
+    /* sombras cálidas (VIS-04, UX-1 §3.1): Rich Sauce en vez de gris o negro */
+    --pj-shadow-card: 0 6px 20px rgb(113 5 0 / 0.1);
+    --pj-shadow-float: 0 16px 36px rgb(113 5 0 / 0.18), 0 2px 8px rgb(113 5 0 / 0.08);
     --pj-shadow-strip: 0 6px 18px rgb(30 63 28 / 0.35);
 
-    /* color de titular (VIS-03): Fresh Basil sobre claro; las superficies oscuras lo cambian (base.css) */
+    /* color de titular (VIS-03) y de precio (VIS-02): Fresh Basil y Rich Sauce sobre claro; las superficies
+     * oscuras los cambian (base.css). */
     --pj-heading-color: var(--pj-basil);
+    --pj-price-color: var(--pj-sauce);
+    --pj-price-muted: var(--pj-gray);
+    --pj-accent: var(--pj-sauce);
+
+    /* superficies (VIS-04, UX-1 §3.1): texto ADA de cada fondo (playbook p. 64) */
+    --pj-on-basil: var(--pj-dough);          /* 6,4:1 · acento lima 5,7:1 · lila 4,9:1 */
+    --pj-on-sauce: var(--pj-dough);          /* 10,1:1 · acento lima 9,0:1 · lila 7,7:1 */
+    --pj-on-garlic: var(--pj-sauce);         /* 7,7:1 · Basil 4,9:1 */
+    --pj-on-dough: var(--pj-ink);            /* 14,1:1 · titulares Basil 6,4:1 · precio Sauce 10,1:1 */
+    --pj-on-pepperoncini: var(--pj-basil);   /* 5,7:1 · Sauce 9,0:1 */
 
     /* layout */
     --pj-bottom-nav-height: 64px;

@@ -455,6 +455,8 @@ nav > ol > li > a {
         .bg-foreground
     ) {
     --pj-heading-color: currentColor;
+    --pj-price-color: var(--pj-pepperoncini);
+    --pj-price-muted: color-mix(in srgb, var(--pj-dough) 85%, transparent);
 }
 :where(
         .bg-pj-surface,
@@ -470,12 +472,70 @@ nav > ol > li > a {
         .bg-popover
     ) {
     --pj-heading-color: var(--pj-basil);
+    --pj-price-color: var(--pj-sauce);
+    --pj-price-muted: var(--pj-gray);
 }
 @media (width >= 64rem) {
     :where(.lg\:bg-pj-basil, .lg\:bg-pj-green, .lg\:bg-pj-basil-deep, .lg\:bg-pj-green-dark, .lg\:bg-pj-sauce) {
         --pj-heading-color: currentColor;
+        --pj-price-color: var(--pj-pepperoncini);
+        --pj-price-muted: color-mix(in srgb, var(--pj-dough) 85%, transparent);
     }
     :where(.lg\:bg-pj-surface, .lg\:bg-pj-dough, .lg\:bg-pj-cream, .lg\:bg-pj-garlic, .lg\:bg-transparent) {
         --pj-heading-color: var(--pj-basil);
+        --pj-price-color: var(--pj-sauce);
+        --pj-price-muted: var(--pj-gray);
     }
+}
+
+/* ============================================================================================
+ * Superficies (VIS-04, UX-1 §3.1): cada una trae su fondo y su texto ADA ya resueltos, y fija el color
+ * de titular, de precio y de acento para lo que va dentro. Regla: un tono de marca + un complementario
+ * + un acento por pantalla, y nunca dos bloques verdes seguidos (ver pj-shared/README.md).
+ *   surface-basil         Fresh Basil · texto Dough · titular Dough · precio y acento lima
+ *   surface-sauce         Rich Sauce · texto Dough · titular Dough · precio y acento lima (lila como 2.º acento)
+ *   surface-garlic        Punchy Garlic · texto y titular Rich Sauce · acento Basil
+ *   surface-dough         Fluffy Dough · texto tinta · titular Basil · precio Rich Sauce
+ *   surface-pepperoncini  Pickled Pepperoncini · texto y titular Basil · precio Rich Sauce (acento: no como fondo grande)
+ * Sombras: shadow-pj-card (cálida) y shadow-pj-float (tarjeta flotante). Radio: rounded-pj-section (24 px).
+ * ========================================================================================== */
+@utility surface-basil {
+    background-color: var(--pj-basil);
+    color: var(--pj-on-basil);
+    --pj-heading-color: var(--pj-dough);
+    --pj-price-color: var(--pj-pepperoncini);
+    --pj-price-muted: color-mix(in srgb, var(--pj-dough) 85%, transparent);
+    --pj-accent: var(--pj-pepperoncini);
+}
+@utility surface-sauce {
+    background-color: var(--pj-sauce);
+    color: var(--pj-on-sauce);
+    --pj-heading-color: var(--pj-dough);
+    --pj-price-color: var(--pj-pepperoncini);
+    --pj-price-muted: color-mix(in srgb, var(--pj-dough) 85%, transparent);
+    --pj-accent: var(--pj-pepperoncini);
+}
+@utility surface-garlic {
+    background-color: var(--pj-garlic);
+    color: var(--pj-on-garlic);
+    --pj-heading-color: var(--pj-sauce);
+    --pj-price-color: var(--pj-sauce);
+    --pj-price-muted: var(--pj-sauce);
+    --pj-accent: var(--pj-basil);
+}
+@utility surface-dough {
+    background-color: var(--pj-dough);
+    color: var(--pj-on-dough);
+    --pj-heading-color: var(--pj-basil);
+    --pj-price-color: var(--pj-sauce);
+    --pj-price-muted: var(--pj-gray);
+    --pj-accent: var(--pj-sauce);
+}
+@utility surface-pepperoncini {
+    background-color: var(--pj-pepperoncini);
+    color: var(--pj-on-pepperoncini);
+    --pj-heading-color: var(--pj-basil);
+    --pj-price-color: var(--pj-sauce);
+    --pj-price-muted: var(--pj-basil);
+    --pj-accent: var(--pj-sauce);
 }

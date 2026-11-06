@@ -168,6 +168,15 @@
     --color-pj-tomato: var(--pj-tomato);
     --color-pj-garlic: var(--pj-garlic);
     --color-pj-vine: var(--pj-vine);
+    --color-pj-heading: var(--pj-heading-color);
+    --color-pj-price: var(--pj-price-color);
+    --color-pj-price-muted: var(--pj-price-muted);
+    --color-pj-accent: var(--pj-accent);
+    --color-pj-on-basil: var(--pj-on-basil);
+    --color-pj-on-sauce: var(--pj-on-sauce);
+    --color-pj-on-garlic: var(--pj-on-garlic);
+    --color-pj-on-dough: var(--pj-on-dough);
+    --color-pj-on-pepperoncini: var(--pj-on-pepperoncini);
     --color-pj-cream: var(--pj-cream);
     --color-pj-green: var(--pj-green);
     --color-pj-green-dark: var(--pj-green-dark);

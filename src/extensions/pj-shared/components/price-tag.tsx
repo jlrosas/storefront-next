@@ -38,9 +38,11 @@ export interface PriceTagProps {
     variant?: 'default' | 'display';
     /**
      * Fondo sobre el que va el precio `display`, para usar el par ADA correcto:
-     * `dough` (crema o blanco → Rich Sauce) · `basil` o `sauce` (verde o granate → lima, y Dough para el tachado).
+     * `auto` (por defecto) toma el color de la superficie que lo contiene (`surface-*`, `bg-pj-basil`…:
+     * variables --pj-price-color y --pj-price-muted) · `dough` crema o blanco → Rich Sauce ·
+     * `basil` o `sauce` verde o granate → lima, y Dough para el tachado.
      */
-    surface?: 'dough' | 'basil' | 'sauce';
+    surface?: 'auto' | 'dough' | 'basil' | 'sauce';
     /** Texto visible del precio antes, si no basta el monto («Antes desde $21.900»). Se lee tal cual. */
     listPriceLabel?: string;
     /** Prefijo opcional antes del precio: «desde». */
@@ -61,6 +63,7 @@ const DISPLAY_SIZE = {
 } as const;
 
 const DISPLAY_SURFACE = {
+    auto: { now: 'text-pj-price', before: 'text-pj-price-muted', save: 'text-pj-price' },
     dough: { now: 'text-pj-sauce', before: 'text-pj-gray', save: 'text-pj-sauce' },
     basil: { now: 'text-pj-pepperoncini', before: 'text-pj-dough/85', save: 'text-pj-pepperoncini' },
     sauce: { now: 'text-pj-pepperoncini', before: 'text-pj-dough/85', save: 'text-pj-pepperoncini' },
@@ -79,7 +82,7 @@ export function PriceTag({
     prefix,
     listPriceLabel,
     variant = 'default',
-    surface = 'dough',
+    surface = 'auto',
     className,
 }: PriceTagProps): ReactElement {
     const { t } = useTranslation('extPjShared');
