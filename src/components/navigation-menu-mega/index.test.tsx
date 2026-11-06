@@ -362,6 +362,9 @@ describe('ResponsiveNavigationMenu Component', () => {
             const embeddedComponent = new Promise<ComponentWithComponentData | null>((_resolve, reject) => {
                 rejectEmbedded = reject;
             });
+            // The component consumes the rejection through its fallback; mark it handled so Vitest doesn't
+            // report an unhandled rejection after the test finishes (it made `pnpm test` exit 1).
+            embeddedComponent.catch(() => undefined);
             const { findByText } = renderComponent({
                 resolve: Promise.resolve(root),
                 embeddedComponent,

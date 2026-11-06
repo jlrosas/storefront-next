@@ -1,0 +1,44 @@
+/*
+ * Papa Johns Chile — tokens propios del lienzo (pj-*).
+ *
+ * Los usan las extensiones pj-* a través de las utilidades de Tailwind registradas en
+ * tailwind.css (bg-pj-green, text-pj-sale, shadow-pj-card, rounded-pj-card…). Los tokens
+ * semánticos del template (--primary, --background…) apuntan a estos mismos colores en core.css.
+ */
+:root {
+    /* colores del lienzo */
+    --pj-cream: #FFFBF5;          /* fondo */
+    --pj-green: #1E4D33;          /* botones, navegación, encabezado */
+    --pj-green-dark: #133423;     /* footer, franja de pedido, texto sobre lima */
+    --pj-lime: #D7EA4A;           /* «Mi pedido», destacados */
+    --pj-lime-soft: #EEF6C8;      /* avisos y chips de puntos */
+    --pj-sale: #B3261E;           /* precio de oferta (6.3:1 sobre la crema) */
+    --pj-ink: #1B1D1A;            /* texto */
+    --pj-gray: #5A5F57;           /* texto secundario (6.4:1 sobre la crema) */
+    --pj-gray-strong: #3E423C;    /* texto de apoyo sobre blanco */
+    --pj-star: #8F5400;           /* estrella de calificación */
+    --pj-line: #E4E2DA;           /* separadores y bordes */
+    --pj-sand: #EFE6DA;           /* borde de barras sobre blanco */
+    --pj-input-line: #E2D6C6;     /* borde decorativo del buscador */
+    --pj-surface: #FFFFFF;        /* tarjetas */
+    --pj-track: #EFEEE7;          /* fondo de barras de progreso */
+
+    /* tipografía */
+    --pj-font-body: 'Barlow', -apple-system, 'system-ui', 'Helvetica Neue', Arial, sans-serif;
+    --pj-font-display: 'Barlow Condensed', 'Arial Narrow', var(--pj-font-body);
+
+    /* radios */
+    --pj-radius-control: 10px;    /* botones del encabezado */
+    --pj-radius-card: 14px;       /* tarjetas */
+    --pj-radius-section: 18px;    /* bloques grandes de la portada */
+    --pj-radius-pill: 999px;      /* botones y chips */
+
+    /* sombras */
+    --pj-shadow-card: 0 2px 10px rgb(60 30 10 / 0.1);
+    --pj-shadow-float: 0 8px 20px rgb(0 0 0 / 0.25);
+    --pj-shadow-strip: 0 6px 18px rgb(19 52 35 / 0.35);
+
+    /* layout */
+    --pj-bottom-nav-height: 64px;
+    --pj-touch: 44px;             /* área táctil mínima */
+}

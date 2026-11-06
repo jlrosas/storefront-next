@@ -1,10 +1,10 @@
 @theme inline {
-    /* Font families — Foundations kit uses Geist */
-    --font-sans: 'Geist', -apple-system, 'system-ui', 'Helvetica Neue', Arial, sans-serif;
-    --font-serif: 'Geist', Georgia, serif;
-    --font-mono: 'Geist', 'Courier New', monospace;
-    /* Headings — condensed, close to Papa Johns' proprietary PapaSans */
+    /* Tipografía del lienzo: Barlow para texto y Barlow Condensed para títulos */
+    --font-sans: 'Barlow', -apple-system, 'system-ui', 'Helvetica Neue', Arial, sans-serif;
+    --font-serif: 'Barlow', Georgia, serif;
+    --font-mono: ui-monospace, 'SFMono-Regular', Menlo, 'Courier New', monospace;
     --font-heading: 'Barlow Condensed', 'Arial Narrow', var(--font-sans);
+    --font-display: 'Barlow Condensed', 'Arial Narrow', var(--font-sans);
 
     /* Error page tokens */
     --text-error-status: 12rem;  /* Large status code display for error pages */
@@ -156,6 +156,29 @@
     --color-brand-gray-700: var(--brand-gray-700);
     --color-brand-gray-800: var(--brand-gray-800);
     --color-brand-gray-900: var(--brand-gray-900);
+
+    /* -- Papa Johns (pj.css) -- */
+    --color-pj-cream: var(--pj-cream);
+    --color-pj-green: var(--pj-green);
+    --color-pj-green-dark: var(--pj-green-dark);
+    --color-pj-lime: var(--pj-lime);
+    --color-pj-lime-soft: var(--pj-lime-soft);
+    --color-pj-sale: var(--pj-sale);
+    --color-pj-ink: var(--pj-ink);
+    --color-pj-gray: var(--pj-gray);
+    --color-pj-gray-strong: var(--pj-gray-strong);
+    --color-pj-star: var(--pj-star);
+    --color-pj-line: var(--pj-line);
+    --color-pj-sand: var(--pj-sand);
+    --color-pj-input-line: var(--pj-input-line);
+    --color-pj-surface: var(--pj-surface);
+    --color-pj-track: var(--pj-track);
+    --radius-pj-control: var(--pj-radius-control);
+    --radius-pj-card: var(--pj-radius-card);
+    --radius-pj-section: var(--pj-radius-section);
+    --shadow-pj-card: var(--pj-shadow-card);
+    --shadow-pj-float: var(--pj-shadow-float);
+    --shadow-pj-strip: var(--pj-shadow-strip);
 }
 
 @utility border-ui {

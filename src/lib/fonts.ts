@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import geist from '/fonts/geist-variable.woff2';
+import barlow from '/fonts/barlow-400.woff2';
 
-export const primaryFont = geist;
+// Barlow 400 es el texto de todo el sitio: se precarga en <head> (root.tsx).
+export const primaryFont = barlow;

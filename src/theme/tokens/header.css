@@ -8,24 +8,24 @@
  */
 :root {
     /* header & navigation — Papa Johns green bar with white text */
-    --header-background: #2d5f2c;
-    --header-foreground: #ffffff;               /* 7.6:1 on the green bar */
-    --header-border: #24502a;
+    --header-background: var(--pj-green);
+    --header-foreground: #FFFFFF;               /* 9.7:1 sobre el verde */
+    --header-border: rgb(255 255 255 / 0.15);
     --header-divider: var(--header-border);
     /* header menu dropdowns — white panel; hover tints to the lime accent */
-    --header-menu-background: #ffffff;
-    --header-menu-foreground: #3f3f46;
-    --header-menu-border: #eeeeee;
-    --header-menu-hover-background: #f2f8b0;
-    --header-menu-hover-foreground: #2d5f2c;
-    --header-menu-active-background: #f2f8b0;
-    --header-menu-icon: #ffffff;
+    --header-menu-background: #FFFFFF;
+    --header-menu-foreground: var(--pj-ink);
+    --header-menu-border: var(--pj-line);
+    --header-menu-hover-background: var(--pj-lime-soft);
+    --header-menu-hover-foreground: var(--pj-green-dark);
+    --header-menu-active-background: var(--pj-lime-soft);
+    --header-menu-icon: #FFFFFF;
     /* The logo ships in brand green; render it white on the green bar. */
     --header-logo-filter: brightness(0) invert(1);
 
     /* footer — page background to avoid a hard chrome edge */
-    --footer-background: var(--background);
-    --footer-foreground: var(--foreground);
+    --footer-background: var(--pj-green-dark);
+    --footer-foreground: #FFFFFF;              /* 13.6:1 sobre el verde oscuro */
 
     /* newsletter band — Figma renders the homepage "Stay Updated" block in the
      * dark foreground gray (#3f3f46), NOT the blue --primary. (The kit's Figma

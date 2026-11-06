@@ -1,14 +1,40 @@
-/* Geist — the Foundations kit's typeface (font/family/font-sans in Figma).
- * Variable font, weight axis 100–900. */
+/* Tipografía del lienzo (OFL), servida desde /public/fonts (subconjunto latino de Google Fonts):
+ * Barlow para texto y Barlow Condensed para títulos, precios grandes y la marca. */
 @font-face {
-    font-family: 'Geist';
-    src: url('/fonts/geist-variable.woff2') format('woff2');
-    font-weight: 100 900;
+    font-family: 'Barlow';
+    src: url('/fonts/barlow-400.woff2') format('woff2');
+    font-weight: 400;
     font-style: normal;
     font-display: swap;
 }
-
-/* Barlow Condensed (OFL) — headings; a free stand-in for Papa Johns' PapaSans. */
+@font-face {
+    font-family: 'Barlow';
+    src: url('/fonts/barlow-500.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Barlow';
+    src: url('/fonts/barlow-600.woff2') format('woff2');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Barlow';
+    src: url('/fonts/barlow-700.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Barlow Condensed';
+    src: url('/fonts/barlow-condensed-600.woff2') format('woff2');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
 @font-face {
     font-family: 'Barlow Condensed';
     src: url('/fonts/barlow-condensed-700.woff2') format('woff2');
@@ -49,7 +75,7 @@
  * utility without !important; changes computed color only, so DOM/snapshots are
  * unaffected. Scoped to the tint+primary-text combo, so it covers every such pill. */
 .bg-primary\/10.text-primary {
-    color: #234a22;
+    color: var(--pj-green-dark);
 }
 
 /* Product-tile "Sale"/"New" badge — the shared ProductTile paints the corner
@@ -64,28 +90,34 @@
     color: var(--primary-foreground);
 }
 
-/* Papa Johns header — the bar is painted in --primary, so primary-colored pieces inside it
- * (announcement strip, cart count badge) switch to the lime highlight to stay visible, and
- * the search field gets a solid white surface. Compound + unlayered, same as above. */
-header [role='status'].bg-primary,
-header [data-slot='badge'] {
-    background-color: var(--tertiary);
-    color: var(--tertiary-foreground);
-    border-color: var(--tertiary);
+/* Precio de oferta (INT-01 · criterio 2): cuando un precio trae su precio «antes» tachado, el
+ * precio actual va en rojo tomate. Se apoya en el marcado de ProductPrice (precio actual
+ * font-semibold + precio de lista line-through); sin !important y solo color. */
+:where(div, span):has(> .line-through[aria-hidden='true']) > .font-semibold[aria-hidden='true'] {
+    color: var(--pj-sale);
 }
-header [role='status'].bg-primary a {
-    color: var(--tertiary-foreground);
+
+/* Textos de tamaño display (títulos de banner, precios grandes): en el lienzo van en Barlow
+ * Condensed 800. Sin capa para ganarle a font-light/font-semibold del template. */
+:where(.text-4xl, .text-5xl, .text-6xl, .text-7xl, .text-8xl, .text-9xl) {
+    font-family: var(--font-heading);
+    font-weight: 800;
 }
-header form input[role='combobox'] {
-    background-color: var(--background);
-    color: var(--foreground);
+
+/* Botones del lienzo: píldora y área táctil de al menos 44 px (INT-01 · criterio 3). */
+[data-slot='button'] {
+    --ui-radius: var(--pj-radius-pill);
+    min-height: var(--pj-touch);
 }
-header form svg {
-    color: var(--muted-foreground);
+[data-slot='button'][data-size^='icon'] {
+    min-width: var(--pj-touch);
 }
-/* An open menu trigger sits on the lime active tint, so it needs the dark menu text. */
-header [data-slot='navigation-menu-trigger'][data-state='open'] {
-    color: var(--header-menu-hover-foreground);
+[data-slot='button'][data-variant='link'] {
+    min-height: 0;
+}
+input[data-slot='input'],
+[data-slot='select-trigger'] {
+    min-height: var(--pj-touch);
 }
 
 @layer base {
@@ -96,13 +128,14 @@ header [data-slot='navigation-menu-trigger'][data-state='open'] {
         @apply bg-background text-foreground;
         font-family: var(--font-sans);
     }
-    /* Papa Johns headings: condensed, heavy, uppercase. */
+    /* Títulos del lienzo: Barlow Condensed 800 en mayúsculas. */
     h1,
     h2 {
         font-family: var(--font-heading);
         font-weight: 800;
         text-transform: uppercase;
         letter-spacing: 0.01em;
+        line-height: 1;
     }
     html {
         scrollbar-gutter: stable;

@@ -13,6 +13,6 @@
     --cart-summary-px: 1rem;
 
     /* product badge — promo variant (Sale, Best Seller); values per Figma design system */
-    --product-badge-promo-bg: var(--primary);
-    --product-badge-promo-foreground: var(--info-foreground);
+    --product-badge-promo-bg: var(--pj-sale);
+    --product-badge-promo-foreground: #FFFFFF;
 }

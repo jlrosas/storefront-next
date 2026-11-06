@@ -4,4 +4,8 @@
 @source not '../**/*.test.{ts,tsx}';
 @source not '../**/*.stories.{ts,tsx}';
 
+/* El lienzo de Papa Johns no tiene tema oscuro: las utilidades dark: solo aplican con la clase
+ * .dark (que el sitio no usa), no con prefers-color-scheme del sistema. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @import './shared.css';

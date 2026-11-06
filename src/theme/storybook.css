@@ -6,4 +6,6 @@
 @source '../**/*.mdx';
 @source '../../.storybook/**/*.{ts,tsx,mdx}';
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @import './shared.css';
