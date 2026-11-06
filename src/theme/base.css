@@ -306,3 +306,48 @@ nav > ol > li > a {
         bottom: calc(var(--pj-bottom-nav-height) + env(safe-area-inset-bottom) + 8px);
     }
 }
+
+/* Aviso de cookies compacto (~130 px, Home.dc.html): texto corto, botones en una fila y, en móvil,
+ * fijo a 8 px de los bordes sobre la barra inferior para no tapar el precio ni el botón del hero. */
+[role='dialog'][aria-labelledby='tracking-consent-banner-title'] [data-slot='card'] {
+    gap: 8px;
+    padding: 10px 12px;
+    border-radius: var(--pj-radius-card);
+    box-shadow: 0 6px 18px rgb(30 63 28 / 0.16);
+}
+[role='dialog'][aria-labelledby='tracking-consent-banner-title'] [data-slot='card-content'] {
+    padding: 0 40px 0 0;
+}
+[role='dialog'][aria-labelledby='tracking-consent-banner-title'] [data-slot='card-content'] > div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+[role='dialog'][aria-labelledby='tracking-consent-banner-title'] h2 {
+    font-size: 1rem;
+    line-height: 1.1;
+    color: var(--pj-basil);
+}
+[role='dialog'][aria-labelledby='tracking-consent-banner-title'] p {
+    font-size: 0.8125rem;
+    line-height: 1.3;
+    margin: 0;
+}
+[role='dialog'][aria-labelledby='tracking-consent-banner-title'] [data-slot='card-footer'] {
+    padding: 0;
+}
+[role='dialog'][aria-labelledby='tracking-consent-banner-title'] [data-slot='card'] > button:first-child {
+    top: 2px;
+    right: 2px;
+}
+@media (width < 64rem) {
+    [role='dialog'][aria-labelledby='tracking-consent-banner-title'] {
+        left: 8px;
+        right: 8px;
+        width: auto;
+        bottom: 8px;
+    }
+    body:has([data-testid='pj-bottom-nav']) [role='dialog'][aria-labelledby='tracking-consent-banner-title'] {
+        bottom: calc(var(--pj-bottom-nav-height) + env(safe-area-inset-bottom) + 8px);
+    }
+}

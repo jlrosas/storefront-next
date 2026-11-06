@@ -82,3 +82,15 @@
 [data-sonner-toast] {
     pointer-events: auto;
 }
+
+/* Papa Johns: avisos propios (AddedToast). Sin el fondo/padding de los avisos del template y con
+ * el ancho de la pantalla menos 16 px a cada lado, para que «Ver mi pedido» no se corte en 390 px. */
+[data-sonner-toast].pj-toast {
+    background: transparent;
+    border: 0;
+    padding: 0;
+    box-shadow: none;
+    white-space: normal;
+    width: min(420px, calc(100vw - 32px));
+    max-width: calc(100vw - 32px);
+}

@@ -26,11 +26,11 @@ const meta: Meta<typeof AddedToast> = {
         docs: {
             description: {
                 component:
-                    '«¡Agregada! +N Papa Puntos por acreditar», «Deshacer» y «Ver mi pedido». Como toast se muestra con showAddedToast (lib/added-toast.tsx).',
+                    '«¡Agregada! +N Papa Puntos por acreditar», «Deshacer» y «Ver mi pedido». Como toast se muestra con useShowAddedToast() (lib/added-toast.tsx), que funciona desde cualquier ruta.',
             },
         },
     },
-    args: { productName: 'Pollo BBQ Familiar', points: 16, onUndo: fn() },
+    args: { productName: 'Pollo BBQ Familiar', points: 16, onUndo: fn(), onViewOrder: fn() },
 };
 
 export default meta;

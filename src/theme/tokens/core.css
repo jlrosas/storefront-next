@@ -98,12 +98,17 @@
     --ui-shadow: 0 2px 10px rgb(60 30 10 / 0.1);  /* sombra cálida de las tarjetas del lienzo */
     --ui-border-width: 1px;
 
-    [role="radio"]:not([data-labeled]) {
-        min-width: var(--swatch-pill-size);
-        min-height: var(--swatch-pill-size);
-    }
-
     body {
         @apply bg-background text-foreground;
+    }
+}
+
+/* Tamaño mínimo de los swatches sin etiqueta. En capa base y con :where() (especificidad 0) para que
+ * las utilidades de tamaño (min-h-11, size-11, min-h-[44px]) siempre le ganen: antes estaba sin capa
+ * dentro de :root y pisaba cualquier clase en elementos con role="radio" (INTEGRACION ítem 25). */
+@layer base {
+    :where([role="radio"]:not([data-labeled])) {
+        min-width: var(--swatch-pill-size);
+        min-height: var(--swatch-pill-size);
     }
 }

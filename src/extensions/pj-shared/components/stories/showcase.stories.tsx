@@ -52,7 +52,12 @@ function Showcase() {
                     <PriceTag price={23890} size="lg" />
                     <PointsBadge points={pointsFor(23890, 0)} variant="pending" />
                     <PointsBadge points={pointsFor(23890, 0, true)} />
-                    <AddedToast productName="Pollo BBQ Familiar" points={16} onUndo={() => undefined} />
+                    <AddedToast
+                        productName="Pollo BBQ Familiar"
+                        points={16}
+                        onUndo={() => undefined}
+                        onViewOrder={() => undefined}
+                    />
                     <TrackingStrip
                         status="En preparación"
                         eta="Listo 20:45"

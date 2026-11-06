@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 /** @sfdc-extension-file SFDC_EXT_PJ_SHARED */
-import type { MiddlewareFunction } from 'react-router';
+import { redirect, type MiddlewareFunction } from 'react-router';
 import { getConfig } from '@salesforce/storefront-next-runtime/config';
 import { stripPathPrefix } from '@salesforce/storefront-next-runtime/site-context';
 import { getAuth } from '@/middlewares/auth.server';
+import { unprefixedRedirectTarget } from '../lib/routes';
 import { demoCookieUpdates, pjDemoContext, readDemoSignals, serializeDemoCookie } from '../lib/profile';
 
 /**
@@ -27,6 +28,7 @@ import { demoCookieUpdates, pjDemoContext, readDemoSignals, serializeDemoCookie 
  */
 export const pjDemoMiddleware: MiddlewareFunction<Response> = async ({ request, context }, next) => {
     const url = new URL(request.url);
+
     let isRegistered = false;
     try {
         isRegistered = getAuth(context).userType === 'registered';
@@ -55,4 +57,33 @@ export const pjDemoMiddleware: MiddlewareFunction<Response> = async ({ request, 
         }
     }
     return response;
+};
+
+/**
+ * Rutas de la demo escritas sin prefijo de sitio (`/promos`, `/menu`, `/puntos`…) → 302 a
+ * `/cl/es-CL/…`. Va ANTES de `siteContextMiddleware`, que responde 404 a un primer segmento que no es
+ * un sitio. El prefijo sale del sitio por defecto y su locale por defecto (con sus alias).
+ */
+export const pjUnprefixedRedirectMiddleware: MiddlewareFunction<Response> = async ({ request, context }, next) => {
+    if (request.method === 'GET') {
+        try {
+            const config = getConfig(context) as unknown as {
+                commerce?: { sites?: { id: string; defaultLocale?: string }[] };
+                defaultSiteId?: string;
+                siteAliasMap?: Record<string, string>;
+                localeAliasMap?: Record<string, string>;
+            };
+            const siteId = config.defaultSiteId;
+            const site = config.commerce?.sites?.find((s) => s.id === siteId);
+            if (siteId && site?.defaultLocale) {
+                const prefix = `/${config.siteAliasMap?.[siteId] ?? siteId}/${config.localeAliasMap?.[site.defaultLocale] ?? site.defaultLocale}`;
+                const url = new URL(request.url);
+                const target = unprefixedRedirectTarget(url.pathname, prefix);
+                if (target) return redirect(`${target}${url.search}`, 302);
+            }
+        } catch {
+            // Config no disponible: se sigue.
+        }
+    }
+    return next();
 };

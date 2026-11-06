@@ -75,7 +75,7 @@ import {
 import type { SelectedStoreInfo } from '@/extensions/store-locator/stores/store-locator-store';
 // @sfdc-extension-block-end SFDC_EXT_STORE_LOCATOR
 // @sfdc-extension-line SFDC_EXT_PJ_SHARED
-import { pjDemoMiddleware } from '@/extensions/pj-shared/middlewares/demo.server';
+import { pjDemoMiddleware, pjUnprefixedRedirectMiddleware } from '@/extensions/pj-shared/middlewares/demo.server';
 import { correlationMiddleware } from '@/middlewares/correlation.server';
 import { requestOriginMiddleware } from '@/middlewares/request-origin';
 import { getAppOrigin } from '@/lib/origin';
@@ -166,6 +166,7 @@ export const middleware: MiddlewareFunction<Response>[] = [
     // populates the config contexts and before siteContextMiddleware resolves the site.
     sitesMiddlewareLazy,
     sitesConfigMiddleware,
+    pjUnprefixedRedirectMiddleware /** @sfdc-extension-line SFDC_EXT_PJ_SHARED */,
     siteContextMiddleware, // Must run after appConfig, before i18next and currency
     ...dataStoreMiddlewareLazy,
     siteUrlConfigMiddleware, // Must run after siteContextMiddleware (entry key uses site id)
