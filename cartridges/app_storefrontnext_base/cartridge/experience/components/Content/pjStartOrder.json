@@ -1,0 +1,25 @@
+{
+    "name": "Papa Johns · Empieza tu pedido",
+    "description": "Delivery o Retiro con tiempos (en escritorio suma Menú y Promos).",
+    "group": "Content",
+    "arch_type": "headless",
+    "region_definitions": [],
+    "attribute_definition_groups": [
+        {
+            "id": "pjStartOrder",
+            "name": "Papa Johns · Empieza tu pedido",
+            "description": "Delivery o Retiro con tiempos (en escritorio suma Menú y Promos).",
+            "attribute_definitions": [
+                {
+                    "id": "profile",
+                    "name": "Perfil",
+                    "type": "enum",
+                    "required": false,
+                    "description": "A quién se muestra además de los grupos de clientes de la página: todos, Valentina, Diego o Sofía.",
+                    "values": ["all", "valentina", "diego", "sofia"],
+                    "default_value": "all"
+                }
+            ]
+        }
+    ]
+}

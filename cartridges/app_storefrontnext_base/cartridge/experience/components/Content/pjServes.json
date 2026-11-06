@@ -1,0 +1,33 @@
+{
+    "name": "Papa Johns · ¿Para cuántos?",
+    "description": "Carrusel con foto: Para 1, 2, 3, 4 y 6+ con precios del catálogo. «Para 3» agrega las tres líneas al pedido.",
+    "group": "Content",
+    "arch_type": "headless",
+    "region_definitions": [],
+    "attribute_definition_groups": [
+        {
+            "id": "pjServes",
+            "name": "Papa Johns · ¿Para cuántos?",
+            "description": "Carrusel con foto: Para 1, 2, 3, 4 y 6+ con precios del catálogo. «Para 3» agrega las tres líneas al pedido.",
+            "attribute_definitions": [
+                {
+                    "id": "title",
+                    "name": "Título",
+                    "type": "string",
+                    "required": false,
+                    "description": "Field: title",
+                    "default_value": "¿Para cuántos?"
+                },
+                {
+                    "id": "profile",
+                    "name": "Perfil",
+                    "type": "enum",
+                    "required": false,
+                    "description": "A quién se muestra además de los grupos de clientes de la página: todos, Valentina, Diego o Sofía.",
+                    "values": ["all", "valentina", "diego", "sofia"],
+                    "default_value": "all"
+                }
+            ]
+        }
+    ]
+}

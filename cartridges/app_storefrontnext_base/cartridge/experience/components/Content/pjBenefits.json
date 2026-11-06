@@ -1,0 +1,53 @@
+{
+    "name": "Papa Johns · Beneficios del canal propio",
+    "description": "«Pedir aquí tiene premio» con tres beneficios.",
+    "group": "Content",
+    "arch_type": "headless",
+    "region_definitions": [],
+    "attribute_definition_groups": [
+        {
+            "id": "pjBenefits",
+            "name": "Papa Johns · Beneficios del canal propio",
+            "description": "«Pedir aquí tiene premio» con tres beneficios.",
+            "attribute_definitions": [
+                {
+                    "id": "title",
+                    "name": "Título",
+                    "type": "string",
+                    "required": false,
+                    "description": "Field: title"
+                },
+                {
+                    "id": "benefit1",
+                    "name": "Beneficio 1",
+                    "type": "string",
+                    "required": false,
+                    "description": "Field: benefit1"
+                },
+                {
+                    "id": "benefit2",
+                    "name": "Beneficio 2",
+                    "type": "string",
+                    "required": false,
+                    "description": "Field: benefit2"
+                },
+                {
+                    "id": "benefit3",
+                    "name": "Beneficio 3",
+                    "type": "string",
+                    "required": false,
+                    "description": "Field: benefit3"
+                },
+                {
+                    "id": "profile",
+                    "name": "Perfil",
+                    "type": "enum",
+                    "required": false,
+                    "description": "A quién se muestra además de los grupos de clientes de la página: todos, Valentina, Diego o Sofía.",
+                    "values": ["all", "valentina", "diego", "sofia"],
+                    "default_value": "all"
+                }
+            ]
+        }
+    ]
+}

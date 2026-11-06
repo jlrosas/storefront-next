@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Propuesta de HOM para DAT: página «homepage» de Page Designer con los tres perfiles en la región «home».
+  Cada componente trae el atributo «profile» (todos|valentina|diego|sofia), que ya filtra por perfil en el storefront
+  (también con ?perfil=). Además, en Business Manager se asigna a cada componente su grupo de clientes
+  (pj-reactivacion, pj-anuncio-super-duo, pj-frecuente) con el programa de visibilidad de Page Designer (HOM-04 criterio 2).
+  Requiere desplegar antes el cartucho con los tipos Content.pj* (pnpm cartridge:generate + deploy).
+-->
+<library xmlns="http://www.demandware.com/xml/impex/library/2006-10-31" library-id="PapaJohnsCLLibrary">
+    <folder folder-id="root"><online-flag>true</online-flag></folder>
+    <content content-id="pj-home-hero-valentina">
+        <type>component.Content.pjHeroFood</type>
+        <data xml:lang="x-default">{
+  "productId": "cb-pizza-del-mes",
+  "variant": "season",
+  "ctaLabel": "Lo quiero",
+  "animate": true,
+  "profile": "valentina"
+}</data>
+        <online-flag>true</online-flag>
+        <online-flag site-id="PapaJohnsCL">true</online-flag>
+        <page-attributes/>
+    </content>
+    <content content-id="pj-home-greeting">
+        <type>component.Content.pjGreeting</type>
+        <data xml:lang="x-default">{
+  "profile": "valentina"
+}</data>
+        <online-flag>true</online-flag>
+        <online-flag site-id="PapaJohnsCL">true</online-flag>
+        <page-attributes/>
+    </content>
+    <content content-id="pj-home-start-order">
+        <type>component.Content.pjStartOrder</type>
+        <data xml:lang="x-default">{
+  "profile": "valentina"
+}</data>
+        <online-flag>true</online-flag>
+        <online-flag site-id="PapaJohnsCL">true</online-flag>
+        <page-attributes/>
+    </content>
+    <content content-id="pj-home-popular-valentina">
+        <type>component.Content.pjPopular</type>
+        <data xml:lang="x-default">{
+  "title": "Las más pedidas",
+  "profile": "valentina"
+}</data>
+        <online-flag>true</online-flag>
+        <online-flag site-id="PapaJohnsCL">true</online-flag>
+        <page-attributes/>
+    </content>
+    <content content-id="pj-home-benefits">
+        <type>component.Content.pjBenefits</type>
+        <data xml:lang="x-default">{
+  "profile": "valentina"
+}</data>
+        <online-flag>true</online-flag>
+        <online-flag site-id="PapaJohnsCL">true</online-flag>
+        <page-attributes/>
+    </content>
+    <content content-id="pj-home-hero-diego">
+        <type>component.Content.pjHeroFood</type>
+        <data xml:lang="x-default">{
+  "productId": "cb-super-duo",
+  "variant": "ad",
+  "eyebrow": "La oferta que viste",
+  "ctaLabel": "Armar mi Super Dúo",
+  "destination": "/promos/super-duo",
+  "animate": true,
+  "profile": "diego"
+}</data>
+        <online-flag>true</online-flag>
+        <online-flag site-id="PapaJohnsCL">true</online-flag>
+        <page-attributes/>
+    </content>
+    <content content-id="pj-home-serves">
+        <type>component.Content.pjServes</type>
+        <data xml:lang="x-default">{
+  "title": "¿Para cuántos?",
+  "profile": "diego"
+}</data>
+        <online-flag>true</online-flag>
+        <online-flag site-id="PapaJohnsCL">true</online-flag>
+        <page-attributes/>
+    </content>
+    <content content-id="pj-home-moments">
+        <type>component.Content.pjMoments</type>
+        <data xml:lang="x-default">{
+  "title": "¿Y para este momento?",
+  "profile": "diego"
+}</data>
+        <online-flag>true</online-flag>
+        <online-flag site-id="PapaJohnsCL">true</online-flag>
+        <page-attributes/>
+    </content>
+    <content content-id="pj-home-popular-diego">
+        <type>component.Content.pjPopular</type>
+        <data xml:lang="x-default">{
+  "title": "Más vendidos",
+  "profile": "diego"
+}</data>
+        <online-flag>true</online-flag>
+        <online-flag site-id="PapaJohnsCL">true</online-flag>
+        <page-attributes/>
+    </content>
+    <content content-id="pj-home-usual">
+        <type>component.Content.pjUsual</type>
+        <data xml:lang="x-default">{
+  "profile": "sofia"
+}</data>
+        <online-flag>true</online-flag>
+        <online-flag site-id="PapaJohnsCL">true</online-flag>
+        <page-attributes/>
+    </content>
+    <content content-id="pj-home-favorites">
+        <type>component.Content.pjFavorites</type>
+        <data xml:lang="x-default">{
+  "profile": "sofia"
+}</data>
+        <online-flag>true</online-flag>
+        <online-flag site-id="PapaJohnsCL">true</online-flag>
+        <page-attributes/>
+    </content>
+    <content content-id="pj-home-balance">
+        <type>component.Content.pjBalance</type>
+        <data xml:lang="x-default">{
+  "profile": "sofia"
+}</data>
+        <online-flag>true</online-flag>
+        <online-flag site-id="PapaJohnsCL">true</online-flag>
+        <page-attributes/>
+    </content>
+    <content content-id="pj-home-month">
+        <type>component.Content.pjMonth</type>
+        <data xml:lang="x-default">{
+  "profile": "sofia"
+}</data>
+        <online-flag>true</online-flag>
+        <online-flag site-id="PapaJohnsCL">true</online-flag>
+        <page-attributes/>
+    </content>
+    <content content-id="homepage">
+        <display-name xml:lang="x-default">Portada</display-name>
+        <type>page.homePage</type>
+        <config>{"visibility": []}</config>
+        <online-flag>true</online-flag>
+        <online-flag site-id="PapaJohnsCL">true</online-flag>
+        <searchable-flag>false</searchable-flag>
+        <page-attributes/>
+        <content-links>
+            <content-link content-id="pj-home-hero-valentina" type="page.homePage.home"><position>1.0</position></content-link>
+            <content-link content-id="pj-home-greeting" type="page.homePage.home"><position>2.0</position></content-link>
+            <content-link content-id="pj-home-start-order" type="page.homePage.home"><position>3.0</position></content-link>
+            <content-link content-id="pj-home-popular-valentina" type="page.homePage.home"><position>4.0</position></content-link>
+            <content-link content-id="pj-home-benefits" type="page.homePage.home"><position>5.0</position></content-link>
+            <content-link content-id="pj-home-hero-diego" type="page.homePage.home"><position>6.0</position></content-link>
+            <content-link content-id="pj-home-serves" type="page.homePage.home"><position>7.0</position></content-link>
+            <content-link content-id="pj-home-moments" type="page.homePage.home"><position>8.0</position></content-link>
+            <content-link content-id="pj-home-popular-diego" type="page.homePage.home"><position>9.0</position></content-link>
+            <content-link content-id="pj-home-usual" type="page.homePage.home"><position>10.0</position></content-link>
+            <content-link content-id="pj-home-favorites" type="page.homePage.home"><position>11.0</position></content-link>
+            <content-link content-id="pj-home-balance" type="page.homePage.home"><position>12.0</position></content-link>
+            <content-link content-id="pj-home-month" type="page.homePage.home"><position>13.0</position></content-link>
+        </content-links>
+    </content>
+</library>

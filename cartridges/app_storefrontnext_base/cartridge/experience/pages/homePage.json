@@ -1,37 +1,13 @@
 {
     "name": "Home Page",
-    "description": "Main landing page with static marketing sections and interspersed Page Designer slots",
+    "description": "Portada por perfil: una sola página para Valentina, Diego y Sofía",
     "arch_type": "headless",
     "region_definitions": [
         {
-            "id": "top",
-            "name": "Top Slot",
-            "description": "Empty slot above the hero carousel",
-            "max_components": 3
-        },
-        {
-            "id": "afterHero",
-            "name": "After Hero Slot",
-            "description": "Empty slot between the hero carousel and the featured collection",
-            "max_components": 3
-        },
-        {
-            "id": "afterFeatured",
-            "name": "After Featured Slot",
-            "description": "Empty slot between the featured collection and the content cards",
-            "max_components": 3
-        },
-        {
-            "id": "afterContent",
-            "name": "After Content Slot",
-            "description": "Empty slot between the content cards and the category section",
-            "max_components": 3
-        },
-        {
-            "id": "bottom",
-            "name": "Bottom Slot",
-            "description": "Empty slot below the category section",
-            "max_components": 3
+            "id": "home",
+            "name": "Portada",
+            "description": "Hero de comida, ocasiones, «¿Para cuántos?», más pedidas, beneficios, «¿Lo de siempre?» y saldo. Cada bloque se muestra al perfil que corresponde con grupos de clientes.",
+            "max_components": 12
         }
     ],
     "supported_aspect_types": [],

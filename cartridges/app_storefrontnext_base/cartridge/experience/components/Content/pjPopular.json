@@ -1,0 +1,33 @@
+{
+    "name": "Papa Johns · Más pedidas",
+    "description": "Pizzas más pedidas con ★, insignias y «N esta semana» (solo si N ≥ 100). Datos del catálogo.",
+    "group": "Content",
+    "arch_type": "headless",
+    "region_definitions": [],
+    "attribute_definition_groups": [
+        {
+            "id": "pjPopular",
+            "name": "Papa Johns · Más pedidas",
+            "description": "Pizzas más pedidas con ★, insignias y «N esta semana» (solo si N ≥ 100). Datos del catálogo.",
+            "attribute_definitions": [
+                {
+                    "id": "title",
+                    "name": "Título",
+                    "type": "string",
+                    "required": false,
+                    "description": "Field: title",
+                    "default_value": "Las más pedidas"
+                },
+                {
+                    "id": "profile",
+                    "name": "Perfil",
+                    "type": "enum",
+                    "required": false,
+                    "description": "A quién se muestra además de los grupos de clientes de la página: todos, Valentina, Diego o Sofía.",
+                    "values": ["all", "valentina", "diego", "sofia"],
+                    "default_value": "all"
+                }
+            ]
+        }
+    ]
+}

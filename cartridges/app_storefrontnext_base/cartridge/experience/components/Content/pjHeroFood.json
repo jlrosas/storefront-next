@@ -1,0 +1,85 @@
+{
+    "name": "Papa Johns · Hero de comida",
+    "description": "Foto a sangre con movimiento lento y pausa, nombre, precio y botón tomados del producto. Sirve para la oferta de temporada (INT la cambia desde Business Manager) y la del anuncio.",
+    "group": "Content",
+    "arch_type": "headless",
+    "region_definitions": [],
+    "attribute_definition_groups": [
+        {
+            "id": "pjHeroFood",
+            "name": "Papa Johns · Hero de comida",
+            "description": "Foto a sangre con movimiento lento y pausa, nombre, precio y botón tomados del producto. Sirve para la oferta de temporada (INT la cambia desde Business Manager) y la del anuncio.",
+            "attribute_definitions": [
+                {
+                    "id": "productId",
+                    "name": "Producto u oferta",
+                    "type": "product",
+                    "required": true,
+                    "description": "Producto del catálogo (cb-pizza-del-mes, cb-super-duo…): nombre, precio, antes y foto salen de ahí."
+                },
+                {
+                    "id": "eyebrow",
+                    "name": "Etiqueta",
+                    "type": "string",
+                    "required": false,
+                    "description": "Texto sobre el título («Pizza del mes de noviembre», «La oferta que viste»)."
+                },
+                {
+                    "id": "description",
+                    "name": "Texto que se saborea",
+                    "type": "text",
+                    "required": false,
+                    "description": "Sin valor se usa el del catálogo."
+                },
+                {
+                    "id": "ctaLabel",
+                    "name": "Texto del botón",
+                    "type": "string",
+                    "required": false,
+                    "description": "Field: ctaLabel",
+                    "default_value": "Lo quiero"
+                },
+                {
+                    "id": "destination",
+                    "name": "Destino del botón",
+                    "type": "string",
+                    "required": false,
+                    "description": "Ruta del producto listo para agregar o del constructor (/promos/super-duo). Sin valor: la ficha del producto."
+                },
+                {
+                    "id": "variant",
+                    "name": "Estilo",
+                    "type": "enum",
+                    "required": false,
+                    "description": "Field: variant",
+                    "values": ["season", "ad"],
+                    "default_value": "season"
+                },
+                {
+                    "id": "video",
+                    "name": "Video (URL de un MP4, hasta 6 s)",
+                    "type": "url",
+                    "required": false,
+                    "description": "Opcional. Con video, la foto es el póster y el video se carga después del primer pintado; con «reducir movimiento» no se reproduce. Sin video, la foto se mueve lento."
+                },
+                {
+                    "id": "animate",
+                    "name": "Movimiento lento (con botón de pausa)",
+                    "type": "boolean",
+                    "required": false,
+                    "description": "Field: animate",
+                    "default_value": true
+                },
+                {
+                    "id": "profile",
+                    "name": "Perfil",
+                    "type": "enum",
+                    "required": false,
+                    "description": "A quién se muestra además de los grupos de clientes de la página: todos, Valentina, Diego o Sofía.",
+                    "values": ["all", "valentina", "diego", "sofia"],
+                    "default_value": "all"
+                }
+            ]
+        }
+    ]
+}

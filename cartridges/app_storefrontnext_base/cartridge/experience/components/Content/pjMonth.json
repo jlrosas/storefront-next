@@ -1,0 +1,25 @@
+{
+    "name": "Papa Johns · Pizza del mes",
+    "description": "Tarjeta de la Pizza del Mes de noviembre (The Works Familiar) para el cliente frecuente.",
+    "group": "Content",
+    "arch_type": "headless",
+    "region_definitions": [],
+    "attribute_definition_groups": [
+        {
+            "id": "pjMonth",
+            "name": "Papa Johns · Pizza del mes",
+            "description": "Tarjeta de la Pizza del Mes de noviembre (The Works Familiar) para el cliente frecuente.",
+            "attribute_definitions": [
+                {
+                    "id": "profile",
+                    "name": "Perfil",
+                    "type": "enum",
+                    "required": false,
+                    "description": "A quién se muestra además de los grupos de clientes de la página: todos, Valentina, Diego o Sofía.",
+                    "values": ["all", "valentina", "diego", "sofia"],
+                    "default_value": "all"
+                }
+            ]
+        }
+    ]
+}
