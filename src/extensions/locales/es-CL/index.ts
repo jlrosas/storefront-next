@@ -23,6 +23,30 @@ import bopisTranslations from '@/extensions/bopis/locales/es-CL/translations.jso
 import customerPreferencesTranslations from '@/extensions/customer-preferences/locales/es-CL/translations.json';
 // @sfdc-extension-line SFDC_EXT_MULTISHIP
 import multishipTranslations from '@/extensions/multiship/locales/es-CL/translations.json';
+// @sfdc-extension-line SFDC_EXT_PJ_ACCOUNT
+import pjAccountTranslations from '@/extensions/pj-account/locales/es-CL/translations.json';
+// @sfdc-extension-line SFDC_EXT_PJ_CART
+import pjCartTranslations from '@/extensions/pj-cart/locales/es-CL/translations.json';
+// @sfdc-extension-line SFDC_EXT_PJ_CHECKOUT
+import pjCheckoutTranslations from '@/extensions/pj-checkout/locales/es-CL/translations.json';
+// @sfdc-extension-line SFDC_EXT_PJ_HOME
+import pjHomeTranslations from '@/extensions/pj-home/locales/es-CL/translations.json';
+// @sfdc-extension-line SFDC_EXT_PJ_LOGIN
+import pjLoginTranslations from '@/extensions/pj-login/locales/es-CL/translations.json';
+// @sfdc-extension-line SFDC_EXT_PJ_MENU
+import pjMenuTranslations from '@/extensions/pj-menu/locales/es-CL/translations.json';
+// @sfdc-extension-line SFDC_EXT_PJ_OFFERS
+import pjOffersTranslations from '@/extensions/pj-offers/locales/es-CL/translations.json';
+// @sfdc-extension-line SFDC_EXT_PJ_PRESENTER
+import pjPresenterTranslations from '@/extensions/pj-presenter/locales/es-CL/translations.json';
+// @sfdc-extension-line SFDC_EXT_PJ_PRODUCT
+import pjProductTranslations from '@/extensions/pj-product/locales/es-CL/translations.json';
+// @sfdc-extension-line SFDC_EXT_PJ_SHARED
+import pjSharedTranslations from '@/extensions/pj-shared/locales/es-CL/translations.json';
+// @sfdc-extension-line SFDC_EXT_PJ_STORE
+import pjStoreTranslations from '@/extensions/pj-store/locales/es-CL/translations.json';
+// @sfdc-extension-line SFDC_EXT_PJ_TRACKING
+import pjTrackingTranslations from '@/extensions/pj-tracking/locales/es-CL/translations.json';
 // @sfdc-extension-line SFDC_EXT_SHIPPING_DELIVERY
 import shippingDeliveryTranslations from '@/extensions/shipping-delivery/locales/es-CL/translations.json';
 // @sfdc-extension-line SFDC_EXT_STORE_LOCATOR
@@ -36,6 +60,30 @@ export default {
     extCustomerPreferences: customerPreferencesTranslations,
     // @sfdc-extension-line SFDC_EXT_MULTISHIP
     extMultiship: multishipTranslations,
+    // @sfdc-extension-line SFDC_EXT_PJ_ACCOUNT
+    extPjAccount: pjAccountTranslations,
+    // @sfdc-extension-line SFDC_EXT_PJ_CART
+    extPjCart: pjCartTranslations,
+    // @sfdc-extension-line SFDC_EXT_PJ_CHECKOUT
+    extPjCheckout: pjCheckoutTranslations,
+    // @sfdc-extension-line SFDC_EXT_PJ_HOME
+    extPjHome: pjHomeTranslations,
+    // @sfdc-extension-line SFDC_EXT_PJ_LOGIN
+    extPjLogin: pjLoginTranslations,
+    // @sfdc-extension-line SFDC_EXT_PJ_MENU
+    extPjMenu: pjMenuTranslations,
+    // @sfdc-extension-line SFDC_EXT_PJ_OFFERS
+    extPjOffers: pjOffersTranslations,
+    // @sfdc-extension-line SFDC_EXT_PJ_PRESENTER
+    extPjPresenter: pjPresenterTranslations,
+    // @sfdc-extension-line SFDC_EXT_PJ_PRODUCT
+    extPjProduct: pjProductTranslations,
+    // @sfdc-extension-line SFDC_EXT_PJ_SHARED
+    extPjShared: pjSharedTranslations,
+    // @sfdc-extension-line SFDC_EXT_PJ_STORE
+    extPjStore: pjStoreTranslations,
+    // @sfdc-extension-line SFDC_EXT_PJ_TRACKING
+    extPjTracking: pjTrackingTranslations,
     // @sfdc-extension-line SFDC_EXT_SHIPPING_DELIVERY
     extShippingDelivery: shippingDeliveryTranslations,
     // @sfdc-extension-line SFDC_EXT_STORE_LOCATOR

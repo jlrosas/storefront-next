@@ -33,6 +33,78 @@
             "description": "Renders a SCAPI-backed delivery estimator on the PDP.",
             "folder": "shipping-delivery",
             "dependencies": []
+        },
+        "SFDC_EXT_PJ_SHARED": {
+            "name": "Papa Johns · Compartido",
+            "description": "Tokens, componentes y utilidades compartidas de la demo (INT).",
+            "folder": "pj-shared",
+            "dependencies": []
+        },
+        "SFDC_EXT_PJ_HOME": {
+            "name": "Papa Johns · Home",
+            "description": "Portada por perfil y momento (HOM).",
+            "folder": "pj-home",
+            "dependencies": ["SFDC_EXT_PJ_SHARED"]
+        },
+        "SFDC_EXT_PJ_MENU": {
+            "name": "Papa Johns · Menú",
+            "description": "Menú completo agrupado y comparable (MEN).",
+            "folder": "pj-menu",
+            "dependencies": ["SFDC_EXT_PJ_SHARED"]
+        },
+        "SFDC_EXT_PJ_PRODUCT": {
+            "name": "Papa Johns · Producto",
+            "description": "Hoja de pizza, ficha, «Hazlo combo» y mitades (PRO).",
+            "folder": "pj-product",
+            "dependencies": ["SFDC_EXT_PJ_SHARED"]
+        },
+        "SFDC_EXT_PJ_OFFERS": {
+            "name": "Papa Johns · Ofertas",
+            "description": "Ofertas por ocasión y constructor de combos (OFE).",
+            "folder": "pj-offers",
+            "dependencies": ["SFDC_EXT_PJ_SHARED"]
+        },
+        "SFDC_EXT_PJ_STORE": {
+            "name": "Papa Johns · Tienda",
+            "description": "Modalidad retiro o delivery y elección de tienda (TIE).",
+            "folder": "pj-store",
+            "dependencies": ["SFDC_EXT_PJ_SHARED"]
+        },
+        "SFDC_EXT_PJ_CART": {
+            "name": "Papa Johns · Carrito",
+            "description": "Pedido, canje de puntos y «Tu pedido» de escritorio (CAR).",
+            "folder": "pj-cart",
+            "dependencies": ["SFDC_EXT_PJ_SHARED"]
+        },
+        "SFDC_EXT_PJ_LOGIN": {
+            "name": "Papa Johns · Ingreso",
+            "description": "Ingreso con código (ING).",
+            "folder": "pj-login",
+            "dependencies": ["SFDC_EXT_PJ_SHARED"]
+        },
+        "SFDC_EXT_PJ_CHECKOUT": {
+            "name": "Papa Johns · Checkout",
+            "description": "Checkout y confirmación (CHK).",
+            "folder": "pj-checkout",
+            "dependencies": ["SFDC_EXT_PJ_SHARED"]
+        },
+        "SFDC_EXT_PJ_TRACKING": {
+            "name": "Papa Johns · Seguimiento",
+            "description": "Seguimiento y franja de pedido en curso (SEG).",
+            "folder": "pj-tracking",
+            "dependencies": ["SFDC_EXT_PJ_SHARED"]
+        },
+        "SFDC_EXT_PJ_ACCOUNT": {
+            "name": "Papa Johns · Cuenta",
+            "description": "Mi cuenta y Papa Puntos (CTA).",
+            "folder": "pj-account",
+            "dependencies": ["SFDC_EXT_PJ_SHARED"]
+        },
+        "SFDC_EXT_PJ_PRESENTER": {
+            "name": "Papa Johns · Panel",
+            "description": "Panel del presentador (PAN).",
+            "folder": "pj-presenter",
+            "dependencies": ["SFDC_EXT_PJ_SHARED"]
         }
     }
 }
