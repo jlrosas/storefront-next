@@ -125,8 +125,8 @@ export function ExpiredOffer({ expired, alternatives, search }: ExpiredOfferProp
                 {t('expired.seeAll')}
             </Link>
             <Link
-                to={PJ_ROUTES.menu}
-                className="flex min-h-11 items-center justify-center font-bold text-pj-green no-underline focus-visible:outline-2 focus-visible:outline-pj-green">
+                to={withUtm(PJ_ROUTES.menu, search)}
+                className="flex min-h-[44px] items-center justify-center font-bold text-pj-green no-underline focus-visible:outline-2 focus-visible:outline-pj-green">
                 {t('expired.menu')}
             </Link>
         </div>

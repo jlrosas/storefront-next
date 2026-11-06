@@ -42,7 +42,7 @@ export function ComboAddedToast({ title, points, viewLabel, onView }: ComboAdded
             <button
                 type="button"
                 onClick={onView}
-                className="flex min-h-11 shrink-0 items-center rounded-full bg-pj-lime px-4 text-sm font-bold text-pj-green-dark">
+                className="flex min-h-[44px] shrink-0 items-center rounded-full bg-pj-lime px-4 text-sm font-bold text-pj-green-dark">
                 {viewLabel}
             </button>
         </div>

@@ -64,10 +64,11 @@ export function OccasionFilter({ value, onChange, className }: OccasionFilterPro
                         aria-checked={on}
                         tabIndex={on ? 0 : -1}
                         data-filter={id}
+                        data-labeled=""
                         onClick={() => onChange(id)}
                         onKeyDown={(event) => onKeyDown(event, index)}
                         className={cn(
-                            'min-h-11 shrink-0 rounded-full px-4 text-[15px] font-bold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green',
+                            'min-h-[44px] shrink-0 rounded-full px-4 text-[15px] font-bold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green',
                             on ? 'bg-pj-green text-pj-surface' : 'bg-[#FBE9D7] text-[#7A3A12] hover:bg-[#F7DDC3]'
                         )}>
                         {t(`filters.${id}`)}

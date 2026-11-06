@@ -186,7 +186,7 @@ export function ComboBuilder({
                     <Link
                         to={withUtm(PJ_ROUTES.promos, search)}
                         aria-label={t('builder.back')}
-                        className="flex size-11 items-center justify-center rounded-full text-pj-ink focus-visible:outline-2 focus-visible:outline-pj-green">
+                        className="flex size-[44px] items-center justify-center rounded-full text-pj-ink focus-visible:outline-2 focus-visible:outline-pj-green">
                         <svg
                             width="22"
                             height="22"
@@ -206,7 +206,6 @@ export function ComboBuilder({
                             className="flex flex-wrap items-baseline gap-x-2 text-[13px] text-pj-gray"
                             data-testid="pj-combo-price">
                             <span>{subtitle}</span>
-                            <span aria-hidden="true">·</span>
                             <PriceTag price={offer.price} listPrice={offer.priceBefore} showSavings={false} size="sm" />
                         </div>
                     </div>
@@ -238,7 +237,7 @@ export function ComboBuilder({
                                 data-filled={option ? 'true' : 'false'}
                                 onClick={() => setState((s) => selectSlot(s, index))}
                                 className={cn(
-                                    'flex min-h-14 min-w-0 items-center gap-2 rounded-xl border-2 p-1.5 text-left text-pj-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green',
+                                    'flex min-h-[56px] min-w-0 items-center gap-2 rounded-xl border-2 p-1.5 text-left text-pj-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green',
                                     active ? 'border-pj-green bg-pj-lime-soft' : 'border-pj-line bg-pj-surface'
                                 )}>
                                 {option?.image ? (
@@ -247,12 +246,12 @@ export function ComboBuilder({
                                         alt=""
                                         width={40}
                                         height={40}
-                                        className="size-10 shrink-0 rounded-full object-cover"
+                                        className="size-[40px] shrink-0 rounded-full object-cover"
                                     />
                                 ) : (
                                     <span
                                         aria-hidden="true"
-                                        className="size-10 shrink-0 rounded-full border-2 border-dashed border-[#C9B8A3]"
+                                        className="size-[40px] shrink-0 rounded-full border-2 border-dashed border-[#C9B8A3]"
                                     />
                                 )}
                                 <span className="flex min-w-0 flex-col">
@@ -283,7 +282,7 @@ export function ComboBuilder({
                             <button
                                 type="button"
                                 onClick={onPickup}
-                                className="min-h-12 rounded-xl bg-pj-green px-2 text-sm leading-tight font-bold text-pj-surface hover:bg-pj-green-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green">
+                                className="min-h-[48px] rounded-xl bg-pj-green px-2 text-sm leading-tight font-bold text-pj-surface hover:bg-pj-green-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green">
                                 {t('unavailable.pickup', { store: NEAREST_PICKUP_STORE.name })}
                                 <br />
                                 <span className="text-xs font-medium">
@@ -295,7 +294,7 @@ export function ComboBuilder({
                             </button>
                             <Link
                                 to={withUtm(PJ_ROUTES.promos, search)}
-                                className="flex min-h-12 flex-col items-center justify-center rounded-xl border-[1.5px] border-pj-green px-2 text-center text-sm leading-tight font-bold text-pj-green no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green">
+                                className="flex min-h-[48px] flex-col items-center justify-center rounded-xl border-[1.5px] border-pj-green px-2 text-center text-sm leading-tight font-bold text-pj-green no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green">
                                 {t('unavailable.seeDelivery')}
                                 <span className="text-xs font-medium">{t('unavailable.seeDeliveryDetail')}</span>
                             </Link>
@@ -345,7 +344,7 @@ export function ComboBuilder({
                                     className="h-[110px]"
                                 />
                                 {on && (
-                                    <span className="absolute top-1.5 right-1.5 flex size-6 items-center justify-center rounded-full bg-pj-green text-pj-surface">
+                                    <span className="absolute top-1.5 right-1.5 flex size-[24px] items-center justify-center rounded-full bg-pj-green text-pj-surface">
                                         <CheckIcon />
                                     </span>
                                 )}
@@ -373,11 +372,11 @@ export function ComboBuilder({
                     className={cn(
                         'flex h-[54px] w-full items-center justify-center rounded-full px-[22px] text-base font-bold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green',
                         buttonEnabled
-                            ? 'justify-between bg-pj-green text-pj-surface hover:bg-pj-green-dark lg:text-[17px]'
+                            ? 'bg-pj-green text-pj-surface hover:bg-pj-green-dark lg:text-[17px]'
                             : 'cursor-not-allowed bg-[#E9E4DA] text-pj-gray'
                     )}>
                     <span>{buttonLabel}</span>
-                    {buttonEnabled && <span>{formatClp(offer.price)}</span>}
+                    {buttonEnabled && <span>{` · ${formatClp(offer.price)}`}</span>}
                 </button>
             </footer>
         </div>
