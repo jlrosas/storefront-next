@@ -1,3 +1,9 @@
 {
-    "components": []
+    "components": [],
+    "contextProviders": [
+        {
+            "path": "extensions/pj-product/providers/pj-configure-provider.tsx",
+            "order": 10
+        }
+    ]
 }
