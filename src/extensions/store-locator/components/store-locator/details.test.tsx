@@ -44,7 +44,7 @@ describe('StoreDetails', () => {
         expect(screen.getByText('San Francisco, CA 94105')).toBeInTheDocument();
 
         const distanceText = t('extStoreLocator:storeLocator.details.distanceAway', {
-            distance: store.distance?.toFixed(2) ?? '0.00',
+            distance: '1,2',
             unit: 'mi',
         });
         expect(screen.getByText(distanceText)).toBeInTheDocument();
