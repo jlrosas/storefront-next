@@ -70,6 +70,10 @@
     },
     "locales": {
         "title": "Nuestros locales",
-        "subtitle": "Encuentra el local más cercano y pide para retirar o por delivery."
+        "subtitle": "Encuentra el local más cercano y pide para retirar o por delivery.",
+        "delivery": "Pedir por delivery",
+        "order": "Pedir en {{name}}",
+        "schedule": "Programar en {{name}}",
+        "empty": "Todavía no llegamos ahí. Prueba otra comuna o retira en la tienda más cercana."
     }
 }

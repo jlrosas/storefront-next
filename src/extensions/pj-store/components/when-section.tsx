@@ -37,9 +37,9 @@ interface WhenSectionProps {
 
 const chipClass = (on: boolean) =>
     cn(
-        'min-h-[46px] cursor-pointer rounded-xl border-2 px-3 text-[15px] font-semibold',
-        'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green',
-        on ? 'border-pj-green bg-pj-lime-soft text-pj-green-dark' : 'border-pj-line bg-pj-surface text-pj-ink'
+        'min-h-11 cursor-pointer rounded-pj-control px-3 text-[15px] font-bold transition-colors',
+        'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-basil',
+        on ? 'bg-pj-basil text-pj-dough' : 'bg-pj-dough-deep text-pj-basil'
     );
 
 const selectClass =

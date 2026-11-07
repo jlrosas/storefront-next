@@ -50,11 +50,9 @@ const PREFERENCE_ROUTE = '/resource/pj-fulfillment';
 
 const modeClass = (on: boolean) =>
     cn(
-        'min-h-[52px] cursor-pointer rounded-[14px] border-2 px-3 text-base font-bold',
-        'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green',
-        on
-            ? 'border-pj-green bg-pj-surface text-pj-green-dark shadow-pj-card'
-            : 'border-transparent bg-transparent text-pj-gray'
+        'min-h-[52px] cursor-pointer rounded-pj-control px-3 text-base font-bold transition-colors',
+        'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-basil',
+        on ? 'bg-pj-basil text-pj-dough' : 'bg-transparent text-pj-basil'
     );
 
 /**
@@ -81,7 +79,7 @@ function PanelBody({ open, options }: { open: boolean; options: RequireFulfillme
     const { fulfillment: saved } = useFulfillment();
     const setSelectedStoreInfo = useStoreLocator((s) => s.setSelectedStoreInfo);
     const storeFetcher = useFetcher();
-    const [mode, setMode] = useState<Mode>(saved?.mode ?? 'pickup');
+    const [mode, setMode] = useState<Mode>(options.initialMode ?? saved?.mode ?? 'pickup');
     const [when, setWhen] = useState<WhenValue>(ASAP);
     const [pickupStore, setPickupStore] = useState<PjStore | null>(null);
     const [delivery, setDelivery] = useState<DeliveryValue | null>(null);
@@ -112,6 +110,15 @@ function PanelBody({ open, options }: { open: boolean; options: RequireFulfillme
     const needsSlot = when.mode === 'later' && !when.slot;
     const ready =
         mode === 'pickup' ? pickupStore !== null && !closedAsap && !needsSlot : delivery !== null && !needsSlot;
+
+    const summaryTime =
+        when.mode === 'later' && when.slot
+            ? `${dayOf(when.slot) === 'today' ? t('when.today') : t('when.tomorrow')} ${formatTime(when.slot)}`.toLowerCase()
+            : activeStore
+              ? mode === 'pickup'
+                  ? `${pickupMinutes(activeStore)} min`
+                  : deliveryWindowText(activeStore)
+              : '';
 
     const onProgram = useCallback(() => setWhen((prev) => ({ ...prev, mode: 'later', slot: null })), []);
 
@@ -169,6 +176,8 @@ function PanelBody({ open, options }: { open: boolean; options: RequireFulfillme
         options.onConfirmed?.(fulfillment);
     };
 
+    // Resumen a la derecha del botón: «El Bosque · 15 min» o «Providencia · 35–45 min».
+    const summary = ready && activeStore ? `${shortStoreName(activeStore.name)} · ${summaryTime}` : null;
     const confirmLabel =
         options.confirmLabel ??
         (options.onConfirmed || options.amountLabel ? t('panel.confirmAndAdd') : t('panel.confirm'));
@@ -187,9 +196,13 @@ function PanelBody({ open, options }: { open: boolean; options: RequireFulfillme
                     onClick={confirm}
                     disabled={!ready}
                     data-testid="pj-fulfillment-confirm"
-                    className="flex h-[52px] w-full cursor-pointer items-center justify-between rounded-full bg-pj-green px-5 text-base font-bold text-pj-cream focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green disabled:cursor-not-allowed disabled:opacity-50">
-                    <span>{confirmLabel}</span>
-                    {options.amountLabel && <span>{options.amountLabel}</span>}
+                    className="flex h-[52px] w-full cursor-pointer items-center justify-between gap-3 rounded-full bg-pj-basil px-5 text-base font-bold text-pj-dough transition-transform focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-basil active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-50">
+                    <span className="shrink-0">{confirmLabel}</span>
+                    {(options.amountLabel ?? summary) && (
+                        <span className="min-w-0 truncate text-sm font-semibold" data-testid="pj-fulfillment-summary">
+                            {options.amountLabel ?? summary}
+                        </span>
+                    )}
                 </button>
             }>
             <div className="flex flex-col gap-3.5 pb-2">
@@ -219,7 +232,7 @@ function PanelBody({ open, options }: { open: boolean; options: RequireFulfillme
                         onSelect={setPickupStore}
                         asap={when.mode === 'asap'}
                         onProgram={onProgram}
-                        savedStoreId={saved?.mode === 'pickup' ? saved.storeId : undefined}
+                        savedStoreId={options.initialStoreId ?? (saved?.mode === 'pickup' ? saved.storeId : undefined)}
                     />
                 ) : (
                     <DeliverySection
