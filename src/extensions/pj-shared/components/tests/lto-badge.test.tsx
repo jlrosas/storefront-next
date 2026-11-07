@@ -60,4 +60,10 @@ describe('LtoBadge (VIS-02)', () => {
         render(<LtoBadge label="50 % de descuento">-50%</LtoBadge>);
         expect(screen.getByRole('img', { name: '50 % de descuento' })).toBeInTheDocument();
     });
+
+    it('el interlineado (≈ 0,8) va en el span interno y sobrevive a una clase de tamaño (VIS-06, N9)', () => {
+        render(<LtoBadge className="text-[21px]">{'LA MÁS\nPEDIDA'}</LtoBadge>);
+        const inner = screen.getByTestId('pj-lto-badge').firstElementChild as HTMLElement;
+        expect(inner.className).toContain('leading-[0.8]');
+    });
 });
