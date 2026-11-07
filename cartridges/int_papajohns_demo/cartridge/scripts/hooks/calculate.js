@@ -106,6 +106,30 @@ exports.calculate = function (basket) {
  *
  * @param {object} basket The basket containing the elements to be computed
  */
+/**
+ * Precio unitario de un extra de pizza (`pjExtras_*` = `si`) según el tamaño de la pizza padre.
+ * Lee `c_pjExtraPrices` (JSON por tamaño) de la variante o de su maestro y `c_pjSize` de la variante.
+ * Devuelve null si no aplica (otra opción, sin datos), y entonces queda el precio del catálogo.
+ */
+function extraPriceBySize(optionLineItem) {
+    var optionId = optionLineItem.optionID || '';
+    if (optionId.indexOf('pjExtras_') !== 0 || optionLineItem.optionValueID !== 'si') return null;
+    var parent = optionLineItem.parent;
+    var product = parent && parent.product;
+    if (!product) return null;
+    var size = product.custom.pjSize;
+    var raw = product.custom.pjExtraPrices ||
+        (product.variant && product.masterProduct ? product.masterProduct.custom.pjExtraPrices : null);
+    if (!size || !raw) return null;
+    try {
+        var prices = JSON.parse(raw);
+        var value = prices[size];
+        return typeof value === 'number' ? value : null;
+    } catch (e) {
+        return null;
+    }
+}
+
 function calculateProductPrices (basket) {
     // get total quantities for all products contained in the basket
     var productQuantities = basket.getProductQuantities();
@@ -139,6 +163,11 @@ function calculateProductPrices (basket) {
             // the price is set to 0.0 by the promotion engine
             if (!productLineItem.bonusProductLineItem) {
                 productLineItem.updateOptionPrice();
+                // Extras de pizza: precio por tamaño desde c_pjExtraPrices de la pizza (Mediana $1.450, Familiar $1.940, XL $2.290).
+                var sizedExtra = extraPriceBySize(productLineItem);
+                if (sizedExtra !== null) {
+                    productLineItem.setPriceValue(sizedExtra * productLineItem.quantityValue);
+                }
             }
         // handle bundle line items, but only if they're not a bonus
         } else if (productLineItem.bundledProductLineItem) {
