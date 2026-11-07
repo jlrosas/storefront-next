@@ -18,6 +18,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { deliveryWindow, formatKm, isStoreClosed, shortStoreName } from './store-info';
 import {
     closeFulfillmentPanel,
+    openFulfillmentPanel,
     notifyFulfillmentChanged,
     PJ_FULFILLMENT_EVENTS,
     requestFromEventDetail,
@@ -109,5 +110,39 @@ describe('eventos de window', () => {
             amountLabel: '$16.900',
             confirmLabel: 'Confirmar y agregar',
         });
+    });
+});
+
+describe('openFulfillmentPanel con el panel ya abierto (TIE-05)', () => {
+    beforeEach(() => {
+        resetFulfillmentStore();
+    });
+
+    it('suma la nueva solicitud a la pendiente sin perder onConfirmed, motivo ni monto', () => {
+        const onConfirmed = vi.fn();
+        openFulfillmentPanel({ onConfirmed, reason: 'Para agregar tu Super Dúo.', amountLabel: '$22.590' });
+        openFulfillmentPanel({ initialMode: 'delivery' });
+        const panel = getFulfillmentState().panel;
+        expect(panel?.onConfirmed).toBe(onConfirmed);
+        expect(panel?.reason).toBe('Para agregar tu Super Dúo.');
+        expect(panel?.amountLabel).toBe('$22.590');
+        expect(panel?.initialMode).toBe('delivery');
+    });
+
+    it('si las dos traen callback, al confirmar se llaman ambos', () => {
+        const first = vi.fn();
+        const second = vi.fn();
+        openFulfillmentPanel({ onConfirmed: first });
+        openFulfillmentPanel({ onConfirmed: second });
+        getFulfillmentState().panel?.onConfirmed?.({ mode: 'pickup', storeId: 'pj-48', when: 'asap' });
+        expect(first).toHaveBeenCalledTimes(1);
+        expect(second).toHaveBeenCalledTimes(1);
+    });
+
+    it('cerrado, una apertura nueva parte de cero', () => {
+        openFulfillmentPanel({ onConfirmed: vi.fn() });
+        closeFulfillmentPanel(true);
+        openFulfillmentPanel({});
+        expect(getFulfillmentState().panel?.onConfirmed).toBeUndefined();
     });
 });

@@ -13,16 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import type { ReactElement } from 'react';
-import LocalesPage from '@/extensions/pj-store/components/locales-page';
-
 /**
- * StoreLocatorPage
- *
- * Standalone route that renders the Store Locator experience.
- *
- * @returns ReactElement
+ * PJ: la ruta vive en pj-store (título y página «Locales»). Se reexporta para que gane aunque este
+ * template siga registrado; si se borra (#48), la de pj-store queda sola.
  */
-export default function StoreLocatorPage(): ReactElement {
-    return <LocalesPage />; // PJ: partida con las tiendas reales (sin código postal)
-}
+// @sfdc-extension-line SFDC_EXT_PJ_STORE
+export { default, meta } from '@/extensions/pj-store/routes/_app.store-locator';

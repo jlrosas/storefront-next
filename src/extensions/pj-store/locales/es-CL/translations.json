@@ -14,7 +14,8 @@
         "pickup": "Retiro",
         "delivery": "Delivery",
         "confirm": "Confirmar",
-        "confirmAndAdd": "Confirmar y agregar"
+        "confirmAndAdd": "Confirmar y agregar",
+        "loading": "Cargando tiendas…"
     },
     "pickup": {
         "useLocation": "Usar mi ubicación",
@@ -74,6 +75,22 @@
         "delivery": "Pedir por delivery",
         "order": "Pedir en {{name}}",
         "schedule": "Programar en {{name}}",
-        "empty": "Todavía no llegamos ahí. Prueba otra comuna o retira en la tienda más cercana."
+        "empty": "Todavía no llegamos ahí. Prueba otra comuna o retira en la tienda más cercana.",
+        "metaTitle": "Locales | Papa Johns",
+        "yourStore": "Tu tienda",
+        "yourStoreBadge": "Tu tienda",
+        "nearestBadge": "La más cercana",
+        "near": "Cerca de ti",
+        "all": "Todas las tiendas",
+        "allCount_one": "{{count}} tienda más en Santiago",
+        "allCount_other": "{{count}} tiendas más en Santiago",
+        "minutes": "{{minutes}} min",
+        "choose": "Elegir",
+        "chooseAria": "Elegir {{name}}",
+        "scheduleShort": "Programar",
+        "mapLabel": "Mapa ilustrativo de Santiago con {{count}} tiendas Papa Johns",
+        "mapNote": "Mapa ilustrativo · {{count}} tiendas en Santiago",
+        "locateShort": "Mi ubicación",
+        "deliveryShort": "Delivery"
     }
 }

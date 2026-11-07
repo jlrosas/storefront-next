@@ -63,10 +63,18 @@ const modeClass = (on: boolean) =>
 export default function FulfillmentPanel(): ReactElement {
     const request = usePanelRequest();
     // Cada apertura parte de cero; al cerrar se conserva la última solicitud para la animación de salida.
-    const [session, setSession] = useState<{ id: number; options: RequireFulfillmentOptions }>({ id: 0, options: {} });
-    useEffect(() => {
-        if (request) setSession((prev) => ({ id: prev.id + 1, options: request }));
-    }, [request]);
+    // La sesión nace ya con la solicitud (nunca con opciones vacías: un «Confirmar» en ese primer
+    // render perdía el agregado pendiente, OFE-06) y solo se reinicia al pasar de cerrado a abierto;
+    // una solicitud que se suma con el panel abierto actualiza las opciones sin remontar.
+    const [session, setSession] = useState<{ id: number; options: RequireFulfillmentOptions }>(() => ({
+        id: 1,
+        options: request ?? {},
+    }));
+    const [previous, setPrevious] = useState(request);
+    if (request !== previous) {
+        setPrevious(request);
+        if (request) setSession((prev) => ({ id: previous ? prev.id : prev.id + 1, options: request }));
+    }
     return (
         <GoogleCloudApiProvider>
             <PanelBody key={session.id} open={request !== null} options={session.options} />
@@ -110,6 +118,8 @@ function PanelBody({ open, options }: { open: boolean; options: RequireFulfillme
     const activeStore = mode === 'pickup' ? pickupStore : (delivery?.assignment.store ?? null);
     const closedAsap = mode === 'pickup' && pickupStore !== null && isStoreClosed(pickupStore) && when.mode === 'asap';
     const needsSlot = when.mode === 'later' && !when.slot;
+    // Mientras llegan las tiendas no hay nada que confirmar: el botón queda deshabilitado y lo dice.
+    const loadingStores = mode === 'pickup' && pickupStore === null;
     const ready =
         mode === 'pickup' ? pickupStore !== null && !closedAsap && !needsSlot : delivery !== null && !needsSlot;
 
@@ -179,7 +189,11 @@ function PanelBody({ open, options }: { open: boolean; options: RequireFulfillme
     };
 
     // Resumen a la derecha del botón: «El Bosque · 15 min» o «Providencia · 35–45 min».
-    const summary = ready && activeStore ? `${shortStoreName(activeStore.name)} · ${summaryTime}` : null;
+    const summary = loadingStores
+        ? t('panel.loading')
+        : ready && activeStore
+          ? `${shortStoreName(activeStore.name)} · ${summaryTime}`
+          : null;
     const confirmLabel =
         options.confirmLabel ??
         (options.onConfirmed || options.amountLabel ? t('panel.confirmAndAdd') : t('panel.confirm'));
@@ -197,12 +211,13 @@ function PanelBody({ open, options }: { open: boolean; options: RequireFulfillme
                     type="button"
                     onClick={confirm}
                     disabled={!ready}
+                    aria-busy={loadingStores || undefined}
                     data-testid="pj-fulfillment-confirm"
                     className="flex h-[52px] w-full cursor-pointer items-center justify-between gap-3 rounded-full bg-pj-basil px-5 text-base font-bold text-pj-dough transition-transform focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-basil active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-50">
                     <span className="shrink-0">{confirmLabel}</span>
-                    {(options.amountLabel ?? summary) && (
+                    {((loadingStores ? null : options.amountLabel) ?? summary) && (
                         <span className="min-w-0 truncate text-sm font-semibold" data-testid="pj-fulfillment-summary">
-                            {options.amountLabel ?? summary}
+                            {(loadingStores ? null : options.amountLabel) ?? summary}
                         </span>
                     )}
                 </button>
