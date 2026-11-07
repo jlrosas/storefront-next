@@ -72,12 +72,15 @@ export function hasStore(): boolean {
     return Boolean(readFulfillmentFromDocument()?.storeId);
 }
 
-/** Resuelve `true` cuando se puede agregar y `false` si el cliente cerró el panel sin elegir. */
-export function ensureStore(): Promise<boolean> {
+/**
+ * Resuelve `true` cuando se puede agregar y `false` si el cliente cerró el panel sin elegir. Con
+ * `productName`, el panel de TIE dice «Para agregar tu {productName}.» (05 regla 1).
+ */
+export function ensureStore(productName?: string): Promise<boolean> {
     if (hasStore()) return Promise.resolve(true);
     const event = new CustomEvent(PJ_MENU_EVENTS.storeRequired, {
         cancelable: true,
-        detail: { source: 'pj-menu', reason: 'add-to-cart' },
+        detail: { source: 'pj-menu', reason: 'add-to-cart', ...(productName ? { productName } : {}) },
     });
     window.dispatchEvent(event);
     if (!event.defaultPrevented) return Promise.resolve(true);

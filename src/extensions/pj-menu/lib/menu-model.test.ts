@@ -16,7 +16,7 @@
 /** @sfdc-extension-file SFDC_EXT_PJ_OFFERS */
 import { describe, expect, it } from 'vitest';
 import { toMenuProduct, optionLabel } from './menu-mapper';
-import { groupPriceRange, matchesFilter, priceAtSize, rankOffers, type MenuProduct } from './menu-model';
+import { groupPriceRange, matchesFilter, offerHref, priceAtSize, rankOffers, type MenuProduct } from './menu-model';
 
 const variant = (id: string, size: string, crust: string, price: number) => ({
     productId: id,
@@ -78,5 +78,16 @@ describe('menu-model', () => {
     it('limpia las etiquetas de las opciones', () => {
         expect(optionLabel('Coca-Cola 350 ml', 'Coca-Cola')).toBe('350 ml');
         expect(optionLabel('1.5 L', 'Coca-Cola')).toBe('1,5 L');
+    });
+});
+
+describe('offerHref (AUD-compra P0-2)', () => {
+    it('Super Dúo y Super Trío van a su constructor', () => {
+        expect(offerHref('cb-super-duo')).toBe('/promos/super-duo');
+        expect(offerHref('cb-super-trio')).toBe('/promos/super-trio');
+    });
+    it('los demás combos van a su ficha', () => {
+        expect(offerHref('cb-pizza-del-mes')).toBe('/p/cb-pizza-del-mes');
+        expect(offerHref('cb-papa-flash')).toBe('/p/cb-papa-flash');
     });
 });

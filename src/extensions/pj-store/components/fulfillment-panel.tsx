@@ -196,7 +196,7 @@ function PanelBody({ open, options }: { open: boolean; options: RequireFulfillme
           : null;
     const confirmLabel =
         options.confirmLabel ??
-        (options.onConfirmed || options.amountLabel ? t('panel.confirmAndAdd') : t('panel.confirm'));
+        (options.onConfirmed || options.amountLabel || options.adding ? t('panel.confirmAndAdd') : t('panel.confirm'));
 
     return (
         <BottomSheet
@@ -205,7 +205,7 @@ function PanelBody({ open, options }: { open: boolean; options: RequireFulfillme
                 if (!next) closeFulfillmentPanel(false);
             }}
             title={t('panel.title')}
-            description={`${options.reason ?? t('panel.reasonDefault')} ${t('panel.remember')}`}
+            description={`${options.reason ?? t(options.adding ? 'panel.reasonAdd' : 'panel.reasonDefault')} ${t('panel.remember')}`}
             footer={
                 <button
                     type="button"

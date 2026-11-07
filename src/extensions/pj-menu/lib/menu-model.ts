@@ -204,6 +204,20 @@ const OFFER_BY_MOMENT: Record<DemoMoment, string> = {
 export const FEATURED_OFFERS = 4;
 
 /**
+ * Combos que se arman en su constructor (S-D3): Super Dúo y Super Trío nunca abren la ficha, porque
+ * ahí se agregarían sin elegir las pizzas (AUD-compra P0-2).
+ */
+export const COMBO_BUILDER_HREFS: Readonly<Record<string, string>> = {
+    'cb-super-duo': '/promos/super-duo',
+    'cb-super-trio': '/promos/super-trio',
+};
+
+/** Destino de una tarjeta de oferta: su constructor si lo tiene; si no, la ficha del combo. */
+export function offerHref(id: string): string {
+    return COMBO_BUILDER_HREFS[id] ?? `/p/${id}`;
+}
+
+/**
  * Las ofertas más relevantes según el perfil y el momento (R4.1, R4.2): primero la del momento,
  * luego el orden del perfil y, si faltan, las de mayor descuento. Solo ofertas vigentes.
  */

@@ -9,6 +9,7 @@
     "panel": {
         "title": "¿Cómo lo quieres?",
         "reasonDefault": "Elige cómo quieres tu pedido.",
+        "reasonAdd": "Para agregar a tu pedido.",
         "remember": "Lo recordamos para la próxima.",
         "modeLabel": "Modalidad",
         "pickup": "Retiro",
