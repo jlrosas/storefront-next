@@ -44,11 +44,11 @@
         "prompt": "Elige la pizza {{n}}",
         "promptChange": "Elige la pizza {{n}} (o cámbiala)",
         "optionsLabel": "Especialidades",
-        "missing_one": "Elige {{count}} pizza más",
-        "missing_other": "Elige {{count}} pizzas más",
+        "missing_one": "Te falta {{count}} pizza",
+        "missing_other": "Te faltan {{count}} pizzas",
         "add": "Agregar {{name}}",
         "adding": "Agregando…",
-        "waitingStore": "Elige tu tienda para agregar",
+        "waitingStore": "Elige dónde la retiras o te la llevamos",
         "addError": "No pudimos agregar el combo. Intenta de nuevo.",
         "included": "Ya viene en tu combo",
         "priceNow": "Precio del combo",
@@ -56,7 +56,8 @@
         "mode": {
             "both": "Retiro o delivery",
             "pickup": "Solo retiro"
-        }
+        },
+        "viewOrder": "Ver mi pedido"
     },
     "unavailable": {
         "title": "Esta oferta es solo para retiro.",
@@ -70,10 +71,10 @@
         "addDisabled": "Elige retiro para agregarla"
     },
     "expired": {
-        "title": "Esta oferta terminó el {{date}}",
-        "badge": "Terminó el {{date}}",
-        "body": "La oferta {{name}} fue hasta el {{date}}. Estas ofertas están vigentes hoy y se parecen a la que buscabas:",
-        "bodyNoName": "Estas ofertas están vigentes hoy y se parecen a la que buscabas:",
+        "title": "Llegaste tarde a {{name}}",
+        "badge": "Se fue el {{date}}",
+        "body": "{{name}} se fue el {{date}}. Pero el horno sigue prendido:",
+        "bodyNoName": "Esta oferta ya se fue. Pero el horno sigue prendido:",
         "listLabel": "Ofertas vigentes",
         "seeAll": "Ver todas las ofertas",
         "menu": "Ir al menú",
@@ -82,7 +83,7 @@
             "cb-super-duo": "Para compartir",
             "cb-papa-combo-postre": "Con postre"
         },
-        "titleNoDate": "Esta oferta ya terminó"
+        "titleNoDate": "Llegaste tarde a esta oferta"
     },
     "toast": {
         "added": "¡Agregado! {{name}}",
