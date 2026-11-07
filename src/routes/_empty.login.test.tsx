@@ -34,6 +34,12 @@ import { getAppOrigin } from '@/lib/origin';
 import { buildUrlFromContext, stripMrtBasePathFromUrl } from '@/lib/url.server';
 import { getConfig } from '@salesforce/storefront-next-runtime/config';
 
+// @sfdc-extension-block-start SFDC_EXT_PJ_SHARED
+// Papa Johns (CTA) apaga «Continuar con Apple / Google» con PJ_FEATURES. Estas pruebas cubren los botones
+// sociales del template, así que corren con la función encendida.
+vi.mock('@/extensions/pj-shared/lib/features', () => ({ PJ_FEATURES: { wishlist: true, socialLogin: true } }));
+// @sfdc-extension-block-end SFDC_EXT_PJ_SHARED
+
 vi.mock('@/middlewares/auth.server', () => ({
     getAuth: vi.fn(),
     authorizePasswordless: vi.fn(),

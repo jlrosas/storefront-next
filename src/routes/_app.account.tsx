@@ -40,6 +40,14 @@ import { getLogger } from '@/lib/logger.server';
 import { getAuth as getAuthServer } from '@/middlewares/auth.server';
 // @sfdc-extension-line SFDC_EXT_PJ_SHARED
 import { PJ_FEATURES } from '@/extensions/pj-shared/lib/features';
+// @sfdc-extension-block-start SFDC_EXT_PJ_ACCOUNT
+import { pjDemoContext } from '@/extensions/pj-shared/lib/profile';
+import { loadPjMember } from '@/extensions/pj-account/lib/member.server';
+import { isPjAccountHome } from '@/extensions/pj-account/lib/account-home-path';
+import type { PjMember } from '@/extensions/pj-account/lib/member';
+import { AccountHomeGate } from '@/extensions/pj-account/components/account-home-gate';
+import { useIsPjAccountHome } from '@/extensions/pj-account/hooks/use-is-pj-account-home';
+// @sfdc-extension-block-end SFDC_EXT_PJ_ACCOUNT
 
 /**
  * Type definition for the account page loader data
@@ -47,6 +55,7 @@ import { PJ_FEATURES } from '@/extensions/pj-shared/lib/features';
 type AccountPageData = {
     customer: Promise<ShopperCustomers.schemas['Customer']>;
     subscriptions: Promise<ShopperConsents.schemas['ConsentSubscriptionResponse'] | null>;
+    pjMember?: Promise<PjMember | null> /** @sfdc-extension-line SFDC_EXT_PJ_ACCOUNT */;
 };
 
 /**
@@ -63,6 +72,18 @@ export function loader(args: Route.LoaderArgs) {
     const session = getAuthServer(args.context);
     const { accessToken, accessTokenExpiry, userType, customerId } = session;
 
+    // @sfdc-extension-block-start SFDC_EXT_PJ_ACCOUNT
+    // CTA: «Cuenta» con un perfil de demo (`?perfil=`) y sin sesión muestra la portada de marca, no el login.
+    // Las páginas hijas (pedidos, direcciones…) siguen pidiendo sesión.
+    const pjRegistered = Boolean(accessToken) && userType === 'registered' && Boolean(customerId);
+    if (!pjRegistered && args.context.get(pjDemoContext)?.forcedProfile && isPjAccountHome(args.request.url)) {
+        return {
+            customer: Promise.resolve(null),
+            subscriptions: Promise.resolve(null),
+            pjMember: loadPjMember(args.context),
+        } as unknown as AccountPageData;
+    }
+    // @sfdc-extension-block-end SFDC_EXT_PJ_ACCOUNT
     if (
         !accessToken ||
         typeof accessTokenExpiry !== 'number' ||
@@ -77,6 +98,10 @@ export function loader(args: Route.LoaderArgs) {
     const customer = getCustomer(args.context, customerId);
     const subscriptions = getSubscriptions(args.context);
 
+    // @sfdc-extension-block-start SFDC_EXT_PJ_ACCOUNT
+    // Con sesión, en todas las páginas: la navegación del cliente a `/account` no vuelve a correr este loader.
+    return { customer, subscriptions, pjMember: loadPjMember(args.context) };
+    // @sfdc-extension-block-end SFDC_EXT_PJ_ACCOUNT
     return { customer, subscriptions };
 }
 
@@ -132,6 +157,7 @@ export default function AccountPage({ loaderData }: { loaderData: AccountPageDat
 
     // Stable context reference so child Await does not get new promise refs on every layout re-render.
     const outletContext = useMemo(() => ({ customer, subscriptions }), [customer, subscriptions]);
+    const pjAccountHome = useIsPjAccountHome(); /** @sfdc-extension-line SFDC_EXT_PJ_ACCOUNT */
 
     const navigationItems: AccountNavItemData[] = useMemo(
         () => [
@@ -203,6 +229,11 @@ export default function AccountPage({ loaderData }: { loaderData: AccountPageDat
         [t]
     );
 
+    // @sfdc-extension-block-start SFDC_EXT_PJ_ACCOUNT
+    if (pjAccountHome && loaderData.pjMember) {
+        return <AccountHomeGate member={loaderData.pjMember} />;
+    }
+    // @sfdc-extension-block-end SFDC_EXT_PJ_ACCOUNT
     return (
         <div className="min-h-screen bg-background" data-testid="account-layout">
             <div className="w-full section-container py-8">

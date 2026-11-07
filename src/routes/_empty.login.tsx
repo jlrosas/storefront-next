@@ -29,6 +29,8 @@ import PasswordlessLoginForm from '@/components/login/passwordless-login-form';
 import OtpModal from '@/components/login/otp-modal';
 import { LoginGuestWishlistBanner } from '@/components/login/login-guest-wishlist-banner';
 import { SocialLoginButtons } from '@/components/buttons/social-login-buttons';
+// @sfdc-extension-line SFDC_EXT_PJ_SHARED
+import { PJ_FEATURES } from '@/extensions/pj-shared/lib/features';
 import { isAbsoluteURL, getSafeReturnUrl } from '@/lib/utils';
 import { getAppOrigin } from '@/lib/origin';
 import { getConfig, useConfig } from '@salesforce/storefront-next-runtime/config';
@@ -645,7 +647,15 @@ export default function Login({ loaderData }: { loaderData: LoginLoaderData }): 
 
                     <Card className="p-8">
                         {renderForm()}
-                        {isSocialLoginEnabled ? <SocialLoginButtons /> : null}
+                        {/* @sfdc-extension-block-start SFDC_EXT_PJ_SHARED */}
+                        {PJ_FEATURES.socialLogin && (
+                            <>
+                                {/* @sfdc-extension-block-end SFDC_EXT_PJ_SHARED */}
+                                {isSocialLoginEnabled ? <SocialLoginButtons /> : null}
+                                {/* @sfdc-extension-block-start SFDC_EXT_PJ_SHARED */}
+                            </>
+                        )}
+                        {/* @sfdc-extension-block-end SFDC_EXT_PJ_SHARED */}
                     </Card>
                 </div>
             </div>

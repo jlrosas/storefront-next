@@ -149,8 +149,8 @@
         "featuredContent": "Contenido destacado de {{category}}"
     },
     "login": {
-        "title": "Inicia sesión en tu cuenta",
-        "subtitle": "Ingresa tus credenciales para acceder a tu cuenta",
+        "title": "Ingresa a tu cuenta",
+        "subtitle": "Tus Papa Puntos y tus pedidos te están esperando.",
         "continueWithProvider": "Continuar con {{provider}}",
         "checkEmailTitle": "Revisa tu correo electrónico",
         "checkEmailDescription": "Hemos enviado un enlace de inicio de sesión a {{email}}. Haz clic en el enlace para iniciar sesión.",
@@ -162,12 +162,12 @@
         "loginWithoutPassword": "Iniciar sesión sin contraseña",
         "loginWithPassword": "Iniciar sesión con contraseña",
         "forgotPassword": "¿Olvidaste tu contraseña?",
-        "noAccountQuestion": "¿No tiene una cuenta? ",
-        "signUp": "Únete",
-        "signingIn": "Iniciando sesión...",
+        "noAccountQuestion": "¿No tienes cuenta? ",
+        "signUp": "Créala aquí",
+        "signingIn": "Ingresando…",
         "sendLoginLink": "Enviar enlace de inicio de sesión",
         "sendingLoginLink": "Enviando enlace de inicio de sesión...",
-        "signIn": "Registrarse",
+        "signIn": "Ingresar",
         "socialOrContinueWith": "O continuar con",
         "otpCodeLabel": "Código de verificación",
         "redirecting": "Iniciando sesión...",
@@ -182,7 +182,11 @@
         "resendCodeError": "No se pudo volver a enviar el código. Intenta de nuevo.",
         "verify": "Verificar",
         "passkeyError": "No pudimos iniciar tu sesión con esa llave de acceso. Inténtalo nuevamente o usa otro método para iniciar sesión.",
-        "verificationFailed": "No pudimos verificar tu información. Inténtalo nuevamente."
+        "verificationFailed": "No pudimos verificar tu información. Inténtalo nuevamente.",
+        "meta": {
+            "title": "Ingresar",
+            "description": "Ingresa a tu cuenta de Papa Johns Chile para ver tus Papa Puntos y repetir tus pedidos."
+        }
     },
     "resetPassword": {
         "title": "Restablecer contraseña",

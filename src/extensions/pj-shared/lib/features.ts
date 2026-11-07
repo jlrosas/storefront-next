@@ -19,7 +19,12 @@
  * Funciones del template que el diseño de Papa Johns no tiene (INT-02 · criterio 4).
  * Se apagan aquí y los componentes del core las consultan con marcadores `@sfdc-extension-*`.
  */
-export const PJ_FEATURES: Readonly<{ wishlist: boolean }> = {
+export const PJ_FEATURES: Readonly<{ wishlist: boolean; socialLogin: boolean }> = {
     /** Lista de deseos: corazón en tarjetas, ficha, carrito, menú de cuenta y encabezado. */
     wishlist: false,
+    /**
+     * «Continuar con Apple / Google» en el ingreso (CTA): el diseño 11 ingresa con correo o celular y código.
+     * Se apaga aquí porque el ambiente publicado (MRT) tiene `socialLogin.enabled` encendido.
+     */
+    socialLogin: false,
 };
