@@ -56,6 +56,8 @@ export interface RequireFulfillmentOptions {
     initialMode?: 'pickup' | 'delivery';
     /** Tienda que abre marcada en retiro (la que se tocó en Locales). */
     initialStoreId?: string;
+    /** `scheduled` abre con «Programar» preseleccionado (tienda cerrada en Locales). */
+    initialWhen?: 'asap' | 'scheduled';
 }
 
 interface State {
