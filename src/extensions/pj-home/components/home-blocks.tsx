@@ -14,34 +14,74 @@
  * limitations under the License.
  */
 /** @sfdc-extension-file SFDC_EXT_PJ_HOME */
-import type { ReactElement } from 'react';
+import { useState, type ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from '@/components/link';
+import { cn } from '@/lib/utils';
 import { FoodImage } from '@/extensions/pj-shared/components/food-image';
+import { BagIcon } from '@/extensions/pj-shared/components/icons';
+import { cropForPhoto } from '@/extensions/pj-shared/lib/photo';
 import { PJ_ROUTES } from '@/extensions/pj-shared/lib/routes';
 import { formatClp, formatCount, formatRating } from '@/extensions/pj-shared/lib/format';
+import { FoodCard } from './food-card';
 import { imageSrcSet, scaledImage } from '../lib/images';
 import { MIN_WEEKLY_ORDERS } from '../lib/constants';
-import type { PopularVM } from '../lib/types';
+import type { IntentVM, PopularVM } from '../lib/types';
 
-/** Saludo de Valentina: una línea bajo el encabezado (HOM-01 criterio 2). */
+/**
+ * Saludo de Valentina (HOM-01 criterio 2, HOM-07): franja de 44 px en Punchy Garlic con texto Rich Sauce
+ * (7,7:1) y un ícono Basil. Reemplaza la franja lima, que el playbook trata como acento (UX-1 C2).
+ */
 export function GreetingStrip({ strong, rest }: { strong?: string; rest?: string }): ReactElement {
     const { t } = useTranslation('extPjHome');
     return (
         <p
             data-testid="pj-home-greeting"
-            className="bg-pj-lime-soft px-4 py-2.5 text-sm text-pj-green-dark lg:py-2.5 lg:text-center lg:text-[15px]">
-            <strong>{strong ?? t('greeting.returningStrong')}</strong> {rest ?? t('greeting.returningRest')}
+            className="surface-garlic flex min-h-11 items-center gap-2.5 px-4 py-2 text-sm leading-snug lg:justify-center lg:text-[15px]">
+            <svg
+                aria-hidden="true"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="shrink-0 text-pj-basil">
+                <path d="M12 2.5l2.6 6 6.4.6-4.9 4.3 1.5 6.3L12 16.4l-5.6 3.3 1.5-6.3L3 9.1l6.4-.6z" />
+            </svg>
+            <span>
+                <strong className="font-extrabold">{strong ?? t('greeting.returningStrong')}</strong>{' '}
+                {rest ?? t('greeting.returningRest')}
+            </span>
         </p>
     );
 }
 
-const START_TILE =
-    'flex flex-col rounded-[14px] bg-pj-green px-3.5 py-3 text-pj-surface hover:bg-pj-green-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green lg:rounded-2xl lg:px-5 lg:py-[18px]';
-const START_TILE_LIGHT =
-    'hidden flex-col rounded-2xl border-[1.5px] border-pj-sand bg-pj-surface px-5 py-[18px] text-pj-ink hover:border-pj-green lg:flex';
+function DeliveryIcon(): ReactElement {
+    return (
+        <svg
+            aria-hidden="true"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round">
+            <circle cx="6" cy="17" r="2.5" />
+            <circle cx="18" cy="17" r="2.5" />
+            <path d="M8.5 17h7M3.5 17V9h8v8M11.5 11h4l3 3.5V17" />
+        </svg>
+    );
+}
 
-/** «Empieza tu pedido»: Delivery o Retiro con tiempos (en escritorio, suma Menú y Promos). */
+const START_TILE =
+    'group flex min-h-16 items-center gap-3 rounded-pj-card bg-pj-surface px-3 py-3 text-pj-ink shadow-pj-card transition-transform hover:shadow-pj-float focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-basil active:scale-[0.97] lg:rounded-2xl lg:px-5 lg:py-[18px]';
+const START_ICON = 'grid size-11 shrink-0 place-items-center rounded-full bg-pj-garlic text-pj-basil lg:size-12';
+
+/**
+ * «Empieza tu pedido»: Delivery o Retiro con ícono y tiempo, en tarjetas blancas (dejan de pesar lo
+ * mismo que el CTA del hero, UX-1 C3). En escritorio suma Menú y Promos.
+ */
 export function StartOrder(): ReactElement {
     const { t } = useTranslation('extPjHome');
     return (
@@ -49,86 +89,178 @@ export function StartOrder(): ReactElement {
             aria-label={t('start.title')}
             className="grid grid-cols-2 gap-2.5 px-4 lg:grid-cols-4 lg:gap-3 lg:px-0">
             <Link to={`${PJ_ROUTES.stores}?modo=delivery`} className={START_TILE}>
-                <span className="text-[17px] font-bold lg:text-xl">{t('start.delivery')}</span>
-                <span className="text-[13px] text-pj-surface/85 lg:text-sm">{t('start.deliveryTime')}</span>
+                <span className={START_ICON}>
+                    <DeliveryIcon />
+                </span>
+                <span className="flex min-w-0 flex-col">
+                    <span className="text-base font-bold text-pj-basil lg:text-xl">{t('start.delivery')}</span>
+                    <span className="pj-small text-pj-gray-strong">{t('start.deliveryTime')}</span>
+                </span>
             </Link>
             <Link to={`${PJ_ROUTES.stores}?modo=pickup`} className={START_TILE}>
-                <span className="text-[17px] font-bold lg:text-xl">{t('start.pickup')}</span>
-                <span className="text-[13px] text-pj-surface/85 lg:text-sm">{t('start.pickupTime')}</span>
+                <span className={START_ICON}>
+                    <BagIcon size={22} />
+                </span>
+                <span className="flex min-w-0 flex-col">
+                    <span className="text-base font-bold text-pj-basil lg:text-xl">{t('start.pickup')}</span>
+                    <span className="pj-small text-pj-gray-strong">{t('start.pickupTime')}</span>
+                </span>
             </Link>
-            <Link to={PJ_ROUTES.menu} className={START_TILE_LIGHT}>
-                <span className="text-xl font-bold">{t('start.menu')}</span>
-                <span className="text-sm text-pj-gray">{t('start.menuHint')}</span>
+            <Link to={PJ_ROUTES.menu} className={cn(START_TILE, 'hidden lg:flex')}>
+                <span className="flex flex-col">
+                    <span className="text-xl font-bold text-pj-basil">{t('start.menu')}</span>
+                    <span className="pj-small text-pj-gray-strong">{t('start.menuHint')}</span>
+                </span>
             </Link>
-            <Link to={PJ_ROUTES.promos} className={START_TILE_LIGHT}>
-                <span className="text-xl font-bold">{t('start.promos')}</span>
-                <span className="text-sm text-pj-gray">{t('start.promosHint')}</span>
+            <Link to={PJ_ROUTES.promos} className={cn(START_TILE, 'hidden lg:flex')}>
+                <span className="flex flex-col">
+                    <span className="text-xl font-bold text-pj-basil">{t('start.promos')}</span>
+                    <span className="pj-small text-pj-gray-strong">{t('start.promosHint')}</span>
+                </span>
             </Link>
         </section>
     );
 }
 
+/** Carril horizontal en móvil y grilla en escritorio. */
+const RAIL =
+    'flex snap-x gap-3 overflow-x-auto px-4 pt-1 pb-3 [scrollbar-width:none] lg:grid lg:grid-cols-3 lg:gap-5 lg:overflow-visible lg:px-0';
+
 export interface PopularProps {
     items: PopularVM[];
     /** Título editable: «Las más pedidas» (Valentina) o «Más vendidos» (Diego). */
     title?: string;
-    /** `compact` es la variante de Diego (sin insignia ni texto sensorial en móvil). */
+    /** `compact` es la variante de Diego (sin descripción). */
     compact?: boolean;
     /** Variante «Más vendidos» (Diego). */
     best?: boolean;
 }
 
-/** «Las más pedidas»: ★, insignias y «N esta semana» solo si N ≥ 100 (HOM-01 criterio 4). */
+/**
+ * «Las más pedidas» (HOM-01 criterio 4, HOM-07 P2-11): tarjetas con foto macro, sello «LA MÁS PEDIDA»,
+ * «+» que agrega la Familiar tradicional en un toque, ★ y «N esta semana» solo si N ≥ 100.
+ */
 export function Popular({ items, title, compact = false, best = false }: PopularProps): ReactElement | null {
     const { t } = useTranslation('extPjHome');
     if (items.length === 0) return null;
     return (
-        <section className="flex flex-col gap-2.5 lg:gap-4">
-            <h2 className="px-4 font-heading text-[26px] font-extrabold uppercase lg:px-0 lg:text-4xl">
-                {title ?? t(best ? 'popular.titleBestSellers' : 'popular.title')}
-            </h2>
-            <ul className="flex snap-x gap-3 overflow-x-auto px-4 pb-1 lg:grid lg:grid-cols-3 lg:gap-5 lg:overflow-visible lg:px-0">
-                {items.map((p) => (
-                    <li key={p.id} className="w-[230px] shrink-0 snap-start lg:w-auto">
-                        <Link
-                            to={p.href}
-                            className="flex h-full flex-col overflow-hidden rounded-2xl bg-pj-surface text-pj-ink shadow-pj-card focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green lg:rounded-[20px]">
-                            <FoodImage
-                                src={scaledImage(p.image, 600)}
-                                srcSet={imageSrcSet(p.image, [320, 480, 640, 900])}
-                                sizes="(min-width: 1024px) 33vw, 230px"
-                                alt={p.imageAlt}
-                                bleed
-                                crop="macro"
-                                className={compact ? 'h-[140px] lg:h-[230px]' : 'h-[170px] lg:h-[260px]'}
+        <section className="flex flex-col gap-3 lg:gap-5">
+            <h2 className="pj-h2 px-4 lg:px-0">{title ?? t(best ? 'popular.titleBestSellers' : 'popular.title')}</h2>
+            <ul className={RAIL}>
+                {items.map((p) => {
+                    const family = p.familyPrice !== null ? formatClp(p.familyPrice) : null;
+                    return (
+                        <li key={p.id} className="w-[240px] shrink-0 snap-start lg:w-auto">
+                            <FoodCard
+                                name={p.name}
+                                href={p.href}
+                                image={p.image}
+                                imageAlt={p.imageAlt}
+                                badge={p.badge ? t(`popular.badge.${p.badge}`, { defaultValue: p.badge }) : null}
+                                meta={
+                                    p.rating !== null ? (
+                                        <>
+                                            <span className="text-pj-star">★ {formatRating(p.rating)}</span>
+                                            {p.weekly !== null && p.weekly >= MIN_WEEKLY_ORDERS && (
+                                                <span className="font-normal">
+                                                    {' '}
+                                                    · {t('popular.weekly', { n: formatCount(p.weekly) })}
+                                                </span>
+                                            )}
+                                        </>
+                                    ) : null
+                                }
+                                description={compact ? null : p.sensory}
+                                price={family ? `${t('popular.family')} ${family}` : null}
+                                quickAdd={
+                                    p.quickAddId && family
+                                        ? {
+                                              productId: p.quickAddId,
+                                              label: t('popular.quickAdd', { name: p.name, price: family }),
+                                              toastName: `${p.name} ${t('popular.family')}`,
+                                          }
+                                        : null
+                                }
+                                plusLabel={t('popular.view', { name: p.name })}
                             />
-                            <span className="flex flex-col gap-0.5 px-3 pt-2.5 pb-3 lg:gap-1.5 lg:px-[18px] lg:pt-4 lg:pb-5">
-                                {p.badge && !compact && (
-                                    <span className="self-start rounded-full bg-pj-sand px-2 py-0.5 text-xs font-bold text-pj-ink">
-                                        {t(`popular.badge.${p.badge}`, { defaultValue: p.badge })}
-                                    </span>
-                                )}
-                                <span className="text-[17px] font-bold lg:text-[22px]">{p.name}</span>
-                                {p.rating !== null && (
-                                    <span className="text-[13px] text-pj-gray-strong lg:text-sm">
-                                        <span className="font-bold text-pj-star">★ {formatRating(p.rating)}</span>
-                                        {p.weekly !== null && p.weekly >= MIN_WEEKLY_ORDERS && (
-                                            <> · {t('popular.weekly', { n: formatCount(p.weekly) })}</>
-                                        )}
-                                    </span>
-                                )}
-                                {p.sensory && !compact && (
-                                    <span className="text-[13px] leading-snug text-pj-gray-strong lg:text-[15px]">
-                                        {p.sensory}
-                                    </span>
-                                )}
-                                {p.familyPrice !== null && (
-                                    <span className="mt-0.5 text-sm lg:text-base">
-                                        {t('popular.family')} <strong>{formatClp(p.familyPrice)}</strong>
-                                    </span>
-                                )}
-                            </span>
-                        </Link>
+                        </li>
+                    );
+                })}
+            </ul>
+        </section>
+    );
+}
+
+/**
+ * Carrusel por intención de Valentina (HOM-07, UX-1 P2-13, patrón Uber Eats/Rappi): «Para compartir» y
+ * «Menos de $15 mil». Las pestañas son botones con `aria-pressed`, con un solo patrón de seleccionado
+ * (Basil + Dough).
+ */
+export function IntentRail({ intents, title }: { intents: IntentVM[]; title?: string }): ReactElement | null {
+    const { t } = useTranslation('extPjHome');
+    const [picked, setPicked] = useState<IntentVM['id'] | null>(null);
+    if (intents.length === 0) return null;
+    const current = intents.find((i) => i.id === picked) ?? intents[0];
+    return (
+        <section
+            aria-label={title ?? t('intent.title')}
+            className="flex flex-col gap-3 lg:gap-5"
+            data-testid="pj-home-intents">
+            <div className="flex flex-col gap-3 px-4 lg:flex-row lg:items-end lg:justify-between lg:px-0">
+                <h2 className="pj-h2">{title ?? t('intent.title')}</h2>
+                <div role="group" aria-label={t('intent.choose')} className="flex gap-2 overflow-x-auto">
+                    {intents.map((i) => {
+                        const on = i.id === current.id;
+                        return (
+                            <button
+                                key={i.id}
+                                type="button"
+                                aria-pressed={on}
+                                onClick={() => setPicked(i.id)}
+                                className={cn(
+                                    'min-h-11 shrink-0 cursor-pointer rounded-full px-4 text-sm font-bold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-basil lg:px-5 lg:text-[15px]',
+                                    on
+                                        ? 'bg-pj-basil text-pj-dough'
+                                        : 'bg-pj-dough-deep text-pj-basil hover:bg-pj-garlic'
+                                )}>
+                                {t(`intent.${i.id}`)}
+                            </button>
+                        );
+                    })}
+                </div>
+            </div>
+            <ul key={current.id} className={cn(RAIL, 'lg:grid-cols-4')}>
+                {current.items.map((p) => (
+                    <li key={p.id} className="w-[200px] shrink-0 snap-start lg:w-auto">
+                        <FoodCard
+                            name={p.name}
+                            href={p.href}
+                            image={p.image}
+                            imageAlt={p.imageAlt}
+                            crop={cropForPhoto(p.image ?? p.id, 'macro')}
+                            sizes="(min-width: 1024px) 23vw, 200px"
+                            meta={
+                                p.rating !== null ? (
+                                    <span className="text-pj-star">★ {formatRating(p.rating)}</span>
+                                ) : null
+                            }
+                            price={
+                                <>
+                                    {p.from && (
+                                        <span className="text-sm font-normal text-pj-gray-strong">
+                                            {t('intent.from')}{' '}
+                                        </span>
+                                    )}
+                                    {formatClp(p.price)}
+                                    {p.listPrice && (
+                                        <span className="ml-1.5 text-sm font-normal text-pj-gray line-through">
+                                            {formatClp(p.listPrice)}
+                                        </span>
+                                    )}
+                                </>
+                            }
+                            plusLabel={t('popular.view', { name: p.name })}
+                        />
                     </li>
                 ))}
             </ul>
@@ -136,33 +268,61 @@ export function Popular({ items, title, compact = false, best = false }: Popular
     );
 }
 
-/** Beneficios del canal propio (sin «sin crear cuenta», S-D13). */
-export function Benefits({ title, items: custom }: { title?: string; items?: string[] }): ReactElement {
+/**
+ * Beneficios del canal propio (sin «sin crear cuenta», S-D13), en Rich Sauce (HOM-07, UX-1 §3.1): ya no
+ * queda verde sobre el footer verde. Títulos y checks en lima (9,0:1); a la derecha, la foto napocherry
+ * (P2-17) en recorte macro.
+ */
+export function Benefits({
+    title,
+    items: custom,
+    photo,
+}: {
+    title?: string;
+    items?: string[];
+    /** Foto destacada (`napocherry`); sin ella, el bloque va solo con texto. */
+    photo?: string | null;
+}): ReactElement {
     const { t } = useTranslation('extPjHome');
     const items = custom?.length ? custom : [t('benefits.points'), t('benefits.tracking'), t('benefits.payment')];
     return (
-        <section className="mx-4 flex flex-col gap-2.5 rounded-[18px] bg-pj-green-dark px-[18px] py-4 text-pj-surface lg:mx-0 lg:flex-row lg:flex-wrap lg:items-center lg:gap-x-10 lg:gap-y-5 lg:rounded-3xl lg:px-9 lg:py-8">
-            <h2 className="font-heading text-[22px] leading-none font-extrabold text-pj-lime uppercase lg:min-w-[260px] lg:flex-1 lg:text-4xl">
-                {title ?? t('benefits.title')}
-            </h2>
-            {items.map((text) => (
-                <p key={text} className="flex items-start gap-2.5 text-sm lg:min-w-[220px] lg:flex-1 lg:text-base">
-                    <svg
-                        aria-hidden="true"
-                        width="18"
-                        height="18"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2.6"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="mt-px shrink-0 text-pj-lime">
-                        <path d="m5 12.5 4.5 4.5L19 7.5" />
-                    </svg>
-                    <span>{text}</span>
-                </p>
-            ))}
+        <section
+            data-testid="pj-home-benefits"
+            className="surface-sauce mx-4 flex flex-col overflow-hidden rounded-pj-section lg:mx-0 lg:flex-row">
+            {photo && (
+                <FoodImage
+                    src={scaledImage(photo, 800)}
+                    srcSet={imageSrcSet(photo, [480, 800, 1200])}
+                    sizes="(min-width: 1024px) 40vw, 100vw"
+                    alt={t('benefits.photoAlt')}
+                    bleed
+                    crop="none"
+                    className="h-[180px] shrink-0 lg:order-2 lg:h-auto lg:min-h-[300px] lg:w-[42%]"
+                />
+            )}
+            <div className="flex flex-1 flex-col gap-3 px-5 py-6 lg:justify-center lg:gap-4 lg:px-10 lg:py-10">
+                <h2 className="pj-h2 [--pj-heading-color:var(--pj-pepperoncini)]">{title ?? t('benefits.title')}</h2>
+                <ul className="flex flex-col gap-2.5 lg:gap-3">
+                    {items.map((text) => (
+                        <li key={text} className="flex items-start gap-2.5 text-base">
+                            <svg
+                                aria-hidden="true"
+                                width="20"
+                                height="20"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2.8"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                className="mt-0.5 shrink-0 text-pj-pepperoncini">
+                                <path d="m5 12.5 4.5 4.5L19 7.5" />
+                            </svg>
+                            <span>{text}</span>
+                        </li>
+                    ))}
+                </ul>
+            </div>
         </section>
     );
 }

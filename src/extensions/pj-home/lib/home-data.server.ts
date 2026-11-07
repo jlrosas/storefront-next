@@ -23,7 +23,10 @@ import { siteContext, type SiteContext } from '@salesforce/storefront-next-runti
 import type { DemoMoment, DemoProfile } from '@/extensions/pj-shared/lib/profile';
 import {
     AD_OFFER_ID,
+    BUDGET_IDS,
+    BUDGET_MAX_CLP,
     DEFAULT_MOMENT,
+    FEATURE_PHOTOS,
     FOR_THREE_IDS,
     MOMENT_OFFER_IDS,
     OCCASION_IDS,
@@ -31,11 +34,25 @@ import {
     REDEEM_ID,
     REDEEM_POINTS,
     SEASON_OFFER_ID,
+    SHARE_IDS,
     HOME_ROUTES,
+    offerHref,
     productHref,
 } from './constants';
 import { SOFIA_SAMPLE } from './mock';
-import type { FavoriteVM, HomeData, LastOrderVM, MomentVM, OccasionVM, OfferVM, PopularVM, SofiaVM } from './types';
+import type {
+    FavoriteVM,
+    FeaturePhotosVM,
+    HomeData,
+    IntentVM,
+    LastOrderVM,
+    MomentVM,
+    OccasionVM,
+    OfferVM,
+    PopularVM,
+    RailItemVM,
+    SofiaVM,
+} from './types';
 
 type Product = ShopperProducts.schemas['Product'] & Record<string, unknown>;
 type Context = LoaderFunctionArgs['context'];
@@ -46,6 +63,8 @@ const EMPTY: Omit<HomeData, 'profile' | 'moment'> = {
     popular: [],
     occasions: [],
     moments: [],
+    intents: [],
+    features: { cheesePull: null, napocherry: null },
     sofia: null,
 };
 
@@ -59,13 +78,16 @@ function num(value: unknown): number | null {
     return typeof value === 'number' && Number.isFinite(value) ? value : null;
 }
 
+type Variant = { productId?: string; price?: number; orderable?: boolean; variationValues?: Record<string, string> };
+
+function familyVariantOf(product: Product): Variant | undefined {
+    const variants = (product.variants ?? []) as Variant[];
+    return variants.find((v) => v.variationValues?.pjSize === 'family' && v.variationValues?.pjCrust === 'traditional');
+}
+
 /** Precio de la variante Familiar tradicional de una pizza; si no hay, el del producto. */
 export function familyPriceOf(product: Product): number | null {
-    const variants = (product.variants ?? []) as { price?: number; variationValues?: Record<string, string> }[];
-    const family = variants.find(
-        (v) => v.variationValues?.pjSize === 'family' && v.variationValues?.pjCrust === 'traditional'
-    );
-    return num(family?.price) ?? num(product.price);
+    return num(familyVariantOf(product)?.price) ?? num(product.price);
 }
 
 export function offerOf(product: Product | undefined, href: string): OfferVM | null {
@@ -98,7 +120,51 @@ export function popularOf(product: Product | undefined): PopularVM | null {
         image: imageOf(product),
         imageAlt: product.name ?? product.id,
         href: productHref(product.id),
+        quickAddId: (() => {
+            const family = familyVariantOf(product);
+            return family?.productId && family.orderable !== false && num(family.price) !== null
+                ? family.productId
+                : null;
+        })(),
     };
+}
+
+/** Tarjeta de carrusel por intención: precio «desde» si el producto tiene varios tamaños. */
+export function railItemOf(product: Product | undefined): RailItemVM | null {
+    const offer = offerOf(product, offerHref(product?.id ?? ''));
+    if (!product || !offer) return null;
+    return {
+        id: offer.id,
+        name: offer.name,
+        image: offer.image,
+        imageAlt: offer.imageAlt,
+        price: offer.price,
+        listPrice: offer.listPrice,
+        from: ((product.variants ?? []) as Variant[]).length > 1,
+        rating: num(product.c_pjRating),
+        href: offer.href,
+    };
+}
+
+/** Carruseles por intención de Valentina (P2-13): solo los que tienen al menos 2 productos. */
+export function intentsOf(get: (id: string) => Product | undefined): IntentVM[] {
+    const items = (ids: readonly string[]) =>
+        ids.map((id) => railItemOf(get(id))).filter((p): p is RailItemVM => p !== null && Boolean(p.image));
+    const intents: IntentVM[] = [
+        { id: 'compartir', items: items(SHARE_IDS) },
+        { id: 'economico', items: items(BUDGET_IDS).filter((p) => p.price < BUDGET_MAX_CLP) },
+    ];
+    return intents.filter((i) => i.items.length >= 2);
+}
+
+/**
+ * Fotos destacadas (P2-17): misma carpeta estática que otra foto del catálogo, con el archivo cambiado.
+ * Sin foto base (Commerce no respondió), no hay fotos destacadas y los bloques las omiten.
+ */
+export function featurePhotosOf(base: string | undefined): FeaturePhotosVM {
+    const path = base?.split('?')[0] ?? '';
+    const swap = (file: string) => (/\/images\/[^/]+$/.test(path) ? path.replace(/[^/]+$/, file) : null);
+    return { cheesePull: swap(FEATURE_PHOTOS.cheesePull), napocherry: swap(FEATURE_PHOTOS.napocherry) };
 }
 
 async function fetchProducts(context: Context, ids: string[]): Promise<Map<string, Product>> {
@@ -262,6 +328,16 @@ function sampleSofia(products: Map<string, Product>): SofiaVM {
     };
 }
 
+function momentsOf(get: (id: string) => Product | undefined): MomentVM[] {
+    const momentHref = (m: DemoMoment) => (m === 'partido' ? HOME_ROUTES.superTrio : productHref(MOMENT_OFFER_IDS[m]));
+    return (Object.keys(MOMENT_OFFER_IDS) as DemoMoment[])
+        .map((id): MomentVM | null => {
+            const offer = offerOf(get(MOMENT_OFFER_IDS[id]), momentHref(id));
+            return offer && { id, offer };
+        })
+        .filter((m): m is MomentVM => m !== null);
+}
+
 export interface HomeDataArgs {
     context: Context;
     profile: DemoProfile;
@@ -275,6 +351,7 @@ export interface HomeDataArgs {
 export async function loadHomeData({ context, profile, moment }: HomeDataArgs): Promise<HomeData> {
     const shownMoment = moment ?? DEFAULT_MOMENT;
     const ids: string[] = [SEASON_OFFER_ID, ...POPULAR_IDS];
+    if (profile === 'valentina') ids.push(...SHARE_IDS, ...BUDGET_IDS, ...Object.values(MOMENT_OFFER_IDS));
     if (profile === 'diego') {
         ids.push(AD_OFFER_ID, ...Object.values(OCCASION_IDS), ...FOR_THREE_IDS, ...Object.values(MOMENT_OFFER_IDS));
     }
@@ -284,9 +361,19 @@ export async function loadHomeData({ context, profile, moment }: HomeDataArgs): 
 
     const season = offerOf(get(SEASON_OFFER_ID), productHref(SEASON_OFFER_ID));
     const popular = POPULAR_IDS.map((id) => popularOf(get(id))).filter((p): p is PopularVM => p !== null);
+    const features = featurePhotosOf(popular[0]?.image || season?.image);
 
     if (profile === 'valentina') {
-        return { ...EMPTY, profile, moment: shownMoment, hero: season, popular };
+        return {
+            ...EMPTY,
+            profile,
+            moment: shownMoment,
+            hero: season,
+            popular,
+            moments: momentsOf(get),
+            intents: intentsOf(get),
+            features,
+        };
     }
 
     if (profile === 'diego') {
@@ -326,15 +413,16 @@ export async function loadHomeData({ context, profile, moment }: HomeDataArgs): 
             occ('para-4', OCCASION_IDS['para-4'], HOME_ROUTES.superDuo),
             occ('para-6', OCCASION_IDS['para-6'], HOME_ROUTES.superTrio),
         ].filter((o): o is OccasionVM => o !== null);
-        const momentHref = (m: DemoMoment) =>
-            m === 'partido' ? HOME_ROUTES.superTrio : productHref(MOMENT_OFFER_IDS[m]);
-        const moments = (Object.keys(MOMENT_OFFER_IDS) as DemoMoment[])
-            .map((id): MomentVM | null => {
-                const offer = offerOf(get(MOMENT_OFFER_IDS[id]), momentHref(id));
-                return offer && { id, offer };
-            })
-            .filter((m): m is MomentVM => m !== null);
-        return { ...EMPTY, profile, moment: shownMoment, hero, popular, occasions, moments };
+        return {
+            ...EMPTY,
+            profile,
+            moment: shownMoment,
+            hero,
+            popular,
+            occasions,
+            moments: momentsOf(get),
+            features,
+        };
     }
 
     const live = await loadSofia(context, products);
@@ -343,6 +431,7 @@ export async function loadHomeData({ context, profile, moment }: HomeDataArgs): 
         profile,
         moment: shownMoment,
         month: season,
+        features,
         sofia: live ?? sampleSofia(products),
     };
 }

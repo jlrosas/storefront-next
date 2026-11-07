@@ -153,8 +153,11 @@ describe('Home de Papa Johns', () => {
         ).toBeInTheDocument();
         expect(screen.getAllByText('$10.990').length).toBeGreaterThan(0);
         expect(screen.getAllByText(/Antes desde \$21\.900/).length).toBeGreaterThan(0);
-        expect(screen.getByRole('link', { name: 'Lo quiero' })).toHaveAttribute('href', '/p/cb-pizza-del-mes');
-        expect(screen.getByText('Hola de nuevo.')).toBeInTheDocument();
+        expect(screen.getByRole('link', { name: 'Lo quiero · $10.990' })).toHaveAttribute(
+            'href',
+            '/p/cb-pizza-del-mes'
+        );
+        expect(screen.getByText('¡Volviste!')).toBeInTheDocument();
     });
 
     test('«N esta semana» solo si N ≥ 100', () => {
@@ -166,7 +169,7 @@ describe('Home de Papa Johns', () => {
     test('los beneficios no prometen «sin crear cuenta» (S-D13)', () => {
         renderHome();
         expect(screen.queryByText(/sin crear cuenta/i)).not.toBeInTheDocument();
-        expect(screen.getByText('Sigues tu pedido en vivo')).toBeInTheDocument();
+        expect(screen.getByText('Ves tu pizza salir del horno')).toBeInTheDocument();
     });
 
     test('Diego: la oferta del anuncio y «Para 3» como botón que agrega las tres líneas', () => {
@@ -206,7 +209,10 @@ describe('Home de Papa Johns', () => {
         };
         renderHome({ home: diego, profile: 'diego' });
         expect(screen.getByRole('heading', { level: 1, name: 'Super Dúo' })).toBeInTheDocument();
-        expect(screen.getByRole('link', { name: 'Armar mi Super Dúo' })).toHaveAttribute('href', '/promos/super-duo');
+        expect(screen.getByRole('link', { name: /^Armar mi Super Dúo · \$/ })).toHaveAttribute(
+            'href',
+            '/promos/super-duo'
+        );
         expect(screen.getByRole('button', { name: /Para 3/ })).toBeInTheDocument();
         expect(screen.getByRole('link', { name: /Para 4/ })).toHaveAttribute('href', '/promos/super-duo');
         expect(screen.getByRole('link', { name: /Para ver el partido/ })).toHaveAttribute('href', '/promos/super-trio');
@@ -245,7 +251,7 @@ describe('Home de Papa Johns', () => {
             0
         );
         expect(screen.getByRole('button', { name: /Repetir pedido/ })).toHaveTextContent('$23.890');
-        expect(screen.getByText(/Ya puedes canjear una Super Pepperoni mediana/)).toBeInTheDocument();
+        expect(screen.getByText('Super Pepperoni mediana')).toBeInTheDocument();
     });
 
     describe('loader', () => {

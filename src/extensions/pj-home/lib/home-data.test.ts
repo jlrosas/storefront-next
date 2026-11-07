@@ -20,7 +20,7 @@ vi.mock('@/lib/api-clients.server', () => ({ createApiClients: vi.fn() }));
 vi.mock('@/middlewares/auth.server', () => ({ getAuth: vi.fn() }));
 vi.mock('@/lib/logger.server', () => ({ getLogger: vi.fn(() => ({ warn: vi.fn() })) }));
 
-import { familyPriceOf, offerOf, popularOf, visibleFor } from './home-data.server';
+import { familyPriceOf, featurePhotosOf, intentsOf, offerOf, popularOf, visibleFor } from './home-data.server';
 
 const combo = {
     id: 'cb-pizza-del-mes',
@@ -74,5 +74,67 @@ describe('datos de la Home', () => {
         expect(visibleFor('all', 'sofia')).toBe(true);
         expect(visibleFor('diego', 'diego')).toBe(true);
         expect(visibleFor('diego', 'valentina')).toBe(false);
+    });
+
+    test('el «+» agrega la variante Familiar tradicional en un toque (HOM-07)', () => {
+        const pizza = {
+            id: 'pz-pollo-bbq',
+            name: 'Pollo BBQ',
+            price: 5900,
+            variants: [
+                {
+                    productId: 'pz-pollo-bbq-medium-thin',
+                    price: 9900,
+                    variationValues: { pjSize: 'medium', pjCrust: 'thin' },
+                },
+                {
+                    productId: 'pz-pollo-bbq-family-traditional',
+                    price: 16900,
+                    orderable: true,
+                    variationValues: { pjSize: 'family', pjCrust: 'traditional' },
+                },
+            ],
+        } as never;
+        expect(popularOf(pizza)?.quickAddId).toBe('pz-pollo-bbq-family-traditional');
+        expect(popularOf({ id: 'cb-x', name: 'Combo', price: 9900 } as never)?.quickAddId).toBeNull();
+    });
+
+    test('carruseles por intención: «Menos de $15 mil» solo bajo el tope y con al menos 2 productos', () => {
+        const product = (id: string, price: number, variants = 0) =>
+            ({
+                id,
+                name: id,
+                price,
+                variants: Array.from({ length: variants }, (_, i) => ({ productId: `${id}-${i}` })),
+                imageGroups: [{ viewType: 'large', images: [{ link: `https://x.test/images/${id}.jpg` }] }],
+            }) as never;
+        const catalog = new Map<string, never>([
+            ['cb-super-duo', product('cb-super-duo', 22590)],
+            ['cb-super-trio', product('cb-super-trio', 31990)],
+            ['cb-papa-flash', product('cb-papa-flash', 5490)],
+            ['cb-pizza-del-mes', product('cb-pizza-del-mes', 10990)],
+            ['pz-napolitana', product('pz-napolitana', 15900, 4)],
+        ]);
+        const intents = intentsOf((id) => catalog.get(id));
+        expect(intents.map((i) => i.id)).toEqual(['compartir', 'economico']);
+        const shared = intents[0].items;
+        expect(shared.map((i) => i.href)).toEqual(['/promos/super-duo', '/promos/super-trio']);
+        const budget = intents[1].items;
+        expect(budget.map((i) => i.id)).toEqual(['cb-papa-flash', 'cb-pizza-del-mes']);
+        expect(budget.every((i) => i.price < 15000)).toBe(true);
+        expect(intentsOf(() => undefined)).toEqual([]);
+    });
+
+    test('fotos destacadas: misma carpeta del catálogo con el archivo del queso estirándose y napocherry (P2-17)', () => {
+        const base =
+            'https://zyfj-001.dx.commercecloud.salesforce.com/on/demandware.static/-/Sites-papajohns-cl-master/default/dw1a2b/images/pollo-bbq.jpg?sw=600';
+        expect(featurePhotosOf(base)).toEqual({
+            cheesePull:
+                'https://zyfj-001.dx.commercecloud.salesforce.com/on/demandware.static/-/Sites-papajohns-cl-master/default/dw1a2b/images/napolitana-familiar-1788736846.jpg',
+            napocherry:
+                'https://zyfj-001.dx.commercecloud.salesforce.com/on/demandware.static/-/Sites-papajohns-cl-master/default/dw1a2b/images/napocherry-1730987248.jpg',
+        });
+        expect(featurePhotosOf(undefined)).toEqual({ cheesePull: null, napocherry: null });
+        expect(featurePhotosOf('https://x.test/otra/foto.jpg').cheesePull).toBeNull();
     });
 });

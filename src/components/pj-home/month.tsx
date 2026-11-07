@@ -68,7 +68,7 @@ export default function PjMonth({ data }: Props) {
     if (!data?.visible) return null;
     return (
         <div className="mx-4 lg:mx-auto lg:max-w-[1240px] lg:px-6">
-            <MonthCard offer={data.data?.month ?? null} />
+            <MonthCard offer={data.data?.month ?? null} moment={data.data?.moment} />
         </div>
     );
 }

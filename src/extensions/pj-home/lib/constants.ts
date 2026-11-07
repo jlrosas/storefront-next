@@ -62,3 +62,33 @@ export const REDEEM_ID = 'pz-super-pepperoni';
 export const REDEEM_POINTS = 260;
 /** Opinión mínima de «N esta semana» para mostrarse (HOM-01 criterio 4). */
 export const MIN_WEEKLY_ORDERS = 100;
+
+/** Carrusel por intención de Valentina (HOM-07, UX-1 P2-13): «Para compartir». Destino: constructor o ficha. */
+export const SHARE_IDS = ['cb-super-duo', 'cb-super-trio', 'cb-papa-combo-palitos', 'cb-papa-combo-postre'] as const;
+/** «Menos de $15 mil»: candidatos; se muestran los que el catálogo tenga bajo el tope. */
+export const BUDGET_IDS = [
+    'cb-papa-flash',
+    'cb-pizza-del-mes',
+    'pz-napolitana-cherry',
+    'pz-napolitana',
+    'pz-hawaiana',
+    'pz-vegetariana',
+] as const;
+export const BUDGET_MAX_CLP = 15000;
+
+/**
+ * Fotos destacadas del catálogo (UX-1 §3.2 y P2-17): están en la misma carpeta estática del catálogo que el
+ * resto de las fotos. `cheesePull`: una mano levanta una porción con el queso estirándose. `napocherry`:
+ * primer plano con pepperoncini (el moodboard del playbook, p. 97).
+ */
+export const FEATURE_PHOTOS = {
+    cheesePull: 'napolitana-familiar-1788736846.jpg',
+    napocherry: 'napocherry-1730987248.jpg',
+} as const;
+
+/** Destino de un producto de la Home: los combos armables van a su constructor. */
+export function offerHref(id: string): string {
+    if (id === AD_OFFER_ID) return HOME_ROUTES.superDuo;
+    if (id === 'cb-super-trio') return HOME_ROUTES.superTrio;
+    return productHref(id);
+}
