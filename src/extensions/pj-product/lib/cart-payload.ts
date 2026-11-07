@@ -48,6 +48,15 @@ export type PjCartPayload =
           /** Especialidad de cada mitad, en orden. */
           halves: string[];
       }
+    | {
+          /** Combo con ficha (PRO-08): el `cb-*` con sus elecciones y, en la misma llamada, los complementos. */
+          intent: 'combo';
+          productId: string;
+          quantity: number;
+          /** `c_pjComboChoices` (CONTRATO §7): `[{ slot, product }]`. */
+          choices: Array<{ slot: string; product: string }>;
+          sides?: string[];
+      }
     | { intent: 'add'; items: Array<{ productId: string; quantity: number }> }
     | { intent: 'remove'; itemIds: string[] }
     | { intent: 'swap'; itemId: string; productId: string };
@@ -108,6 +117,22 @@ export function parsePjCartPayload(raw: unknown): PjCartPayload | null {
                 productId: p.productId,
                 quantity: p.quantity,
                 halves,
+            };
+        }
+        case 'combo': {
+            if (!isString(p.productId) || !p.productId.startsWith('cb-') || !isQuantity(p.quantity)) return null;
+            if (!Array.isArray(p.choices)) return null;
+            const choices = p.choices.filter(
+                (c): c is { slot: string; product: string } =>
+                    !!c && isString((c as { slot?: unknown }).slot) && isString((c as { product?: unknown }).product)
+            );
+            if (choices.length !== p.choices.length || choices.length === 0) return null;
+            return {
+                intent: 'combo',
+                productId: p.productId,
+                quantity: p.quantity,
+                choices: choices.map(({ slot, product }) => ({ slot, product })),
+                sides: Array.isArray(p.sides) ? p.sides.filter(isString) : [],
             };
         }
         case 'add': {
