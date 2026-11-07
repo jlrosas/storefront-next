@@ -237,7 +237,8 @@ function PizzaSheetBody({
         const pizzaId = ids[0] ?? null;
         const toast = () =>
             showAddedToast({
-                productName: `${config.name} ${size?.label ?? ''}`.trim(),
+                productName: config.name,
+                detail: summary,
                 points: pointsFor(linesTotal(result.basket, ids), 0, me?.doublePoints ?? false),
                 onUndo: ids.length ? () => void submit({ intent: 'remove', itemIds: ids }) : undefined,
             });

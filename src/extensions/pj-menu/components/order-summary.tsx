@@ -21,6 +21,10 @@ import { UITarget } from '@/targets/ui-target';
 import { useBasket } from '@/providers/basket';
 import { formatClp, PointsBadge, pointsFor } from '@/extensions/pj-shared';
 import { HAZLO_COMBO_SIDE, PJ_COMBO_OFFER_EVENT, type PjComboOfferDetail } from '@/extensions/pj-product';
+// CAR-01: la línea se lee igual que en /cart (configuración, extras y total con opciones, #34 y #37).
+import { CompactLine } from '@/extensions/pj-cart/components/compact-line';
+import { useLineSummaries } from '@/extensions/pj-cart/hooks/use-line-summaries';
+import type { SummaryLineItem } from '@/extensions/pj-cart/lib/line-summary';
 
 const HazloComboCompact = lazy(() => import('@/extensions/pj-product/components/hazlo-combo-compact'));
 
@@ -36,6 +40,7 @@ function DefaultSummary({ offer, dismiss }: PanelOffer): ReactElement {
     const basket = useBasket();
     const items = basket?.productItems ?? [];
     const total = basket?.productTotal ?? basket?.productSubTotal ?? 0;
+    const { summaries } = useLineSummaries(items as SummaryLineItem[]);
     // Si la línea ya no está (se deshizo el agregado), la oferta se va con ella.
     const anchored = offer && items.some((item) => item.itemId === offer.itemId) ? offer : null;
     if (items.length === 0) {
@@ -44,15 +49,9 @@ function DefaultSummary({ offer, dismiss }: PanelOffer): ReactElement {
     return (
         <>
             <ul className="m-0 flex list-none flex-col gap-2 p-0" data-testid="pj-menu-order-lines">
-                {items.map((item) => (
+                {items.map((item, index) => (
                     <li key={item.itemId} className="flex flex-col gap-2 border-b border-pj-sand pb-2 text-sm">
-                        <span className="flex justify-between gap-2">
-                            <span className="min-w-0">
-                                <strong>{t('order.line', { count: item.quantity ?? 1 })}</strong>{' '}
-                                {item.itemText ?? item.productName}
-                            </span>
-                            <span className="font-bold">{formatClp(item.price ?? 0)}</span>
-                        </span>
+                        {summaries[index] && <CompactLine summary={summaries[index]} />}
                         {anchored && anchored.itemId === item.itemId && (
                             <Suspense
                                 fallback={<div className="h-[190px] rounded-pj-card bg-pj-sand" aria-hidden="true" />}>

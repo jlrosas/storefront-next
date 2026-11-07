@@ -60,6 +60,11 @@ import { useTranslation } from 'react-i18next';
 import { fetchStoresForBasket } from '@/extensions/bopis/lib/api/stores.server';
 import PickupProvider from '@/extensions/bopis/context/pickup-context';
 // @sfdc-extension-block-end SFDC_EXT_BOPIS
+// @sfdc-extension-block-start SFDC_EXT_PJ_CART
+import { loadCartFulfillment, loadLineProducts } from '@/extensions/pj-cart/lib/cart.server';
+import type { PjCartData } from '@/extensions/pj-cart/lib/types';
+import PjCartPage from '@/extensions/pj-cart/components/pj-cart-page';
+// @sfdc-extension-block-end SFDC_EXT_PJ_CART
 
 /**
  * Page-level UI config read from the route handle. `hasTopPadding` adds extra
@@ -94,6 +99,8 @@ type CartPageData = {
         // @sfdc-extension-block-start SFDC_EXT_BOPIS
         storesByStoreId: Record<string, ShopperStores.schemas['Store']>;
         // @sfdc-extension-block-end SFDC_EXT_BOPIS
+        // @sfdc-extension-line SFDC_EXT_PJ_CART
+        pjCart?: PjCartData;
     }>;
     wishlistProductIdsPromise: Promise<string[]>;
     cartMayAlsoLikePromise: Promise<Recommendation>;
@@ -127,11 +134,19 @@ export const loader = ({ context, request }: Route.LoaderArgs): CartPageData => 
             promotions,
             // @sfdc-extension-line SFDC_EXT_BOPIS
             storesByStoreIdRaw,
+            // @sfdc-extension-line SFDC_EXT_PJ_CART
+            pjCart,
         ] = await Promise.all([
             fetchProductsInBasket(context, basket),
             fetchPromotionsForBasket(context, basket?.productItems ?? [], basket?.bonusDiscountLineItems ?? []),
             // @sfdc-extension-line SFDC_EXT_BOPIS
             fetchStoresForBasket(context, basket),
+            // @sfdc-extension-block-start SFDC_EXT_PJ_CART
+            // CAR-01: nombres y fotos de las líneas (mitades, combos) y la modalidad del chip (#34, #38).
+            Promise.all([loadLineProducts(context, basket), loadCartFulfillment(context, request)]).then(
+                ([lineProducts, fulfillment]): PjCartData => ({ lineProducts, fulfillment })
+            ),
+            // @sfdc-extension-block-end SFDC_EXT_PJ_CART
         ]);
 
         return {
@@ -143,6 +158,8 @@ export const loader = ({ context, request }: Route.LoaderArgs): CartPageData => 
             storesByStoreId:
                 storesByStoreIdRaw instanceof Map ? Object.fromEntries(storesByStoreIdRaw) : (storesByStoreIdRaw ?? {}),
             // @sfdc-extension-block-end SFDC_EXT_BOPIS
+            // @sfdc-extension-line SFDC_EXT_PJ_CART
+            pjCart,
         };
     })();
 
@@ -350,6 +367,19 @@ function CartBody({
     recommendationsSlot?: ReactElement;
     ruleBasedBonusProductsPromise: CartPageData['ruleBasedBonusProductsPromise'];
 }): ReactElement {
+    // @sfdc-extension-block-start SFDC_EXT_PJ_CART
+    // CAR-01: «Mi pedido» de Papa Johns reemplaza al carrito del template (sin «Es un regalo», logos ni
+    // «Despacho a domicilio» con retiro). Sin la extensión, sigue el del template.
+    if (basketData.pjCart) {
+        return (
+            <PjCartPage
+                basket={basketData.basket}
+                lineProducts={basketData.pjCart.lineProducts}
+                fulfillment={basketData.pjCart.fulfillment}
+            />
+        );
+    }
+    // @sfdc-extension-block-end SFDC_EXT_PJ_CART
     const content = (
         <CartContent
             basket={basketData.basket}
