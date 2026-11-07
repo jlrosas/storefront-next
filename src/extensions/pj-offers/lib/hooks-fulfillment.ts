@@ -50,10 +50,14 @@ export interface OpenFulfillmentDetail {
 }
 
 /** Pide abrir el panel de TIE. Devuelve `true` si alguien lo tomó (`preventDefault`). */
-export function requestFulfillmentPanel(target: Pick<EventTarget, 'dispatchEvent'> = window): boolean {
+export function requestFulfillmentPanel(
+    productName?: string,
+    target: Pick<EventTarget, 'dispatchEvent'> = window
+): boolean {
     const event = new CustomEvent<OpenFulfillmentDetail>(PJ_FULFILLMENT_EVENTS.open, {
         cancelable: true,
-        detail: { source: 'pj-offers', reason: 'add-to-cart' },
+        // Con el nombre, el panel dice «Para agregar tu Super Dúo.» (diseño 05, VAL-ENT H1).
+        detail: { source: 'pj-offers', reason: 'add-to-cart', ...(productName ? { productName } : {}) },
     });
     return !target.dispatchEvent(event);
 }

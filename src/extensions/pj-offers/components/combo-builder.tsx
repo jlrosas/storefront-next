@@ -175,7 +175,7 @@ export function ComboBuilder({
             return;
         }
         if (!complete || blocked || sending || waitingForStore) return;
-        if (!readFulfillmentFromDocument() && requestFulfillmentPanel()) {
+        if (!readFulfillmentFromDocument() && requestFulfillmentPanel(offer.name)) {
             setWaitingForStore(true);
             return;
         }
