@@ -23,6 +23,8 @@ import { updateBasketResource } from '@/middlewares/basket.server';
 import type { BasketActionResponse } from '@/routes/types/action-responses';
 import { HALVES_PARTS, serializeHalves } from '../lib/halves';
 import { parsePjCartPayload, type PjCartPayload } from '../lib/cart-payload';
+import { fetchProductById } from '@/lib/api/products.server';
+import { parseComboSlots, validateComboChoices } from '../lib/combo-pdp';
 
 type Basket = ShopperBasketsV2.schemas['Basket'];
 type ProductItem = ShopperBasketsV2.schemas['ProductItem'];
@@ -40,6 +42,8 @@ function newItemIds(before: Basket, after: Basket): string[] {
  *   complementos en la misma llamada.
  * - `halves`: `pz-mitades-<tamaño>-<masa>` con `c_pjHalves` y `c_pjParts`. El precio (promedio) lo pone el
  *   hook del carrito; esta acción no lo calcula.
+ * - `combo`: combo con ficha (PRO-08) con sus elecciones en `c_pjComboChoices` (texto JSON
+ *   `[{"slot","product"}]`, validadas contra `c_pjSlots`) y los complementos marcados, en una sola llamada.
  * - `add`, `remove`, `swap`: productos simples («Hazlo combo», «O agrega por separado», sabor de la bebida).
  *
  * Responde `{ success, basket, addedItemIds }`.
@@ -118,6 +122,37 @@ export const action = createBasketAction<PjCartPayload | null>(
                     });
                     result = added;
                 }
+                break;
+            }
+            case 'combo': {
+                const combo = (await fetchProductById(context, input.productId)) as { c_pjSlots?: unknown } | null;
+                const slots = parseComboSlots(combo?.c_pjSlots);
+                if (!combo || slots.length === 0 || !validateComboChoices(slots, input.choices)) {
+                    logger.warn('PjCart: combo choices do not match the slots', { productId: input.productId });
+                    return data<BasketActionResponse>(
+                        {
+                            success: false,
+                            error: createActionError({
+                                code: ErrorCode.INVALID_INPUT,
+                                message: 'Combo choices do not match the combo slots',
+                            }),
+                        },
+                        { status: 400 }
+                    );
+                }
+                const items: ProductItem[] = [
+                    {
+                        productId: input.productId,
+                        quantity: input.quantity,
+                        c_pjComboChoices: JSON.stringify(input.choices),
+                    } as ProductItem,
+                    ...(input.sides ?? []).map((productId) => ({ productId, quantity: 1 })),
+                ];
+                const { data: added } = await clients.shopperBasketsV2.addItemToBasket({
+                    params: { path },
+                    body: items,
+                });
+                result = added;
                 break;
             }
             case 'add': {
