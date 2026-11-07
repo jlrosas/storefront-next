@@ -103,8 +103,14 @@ describe('eventos de window', () => {
     });
 
     it('arma el motivo a partir del detail de pj:open-fulfillment', () => {
-        expect(requestFromEventDetail({ reason: 'add-to-cart' })).toEqual({});
+        // TIE-06: el código `add-to-cart` sin nombre ya no cae en «Elige cómo quieres tu pedido.».
+        expect(requestFromEventDetail({ reason: 'add-to-cart' })).toEqual({ adding: true });
         expect(requestFromEventDetail({ productName: 'Pollo BBQ' }).reason).toBe('Para agregar tu Pollo BBQ.');
+        expect(requestFromEventDetail({ source: 'pj-home', reason: 'add-to-cart', productName: 'Super Dúo' })).toEqual({
+            reason: 'Para agregar tu Super Dúo.',
+            adding: true,
+        });
+        expect(requestFromEventDetail({ productName: '  ' })).toEqual({});
         expect(requestFromEventDetail({ reason: 'Para agregar tu combo.' }).reason).toBe('Para agregar tu combo.');
         expect(requestFromEventDetail({ amountLabel: '$16.900', confirmLabel: 'Confirmar y agregar' })).toEqual({
             amountLabel: '$16.900',
