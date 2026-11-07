@@ -18,6 +18,7 @@ import { useState, type ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from '@/components/link';
 import { cn } from '@/lib/utils';
+import { AccentWord } from '@/extensions/pj-shared/components/accent-word';
 import { FoodImage } from '@/extensions/pj-shared/components/food-image';
 import { cropForPhoto } from '@/extensions/pj-shared/lib/photo';
 import { formatClp } from '@/extensions/pj-shared/lib/format';
@@ -58,7 +59,7 @@ function OccasionBody({ o }: { o: OccasionVM }): ReactElement {
                     {o.listPrice ? (
                         <span className="text-xs text-pj-gray line-through lg:text-sm">{formatClp(o.listPrice)}</span>
                     ) : isThree ? (
-                        <span className="basis-full text-xs text-pj-gray-strong lg:text-sm">
+                        <span className="basis-full text-xs text-pj-gray-strong lg:basis-auto lg:text-sm">
                             {t('serves.forThreeNote')}
                         </span>
                     ) : null}
@@ -127,13 +128,35 @@ export interface MomentsProps {
     title?: string;
     /** Foto destacada del bloque (P2-17: el queso estirándose). Sin ella, solo la tarjeta del momento. */
     photo?: string | null;
+    /**
+     * Diego (HOM-08, N8): la foto grande es la del combo del momento (el Super Trío del partido, el Papa
+     * Flash del almuerzo) y cambia con el chip; la tarjeta queda sin miniatura para no repetirla.
+     */
+    photoFromOffer?: boolean;
+}
+
+/** Título del momento con la palabra de acento (N16): «¿Hay algo que **celebrar**?». */
+function MomentTitle({ id }: { id: DemoMoment }): ReactElement {
+    const { t } = useTranslation('extPjHome');
+    const title = t(`moment.${id}.title`);
+    // Solo un momento lleva acento (N16: dos usos en todo el sitio, el otro es la destacada de Promos).
+    const accent = id === 'celebracion' ? t('moment.celebracion.titleAccent') : '';
+    const at = accent ? title.toLowerCase().indexOf(accent.toLowerCase()) : -1;
+    if (at < 0) return <>{title}</>;
+    return (
+        <>
+            {title.slice(0, at)}
+            <AccentWord>{title.slice(at, at + accent.length)}</AccentWord>
+            {title.slice(at + accent.length)}
+        </>
+    );
 }
 
 /**
  * «¿Y para este momento?» (S-D2, HOM-07): bloque en Fresh Basil con la foto del queso estirándose y la
  * tarjeta del momento, que cambia con la hora y se puede tocar. Va entre bloques crema: nunca junto a otro verde.
  */
-export function Moments({ items, initial, title, photo }: MomentsProps): ReactElement | null {
+export function Moments({ items, initial, title, photo, photoFromOffer = false }: MomentsProps): ReactElement | null {
     const { t } = useTranslation('extPjHome');
     const [picked, setPicked] = useState<DemoMoment | null>(null);
     // #10: «Lista en 15 min en El Bosque» repite la tienda y el tiempo del chip si hay retiro elegido.
@@ -145,23 +168,36 @@ export function Moments({ items, initial, title, photo }: MomentsProps): ReactEl
             ? fulfillment
             : { storeName: HOME_FULFILLMENT_DEFAULTS.storeName, time: HOME_FULFILLMENT_DEFAULTS.pickupTime };
     const { offer } = current;
+    const big = photoFromOffer ? offer.image : photo;
     return (
         <section
             aria-label={title ?? t('moment.title')}
             data-testid="pj-home-moments"
             className="surface-basil mx-4 flex flex-col overflow-hidden rounded-pj-section lg:mx-0 lg:flex-row">
-            {photo && (
-                <FoodImage
-                    src={scaledImage(photo, 900)}
-                    srcSet={imageSrcSet(photo, [480, 800, 1200])}
-                    sizes="(min-width: 1024px) 40vw, 100vw"
-                    alt={t('moment.photoAlt')}
-                    bleed
-                    crop="none"
-                    imgClassName="object-[70%_30%]"
-                    className="h-[200px] shrink-0 lg:h-auto lg:min-h-[380px] lg:w-[40%]"
-                />
-            )}
+            {big &&
+                (photoFromOffer ? (
+                    <FoodImage
+                        key={current.id}
+                        src={scaledImage(big, 900)}
+                        srcSet={imageSrcSet(big, [480, 800, 1200])}
+                        sizes="(min-width: 1024px) 40vw, 100vw"
+                        alt={offer.imageAlt}
+                        bleed
+                        crop={cropForPhoto(big, 'none')}
+                        className="h-[200px] shrink-0 animate-[pj-in_0.3s_ease-out_both] motion-reduce:animate-none lg:h-auto lg:min-h-[380px] lg:w-[40%]"
+                    />
+                ) : (
+                    <FoodImage
+                        src={scaledImage(big, 900)}
+                        srcSet={imageSrcSet(big, [480, 800, 1200])}
+                        sizes="(min-width: 1024px) 40vw, 100vw"
+                        alt={t('moment.photoAlt')}
+                        bleed
+                        crop="none"
+                        imgClassName="object-[70%_30%]"
+                        className="h-[200px] shrink-0 lg:h-auto lg:min-h-[380px] lg:w-[40%]"
+                    />
+                ))}
             <div className="flex min-w-0 flex-1 flex-col gap-4 px-4 py-5 lg:justify-center lg:gap-5 lg:px-10 lg:py-10">
                 <h2 className="pj-h2">{title ?? t('moment.title')}</h2>
                 <div
@@ -191,21 +227,27 @@ export function Moments({ items, initial, title, photo }: MomentsProps): ReactEl
                     key={current.id}
                     to={offer.href}
                     className="flex animate-[pj-in_0.3s_ease-out_both] overflow-hidden rounded-pj-card bg-pj-surface text-pj-ink shadow-pj-float transition-transform focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-pepperoncini active:scale-[0.98] motion-reduce:animate-none lg:rounded-[20px]">
-                    <FoodImage
-                        src={scaledImage(offer.image, 480)}
-                        srcSet={imageSrcSet(offer.image, [240, 320, 480, 640])}
-                        sizes="(min-width: 1024px) 220px, 120px"
-                        alt={offer.imageAlt}
-                        bleed
-                        crop={cropForPhoto(offer.image ?? offer.id, 'combo')}
-                        className="h-[148px] w-[120px] shrink-0 lg:h-[180px] lg:w-[220px]"
-                    />
-                    <span className="flex min-w-0 flex-1 flex-col justify-center gap-1 px-3 py-2.5 lg:gap-1.5 lg:px-5 lg:py-4">
+                    {!photoFromOffer && (
+                        <FoodImage
+                            src={scaledImage(offer.image, 480)}
+                            srcSet={imageSrcSet(offer.image, [240, 320, 480, 640])}
+                            sizes="(min-width: 1024px) 220px, 120px"
+                            alt={offer.imageAlt}
+                            bleed
+                            crop={cropForPhoto(offer.image ?? offer.id, 'combo')}
+                            className="h-[148px] w-[120px] shrink-0 lg:h-[180px] lg:w-[220px]"
+                        />
+                    )}
+                    <span
+                        className={cn(
+                            'flex min-w-0 flex-1 flex-col justify-center gap-1 px-3 py-2.5 lg:gap-1.5 lg:px-5 lg:py-4',
+                            photoFromOffer && 'px-4 py-3.5 lg:px-6'
+                        )}>
                         <span className="self-start rounded-full bg-pj-garlic px-2 py-0.5 pj-micro text-pj-sauce">
                             {t(`moment.${current.id}.tag`)}
                         </span>
                         <span className="pj-card-title [--pj-heading-color:var(--pj-basil)]">
-                            {t(`moment.${current.id}.title`)}
+                            <MomentTitle id={current.id} />
                         </span>
                         <span className="line-clamp-2 text-[13px] leading-snug text-pj-gray-strong lg:text-[15px]">
                             <span className="lg:hidden">{offer.name}</span>

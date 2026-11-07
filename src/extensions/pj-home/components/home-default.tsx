@@ -16,7 +16,7 @@
 /** @sfdc-extension-file SFDC_EXT_PJ_HOME */
 import type { ReactElement, ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Benefits, GreetingStrip, IntentRail, Popular, StartOrder } from './home-blocks';
+import { Benefits, FirstOrderStrip, GreetingStrip, IntentRail, Popular, StartOrder } from './home-blocks';
 import { Moments, Occasions } from './home-diego';
 import { HomeHero } from './home-hero';
 import { Favorites, MonthCard, RedeemCard, SofiaGreeting, UsualHero } from './home-sofia';
@@ -44,10 +44,11 @@ export function HomeDefault({ data }: { data: HomeData }): ReactElement {
     if (data.profile === 'diego') {
         return (
             <>
+                <FirstOrderStrip />
                 <HomeHero offer={data.hero} variant="ad" />
                 <Main>
                     <Occasions items={data.occasions} />
-                    <Moments items={data.moments} initial={data.moment} photo={data.features?.cheesePull} />
+                    <Moments items={data.moments} initial={data.moment} photoFromOffer />
                     <Popular items={data.popular} best compact />
                 </Main>
             </>
@@ -59,7 +60,7 @@ export function HomeDefault({ data }: { data: HomeData }): ReactElement {
                 <SofiaGreeting sofia={data.sofia} />
                 <UsualHero sofia={data.sofia} />
                 <Main>
-                    <Favorites items={data.sofia.favorites} />
+                    <Favorites items={data.sofia.favorites} redeem={data.sofia.redeem} />
                     <div className="mx-4 flex flex-col gap-6 lg:mx-0 lg:flex-row lg:gap-5">
                         <div className="lg:min-w-[360px] lg:flex-1">
                             <RedeemCard sofia={data.sofia} />

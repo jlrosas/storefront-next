@@ -33,6 +33,15 @@ export function productHref(id: string): string {
     return `/p/${id}`;
 }
 
+/**
+ * Titular corto del hero (HOM-08, UX-2 N3): la etiqueta ya dice «Pizza del mes de noviembre», así que el
+ * titular no lo repite («Pizza del Mes The Works Familiar» → «The Works Familiar»).
+ */
+export function heroTitle(name: string): string {
+    const short = name.replace(/^pizza del mes\s+/i, '').trim();
+    return short || name;
+}
+
 /** Pizzas de «Las más pedidas» (R4.4). */
 export const POPULAR_IDS = ['pz-pollo-bbq', 'pz-super-pepperoni', 'pz-todas-las-carnes'] as const;
 
@@ -49,6 +58,17 @@ export const MOMENT_OFFER_IDS: Record<DemoMoment, string> = {
 
 /** Momento que se muestra cuando la hora no es de ninguna ocasión. */
 export const DEFAULT_MOMENT: DemoMoment = 'partido';
+
+/**
+ * Momento de cada perfil (HOM-08, UX-2 N8): Diego tiene el suyo, distinto del de Valentina. Diego (el
+ * *switcher* del anuncio) ve almuerzo a mediodía y el partido el resto del día; Valentina, el de la hora y,
+ * fuera de las ocasiones, «¿Hay algo que celebrar?».
+ */
+export function momentFor(profile: 'valentina' | 'diego' | 'sofia', moment: DemoMoment | null): DemoMoment {
+    if (profile === 'diego') return moment === 'almuerzo' ? 'almuerzo' : 'partido';
+    if (profile === 'valentina') return moment && moment !== 'partido' ? moment : 'celebracion';
+    return moment ?? DEFAULT_MOMENT;
+}
 
 export const OCCASION_IDS = {
     'para-1': 'cb-papa-flash',

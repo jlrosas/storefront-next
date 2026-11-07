@@ -148,9 +148,7 @@ describe('Home de Papa Johns', () => {
 
     test('Valentina: hero de la Pizza del Mes con precio y antes como texto, botón a la ficha', () => {
         renderHome();
-        expect(
-            screen.getByRole('heading', { level: 1, name: /Pizza del Mes The Works Familiar/i })
-        ).toBeInTheDocument();
+        expect(screen.getByRole('heading', { level: 1, name: 'The Works Familiar' })).toBeInTheDocument();
         expect(screen.getAllByText('$10.990').length).toBeGreaterThan(0);
         expect(screen.getAllByText(/Antes desde \$21\.900/).length).toBeGreaterThan(0);
         expect(screen.getByRole('link', { name: 'Lo quiero · $10.990' })).toHaveAttribute(
