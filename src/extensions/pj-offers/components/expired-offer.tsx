@@ -23,7 +23,7 @@ import { FoodImage } from '@/extensions/pj-shared/components/food-image';
 import { cropForPhoto } from '@/extensions/pj-shared/lib/photo';
 import { PriceTag } from '@/extensions/pj-shared/components/price-tag';
 import { PJ_ROUTES } from '@/extensions/pj-shared/lib/routes';
-import { formatDayMonth, imageAt, imageSrcSet, type Offer, withUtm } from '../lib/offers';
+import { formatDayMonth, fullRowFraming, imageAt, imageSrcSet, type Offer, withUtm } from '../lib/offers';
 
 export interface ExpiredOfferProps {
     /** La oferta que terminó (puede faltar si el enlace es de una oferta que ya no existe). */
@@ -38,10 +38,12 @@ export function ExpiredOffer({ expired, alternatives, search }: ExpiredOfferProp
     const { t } = useTranslation('extPjOffers');
     const seoUrlContext = useSeoUrlContext();
     const endedOn = expired?.validTo ? formatDayMonth(expired.validTo) : null;
+    // N12: «LLEGASTE TARDE A HALLOWEEN» (nombre corto de la campaña); la fecha va solo en la pastilla.
+    const shortName = expired ? t(`expired.short.${expired.id}`, { defaultValue: expired.name }) : null;
 
     return (
         <div
-            className="mx-auto flex max-w-[720px] flex-col gap-[18px] px-4 pb-8 lg:pb-14"
+            className="mx-auto flex max-w-[720px] flex-col lg:max-w-[880px] gap-[18px] px-4 pb-8 lg:pb-14"
             data-testid="pj-expired-offer">
             <section className="surface-garlic overflow-hidden rounded-pj-section shadow-pj-card">
                 {expired?.image && (
@@ -49,7 +51,7 @@ export function ExpiredOffer({ expired, alternatives, search }: ExpiredOfferProp
                         <FoodImage
                             src={expired.image}
                             srcSet={imageSrcSet(expired.image)}
-                            sizes="(min-width: 768px) 720px, 100vw"
+                            sizes="(min-width: 768px) 880px, 100vw"
                             alt={expired.name}
                             bleed
                             priority
@@ -65,17 +67,15 @@ export function ExpiredOffer({ expired, alternatives, search }: ExpiredOfferProp
                 )}
                 <div className="flex flex-col gap-1.5 px-4 pt-3.5 pb-4">
                     <h1 className="text-[34px] leading-[0.95] lg:text-[44px]">
-                        {expired ? t('expired.title', { name: expired.name }) : t('expired.titleNoDate')}
+                        {expired ? t('expired.title', { name: shortName }) : t('expired.titleNoDate')}
                     </h1>
                     <p className="text-[16px] leading-snug">
-                        {expired && endedOn
-                            ? t('expired.body', { name: expired.name, date: endedOn })
-                            : t('expired.bodyNoName')}
+                        {expired ? t('expired.body', { name: expired.name }) : t('expired.bodyNoName')}
                     </p>
                 </div>
             </section>
 
-            <section aria-label={t('expired.listLabel')} className="flex flex-col gap-3">
+            <section aria-label={t('expired.listLabel')} className="grid grid-cols-1 gap-3 sm:grid-cols-3 lg:gap-4">
                 {alternatives.map((offer) => {
                     const href = withUtm(
                         offer.hasBuilder
@@ -83,6 +83,7 @@ export function ExpiredOffer({ expired, alternatives, search }: ExpiredOfferProp
                             : createProductUrl({ productId: offer.id }, seoUrlContext),
                         search
                     );
+                    const framing = fullRowFraming(offer.id);
                     const why = t(`expired.why.${offer.id}`, { defaultValue: '' });
                     return (
                         <Link
@@ -90,32 +91,36 @@ export function ExpiredOffer({ expired, alternatives, search }: ExpiredOfferProp
                             to={href}
                             data-testid="pj-expired-alternative"
                             data-offer={offer.id}
-                            className="flex overflow-hidden rounded-2xl bg-pj-surface text-pj-ink no-underline shadow-pj-card focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green">
+                            className="group flex flex-col overflow-hidden rounded-2xl bg-pj-surface text-pj-ink no-underline shadow-pj-card transition-shadow hover:shadow-pj-float focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green">
+                            {/* N15: foto arriba a todo el ancho; las filas completas (Super Dúo) sin zoom, sin pizzas cortadas. */}
                             <FoodImage
-                                src={imageAt(offer.image, 240) ?? ''}
-                                srcSet={imageSrcSet(offer.image, [240, 480])}
-                                sizes="120px"
+                                src={imageAt(offer.image, 480) ?? ''}
+                                srcSet={imageSrcSet(offer.image, [320, 480, 800])}
+                                sizes="(min-width: 640px) 240px, 100vw"
                                 alt=""
                                 bleed
-                                crop={cropForPhoto(offer.id)}
-                                className="size-[120px] shrink-0"
+                                crop={framing ? framing.crop : cropForPhoto(offer.id)}
+                                imgClassName={framing?.imgClassName}
+                                className="aspect-[2/1] w-full sm:aspect-[4/3]"
                             />
-                            <div className="flex min-w-0 flex-1 flex-col justify-center gap-[3px] px-3 py-2.5">
+                            <div className="flex min-w-0 flex-1 flex-col gap-1 px-3.5 pt-3 pb-3.5">
                                 {why && (
                                     <span className="self-start rounded-full bg-pj-garlic px-2 py-0.5 text-xs font-bold text-pj-basil">
                                         {why}
                                     </span>
                                 )}
-                                <span className="text-[17px] font-extrabold">{offer.name}</span>
+                                <span className="pj-card-title">{offer.name}</span>
                                 <span className="text-[13px] leading-tight text-pj-gray-strong">
                                     {offer.description}
                                 </span>
-                                <PriceTag
-                                    price={offer.price}
-                                    listPrice={offer.priceBefore}
-                                    showSavings={false}
-                                    size="md"
-                                />
+                                <div className="mt-auto pt-1">
+                                    <PriceTag
+                                        price={offer.price}
+                                        listPrice={offer.priceBefore}
+                                        showSavings={false}
+                                        size="md"
+                                    />
+                                </div>
                             </div>
                         </Link>
                     );

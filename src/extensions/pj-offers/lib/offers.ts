@@ -280,3 +280,32 @@ export function withUtm(path: string, search: string | URLSearchParams): string 
     if (!query) return path;
     return path.includes('?') ? `${path}&${query}` : `${path}?${query}`;
 }
+
+/**
+ * Fotos de combo con los productos en fila que llegan casi al borde (UX-2 N15 y #61): Super Dúo, Super
+ * Trío y Papa Combo con Postre. En tarjetas anchas van sin zoom y con el encuadre vertical centrado en la
+ * fila, para que ninguna pizza quede cortada; en miniaturas, en caja 4:3 (la proporción de la foto).
+ */
+export const FULL_ROW_PHOTO_IDS = ['cb-super-duo', 'cb-super-trio', 'cb-papa-combo-postre'] as const;
+
+/** Encuadre de la foto de una oferta: `none` + `object-position` para las filas completas, si no `null`. */
+export function fullRowFraming(offerId: string): { crop: 'none'; imgClassName: string } | null {
+    return (FULL_ROW_PHOTO_IDS as readonly string[]).includes(offerId)
+        ? { crop: 'none', imgClassName: 'object-[50%_57%]' }
+        : null;
+}
+
+/**
+ * Titular de la destacada (UX-2 N16): «PIZZA DEL MES **THE WORKS**». Separa el nombre de la pizza para
+ * ponerlo en `AccentWord` y deja fuera el tamaño («Familiar»), que ya dice la descripción. Si el nombre no
+ * sigue ese patrón, devuelve `null` y la tarjeta muestra el nombre tal cual.
+ */
+export function featuredAccent(name: string): string | null {
+    const match = /^pizza del mes\s+(.+?)(?:\s+(?:familiar|mediana|individual))?$/i.exec(name.trim());
+    return match ? match[1] : null;
+}
+
+/** Filas de una grilla de `columns` columnas que quedan con hueco: cuántas celdas faltan (0 si cierra). */
+export function gridGap(count: number, columns: number): number {
+    return count === 0 ? 0 : (columns - (count % columns)) % columns;
+}
