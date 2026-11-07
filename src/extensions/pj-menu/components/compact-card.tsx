@@ -42,7 +42,7 @@ export function CompactCard({ product, className }: { product: MenuProduct; clas
     });
     return (
         <article
-            className={cn('flex flex-col gap-2 rounded-pj-card bg-pj-surface p-2 lg:p-2.5', className)}
+            className={cn('flex flex-col gap-2 rounded-pj-card bg-pj-surface p-2 shadow-pj-card lg:p-2.5', className)}
             data-testid="pj-menu-compact-card">
             <div className="flex items-center gap-2.5 lg:gap-3">
                 {product.image && (

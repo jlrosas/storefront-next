@@ -21,6 +21,8 @@ import { cn } from '@/lib/utils';
 import { Link } from '@/components/link';
 import { FoodImage } from '@/extensions/pj-shared/components/food-image';
 import { PriceTag } from '@/extensions/pj-shared/components/price-tag';
+import { LtoBadge } from '@/extensions/pj-shared/components/lto-badge';
+import { productLto } from '../lib/lto';
 import { formatClp, formatCount, formatRating } from '@/extensions/pj-shared/lib/format';
 import { pointsFor } from '@/extensions/pj-shared/lib/points';
 import { PJ_ROUTES } from '@/extensions/pj-shared/lib/routes';
@@ -202,15 +204,11 @@ export function PizzaPdp({ config, sides, initialSize }: PizzaPdpProps): ReactEl
             strong: true,
         });
 
+    const lto = productLto(config.badges);
     const badges = (
         <div className="flex flex-wrap items-center gap-1.5">
-            {config.badges.includes('mas-pedida') && (
-                <span className="rounded-full bg-pj-lime px-2.5 py-0.5 text-xs font-bold tracking-wide text-pj-green-dark uppercase">
-                    {t('pdp.bestSeller')}
-                </span>
-            )}
             {config.weeklyOrders != null && config.weeklyOrders >= 100 && (
-                <span className="inline-flex items-center gap-1 rounded-full bg-[var(--pj-chip)] px-2.5 py-0.5 text-xs font-bold text-[var(--pj-removed)] lg:text-[13px]">
+                <span className="inline-flex items-center gap-1 rounded-full bg-pj-garlic px-2.5 py-1 pj-small text-pj-sauce">
                     <TrendIcon size={13} />
                     {t('pdp.weeklyOrders', { count: config.weeklyOrders, formatted: formatCount(config.weeklyOrders) })}
                 </span>
@@ -222,7 +220,7 @@ export function PizzaPdp({ config, sides, initialSize }: PizzaPdpProps): ReactEl
         config.rating != null ? (
             <a
                 href="#opiniones"
-                className="inline-flex min-h-8 items-center gap-1.5 self-start text-sm text-pj-ink no-underline lg:text-[15px]">
+                className="inline-flex min-h-11 items-center gap-1.5 self-start text-sm text-pj-ink no-underline lg:text-[15px]">
                 <span
                     role="img"
                     aria-label={t('pdp.ratingAria', { rating: formatRating(config.rating) })}
@@ -245,11 +243,13 @@ export function PizzaPdp({ config, sides, initialSize }: PizzaPdpProps): ReactEl
                 <nav
                     aria-label={t('pdp.breadcrumb')}
                     className="flex gap-1.5 px-4 py-2.5 text-[13px] text-pj-gray lg:px-0 lg:text-sm">
-                    <Link to={PJ_ROUTES.menu} className="text-pj-green">
+                    <Link to={PJ_ROUTES.menu} className="-my-3 inline-flex min-w-11 justify-center py-3 text-pj-green">
                         {t('pdp.menu')}
                     </Link>
                     <span aria-hidden="true">/</span>
-                    <Link to={`${PJ_ROUTES.menu}#pizzas`} className="text-pj-green">
+                    <Link
+                        to={`${PJ_ROUTES.menu}#pizzas`}
+                        className="-my-3 inline-flex min-w-11 justify-center py-3 text-pj-green">
                         {t('pdp.pizzas')}
                     </Link>
                     <span aria-hidden="true">/</span>
@@ -275,7 +275,17 @@ export function PizzaPdp({ config, sides, initialSize }: PizzaPdpProps): ReactEl
                             ) : (
                                 <div className="aspect-square bg-pj-sand lg:aspect-[5/4] lg:rounded-[18px]" />
                             )}
-                            <span className="pointer-events-none absolute top-3 left-3 rounded-full bg-pj-ink/70 px-2.5 py-1 text-xs font-bold text-pj-surface lg:text-[13px]">
+                            {lto && (
+                                <LtoBadge
+                                    variant={lto.variant}
+                                    size="lg"
+                                    animate
+                                    label={t(`lto.${lto.key}Label`)}
+                                    className="pointer-events-none absolute top-3 left-3 text-[21px] shadow-pj-float lg:top-4 lg:left-4">
+                                    {t(`lto.${lto.key}`)}
+                                </LtoBadge>
+                            )}
+                            <span className="pointer-events-none absolute bottom-3 left-3 rounded-full bg-pj-basil-deep/85 px-3 py-1.5 pj-small text-pj-dough">
                                 {t('pdp.fresh')}
                             </span>
                             {config.image && (
@@ -290,7 +300,7 @@ export function PizzaPdp({ config, sides, initialSize }: PizzaPdpProps): ReactEl
                         </div>
                         {config.description && (
                             <div className="hidden flex-col gap-1.5 rounded-pj-card bg-pj-surface p-4 lg:flex">
-                                <h2 className="font-sans text-base font-bold normal-case">{t('pdp.carries')}</h2>
+                                <h2 className="pj-card-title text-pj-basil">{t('pdp.carries')}</h2>
                                 <p className="text-[15px] leading-normal text-pj-gray-strong">{config.description}</p>
                             </div>
                         )}
@@ -300,16 +310,10 @@ export function PizzaPdp({ config, sides, initialSize }: PizzaPdpProps): ReactEl
                     <div className="flex min-w-0 flex-col lg:flex-[1_1_440px] lg:gap-5 lg:rounded-[18px] lg:bg-pj-surface lg:p-6">
                         <section className="flex flex-col gap-2.5 p-4 lg:gap-2 lg:p-0">
                             {badges}
-                            <h1 className="font-heading text-[38px] leading-none font-extrabold uppercase lg:text-5xl">
-                                {config.name}
-                            </h1>
-                            <PriceTag variant="display" size="md" price={pizzaTotal} />
+                            <h1 className="pj-h1 text-pj-basil">{config.name}</h1>
+                            <PriceTag variant="display" size="md" surface="dough" price={pizzaTotal} />
                             {rating}
-                            {config.sensory && (
-                                <p className="text-[15px] leading-[1.45] text-pj-gray-strong lg:text-base">
-                                    {config.sensory}
-                                </p>
-                            )}
+                            {config.sensory && <p className="pj-body text-pj-gray-strong">{config.sensory}</p>}
                             {highlights.length > 0 && (
                                 <ul aria-label={t('pdp.highlights')} className="mt-0.5 grid grid-cols-2 gap-2">
                                     {highlights.map((h) => (
@@ -350,9 +354,7 @@ export function PizzaPdp({ config, sides, initialSize }: PizzaPdpProps): ReactEl
                     className="flex flex-col gap-2.5 border-t-8 border-[var(--pj-section)] px-4 py-3 lg:border-0 lg:p-0"
                     aria-labelledby="pj-pdp-sides">
                     <div>
-                        <h2
-                            id="pj-pdp-sides"
-                            className="font-sans text-lg font-bold normal-case lg:font-heading lg:text-[28px] lg:font-extrabold lg:uppercase">
+                        <h2 id="pj-pdp-sides" className="pj-h2 text-pj-basil">
                             {t('pdp.completeTitle')}
                         </h2>
                         <p className="text-[13px] text-pj-gray lg:text-sm">{t('pdp.completeHint')}</p>
@@ -415,9 +417,7 @@ export function PizzaPdp({ config, sides, initialSize }: PizzaPdpProps): ReactEl
                         id="opiniones"
                         aria-labelledby="pj-pdp-reviews"
                         className="flex scroll-mt-24 flex-col gap-3 border-t-8 border-[var(--pj-section)] px-4 py-3 lg:border-0 lg:p-0">
-                        <h2
-                            id="pj-pdp-reviews"
-                            className="font-sans text-lg font-bold normal-case lg:font-heading lg:text-[28px] lg:font-extrabold lg:uppercase">
+                        <h2 id="pj-pdp-reviews" className="pj-h2 text-pj-basil">
                             {t('pdp.reviewsTitle')}
                         </h2>
                         {config.rating != null && (
@@ -474,9 +474,7 @@ export function PizzaPdp({ config, sides, initialSize }: PizzaPdpProps): ReactEl
                     <section
                         aria-labelledby="pj-pdp-faq"
                         className="border-t-8 border-[var(--pj-section)] px-4 pt-2 pb-4 lg:border-0 lg:p-0">
-                        <h2
-                            id="pj-pdp-faq"
-                            className="mt-2 mb-1 font-sans text-lg font-bold normal-case lg:mt-0 lg:font-heading lg:text-[28px] lg:font-extrabold lg:uppercase">
+                        <h2 id="pj-pdp-faq" className="mt-2 mb-1 pj-h2 text-pj-basil lg:mt-0">
                             {t('pdp.faqTitle')}
                         </h2>
                         <Faq question={t('pdp.faqServes')}>{t('pdp.faqServesAnswer')}</Faq>

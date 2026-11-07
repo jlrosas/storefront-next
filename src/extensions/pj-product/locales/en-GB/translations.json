@@ -115,7 +115,6 @@
         "zoomAlt": "Detalle del queso y los ingredientes de la {{name}}",
         "zoomClose": "Cerrar foto ampliada",
         "carries": "Lleva",
-        "bestSeller": "Más vendida",
         "weeklyOrders_one": "Pedida {{formatted}} vez esta semana",
         "weeklyOrders_other": "Pedida {{formatted}} veces esta semana",
         "ratingAria": "{{rating}} de 5 estrellas",
@@ -141,5 +140,13 @@
         "faqHalves": "¿La puedo pedir por mitades?",
         "faqHalvesAnswer": "Sí: elige otra especialidad para la segunda mitad y pagas el promedio.",
         "faqHalvesLink": "Armar por mitades"
+    },
+    "lto": {
+        "top": "LA MÁS\nPEDIDA",
+        "topLabel": "La más pedida",
+        "new": "NUEVA",
+        "newLabel": "Pizza nueva",
+        "forTwo": "PARA\nDOS",
+        "forTwoLabel": "Ideal para dos"
     }
 }

@@ -17,18 +17,20 @@
 import type { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from '@/components/link';
-import { FoodImage, PriceTag, Stars } from '@/extensions/pj-shared';
+import { FoodImage, Stars, formatClp } from '@/extensions/pj-shared';
 import { cn } from '@/lib/utils';
 import { badgeFor, priceAtSize, sizeLabelKey, type MenuProduct, type PjSize } from '../lib/menu-model';
 import { asTr } from '../lib/i18n';
 import { configureFallbackHref, type PjConfigureDetail } from '../lib/menu-bridge';
 import { useConfigure } from '../hooks/use-configure';
+import { PlusIcon } from './menu-icons';
 
+/** Sellos de la tarjeta (UX-1 §3.1): pares ADA de la paleta S-D18, nunca Tangy Tomato con texto. */
 const BADGE_STYLE = {
-    top: 'bg-pj-lime text-pj-green-dark',
-    spicy: 'bg-pj-sale text-pj-surface',
-    new: 'bg-pj-green text-pj-surface',
-    forTwo: 'bg-pj-lime-soft text-pj-green-dark',
+    top: 'bg-pj-garlic text-pj-basil',
+    spicy: 'bg-pj-sauce text-pj-dough',
+    new: 'bg-pj-pepperoncini text-pj-basil',
+    forTwo: 'bg-pj-garlic text-pj-sauce',
 } as const;
 
 /**
@@ -54,62 +56,75 @@ export function PizzaCard({
     const href = `/p/${product.id}`;
     const addDetail: PjConfigureDetail = { productId: product.id, size };
     const halfDetail: PjConfigureDetail = { productId: product.id, halfFirst: true, size };
+    const pricePrefix = price !== null ? tr(`size.${labelKey}`) : t('pizza.from');
     return (
         <article
-            className="flex flex-col overflow-hidden rounded-pj-card bg-pj-surface shadow-pj-card lg:rounded-[16px]"
+            className="group flex flex-col overflow-hidden rounded-pj-card bg-pj-surface shadow-pj-card transition-shadow duration-300 hover:shadow-pj-float lg:rounded-[16px]"
             data-testid="pj-menu-pizza-card"
             data-product-id={product.id}>
-            <Link to={href} tabIndex={-1} aria-hidden="true" className="relative block">
-                {product.image ? (
-                    <FoodImage
-                        src={product.image.src}
-                        srcSet={product.image.srcSet}
-                        sizes="(min-width: 1280px) 20vw, (min-width: 1024px) 22vw, (min-width: 640px) 33vw, 50vw"
-                        alt=""
-                        aspect="4/3"
-                        bleed
-                        crop="macro"
-                        priority={priority}
-                    />
-                ) : (
-                    <div className="bg-pj-sand" style={{ aspectRatio: '4/3' }} />
-                )}
+            <div className="relative">
+                <Link to={href} tabIndex={-1} aria-hidden="true" className="block">
+                    {product.image ? (
+                        <FoodImage
+                            src={product.image.src}
+                            srcSet={product.image.srcSet}
+                            sizes="(min-width: 1280px) 20vw, (min-width: 1024px) 22vw, (min-width: 640px) 33vw, 50vw"
+                            alt=""
+                            aspect="4/3"
+                            bleed
+                            crop="macro"
+                            priority={priority}
+                            imgClassName="transition-transform duration-500 ease-out motion-safe:group-hover:[transform:scale(1.05)]"
+                        />
+                    ) : (
+                        <div className="bg-pj-sand" style={{ aspectRatio: '4/3' }} />
+                    )}
+                </Link>
                 {badge && (
                     <span
+                        data-testid="pj-menu-pizza-badge"
                         className={cn(
-                            'absolute top-1.5 left-1.5 rounded-full px-2 py-0.5 text-xs font-bold',
+                            'pointer-events-none absolute top-2 left-2 rounded-full px-2.5 py-1 pj-micro shadow-pj-card',
                             BADGE_STYLE[badge]
                         )}>
                         {tr(`badge.${badge}`)}
                     </span>
                 )}
-            </Link>
-            <div className="flex flex-1 flex-col gap-1 p-2 pb-2.5 lg:p-3">
+                {/* «+» lima sobre la foto (UX-1 §3.4, patrón Uber Eats/Domino's): agrega en un toque. */}
                 <Link
                     to={href}
-                    className="-my-3.5 py-3.5 text-sm leading-tight font-bold text-pj-ink no-underline lg:text-base">
+                    onClick={configure(addDetail)}
+                    aria-label={t('pizza.addAria', { name: product.name })}
+                    data-testid="pj-menu-pizza-plus"
+                    className="absolute right-2 bottom-2 flex size-11 items-center justify-center rounded-full bg-pj-pepperoncini text-pj-basil no-underline shadow-pj-float transition-transform hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-basil active:scale-[0.92]">
+                    <PlusIcon size={22} />
+                </Link>
+            </div>
+            <div className="flex flex-1 flex-col gap-1.5 p-2.5 pb-3 lg:p-3.5">
+                <Link to={href} className="-my-3 py-3 pj-card-title text-pj-basil no-underline hover:underline">
                     {product.name}
                 </Link>
+                {typeof product.rating === 'number' && (
+                    <Stars rating={product.rating} count={product.reviews} className="text-[13px]" />
+                )}
                 {product.sensory && (
-                    <p className="line-clamp-2 flex-1 text-xs leading-snug text-pj-gray-strong lg:text-[13px]">
+                    <p className="line-clamp-2 flex-1 text-[13px] leading-snug text-pj-gray-strong lg:text-sm">
                         {product.sensory}
                     </p>
                 )}
-                {typeof product.rating === 'number' && (
-                    <Stars rating={product.rating} count={product.reviews} className="text-xs" />
-                )}
-                {price !== null ? (
-                    <PriceTag price={price} prefix={tr(`size.${labelKey}`)} size="md" className="text-pj-gray" />
-                ) : (
-                    <PriceTag price={product.price} prefix={t('pizza.from')} size="md" className="text-pj-gray" />
-                )}
+                <p className="flex flex-wrap items-baseline gap-x-1.5" data-testid="pj-menu-pizza-price">
+                    <span className="text-[13px] font-bold text-pj-gray">{pricePrefix}</span>
+                    <span className="text-xl leading-none font-bold text-pj-sauce">
+                        {formatClp(price ?? product.price)}
+                    </span>
+                </p>
                 <div className="mt-1 flex gap-1.5">
                     <Link
                         to={href}
                         onClick={configure(addDetail)}
                         aria-label={t('pizza.addAria', { name: product.name })}
                         data-testid="pj-menu-pizza-add"
-                        className="flex min-h-[44px] flex-1 items-center justify-center rounded-full bg-pj-green text-[13px] font-bold text-pj-surface no-underline hover:bg-pj-green-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green lg:text-sm">
+                        className="flex min-h-[44px] flex-1 items-center justify-center rounded-full bg-pj-basil px-2 text-[13px] font-bold text-pj-dough no-underline transition-transform hover:bg-pj-basil-deep focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-basil active:scale-[0.97] lg:text-sm">
                         {t('pizza.add')}
                     </Link>
                     {product.halves && (
@@ -118,13 +133,8 @@ export function PizzaCard({
                             onClick={configure(halfDetail)}
                             aria-label={t('pizza.halfAria', { name: product.name })}
                             data-testid="pj-menu-pizza-half"
-                            className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full border-[1.5px] border-pj-green px-3 text-sm font-bold text-pj-green no-underline hover:bg-pj-lime-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green">
-                            <span aria-hidden="true" className="lg:hidden">
-                                {t('pizza.halfShort')}
-                            </span>
-                            <span aria-hidden="true" className="hidden lg:inline">
-                                {t('pizza.half')}
-                            </span>
+                            className="flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center gap-1 rounded-full border-[1.5px] border-pj-basil px-2.5 text-[13px] font-bold whitespace-nowrap text-pj-basil no-underline transition-transform hover:bg-pj-dough focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-basil active:scale-[0.97] lg:px-3 lg:text-sm">
+                            <span aria-hidden="true">{t('pizza.half')}</span>
                         </Link>
                     )}
                 </div>
