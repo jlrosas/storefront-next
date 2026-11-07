@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 /** @sfdc-extension-file SFDC_EXT_PJ_OFFERS */
-import { useCallback, useEffect, useMemo, useRef, useState, type ReactElement } from 'react';
-import { useFetcher } from 'react-router';
+import { Suspense, lazy, useCallback, useEffect, useMemo, useState, type ReactElement } from 'react';
+import type { ShopperBasketsV2 } from '@/scapi';
 import { useTranslation } from 'react-i18next';
 import { Link } from '@/components/link';
 import { cn } from '@/lib/utils';
-import type { BasketActionResponse } from '@/routes/types/action-responses';
 import { FoodImage } from '@/extensions/pj-shared/components/food-image';
 import { PriceTag } from '@/extensions/pj-shared/components/price-tag';
 import { LtoBadge } from '@/extensions/pj-shared/components/lto-badge';
@@ -28,7 +27,15 @@ import { showComboAddedToast } from '../lib/combo-toast';
 import { pointsFor } from '@/extensions/pj-shared/lib/points';
 import { formatClp, formatCount } from '@/extensions/pj-shared/lib/format';
 import { PJ_ROUTES } from '@/extensions/pj-shared/lib/routes';
-import { shippingFor, type Fulfillment } from '@/extensions/pj-shared/lib/fulfillment';
+import { flyToCart } from '@/extensions/pj-shared/lib/fly-to-cart';
+import { usePjMe } from '@/extensions/pj-shared/hooks/use-pj-me';
+import type { Fulfillment } from '@/extensions/pj-shared/lib/fulfillment';
+import { PizzaSheet } from '@/extensions/pj-product/components/pizza-sheet-launcher';
+import { usePjCart } from '@/extensions/pj-product/hooks/use-pj-cart';
+import { linesTotal } from '@/extensions/pj-product/lib/cart-lines';
+import { addedKindForCombo } from '@/extensions/pj-product/lib/cross-sell';
+import { isComboCart, type ComboSlotPizza } from '@/extensions/pj-product/lib/combo-cart';
+import { EXTRA_OPTION_PREFIX } from '@/extensions/pj-product/lib/pizza';
 import {
     buildChoices,
     filledCount,
@@ -50,6 +57,10 @@ import { discountPercent, imageAt, imageSrcSet, type Offer, withUtm } from '../l
 import { useFulfillment } from '../lib/use-fulfillment';
 
 export const COMBO_ADD_ACTION = '/action/pj-combo-add';
+
+const UpsellSheet = lazy(() => import('@/extensions/pj-product/components/upsell-sheet'));
+
+type Basket = ShopperBasketsV2.schemas['Basket'];
 
 export interface ComboBuilderProps {
     offer: Offer;
@@ -105,15 +116,20 @@ export function ComboBuilder({
     search,
 }: ComboBuilderProps): ReactElement {
     const { t } = useTranslation('extPjOffers');
-    const fetcher = useFetcher<BasketActionResponse>();
     const navigate = useNavigate();
+    const me = usePjMe();
+    const { submit: cartSubmit, busy: sending } = usePjCart();
     const fulfillment = useFulfillment(initialFulfillment);
     const [state, setState] = useState<ComboState>(() => initialState(offer.slots));
     const [waitingForStore, setWaitingForStore] = useState(false);
     const [switchedToPickup, setSwitchedToPickup] = useState(false);
     // F4: tras agregar, el botón pasa a «Ver mi pedido» (un segundo toque no agrega otra vez).
     const [added, setAdded] = useState(false);
-    const lastHandled = useRef<unknown>(null);
+    const [failed, setFailed] = useState(false);
+    // S-D20: cada ranura puede llevar su pizza personalizada (masa, extras, quitados), sin pasar por el carrito.
+    const [custom, setCustom] = useState<Array<ComboSlotPizza | null>>(() => offer.slots.map(() => null));
+    const [customizing, setCustomizing] = useState<number | null>(null);
+    const [upsell, setUpsell] = useState<{ basket: Basket; group?: string } | null>(null);
 
     const total = offer.slots.length;
     const optionById = useMemo(() => Object.fromEntries(options.map((o) => [o.id, o])), [options]);
@@ -121,28 +137,81 @@ export function ComboBuilder({
     const complete = missing === 0;
     const blocked = offer.pickupOnly && fulfillment?.mode === 'delivery';
     const switched = offer.pickupOnly && switchedToPickup && fulfillment?.mode === 'pickup';
-    const sending = fetcher.state !== 'idle';
     const activeSlot = offer.slots[state.active];
     const activeChoice = state.selection[state.active];
     const activeOptions = (activeSlot?.choices ?? []).map((id) => optionById[id]).filter((o): o is PizzaOption => !!o);
     const subtitle = t('builder.subtitle', { count: total });
     const address = fulfillment?.address ?? FALLBACK_DELIVERY_ADDRESS;
 
-    const submit = useCallback(() => {
+    // Lo que suman las personalizaciones al precio del combo («$22.590 + extras»), en vivo.
+    const extrasTotal = custom.reduce(
+        (sum, pick, index) => sum + (pick && pick.masterId === state.selection[index] ? pick.surcharge : 0),
+        0
+    );
+    const priceWithExtras = offer.price + extrasTotal;
+
+    const submit = useCallback(async () => {
         const choices = buildChoices(offer.slots, state.selection, optionById);
         if (!choices) return;
-        void fetcher.submit(
-            { productId: offer.id, choices: JSON.stringify(choices) },
-            { method: 'POST', action: COMBO_ADD_ACTION }
-        );
-    }, [fetcher, offer.id, offer.slots, optionById, state.selection]);
+        setFailed(false);
+        // Super Dúo / Super Trío: pizzas reales + cupón (S-D20). Otro constructor: la línea del combo (OFE-02).
+        const result = isComboCart(offer.id)
+            ? await cartSubmit({
+                  intent: 'combo-pizzas',
+                  comboId: offer.id,
+                  pizzas: choices.map((choice, index) => {
+                      const pick = custom[index];
+                      const fresh = pick && pick.masterId === state.selection[index] ? pick : null;
+                      return {
+                          productId: fresh?.productId ?? choice.product,
+                          optionItems: (fresh?.extras ?? []).map((id) => ({
+                              optionId: `${EXTRA_OPTION_PREFIX}${id}`,
+                              optionValueId: 'si',
+                          })),
+                          removed: fresh?.removed ?? [],
+                      };
+                  }),
+              })
+            : await cartSubmit({ intent: 'combo', productId: offer.id, quantity: 1, choices });
+        if (!result.success || !result.basket) {
+            setFailed(true);
+            return;
+        }
+        setAdded(true);
+        const ids = result.addedItemIds ?? [];
+        // «Completa tu pedido» confirma con su franja (S-D19); si no hay nada que ofrecer, el aviso con los puntos de
+        // lo agregado y no del despacho (D-P1-2).
+        void flyToCart();
+        if (isComboCart(offer.id)) {
+            setUpsell({ basket: result.basket, group: result.comboGroup ?? ids[0] });
+            return;
+        }
+        const points = pointsFor(linesTotal(result.basket, ids), 0, me?.doublePoints ?? false);
+        showComboAddedToast({
+            title: t('toast.added', { name: offer.name }),
+            points: points > 0 ? t('toast.points', { points: formatCount(points) }) : undefined,
+            viewLabel: t('toast.view'),
+            onView: () => void navigate(PJ_ROUTES.cart),
+        });
+    }, [
+        cartSubmit,
+        custom,
+        me?.doublePoints,
+        navigate,
+        offer.id,
+        offer.name,
+        offer.slots,
+        optionById,
+        state.selection,
+        t,
+    ]);
 
     // Gancho con TIE: espera a que el cliente elija tienda y retoma el agregado.
     useEffect(() => {
         if (!waitingForStore) return undefined;
         const onChanged = () => {
             setWaitingForStore(false);
-            submit();
+            void submit();
         };
         const onDismissed = () => setWaitingForStore(false);
         window.addEventListener(PJ_FULFILLMENT_EVENTS.changed, onChanged);
@@ -152,22 +221,6 @@ export function ComboBuilder({
             window.removeEventListener(PJ_FULFILLMENT_EVENTS.dismissed, onDismissed);
         };
     }, [waitingForStore, submit]);
-
-    // Resultado del agregado.
-    useEffect(() => {
-        if (fetcher.state !== 'idle' || !fetcher.data || lastHandled.current === fetcher.data) return;
-        lastHandled.current = fetcher.data;
-        if (fetcher.data.success) {
-            setAdded(true);
-            const points = pointsFor(offer.price, shippingFor(readFulfillmentFromDocument()));
-            showComboAddedToast({
-                title: t('toast.added', { name: offer.name }),
-                points: points > 0 ? t('toast.points', { points: formatCount(points) }) : undefined,
-                viewLabel: t('toast.view'),
-                onView: () => void navigate(PJ_ROUTES.cart),
-            });
-        }
-    }, [fetcher.state, fetcher.data, offer.name, offer.price, navigate, t]);
 
     const onAdd = () => {
         if (added) {
@@ -179,7 +232,7 @@ export function ComboBuilder({
             setWaitingForStore(true);
             return;
         }
-        submit();
+        void submit();
     };
 
     const onPickup = () => {
@@ -187,7 +240,6 @@ export function ComboBuilder({
         setSwitchedToPickup(true);
     };
 
-    const failed = fetcher.state === 'idle' && fetcher.data && !fetcher.data.success;
     let buttonLabel: string;
     if (added) buttonLabel = t('builder.viewOrder');
     else if (blocked) buttonLabel = t('unavailable.addDisabled');
@@ -243,6 +295,13 @@ export function ComboBuilder({
                                 listPrice={offer.priceBefore}
                                 showSavings={false}
                             />
+                            {extrasTotal > 0 && (
+                                <span
+                                    className="text-[13px] font-bold text-pj-basil lg:text-sm"
+                                    data-testid="pj-combo-extras">
+                                    {t('builder.extras', { amount: formatClp(extrasTotal) })}
+                                </span>
+                            )}
                             {percent > 0 && (
                                 <LtoBadge
                                     size="sm"
@@ -276,7 +335,11 @@ export function ComboBuilder({
                                 key={slot.id}
                                 type="button"
                                 aria-pressed={active}
-                                aria-label={`${label}: ${option?.name ?? t('builder.slotEmpty')}`}
+                                aria-label={`${label}: ${option?.name ?? t('builder.slotEmpty')}${
+                                    custom[index] && custom[index]?.masterId === chosen
+                                        ? ` (${custom[index]?.summary})`
+                                        : ''
+                                }`}
                                 data-testid={`pj-combo-slot-${index + 1}`}
                                 data-filled={option ? 'true' : 'false'}
                                 onClick={() => {
@@ -353,7 +416,7 @@ export function ComboBuilder({
                                 : 'cursor-not-allowed border-pj-basil bg-pj-surface text-pj-basil'
                         )}>
                         <span>
-                            {buttonEnabled && !added ? `${buttonLabel} · ${formatClp(offer.price)}` : buttonLabel}
+                            {buttonEnabled && !added ? `${buttonLabel} · ${formatClp(priceWithExtras)}` : buttonLabel}
                         </span>
                     </button>
                 </div>
@@ -404,6 +467,14 @@ export function ComboBuilder({
                     </div>
                 )}
 
+                {activeChoice && optionById[activeChoice] && activeSlot?.kind === 'pizza' && (
+                    <CustomizeCard
+                        name={optionById[activeChoice].name}
+                        label={t('builder.slotLabel', { n: state.active + 1, total })}
+                        pick={custom[state.active]?.masterId === activeChoice ? custom[state.active] : null}
+                        onCustomize={() => setCustomizing(state.active)}
+                    />
+                )}
                 <h2 className="pj-card-title lg:text-[32px]" aria-live="polite">
                     {activeChoice
                         ? t('builder.promptChange', { n: state.active + 1 })
@@ -423,6 +494,10 @@ export function ComboBuilder({
                                 data-testid={`pj-combo-option-${option.id}`}
                                 onClick={() => {
                                     setAdded(false);
+                                    if (option.id !== activeChoice) {
+                                        const index = state.active;
+                                        setCustom((prev) => prev.map((pick, i) => (i === index ? null : pick)));
+                                    }
                                     setState((s) => selectOption(s, option.id));
                                 }}
                                 className={cn(
@@ -464,12 +539,98 @@ export function ComboBuilder({
                     })}
                 </div>
                 {failed && (
-                    <p role="alert" className="rounded-xl bg-pj-garlic px-3 py-2.5 text-sm font-semibold text-pj-sale">
+                    <p role="alert" className="rounded-xl bg-pj-garlic px-3 py-2.5 text-sm font-semibold text-pj-sauce">
                         {t('builder.addError')}
                     </p>
                 )}
             </div>
+            {customizing !== null && state.selection[customizing] && (
+                <PizzaSheet
+                    key={`${customizing}-${state.selection[customizing]}`}
+                    productId={state.selection[customizing] as string}
+                    open
+                    onOpenChange={(open) => {
+                        if (!open) setCustomizing(null);
+                    }}
+                    slot={{
+                        size: offer.slots[customizing]?.size ?? 'family',
+                        selection:
+                            custom[customizing]?.masterId === state.selection[customizing]
+                                ? {
+                                      size: offer.slots[customizing]?.size ?? 'family',
+                                      crust: custom[customizing]?.crust ?? 'traditional',
+                                      extras: custom[customizing]?.extras ?? [],
+                                      removed: custom[customizing]?.removed ?? [],
+                                      quantity: 1,
+                                  }
+                                : null,
+                        onDone: (pick) => {
+                            const index = customizing;
+                            setAdded(false);
+                            setCustom((prev) => prev.map((p, i) => (i === index ? pick : p)));
+                        },
+                    }}
+                />
+            )}
+            {upsell && (
+                <Suspense fallback={null}>
+                    <UpsellSheet
+                        open
+                        onOpenChange={(open) => {
+                            if (!open) setUpsell(null);
+                        }}
+                        addedTitle={t('builder.addedTitle', { name: offer.name })}
+                        addedDetail={state.selection
+                            .map((id) => (id ? optionById[id]?.name : null))
+                            .filter(Boolean)
+                            .join(' + ')}
+                        basket={upsell.basket}
+                        comboFor={upsell.group}
+                        addedKind={addedKindForCombo(offer.id)}
+                        continueToMenu
+                    />
+                </Suspense>
+            )}
         </div>
+    );
+}
+
+/** Ranura elegida con «Personalizar» (S-D20): masa, extras y quitados, en la misma hoja de una pizza suelta. */
+function CustomizeCard({
+    name,
+    label,
+    pick,
+    onCustomize,
+}: {
+    name: string;
+    label: string;
+    pick: ComboSlotPizza | null;
+    onCustomize: () => void;
+}): ReactElement {
+    const { t } = useTranslation('extPjOffers');
+    return (
+        <section
+            className="flex items-center gap-3 rounded-pj-card bg-pj-surface p-3 shadow-pj-card"
+            data-testid="pj-combo-customize">
+            <div className="min-w-0 flex-1">
+                <p className="m-0 text-xs font-bold tracking-wide text-pj-gray-strong uppercase">{label}</p>
+                <p className="m-0 text-[17px] font-bold text-pj-ink">{name}</p>
+                <p className="m-0 text-[13px] text-pj-gray-strong" data-testid="pj-combo-customize-summary">
+                    {pick ? pick.summary : t('builder.customizeHint')}
+                </p>
+                {pick && pick.surcharge > 0 && (
+                    <p className="m-0 text-[13px] font-bold text-pj-basil">+{formatClp(pick.surcharge)}</p>
+                )}
+            </div>
+            <button
+                type="button"
+                onClick={onCustomize}
+                data-testid="pj-combo-customize-open"
+                aria-label={t('builder.customizeAria', { name })}
+                className="min-h-[44px] shrink-0 rounded-full border-2 border-pj-basil px-4 text-sm font-bold text-pj-basil focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green">
+                {pick ? t('builder.customizeEdit') : t('builder.customize')}
+            </button>
+        </section>
     );
 }
 

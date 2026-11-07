@@ -62,7 +62,13 @@
             "pickup": "Solo retiro"
         },
         "viewOrder": "Ver mi pedido",
-        "offLabel": "{{percent}} % de descuento"
+        "offLabel": "{{percent}} % de descuento",
+        "extras": "+ {{amount}} en extras",
+        "addedTitle": "{{name}} agregado",
+        "customize": "Personalizar",
+        "customizeEdit": "Cambiar",
+        "customizeHint": "Familiar · Tradicional · como viene",
+        "customizeAria": "Personalizar {{name}}: masa, extras o quitar ingredientes"
     },
     "unavailable": {
         "title": "Esta oferta es solo para retiro.",

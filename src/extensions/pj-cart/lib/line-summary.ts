@@ -16,6 +16,7 @@
 /** @sfdc-extension-file SFDC_EXT_PJ_CART */
 import { lineTotal } from '@/extensions/pj-product/lib/cart-lines';
 import { HALVES_PRODUCT_ID, parseHalves } from '@/extensions/pj-product/lib/halves';
+import { COMBO_FOR_ATTRIBUTE, comboGroupOf, comboOptionOf } from '@/extensions/pj-product/lib/combo-cart';
 import {
     EXTRA_OPTION_PREFIX,
     displayIngredientName,
@@ -118,6 +119,12 @@ export interface LineSummary {
     savings: number;
     /** «Editar»: la hoja de PRO (`sheet`) o el armador de mitades (`halves`). */
     edit: 'sheet' | 'halves' | null;
+    /** Super Dúo / Super Trío armado (S-D20, §7.1): grupo `c_pjComboGroup` de la pizza, o `null`. */
+    comboGroup: string | null;
+    /** Opción `pjCombo` de la pizza (`duo` / `trio`), o `null`. Se reenvía al editar. */
+    comboOption: string | null;
+    /** `c_pjComboFor` (§7.1): la pizza o el grupo al que acompaña esta línea de venta cruzada. */
+    comboFor: string | null;
 }
 
 const SIZES = ['individual', 'medium', 'family', 'extra_large'] as const;
@@ -335,6 +342,9 @@ export function summarizeLine(item: SummaryLineItem, labels: LineLabels, names: 
         productKind: names[productId]?.kind ?? null,
         savings,
         edit: kind === 'pizza' ? 'sheet' : kind === 'halves' ? 'halves' : null,
+        comboGroup: comboGroupOf(item),
+        comboOption: comboOptionOf(item),
+        comboFor: typeof item[COMBO_FOR_ATTRIBUTE] === 'string' ? (item[COMBO_FOR_ATTRIBUTE] as string) : null,
     };
 }
 
@@ -404,6 +414,41 @@ export function groupHazloCombo(
     const indexed = summaries.map((line, index) => ({ line, index }));
     const combos = new Map<number, ComboGroup>();
     const grouped = new Set<number>();
+    const makeGroup = (side: LineSummary, drink: LineSummary): ComboGroup => {
+        const total = side.total + drink.total;
+        const baseTotal = side.baseTotal + drink.baseTotal;
+        return {
+            parts: [side.name, drink.name],
+            itemIds: [side.itemId, drink.itemId],
+            productIds: [side.productId, drink.productId],
+            total,
+            baseTotal,
+            savings: Math.max(0, baseTotal - total),
+        };
+    };
+    // §7.1: con `c_pjComboFor` la línea dice a qué pizza (o grupo de combo) acompaña; manda sobre el orden.
+    const anchorOf = (target: string): number => {
+        const direct = summaries.findIndex((line) => line.itemId === target && isPizza(line));
+        if (direct >= 0) return direct;
+        let last = -1;
+        summaries.forEach((line, index) => {
+            if (line.comboGroup === target && isPizza(line)) last = index;
+        });
+        return last;
+    };
+    const targets = [...new Set(summaries.map((line) => line.comboFor).filter((v): v is string => Boolean(v)))];
+    for (const target of targets) {
+        const anchor = anchorOf(target);
+        if (anchor < 0 || combos.has(anchor)) continue;
+        const side = indexed.find(({ line, index }) => line.comboFor === target && isSide(line) && !grouped.has(index));
+        const drink = indexed.find(
+            ({ line, index }) => line.comboFor === target && isDrink(line) && !grouped.has(index)
+        );
+        if (!side || !drink) continue;
+        combos.set(anchor, makeGroup(side.line, drink.line));
+        grouped.add(side.index);
+        grouped.add(drink.index);
+    }
     for (let i = 1; i + 1 < summaries.length; i += 1) {
         const a = summaries[i];
         const b = summaries[i + 1];

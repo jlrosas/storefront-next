@@ -28,7 +28,10 @@ import { HAZLO_COMBO_DRINKS, HAZLO_COMBO_SIDE } from '@/extensions/pj-product/li
 import { openFulfillmentPanel } from '@/extensions/pj-store/lib/fulfillment-store';
 import { useLineSummaries } from '../hooks/use-line-summaries';
 import { COMBO_PROMOTIONS, type ComboGroup, type LineSummary, type SummaryLineItem } from '../lib/line-summary';
-import { cartTotals, checkoutBlock, pickOffer, type CanjeState } from '../lib/cart-model';
+import { cartTotals, checkoutBlock, pickCartSection, type CanjeState } from '../lib/cart-model';
+import { cartBlocks, readdGroupPayload, type ComboGroupSummary } from '../lib/combo-group';
+import { ComboGroupBlock } from './combo-group';
+import { CartRecommendations } from './cart-recommendations';
 import { writeCanjeCookie } from '../lib/canje';
 import { readdComboPayload, readdPayload } from '../lib/undo';
 import { showRemovedToast } from '../lib/removed-toast';
@@ -110,6 +113,10 @@ export function PjCartPage({
     const [canjeState, setCanjeState] = useState<CanjeState | null>(loaderCanje ?? null);
     const ignore = useMemo(() => (canjeState ? [canjeState.itemId] : []), [canjeState]);
     const { summaries, entries } = useLineSummaries(items, lineProducts, ignore);
+    const groupNames = useMemo(
+        () => ({ 'cb-super-duo': t('group.name.duo'), 'cb-super-trio': t('group.name.trio') }),
+        [t]
+    );
     const itemsRef = useRef(new Map<string, SummaryLineItem>());
     for (const item of items) if (item.itemId) itemsRef.current.set(item.itemId, item);
 
@@ -132,6 +139,17 @@ export function PjCartPage({
                 undoLabel: t('line.undo'),
                 undoAria: t('line.undoAria', { name: summary.name }),
                 onUndo: () => void undoSubmit(payload),
+            });
+        },
+        [t, undoSubmit]
+    );
+    const onGroupRemoved = useCallback(
+        (group: ComboGroupSummary) => {
+            showRemovedToast({
+                message: t('line.removed', { name: group.name }),
+                undoLabel: t('line.undo'),
+                undoAria: t('line.undoAria', { name: group.name }),
+                onUndo: () => void undoSubmit(readdGroupPayload(group)),
             });
         },
         [t, undoSubmit]
@@ -168,13 +186,17 @@ export function PjCartPage({
         missingForDelivery: totals.missingForDelivery,
         pickupOnlyWithDelivery: pickupOnlyItems.size > 0,
     });
-    const offer = pickOffer(entries, {
+    // Una sola sección de venta cruzada: «Conviértelo en combo» o «¿Le sumamos algo?» (S-D19).
+    const section = pickCartSection(entries, basket, {
         hasDrinkCandidate: Boolean(extras.drink),
         hasDessertCandidate: Boolean(extras.dessert),
         comboSide: HAZLO_COMBO_SIDE,
         comboDrinks: COMBO_DRINKS,
         storeClosed,
+        catalog: extras.crossSell,
+        kinds: Object.fromEntries(Object.entries(lineProducts).map(([id, product]) => [id, product.kind])),
     });
+    const blocks = cartBlocks(entries, groupNames);
     const looseItems = summaries
         .filter(
             (line) =>
@@ -185,6 +207,53 @@ export function PjCartPage({
     // Igual que el contador «Mi pedido · N» del encabezado: unidades de la canasta.
     const count = summaries.reduce((sum, line) => sum + line.quantity, 0);
     const registered = Boolean(me?.registered);
+
+    const renderEntry = ({ summary, combo }: (typeof entries)[number], grouped: boolean): ReactElement[] => {
+        const isCanje = canje?.itemId === summary.itemId;
+        const nodes = [
+            <CartLine
+                key={summary.itemId}
+                summary={summary}
+                products={lineProducts}
+                onRemoved={onRemoved}
+                joined={Boolean(combo)}
+                grouped={grouped}
+                canje={
+                    isCanje && canje
+                        ? {
+                              points: canje.points,
+                              value: canje.value,
+                              fresh: freshCanje === summary.itemId,
+                          }
+                        : null
+                }
+                notice={
+                    pickupOnlyItems.has(summary.itemId) ? (
+                        <p className="m-0 text-sm text-pj-price">
+                            {t('line.pickupOnly')}{' '}
+                            <button
+                                type="button"
+                                onClick={() => openFulfillmentPanel({ initialMode: 'pickup' })}
+                                className="inline-flex min-h-11 items-center font-bold text-pj-basil underline underline-offset-4">
+                                {t('line.toPickup')}
+                            </button>
+                        </p>
+                    ) : null
+                }
+            />,
+        ];
+        if (combo) {
+            nodes.push(
+                <ComboLine
+                    key={`combo-${combo.itemIds.join('-')}`}
+                    combo={combo}
+                    image={extras.comboImage}
+                    onRemoved={onComboRemoved}
+                />
+            );
+        }
+        return nodes;
+    };
 
     const keepBrowsing = (
         <Link
@@ -210,53 +279,23 @@ export function PjCartPage({
                             aria-label={t('page.linesLabel')}
                             className="m-0 list-none divide-y divide-pj-line rounded-pj-card bg-pj-surface px-4 shadow-pj-card lg:px-5"
                             data-testid="pj-cart-lines">
-                            {entries.flatMap(({ summary, combo }) => {
-                                const isCanje = canje?.itemId === summary.itemId;
-                                const nodes = [
-                                    <CartLine
-                                        key={summary.itemId}
-                                        summary={summary}
-                                        products={lineProducts}
-                                        onRemoved={onRemoved}
-                                        joined={Boolean(combo)}
-                                        canje={
-                                            isCanje && canje
-                                                ? {
-                                                      points: canje.points,
-                                                      value: canje.value,
-                                                      fresh: freshCanje === summary.itemId,
-                                                  }
-                                                : null
-                                        }
-                                        notice={
-                                            pickupOnlyItems.has(summary.itemId) ? (
-                                                <p className="m-0 text-sm text-pj-price">
-                                                    {t('line.pickupOnly')}{' '}
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => openFulfillmentPanel({ initialMode: 'pickup' })}
-                                                        className="inline-flex min-h-11 items-center font-bold text-pj-basil underline underline-offset-4">
-                                                        {t('line.toPickup')}
-                                                    </button>
-                                                </p>
-                                            ) : null
-                                        }
-                                    />,
-                                ];
-                                if (combo) {
-                                    nodes.push(
-                                        <ComboLine
-                                            key={`combo-${combo.itemIds.join('-')}`}
-                                            combo={combo}
-                                            image={extras.comboImage}
-                                            onRemoved={onComboRemoved}
-                                        />
-                                    );
-                                }
-                                return nodes;
-                            })}
+                            {blocks.map((item) =>
+                                item.type === 'group' ? (
+                                    <ComboGroupBlock
+                                        key={item.group.group}
+                                        group={item.group}
+                                        onRemoved={onGroupRemoved}>
+                                        {item.entries.flatMap((entry) => renderEntry(entry, true))}
+                                    </ComboGroupBlock>
+                                ) : (
+                                    renderEntry(item.entry, false)
+                                )
+                            )}
                         </ul>
-                        {offer && <OfferCard kind={offer} extras={extras} looseItems={looseItems} />}
+                        {section?.kind === 'convert' && (
+                            <OfferCard kind="convert" extras={extras} looseItems={looseItems} />
+                        )}
+                        {section?.kind === 'recommend' && <CartRecommendations items={section.items} />}
                     </div>
                     <aside
                         className="flex flex-col gap-4 lg:sticky lg:top-[calc(var(--header-height,72px)+1.5rem)] lg:rounded-pj-card lg:bg-pj-surface lg:p-5 lg:shadow-pj-card"

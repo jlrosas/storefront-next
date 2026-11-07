@@ -17,6 +17,7 @@
 import type { FulfillmentMode } from '@/extensions/pj-shared/lib/fulfillment';
 import type { LineProducts } from './line-summary';
 import type { CanjeState } from './cart-model';
+import type { CrossSellCatalog } from '@/extensions/pj-product/lib/upsell';
 
 /** Modalidad y tienda para la primera tarjeta del carrito (UX-2 §4 regla 2). */
 export interface CartFulfillment {
@@ -57,6 +58,8 @@ export interface CartExtras {
     emptyImage: string | null;
     /** Foto del combo «Palitos y bebida». */
     comboImage: string | null;
+    /** Bebidas por tamaño, acompañamientos y postres de «¿Le sumamos algo?» (S-D19). */
+    crossSell: CrossSellCatalog;
 }
 
 /** Lo que el loader de `/cart` agrega para CAR. */

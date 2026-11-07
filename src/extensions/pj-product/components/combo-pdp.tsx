@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 /** @sfdc-extension-file SFDC_EXT_PJ_PRODUCT */
-import { type ReactElement, useRef, useState } from 'react';
+import { type ReactElement, Suspense, lazy, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { FoodImage } from '@/extensions/pj-shared/components/food-image';
@@ -39,6 +39,9 @@ import { useImageUrl } from '../hooks/use-image-url';
 import { CheckIcon } from './icons';
 import { AddButton, Breadcrumb, CompleteOrder, Highlights, MobileBar, QuantityStepper } from './pdp-parts';
 import { useAddFlow, useSideSelection } from '../hooks/use-pdp-add';
+import { addedKindForCombo } from '../lib/cross-sell';
+
+const UpsellSheet = lazy(() => import('./upsell-sheet'));
 
 /** Las fotos de combo son 4:3 (1440×1080, S-D8): en esa caja se ve la composición completa, sin cortar la bebida. */
 const PHOTO = 'aspect-[4/3] w-full lg:rounded-[18px]';
@@ -65,7 +68,12 @@ export function ComboPdp({ data }: { data: ComboPdpData }): ReactElement {
     const [selection, setSelection] = useState<ComboSelection>(() => defaultComboSelection(data.slots));
     const [quantity, setQuantity] = useState(1);
     const sides = useSideSelection();
-    const flow = useAddFlow({ productName: data.name, imageSrc: data.image, heroRef });
+    const flow = useAddFlow({
+        productName: data.name,
+        imageSrc: data.image,
+        heroRef,
+        crossSell: data.slots.some((slot) => slot.kind === 'pizza') ? addedKindForCombo(data.productId) : undefined,
+    });
 
     const total = addTotal(data.price, quantity, [sides.total]);
     const points = pointsFor(total, 0, me?.doublePoints ?? false);
@@ -264,6 +272,21 @@ export function ComboPdp({ data }: { data: ComboPdpData }): ReactElement {
             <MobileBar summary={`${summary}${sides.ids.length ? ` + ${sides.ids.length}` : ''}`} error={flow.error}>
                 {button}
             </MobileBar>
+            {flow.upsell && (
+                <Suspense fallback={null}>
+                    <UpsellSheet
+                        open
+                        onOpenChange={(open) => {
+                            if (!open) flow.closeUpsell();
+                        }}
+                        addedTitle={t('complete.addedCombo', { name: data.name })}
+                        addedDetail={included.map((i) => i.text).join(' · ')}
+                        basket={flow.upsell}
+                        addedKind={addedKindForCombo(data.productId)}
+                        continueToMenu
+                    />
+                </Suspense>
+            )}
         </div>
     );
 }

@@ -24,25 +24,33 @@ import { useShowAddedToast } from '@/extensions/pj-shared/lib/added-toast';
 import type { PjCartPayload } from '../lib/cart-payload';
 import type { SideProduct } from '../lib/upsell';
 import { linesTotal } from '../lib/cart-lines';
-import { flyToCart } from '../lib/cart-bump';
+import { flyToCart } from '@/extensions/pj-shared/lib/fly-to-cart';
+import type { ShopperBasketsV2 } from '@/scapi';
+import { nextCrossSell, type AddedKind } from '../lib/cross-sell';
 import { ensureFulfillment } from '../lib/fulfillment-request';
 import { usePjCart } from './use-pj-cart';
 
 /** Agregar con la tienda resuelta por el panel de TIE, aviso con puntos, «Deshacer» y «Ver mi pedido». */
 export function useAddFlow({
     productName,
-    imageSrc,
     heroRef,
+    crossSell,
 }: {
     productName: string;
-    imageSrc: string | null;
+    /** Foto del producto (se conserva por compatibilidad; el vuelo sale de `heroRef`). */
+    imageSrc?: string | null;
     heroRef: RefObject<HTMLElement | null>;
+    /** Qué se agrega, para «Completa tu pedido» (S-D19). Sin él (simples) se muestra solo el aviso. */
+    crossSell?: AddedKind;
 }): {
     add: (payload: PjCartPayload, total: number) => Promise<void>;
     busy: boolean;
     added: boolean;
     error: string | null;
     reset: () => void;
+    /** Canasta con la que abrir «Completa tu pedido», o `null`. */
+    upsell: ShopperBasketsV2.schemas['Basket'] | null;
+    closeUpsell: () => void;
 } {
     const { t } = useTranslation('extPjProduct');
     const me = usePjMe();
@@ -51,6 +59,7 @@ export function useAddFlow({
     const { submit, busy } = usePjCart();
     const [added, setAdded] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [upsell, setUpsell] = useState<ShopperBasketsV2.schemas['Basket'] | null>(null);
 
     const add = useCallback(
         async (payload: PjCartPayload, total: number) => {
@@ -66,8 +75,13 @@ export function useAddFlow({
                 return;
             }
             const ids = result.addedItemIds ?? [];
-            flyToCart(heroRef.current, imageSrc);
             setAdded(true);
+            // «Completa tu pedido» confirma con su franja; un solo vuelo, desde la foto (D-P1-4).
+            if (crossSell && nextCrossSell(result.basket, crossSell)) {
+                void flyToCart(heroRef.current);
+                setUpsell(result.basket);
+                return;
+            }
             showAddedToast({
                 productName,
                 points: pointsFor(linesTotal(result.basket, ids), 0, me?.doublePoints ?? false),
@@ -79,10 +93,18 @@ export function useAddFlow({
                     : undefined,
             });
         },
-        [busy, productName, imageSrc, heroRef, revalidator, submit, t, showAddedToast, me?.doublePoints]
+        [busy, productName, heroRef, revalidator, submit, t, showAddedToast, me?.doublePoints, crossSell]
     );
 
-    return { add, busy, added, error, reset: () => setAdded(false) };
+    return {
+        add,
+        busy,
+        added,
+        error,
+        reset: () => setAdded(false),
+        upsell,
+        closeUpsell: () => setUpsell(null),
+    };
 }
 
 /** Complementos marcados con su precio (el precio viene de la tarjeta, sin volver a pedirlo). */

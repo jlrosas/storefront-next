@@ -24,6 +24,9 @@ export interface OptionItemInput {
     optionValueId: string;
 }
 
+/** Valores de opción que acepta la acción: extras (`si`/`no`) y la marca de combo `pjCombo` (`duo`/`trio`, §7.1). */
+const OPTION_VALUES = ['si', 'no', 'duo', 'trio'];
+
 /** Lo que manda la hoja, la ficha y el armador a `/action/pj-cart` (campo `payload`, JSON). */
 export type PjCartPayload =
     | {
@@ -57,7 +60,26 @@ export type PjCartPayload =
           choices: Array<{ slot: string; product: string }>;
           sides?: string[];
       }
-    | { intent: 'add'; items: Array<{ productId: string; quantity: number }> }
+    | {
+          /**
+           * Super Dúo / Super Trío (S-D20): las pizzas como líneas de pizza normales con `pjCombo` y el mismo
+           * `c_pjComboGroup` (`lib/combo-cart.ts`).
+           */
+          intent: 'combo-pizzas';
+          comboId: string;
+          pizzas: Array<{ productId: string; optionItems: OptionItemInput[]; removed: string[] }>;
+      }
+    | {
+          /** Quita un combo armado entero: todas las líneas de su `c_pjComboGroup`. */
+          intent: 'combo-remove';
+          group: string;
+      }
+    | {
+          intent: 'add';
+          items: Array<{ productId: string; quantity: number }>;
+          /** `c_pjComboFor` (§7.1): la pizza (`itemId`) o el grupo del combo al que acompañan estas líneas. */
+          comboFor?: string;
+      }
     | { intent: 'remove'; itemIds: string[] }
     | { intent: 'swap'; itemId: string; productId: string };
 
@@ -66,6 +88,10 @@ export interface PjCartResult {
     basket?: ShopperBasketsV2.schemas['Basket'];
     /** Líneas creadas (o la línea editada) por esta llamada, para «Deshacer» y el paso «Hazlo combo». */
     addedItemIds?: string[];
+    /** `combo-pizzas`: la promoción del combo quedó aplicada a las pizzas en la canasta. */
+    comboApplied?: boolean;
+    /** `combo-pizzas`: grupo creado (`c_pjComboGroup`) o `null` si la canasta no aceptó el atributo. */
+    comboGroup?: string | null;
     error?: { code?: string; message?: string };
 }
 
@@ -93,8 +119,7 @@ export function parsePjCartPayload(raw: unknown): PjCartPayload | null {
                       (o): o is OptionItemInput =>
                           !!o &&
                           isString((o as OptionItemInput).optionId) &&
-                          ((o as OptionItemInput).optionValueId === 'si' ||
-                              (o as OptionItemInput).optionValueId === 'no')
+                          OPTION_VALUES.includes((o as OptionItemInput).optionValueId)
                   )
                 : [];
             return {
@@ -135,6 +160,31 @@ export function parsePjCartPayload(raw: unknown): PjCartPayload | null {
                 sides: Array.isArray(p.sides) ? p.sides.filter(isString) : [],
             };
         }
+        case 'combo-pizzas': {
+            if (!isString(p.comboId) || !p.comboId.startsWith('cb-') || !Array.isArray(p.pizzas)) return null;
+            const pizzas = p.pizzas.flatMap((entry) => {
+                const pizza = entry as { productId?: unknown; optionItems?: unknown; removed?: unknown } | null;
+                if (!pizza || !isString(pizza.productId) || !pizza.productId.startsWith('pz-')) return [];
+                return [
+                    {
+                        productId: pizza.productId,
+                        optionItems: Array.isArray(pizza.optionItems)
+                            ? pizza.optionItems.filter(
+                                  (o): o is OptionItemInput =>
+                                      !!o &&
+                                      isString((o as OptionItemInput).optionId) &&
+                                      (o as OptionItemInput).optionValueId === 'si'
+                              )
+                            : [],
+                        removed: Array.isArray(pizza.removed) ? pizza.removed.filter(isString) : [],
+                    },
+                ];
+            });
+            if (pizzas.length === 0 || pizzas.length !== p.pizzas.length) return null;
+            return { intent: 'combo-pizzas', comboId: p.comboId, pizzas };
+        }
+        case 'combo-remove':
+            return isString(p.group) ? { intent: 'combo-remove', group: p.group } : null;
         case 'add': {
             if (!Array.isArray(p.items)) return null;
             const items = p.items.filter(
@@ -143,7 +193,8 @@ export function parsePjCartPayload(raw: unknown): PjCartPayload | null {
                     isString((i as { productId: unknown }).productId) &&
                     isQuantity((i as { quantity: unknown }).quantity)
             );
-            return items.length ? { intent: 'add', items } : null;
+            if (!items.length) return null;
+            return isString(p.comboFor) ? { intent: 'add', items, comboFor: p.comboFor } : { intent: 'add', items };
         }
         case 'remove': {
             const itemIds = Array.isArray(p.itemIds) ? p.itemIds.filter(isString) : [];

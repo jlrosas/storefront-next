@@ -17,6 +17,13 @@
 import { DELIVERY_FEE_CLP, DELIVERY_MINIMUM_CLP } from '@/extensions/pj-shared/lib/fulfillment';
 import { pointsFor } from '@/extensions/pj-shared/lib/points';
 import { COMBO_PROMOTIONS, type CartEntry, type LineSummary } from './line-summary';
+import {
+    cartRecommendations,
+    type CrossSellBasket,
+    type RecommendationKind,
+} from '@/extensions/pj-product/lib/cross-sell';
+import type { CrossSellCatalog } from '@/extensions/pj-product/lib/upsell';
+import type { CartProduct } from './types';
 
 /**
  * Reglas del carrito objetivo (UX-3): una sola oferta por prioridad, el resumen con ahorro y canje, los puntos
@@ -143,4 +150,47 @@ export function checkoutBlock(input: {
     if (input.pickupOnlyWithDelivery) return 'pickup-only';
     if (input.missingForDelivery > 0) return 'minimum';
     return null;
+}
+
+/** La sección de venta cruzada del carrito (UX-3 §3.5 + S-D19): «Conviértelo en combo» o «¿Le sumamos algo?». */
+export type CartSection = { kind: 'convert' } | { kind: 'recommend'; items: CartRecommendationItem[] } | null;
+
+export interface CartRecommendationItem extends CartProduct {
+    kind: RecommendationKind;
+}
+
+/** Producto de la venta cruzada por ID, con el nombre de la bebida y su tamaño («Coca-Cola 2,5 L»). */
+export function crossSellProduct(catalog: CrossSellCatalog, productId: string): CartProduct | null {
+    for (const drink of catalog.drinks) {
+        const size = drink.sizes.find((s) => s.productId === productId);
+        if (size) {
+            return {
+                productId,
+                name: `${drink.name} ${size.size.replace('.', ',')} L`,
+                price: size.price,
+                image: drink.image,
+            };
+        }
+    }
+    const product = [...catalog.sides, ...catalog.desserts].find((p) => p.productId === productId);
+    return product ? { productId, name: product.name, price: product.price, image: product.image } : null;
+}
+
+/**
+ * Una sola sección (UX-3: no un muro). Prioridad 1: «Conviértelo en combo» (palitos y bebida 1,5 L sueltos). Si no,
+ * «¿Le sumamos algo?» con hasta 3 recomendaciones (bebida, acompañamiento, postre) según lo que falte, nunca
+ * pizzas (`cartRecommendations`, S-D19). Con la tienda cerrada, nada.
+ */
+export function pickCartSection(
+    entries: CartEntry[],
+    basket: CrossSellBasket | null | undefined,
+    ctx: OfferContext & { catalog: CrossSellCatalog; kinds?: Record<string, string | null | undefined> }
+): CartSection {
+    if (ctx.storeClosed || !entries.length) return null;
+    if (pickOffer(entries, ctx) === 'convert') return { kind: 'convert' };
+    const items = cartRecommendations(basket, ctx.kinds).flatMap((rec) => {
+        const product = crossSellProduct(ctx.catalog, rec.productId);
+        return product ? [{ ...product, kind: rec.kind }] : [];
+    });
+    return items.length ? { kind: 'recommend', items } : null;
 }

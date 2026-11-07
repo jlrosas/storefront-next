@@ -25,10 +25,22 @@ import { HALVES_PARTS, serializeHalves } from '../lib/halves';
 import { parsePjCartPayload, type PjCartPayload } from '../lib/cart-payload';
 import { fetchProductById } from '@/lib/api/products.server';
 import { parseComboSlots, validateComboChoices } from '../lib/combo-pdp';
+import {
+    COMBO_CART,
+    COMBO_CRUSTS,
+    COMBO_FOR_ATTRIBUTE,
+    COMBO_GROUP_ATTRIBUTE,
+    COMBO_OPTION_ID,
+    comboLineAttributes,
+    comboOptionItem,
+    groupItemIds,
+    isComboCart,
+    newComboGroup,
+} from '../lib/combo-cart';
+import { parseVariantId } from '@/extensions/pj-cart/lib/line-summary';
 
 type Basket = ShopperBasketsV2.schemas['Basket'];
 type ProductItem = ShopperBasketsV2.schemas['ProductItem'];
-
 function newItemIds(before: Basket, after: Basket): string[] {
     const known = new Set((before.productItems ?? []).map((item) => item.itemId));
     return (after.productItems ?? []).map((item) => item.itemId ?? '').filter((id) => id && !known.has(id));
@@ -44,6 +56,8 @@ function newItemIds(before: Basket, after: Basket): string[] {
  *   hook del carrito; esta acción no lo calcula.
  * - `combo`: combo con ficha (PRO-08) con sus elecciones en `c_pjComboChoices` (texto JSON
  *   `[{"slot","product"}]`, validadas contra `c_pjSlots`) y los complementos marcados, en una sola llamada.
+ * - `combo-pizzas` (S-D20, §7.1): Super Dúo / Super Trío como pizzas normales con `pjCombo` y `c_pjComboGroup`.
+ * - `combo-remove`: quita todas las pizzas de un combo armado.
  * - `add`, `remove`, `swap`: productos simples («Hazlo combo», «O agrega por separado», sabor de la bebida).
  *
  * Responde `{ success, basket, addedItemIds }`.
@@ -67,6 +81,8 @@ export const action = createBasketAction<PjCartPayload | null>(
         const path = { basketId };
         let result: Basket = basket;
         let edited: string | null = null;
+        let comboApplied: boolean | undefined;
+        let comboGroup: string | null | undefined;
 
         switch (input.intent) {
             case 'pizza': {
@@ -155,10 +171,92 @@ export const action = createBasketAction<PjCartPayload | null>(
                 result = added;
                 break;
             }
+            case 'combo-pizzas': {
+                const combo = (await fetchProductById(context, input.comboId)) as { c_pjSlots?: unknown } | null;
+                const slots = parseComboSlots(combo?.c_pjSlots).filter((slot) => slot.kind === 'pizza');
+                const choices = input.pizzas.map((pizza, index) => ({
+                    slot: slots[index]?.id ?? '',
+                    product: pizza.productId,
+                }));
+                const crustsOk = input.pizzas.every((pizza) =>
+                    COMBO_CRUSTS.includes(parseVariantId(pizza.productId)?.crust ?? '')
+                );
+                if (
+                    !combo ||
+                    !isComboCart(input.comboId) ||
+                    slots.length !== input.pizzas.length ||
+                    !crustsOk ||
+                    !validateComboChoices(slots, choices)
+                ) {
+                    logger.warn('PjCart: combo pizzas do not match the slots', { comboId: input.comboId });
+                    return data<BasketActionResponse>(
+                        {
+                            success: false,
+                            error: createActionError({
+                                code: ErrorCode.INVALID_INPUT,
+                                message: 'Combo pizzas do not match the combo slots',
+                            }),
+                        },
+                        { status: 400 }
+                    );
+                }
+                const group = newComboGroup(input.comboId);
+                const marker = comboOptionItem(input.comboId);
+                const lines = (withGroup: boolean) =>
+                    input.pizzas.map(
+                        (pizza) =>
+                            ({
+                                productId: pizza.productId,
+                                quantity: 1,
+                                // §7.1: `pjCombo` activa la promoción del combo; los extras van en `si` encima.
+                                optionItems: [
+                                    ...(marker ? [marker] : []),
+                                    ...pizza.optionItems.filter((o) => o.optionId !== COMBO_OPTION_ID),
+                                ],
+                                c_pjRemoved: pizza.removed,
+                                ...(withGroup ? comboLineAttributes(group) : {}),
+                            }) as unknown as ProductItem
+                    );
+                try {
+                    ({ data: result } = await clients.shopperBasketsV2.addItemToBasket({
+                        params: { path },
+                        body: lines(true),
+                    }));
+                    comboGroup = group;
+                } catch (error) {
+                    // Sin el atributo de DAT-11 en el sandbox, las pizzas entran igual (sin agrupar en el carrito).
+                    logger.warn('PjCart: combo group attribute rejected, adding without it', {
+                        attribute: COMBO_GROUP_ATTRIBUTE,
+                        error: String(error),
+                    });
+                    ({ data: result } = await clients.shopperBasketsV2.addItemToBasket({
+                        params: { path },
+                        body: lines(false),
+                    }));
+                    comboGroup = null;
+                }
+                const promotionId = COMBO_CART[input.comboId]?.promotionId;
+                const fresh = new Set(newItemIds(basket, result));
+                comboApplied = (result.productItems ?? [])
+                    .filter((item) => fresh.has(item.itemId ?? ''))
+                    .every((item) => (item.priceAdjustments ?? []).some((a) => a.promotionId === promotionId));
+                break;
+            }
+            case 'combo-remove': {
+                // §7.1: se quitan todas las líneas del grupo (una sola dejaría a la otra a precio normal).
+                for (const itemId of groupItemIds(result, input.group)) {
+                    const { data: removed } = await clients.shopperBasketsV2.removeItemFromBasket({
+                        params: { path: { ...path, itemId } },
+                    });
+                    result = removed;
+                }
+                break;
+            }
             case 'add': {
+                const comboFor = input.comboFor ? { [COMBO_FOR_ATTRIBUTE]: input.comboFor } : {};
                 const { data: added } = await clients.shopperBasketsV2.addItemToBasket({
                     params: { path },
-                    body: input.items,
+                    body: input.items.map((item) => ({ ...item, ...comboFor }) as ProductItem),
                 });
                 result = added;
                 break;
@@ -190,6 +288,12 @@ export const action = createBasketAction<PjCartPayload | null>(
         updateBasketResource(context, result);
         const addedItemIds = [...(edited ? [edited] : []), ...newItemIds(basket, result)];
         logger.info('PjCart: succeeded', { intent: input.intent, addedItemIds });
-        return data({ success: true, basket: result, addedItemIds } as BasketActionResponse);
+        return data({
+            success: true,
+            basket: result,
+            addedItemIds,
+            ...(comboApplied !== undefined ? { comboApplied } : {}),
+            ...(comboGroup !== undefined ? { comboGroup } : {}),
+        } as BasketActionResponse);
     }
 );

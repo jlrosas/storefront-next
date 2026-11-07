@@ -151,13 +151,26 @@ export interface CartLineProps {
     onRemoved: (summary: LineSummary) => void;
     /** Debajo va su «Combo Palitos y bebida»: sin divisor entre las dos. */
     joined?: boolean;
+    /**
+     * Pizza de un Super Dúo / Super Trío armado (S-D20): sin precio ni cantidad propios (el grupo los muestra) y
+     * «Editar» con el tamaño fijo y la opción `pjCombo` reenviada (§7.1).
+     */
+    grouped?: boolean;
 }
 
 /**
  * Línea de `/cart` (UX-3 §3.3): foto, nombre, total con extras, configuración en una línea, extras en otra,
  * «Editar» con la hoja de PRO y la píldora de cantidad (papelera con 1). Al quitar se colapsa en 200 ms.
  */
-export function CartLine({ summary, products, canje, notice, onRemoved, joined }: CartLineProps): ReactElement {
+export function CartLine({
+    summary,
+    products,
+    canje,
+    notice,
+    onRemoved,
+    joined,
+    grouped = false,
+}: CartLineProps): ReactElement {
     const { t } = useTranslation('extPjCart');
     const [editing, setEditing] = useState(false);
     const [leaving, setLeaving] = useState(false);
@@ -215,7 +228,7 @@ export function CartLine({ summary, products, canje, notice, onRemoved, joined }
                             {summary.name}
                             {canje && summary.size ? ` ${t(`size.${summary.size}` as 'size.medium')}` : ''}
                         </h3>
-                        <div className="flex shrink-0 flex-col items-end">
+                        <div className={cn('flex shrink-0 flex-col items-end', grouped && 'hidden')}>
                             {canje ? (
                                 <PriceTag price={0} listPrice={canje.value} showSavings={false} size="sm" />
                             ) : (
@@ -268,7 +281,9 @@ export function CartLine({ summary, products, canje, notice, onRemoved, joined }
                                     {t('line.remove')}
                                 </button>
                             )}
-                            <QuantityPill name={summary.name} quantity={quantity} busy={busy} onChange={change} />
+                            {!grouped && (
+                                <QuantityPill name={summary.name} quantity={quantity} busy={busy} onChange={change} />
+                            )}
                         </div>
                     )}
                     {failed && (
@@ -283,6 +298,8 @@ export function CartLine({ summary, products, canje, notice, onRemoved, joined }
                     productId={summary.masterId}
                     itemId={summary.itemId}
                     halfFirst={summary.edit === 'halves'}
+                    {...(grouped && summary.size ? { lockedSize: summary.size } : {})}
+                    {...(summary.comboOption ? { comboOption: summary.comboOption } : {})}
                     open={editing}
                     onOpenChange={setEditing}
                 />

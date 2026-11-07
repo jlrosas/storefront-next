@@ -34,6 +34,8 @@ import { useShowAddedToast } from '@/extensions/pj-shared/lib/added-toast';
 import type { PizzaSheetData } from '../routes/resource.pj-pizza';
 import {
     MAX_QUANTITY,
+    crustSurcharge,
+    extraPriceForSize,
     defaultSelection,
     findVariant,
     normalizeSelection,
@@ -45,19 +47,22 @@ import {
     type PizzaSelection,
 } from '../lib/pizza';
 import type { SheetUpsell } from '../lib/upsell';
-import { basketTotal, itemCount, linesTotal, pizzaLineCount } from '../lib/cart-lines';
+import { linesTotal } from '../lib/cart-lines';
+import { nextCrossSell, type CrossSellPlan } from '../lib/cross-sell';
+import { COMBO_CRUSTS, COMBO_OPTION_ID, slotSurcharge, type ComboSlotPizza } from '../lib/combo-cart';
+import { flyToCart } from '@/extensions/pj-shared/lib/fly-to-cart';
 import { ensureFulfillment } from '../lib/fulfillment-request';
 import { PRO_TOKENS } from '../lib/tokens';
 import { usePjCart } from '../hooks/use-pj-cart';
 import { PizzaConfigurator } from './pizza-configurator';
-import { HazloComboStep } from './hazlo-combo-step';
+import { CompleteOrderStep } from './complete-order-step';
+import { UpsellFooter, PJ_UPSELL_RESOURCE } from './upsell-sheet';
 import { HalvesBuilder } from './halves-builder';
 import { HALVES_PRODUCT_ID, type HalvesBuilderData } from '../lib/halves';
 import { MinusIcon, PlusIcon } from './icons';
 import { CloseIcon } from '@/extensions/pj-shared/components/icons';
 import { useImageUrl } from '../hooks/use-image-url';
 import { cn } from '@/lib/utils';
-import { requestComboOffer } from '../lib/combo-offer';
 import { weeklyOrdersFor } from '../lib/weekly';
 
 type Basket = ShopperBasketsV2.schemas['Basket'];
@@ -75,6 +80,17 @@ export interface PizzaSheetProps {
     size?: string;
     /** Se llama después de agregar o guardar, con el carrito que devolvió SCAPI. */
     onSaved?: (result: { basket: Basket; itemIds: string[] }) => void;
+    /**
+     * Modo «ranura» del constructor de combos (S-D20): tamaño fijo, sin cantidad ni carrito. «Listo» devuelve la
+     * pizza armada a la ranura con `onDone`.
+     */
+    slot?: { size: string; selection?: PizzaSelection | null; onDone: (pizza: ComboSlotPizza) => void };
+    /**
+     * Editar una pizza de un Super Dúo / Super Trío desde el carrito: tamaño fijo, masas del combo y la opción
+     * `pjCombo` (`duo` / `trio`) se reenvía al guardar (§7.1).
+     */
+    lockedSize?: string;
+    comboOption?: string;
 }
 
 type Step = 'configure' | 'upsell';
@@ -139,6 +155,9 @@ function PizzaSheetBody({
     itemId,
     size: initialSize,
     onSaved,
+    slot,
+    lockedSize,
+    comboOption,
 }: PizzaSheetProps): ReactElement {
     const { t } = useTranslation('extPjProduct');
     const navigate = useNavigate();
@@ -152,6 +171,7 @@ function PizzaSheetBody({
     const [selection, setSelection] = useState<PizzaSelection | null>(null);
     const [step, setStep] = useState<Step>('configure');
     const [basket, setBasket] = useState<Basket | null>(null);
+    const [plan, setPlan] = useState<CrossSellPlan | null>(null);
     const [addedPizzaId, setAddedPizzaId] = useState<string | null>(null);
     const [storeVersion, setStoreVersion] = useState(0);
     const [error, setError] = useState<string | null>(null);
@@ -167,18 +187,29 @@ function PizzaSheetBody({
         if (open) void loadPizza(pizzaUrl);
     }, [open, pizzaUrl, loadPizza, storeVersion]);
     useEffect(() => {
-        if (open && !itemId) void loadUpsell('/resource/pj-upsell');
-    }, [open, itemId, loadUpsell]);
+        if (open && !itemId && !slot) void loadUpsell(PJ_UPSELL_RESOURCE);
+    }, [open, itemId, slot, loadUpsell]);
 
-    const config: PizzaConfig | null = pizzaFetcher.data?.config ?? null;
+    const fixedSize = slot?.size ?? lockedSize ?? null;
+    const loaded: PizzaConfig | null = pizzaFetcher.data?.config ?? null;
+    // Ranura del combo o pizza de un combo: solo la Familiar y las masas que admite la promoción (§7.1).
+    const config: PizzaConfig | null = useMemo(() => {
+        if (!loaded || !fixedSize || !loaded.sizes.some((s) => s.id === fixedSize)) return loaded;
+        return {
+            ...loaded,
+            sizes: loaded.sizes.filter((s) => s.id === fixedSize),
+            variants: loaded.variants.filter((v) => v.size === fixedSize && COMBO_CRUSTS.includes(v.crust)),
+        };
+    }, [loaded, fixedSize]);
     const current = useMemo(() => {
         if (!config) return null;
-        const opening = pizzaFetcher.data?.selection ?? {
-            ...defaultSelection(config),
-            ...(initialSize ? { size: initialSize } : {}),
-        };
+        const opening = slot?.selection ??
+            pizzaFetcher.data?.selection ?? {
+                ...defaultSelection(config),
+                ...(initialSize ? { size: initialSize } : {}),
+            };
         return normalizeSelection(config, selection ?? opening);
-    }, [config, selection, pizzaFetcher.data?.selection, initialSize]);
+    }, [config, selection, pizzaFetcher.data?.selection, initialSize, slot?.selection]);
 
     const total = config && current ? totalPrice(config, current) : 0;
     const points = pointsFor(total, 0, me?.doublePoints ?? false);
@@ -195,10 +226,33 @@ function PizzaSheetBody({
               })
             : '';
 
+    const surcharge =
+        config && current
+            ? slotSurcharge({
+                  extras: current.extras.length,
+                  extraPrice: extraPriceForSize(config, current.size),
+                  crustSurcharge: crustSurcharge(config, current.size, current.crust),
+              })
+            : 0;
+
     const add = async (): Promise<void> => {
         if (!config || !current || busy) return;
         const variant = findVariant(config, current.size, current.crust);
         if (!variant) return;
+        if (slot) {
+            // Modo ranura: la pizza vuelve al constructor; nada llega al carrito todavía.
+            slot.onDone({
+                masterId: config.productId,
+                productId: variant.productId,
+                crust: current.crust,
+                extras: current.extras,
+                removed: current.removed,
+                summary,
+                surcharge,
+            });
+            onOpenChange(false);
+            return;
+        }
         if (!editItemId && !readFulfillmentFromDocument()) {
             const outcome = await ensureFulfillment(`${config.name} ${size?.label ?? ''}`.trim(), formatClp(total));
             if (outcome.status === 'cancelled') return;
@@ -215,7 +269,10 @@ function PizzaSheetBody({
             ...(editItemId ? { itemId: editItemId } : {}),
             productId: variant.productId,
             quantity: current.quantity,
-            optionItems: optionItemsFor(config, current.extras, editItemId ? 'edit' : 'add'),
+            optionItems: [
+                ...optionItemsFor(config, current.extras, editItemId ? 'edit' : 'add'),
+                ...(comboOption ? [{ optionId: COMBO_OPTION_ID, optionValueId: comboOption }] : []),
+            ],
             removed: current.removed,
         });
         if (!result.success || !result.basket) {
@@ -235,28 +292,24 @@ function PizzaSheetBody({
             return;
         }
         const pizzaId = ids[0] ?? null;
-        const toast = () =>
-            showAddedToast({
-                productName: config.name,
-                detail: summary,
-                points: pointsFor(linesTotal(result.basket, ids), 0, me?.doublePoints ?? false),
-                onUndo: ids.length ? () => void submit({ intent: 'remove', itemIds: ids }) : undefined,
-            });
-        // Escritorio con «Tu pedido» a la vista: la oferta va al panel, bajo la línea (UX-2 #52).
-        if (pizzaId && requestComboOffer({ itemId: pizzaId, productName: config.name })) {
-            toast();
-            onOpenChange(false);
-            return;
-        }
-        if (pizzaLineCount(result.basket) === 1 && pizzaId) {
-            // La franja «<pizza> agregada · Editar» de «Hazlo combo» ya confirma: sin aviso encima (VAL-PRO R2).
+        const next = pizzaId ? nextCrossSell(result.basket, config.kind === 'builder' ? 'builder' : 'pizza') : null;
+        if (next && pizzaId) {
+            // «Completa tu pedido» después de toda pizza (S-D19), también en escritorio (D-P1-1): la franja
+            // «<pizza> agregada · Editar» confirma, sin aviso encima; la foto vuela al carrito (D-P2-6).
+            void flyToCart();
+            setPlan(next);
             setAddedPizzaId(pizzaId);
             setEditItemId(undefined);
             setStep('upsell');
-        } else {
-            toast();
-            onOpenChange(false);
+            return;
         }
+        showAddedToast({
+            productName: config.name,
+            detail: summary,
+            points: pointsFor(linesTotal(result.basket, ids), 0, me?.doublePoints ?? false),
+            onUndo: ids.length ? () => void submit({ intent: 'remove', itemIds: ids }) : undefined,
+        });
+        onOpenChange(false);
     };
 
     const addRef = useRef(add);
@@ -269,43 +322,29 @@ function PizzaSheetBody({
         }
     }, [addAfterStore, reloaded]);
 
-    // Paso «Hazlo combo».
-    if (step === 'upsell' && config && current) {
+    // Paso «Completa tu pedido».
+    if (step === 'upsell' && config && current && plan) {
         return (
             <BottomSheet
                 open={open}
                 onOpenChange={onOpenChange}
-                title={t('upsell.dialogTitle')}
+                title={t('complete.dialogTitle')}
                 hideTitle
                 className={SHEET_OWN_CLOSE}
                 footer={
-                    <div className="flex flex-col gap-1.5">
-                        <button
-                            type="button"
-                            onClick={() => {
-                                onOpenChange(false);
-                                void navigate(PJ_ROUTES.cart);
-                            }}
-                            className="flex h-[52px] items-center justify-between rounded-full bg-pj-green px-5 text-base font-bold text-pj-surface"
-                            data-testid="pj-upsell-view-order">
-                            <span>
-                                {itemCount(basket) > 1
-                                    ? t('upsell.viewOrderCount', { count: itemCount(basket) })
-                                    : t('upsell.viewOrder')}
-                            </span>
-                            <span>{formatClp(basketTotal(basket))}</span>
-                        </button>
-                        <button
-                            type="button"
-                            onClick={() => onOpenChange(false)}
-                            className="flex h-[44px] items-center justify-center text-[15px] font-bold text-pj-green">
-                            {t('upsell.noThanks')}
-                        </button>
-                    </div>
+                    <UpsellFooter
+                        basket={basket}
+                        onViewOrder={() => {
+                            onOpenChange(false);
+                            void navigate(PJ_ROUTES.cart);
+                        }}
+                        onContinue={() => onOpenChange(false)}
+                    />
                 }>
                 <div style={PRO_TOKENS}>
-                    <HazloComboStep
+                    <CompleteOrderStep
                         upsell={upsellFetcher.data ?? null}
+                        plan={plan}
                         addedTitle={t('upsell.addedTitle', { name: config.name })}
                         addedDetail={summary}
                         onEdit={() => {
@@ -316,6 +355,7 @@ function PizzaSheetBody({
                         busy={busy}
                         onBasket={setBasket}
                         onClose={() => onOpenChange(false)}
+                        comboFor={addedPizzaId ?? undefined}
                     />
                 </div>
             </BottomSheet>
@@ -337,42 +377,56 @@ function PizzaSheetBody({
                                 {error}
                             </p>
                         )}
-                        <div className="flex items-center gap-3">
-                            <div className="flex h-[52px] items-center rounded-full border-[1.5px] border-pj-line">
-                                <button
-                                    type="button"
-                                    aria-label={t('sheet.decrease')}
-                                    disabled={!current || current.quantity <= 1}
-                                    onClick={() =>
-                                        current && setSelection({ ...current, quantity: current.quantity - 1 })
-                                    }
-                                    className="flex h-12 w-[44px] items-center justify-center disabled:opacity-40">
-                                    <MinusIcon />
-                                </button>
-                                <span aria-live="polite" className="min-w-5 text-center text-[17px] font-bold">
-                                    {current?.quantity ?? 1}
-                                </span>
-                                <button
-                                    type="button"
-                                    aria-label={t('sheet.increase')}
-                                    disabled={!current || current.quantity >= MAX_QUANTITY}
-                                    onClick={() =>
-                                        current && setSelection({ ...current, quantity: current.quantity + 1 })
-                                    }
-                                    className="flex h-12 w-[44px] items-center justify-center disabled:opacity-40">
-                                    <PlusIcon />
-                                </button>
-                            </div>
+                        {slot ? (
                             <button
                                 type="button"
                                 onClick={() => void add()}
-                                disabled={!config || busy}
-                                data-testid="pj-sheet-add"
-                                className="flex h-[52px] flex-1 items-center justify-between rounded-full bg-pj-green px-5 text-base font-bold text-pj-surface disabled:opacity-70">
-                                <span>{editItemId ? t('sheet.save') : t('sheet.add')}</span>
-                                <span data-testid="pj-sheet-total">{formatClp(total)}</span>
+                                disabled={!config}
+                                data-testid="pj-sheet-slot-done"
+                                className="flex h-[52px] items-center justify-between rounded-full bg-pj-basil px-5 text-base font-bold text-pj-dough disabled:opacity-70">
+                                <span>{t('sheet.slotDone')}</span>
+                                <span data-testid="pj-sheet-total">
+                                    {surcharge > 0 ? `+${formatClp(surcharge)}` : t('sheet.slotIncluded')}
+                                </span>
                             </button>
-                        </div>
+                        ) : (
+                            <div className="flex items-center gap-3">
+                                <div className="flex h-[52px] items-center rounded-full border-[1.5px] border-pj-line">
+                                    <button
+                                        type="button"
+                                        aria-label={t('sheet.decrease')}
+                                        disabled={!current || current.quantity <= 1}
+                                        onClick={() =>
+                                            current && setSelection({ ...current, quantity: current.quantity - 1 })
+                                        }
+                                        className="flex h-12 w-[44px] items-center justify-center disabled:opacity-40">
+                                        <MinusIcon />
+                                    </button>
+                                    <span aria-live="polite" className="min-w-5 text-center text-[17px] font-bold">
+                                        {current?.quantity ?? 1}
+                                    </span>
+                                    <button
+                                        type="button"
+                                        aria-label={t('sheet.increase')}
+                                        disabled={!current || current.quantity >= MAX_QUANTITY}
+                                        onClick={() =>
+                                            current && setSelection({ ...current, quantity: current.quantity + 1 })
+                                        }
+                                        className="flex h-12 w-[44px] items-center justify-center disabled:opacity-40">
+                                        <PlusIcon />
+                                    </button>
+                                </div>
+                                <button
+                                    type="button"
+                                    onClick={() => void add()}
+                                    disabled={!config || busy}
+                                    data-testid="pj-sheet-add"
+                                    className="flex h-[52px] flex-1 items-center justify-between rounded-full bg-pj-green px-5 text-base font-bold text-pj-surface disabled:opacity-70">
+                                    <span>{editItemId ? t('sheet.save') : t('sheet.add')}</span>
+                                    <span data-testid="pj-sheet-total">{formatClp(total)}</span>
+                                </button>
+                            </div>
+                        )}
                     </div>
                 ) : undefined
             }>
@@ -412,7 +466,15 @@ function PizzaSheetBody({
                         <div className="flex flex-col gap-2 px-4 pt-4 pb-2 lg:px-6">
                             <h2 className="pj-h2 text-pj-basil lg:text-[40px]">{config.name}</h2>
                             <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
-                                <PriceTag variant="display" size="md" surface="dough" price={linePrice} />
+                                {slot ? (
+                                    <p
+                                        className="m-0 text-[15px] font-bold text-pj-basil"
+                                        data-testid="pj-sheet-slot-note">
+                                        {t('sheet.slotNote')}
+                                    </p>
+                                ) : (
+                                    <PriceTag variant="display" size="md" surface="dough" price={linePrice} />
+                                )}
                                 {config.rating != null && (
                                     <span className="inline-flex flex-wrap items-baseline gap-x-1 text-[13px]">
                                         <Stars rating={config.rating} count={config.reviewCount} />
@@ -431,7 +493,7 @@ function PizzaSheetBody({
                                         {t('sheet.serves', { serves: size.serves })}
                                     </span>
                                 )}
-                                {points > 0 && (
+                                {points > 0 && !slot && (
                                     <span
                                         className="rounded-full bg-pj-garlic px-2.5 py-1 text-xs font-semibold text-pj-sauce"
                                         data-testid="pj-sheet-points">
@@ -448,6 +510,7 @@ function PizzaSheetBody({
                             selection={current}
                             onChange={setSelection}
                             layout="sheet"
+                            hideSize={Boolean(slot)}
                             className="lg:[&>section]:px-6"
                         />
                     </>

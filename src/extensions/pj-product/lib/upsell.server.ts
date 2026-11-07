@@ -28,10 +28,15 @@ import {
     PDP_SIDES,
     SHEET_EXTRA_SIDES,
     comboPricing,
+    EMPTY_CROSS_SELL,
+    type CrossSellCatalog,
+    type CrossSellDrink,
     type HazloComboOffer,
     type SheetUpsell,
     type SideProduct,
 } from './upsell';
+import { CROSS_SELL_DESSERTS, CROSS_SELL_DRINKS, CROSS_SELL_SIDES, type DrinkSize } from './cross-sell';
+import { displayProductName } from '@/extensions/pj-cart/lib/line-summary';
 
 type Product = ShopperProducts.schemas['Product'];
 type Context = LoaderFunctionArgs['context'];
@@ -57,12 +62,52 @@ async function drinkProducts(context: Context): Promise<Map<string, Product>> {
     return new Map(products.map((p) => [p.id, p]));
 }
 
-/** Datos del paso «Hazlo combo» de la hoja (se piden al agregar la primera pizza). */
+/**
+ * Bebidas por tamaño, acompañamientos y postres de «Completa tu pedido» y «¿Le sumamos algo?» (S-D19).
+ * Una sola llamada a SCAPI; si falla, la venta cruzada no se muestra.
+ */
+export async function loadCrossSellCatalog(context: Context): Promise<CrossSellCatalog> {
+    try {
+        const sizeIds = CROSS_SELL_DRINKS.flatMap((d) => Object.values(d.sizes));
+        const products = await fetchProductsByIds(
+            context,
+            [...CROSS_SELL_DRINKS.map((d) => d.masterId), ...sizeIds, ...CROSS_SELL_SIDES, ...CROSS_SELL_DESSERTS],
+            { expand: ['images', 'prices'] }
+        );
+        const byId = new Map(products.map((p) => [p.id, p]));
+        const drinks: CrossSellDrink[] = [];
+        for (const def of CROSS_SELL_DRINKS) {
+            const master = byId.get(def.masterId);
+            const sizes = (Object.entries(def.sizes) as Array<[DrinkSize, string]>).flatMap(([size, productId]) => {
+                const variant = byId.get(productId);
+                return variant && typeof variant.price === 'number' ? [{ size, productId, price: variant.price }] : [];
+            });
+            if (!master || sizes.length === 0) continue;
+            drinks.push({
+                flavor: def.flavor,
+                name: displayProductName(master.name ?? def.masterId),
+                image: primaryImage(byId.get(sizes[0].productId) ?? master) ?? primaryImage(master),
+                sizes,
+            });
+        }
+        const list = (ids: readonly string[]) =>
+            ids
+                .map((id) => byId.get(id))
+                .filter((p): p is Product => Boolean(p) && typeof p?.price === 'number')
+                .map((p) => ({ ...toSide(p), name: displayProductName(p.name ?? p.id) }));
+        return { drinks, sides: list(CROSS_SELL_SIDES), desserts: list(CROSS_SELL_DESSERTS) };
+    } catch (error) {
+        getLogger(context).warn('PjProduct: cross-sell catalog lookup failed', { error });
+        return EMPTY_CROSS_SELL;
+    }
+}
+
+/** Datos del paso «Completa tu pedido» de la hoja (se piden al agregar una pizza o un combo con pizzas). */
 export async function loadSheetUpsell(context: Context): Promise<SheetUpsell> {
     const logger = getLogger(context);
     const clients = createApiClients(context);
     try {
-        const [products, drinks, promotion] = await Promise.all([
+        const [products, drinks, promotion, catalog] = await Promise.all([
             fetchProductsByIds(context, [HAZLO_COMBO_SIDE, HAZLO_COMBO_IMAGE_PRODUCT, ...SHEET_EXTRA_SIDES], {
                 expand: ['images', 'prices'],
             }),
@@ -74,6 +119,7 @@ export async function loadSheetUpsell(context: Context): Promise<SheetUpsell> {
                     logger.warn('PjProduct: promotion lookup failed', { error });
                     return null;
                 }),
+            loadCrossSellCatalog(context),
         ]);
         const byId = new Map(products.map((p) => [p.id, p]));
         const side = byId.get(HAZLO_COMBO_SIDE);
@@ -100,10 +146,10 @@ export async function loadSheetUpsell(context: Context): Promise<SheetUpsell> {
         const extras = SHEET_EXTRA_SIDES.map((id) => byId.get(id))
             .filter((p): p is Product => Boolean(p))
             .map(toSide);
-        return { offer, extras };
+        return { offer, extras, catalog };
     } catch (error) {
         logger.warn('PjProduct: upsell lookup failed', { error });
-        return { offer: null, extras: [] };
+        return { offer: null, extras: [], catalog: EMPTY_CROSS_SELL };
     }
 }
 

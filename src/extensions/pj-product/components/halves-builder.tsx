@@ -34,7 +34,8 @@ import {
     type HalvesBuilderData,
     type HalvesSelection,
 } from '../lib/halves';
-import { linesTotal, pizzaLineCount } from '../lib/cart-lines';
+import { linesTotal } from '../lib/cart-lines';
+import { flyToCart } from '@/extensions/pj-shared/lib/fly-to-cart';
 import { PRO_TOKENS } from '../lib/tokens';
 import { usePjCart } from '../hooks/use-pj-cart';
 import { SplitPizzaImage } from './split-pizza-image';
@@ -168,14 +169,16 @@ export function HalvesBuilder({ data, layout, onClose, onSaved }: HalvesBuilderP
             else onClose?.();
             return;
         }
-        showAddedToast({
-            productName: t('halves.lineName'),
-            detail,
-            points: pointsFor(price, 0, me?.doublePoints ?? false),
-            onUndo: ids.length ? () => void submit({ intent: 'remove', itemIds: ids }) : undefined,
-        });
-        if (pizzaLineCount(result.basket) === 1 && ids[0]) {
+        // «Completa tu pedido» confirma con su franja (S-D19): sin aviso encima, solo el vuelo al carrito.
+        void flyToCart();
+        if (ids[0]) {
             setUpsell({ basket: result.basket, detail, itemId: ids[0] });
+        } else {
+            showAddedToast({
+                productName: t('halves.lineName'),
+                detail,
+                points: pointsFor(price, 0, me?.doublePoints ?? false),
+            });
         }
     };
 
@@ -379,12 +382,15 @@ export function HalvesBuilder({ data, layout, onClose, onSaved }: HalvesBuilderP
                         onOpenChange={(open) => {
                             if (!open) {
                                 setUpsell(null);
-                                onClose?.();
+                                if (layout !== 'page') onClose?.();
                             }
                         }}
                         addedTitle={t('halves.addedTitle')}
                         addedDetail={upsell.detail}
                         basket={upsell.basket}
+                        addedKind="halves"
+                        comboFor={upsell.itemId}
+                        continueToMenu={layout === 'page'}
                         onEdit={() => {
                             setEditItemId(upsell.itemId);
                             setUpsellEdit(true);

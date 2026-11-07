@@ -22,7 +22,7 @@ import { getLogger } from '@/lib/logger.server';
 import { getFulfillment } from '@/extensions/pj-shared/lib/fulfillment';
 import { primaryImage, storeDisplayName } from '@/extensions/pj-product/lib/pizza.server';
 import { loadSheetUpsell } from '@/extensions/pj-product/lib/upsell.server';
-import { HAZLO_COMBO_IMAGE_PRODUCT } from '@/extensions/pj-product/lib/upsell';
+import { EMPTY_CROSS_SELL, HAZLO_COMBO_IMAGE_PRODUCT } from '@/extensions/pj-product/lib/upsell';
 import { opensAt, openUntil } from '@/extensions/pj-store/lib/store-info';
 import { displayProductName, lineProductIds, type LineProducts, type SummaryLineItem } from './line-summary';
 import { CANJE_PRODUCT, readCanjeCookie } from './canje';
@@ -122,6 +122,7 @@ export async function loadCartExtras(context: Context): Promise<CartExtras> {
         redeem: null,
         emptyImage: null,
         comboImage: null,
+        crossSell: EMPTY_CROSS_SELL,
     };
     try {
         const [products, upsell] = await Promise.all([
@@ -160,6 +161,7 @@ export async function loadCartExtras(context: Context): Promise<CartExtras> {
                     : null,
             emptyImage: byId.get(EMPTY_IMAGE_PRODUCT) ? primaryImage(byId.get(EMPTY_IMAGE_PRODUCT) as Product) : null,
             comboImage: comboImage ? primaryImage(comboImage) : null,
+            crossSell: upsell.catalog,
         };
     } catch (error) {
         getLogger(context).warn('PjCart: extras lookup failed', { error });
