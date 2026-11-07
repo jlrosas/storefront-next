@@ -20,9 +20,8 @@ import { AttributeDefinition } from '@/lib/decorators/attribute-definition';
 import { RegionDefinition } from '@/lib/decorators';
 import { getDemoMoment, getDemoProfile } from '@/extensions/pj-shared/lib/profile';
 import { loadProfileBlock } from './loaders';
-import type { ProfileGate } from './loaders';
 import { Moments } from '@/extensions/pj-home/components/home-diego';
-import type { HomeData } from '@/extensions/pj-home/lib/types';
+import type { HomeData, ProfileGate } from '@/extensions/pj-home/lib/types';
 
 @Component('pjMoments', {
     name: 'Papa Johns · ¿Y para este momento?',

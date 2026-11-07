@@ -35,13 +35,13 @@ import {
     REDEEM_POINTS,
     SEASON_OFFER_ID,
     SHARE_IDS,
-    HOME_ROUTES,
     offerHref,
     productHref,
 } from './constants';
 import { SOFIA_SAMPLE } from './mock';
 import type {
     FavoriteVM,
+    ProfileGate,
     FeaturePhotosVM,
     HomeData,
     IntentVM,
@@ -329,10 +329,9 @@ function sampleSofia(products: Map<string, Product>): SofiaVM {
 }
 
 function momentsOf(get: (id: string) => Product | undefined): MomentVM[] {
-    const momentHref = (m: DemoMoment) => (m === 'partido' ? HOME_ROUTES.superTrio : productHref(MOMENT_OFFER_IDS[m]));
     return (Object.keys(MOMENT_OFFER_IDS) as DemoMoment[])
         .map((id): MomentVM | null => {
-            const offer = offerOf(get(MOMENT_OFFER_IDS[id]), momentHref(id));
+            const offer = offerOf(get(MOMENT_OFFER_IDS[id]), offerHref(MOMENT_OFFER_IDS[id]));
             return offer && { id, offer };
         })
         .filter((m): m is MomentVM => m !== null);
@@ -377,7 +376,7 @@ export async function loadHomeData({ context, profile, moment }: HomeDataArgs): 
     }
 
     if (profile === 'diego') {
-        const hero = offerOf(get(AD_OFFER_ID), HOME_ROUTES.superDuo);
+        const hero = offerOf(get(AD_OFFER_ID), offerHref(AD_OFFER_ID));
         const occ = (key: OccasionVM['key'], id: string, href: string): OccasionVM | null => {
             const o = offerOf(get(id), href);
             return (
@@ -407,11 +406,11 @@ export async function loadHomeData({ context, profile, moment }: HomeDataArgs): 
                   }
                 : null;
         const occasions = [
-            occ('para-1', OCCASION_IDS['para-1'], productHref(OCCASION_IDS['para-1'])),
-            occ('para-2', OCCASION_IDS['para-2'], productHref(OCCASION_IDS['para-2'])),
+            occ('para-1', OCCASION_IDS['para-1'], offerHref(OCCASION_IDS['para-1'])),
+            occ('para-2', OCCASION_IDS['para-2'], offerHref(OCCASION_IDS['para-2'])),
             forThree,
-            occ('para-4', OCCASION_IDS['para-4'], HOME_ROUTES.superDuo),
-            occ('para-6', OCCASION_IDS['para-6'], HOME_ROUTES.superTrio),
+            occ('para-4', OCCASION_IDS['para-4'], offerHref(OCCASION_IDS['para-4'])),
+            occ('para-6', OCCASION_IDS['para-6'], offerHref(OCCASION_IDS['para-6'])),
         ].filter((o): o is OccasionVM => o !== null);
         return {
             ...EMPTY,
@@ -436,8 +435,7 @@ export async function loadHomeData({ context, profile, moment }: HomeDataArgs): 
     };
 }
 
-/** Atributo común de los componentes de la Home: a qué perfil se muestra (además de los grupos de clientes). */
-export type ProfileGate = 'all' | DemoProfile;
+export type { ProfileGate };
 
 export function visibleFor(gate: ProfileGate | undefined, profile: DemoProfile): boolean {
     return !gate || gate === 'all' || gate === profile;
@@ -452,7 +450,7 @@ export async function loadHeroBlock(
     if (!visibleFor(attrs.profile, profile) || !attrs.productId)
         return { visible: visibleFor(attrs.profile, profile), offer: null };
     const products = await fetchProducts(context, [attrs.productId]);
-    const href = attrs.destination?.trim() || productHref(attrs.productId);
+    const href = attrs.destination?.trim() || offerHref(attrs.productId);
     return { visible: true, offer: offerOf(products.get(attrs.productId), href) };
 }
 

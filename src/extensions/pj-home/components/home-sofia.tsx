@@ -24,7 +24,10 @@ import type { DemoMoment } from '@/extensions/pj-shared/lib/profile';
 import { PJ_ROUTES } from '@/extensions/pj-shared/lib/routes';
 import { formatClp } from '@/extensions/pj-shared/lib/format';
 import { pointsToClp } from '@/extensions/pj-shared/lib/points';
+import { configureFallbackHref, type ConfigureProductDetail } from '@/extensions/pj-shared/lib/events';
+import { configureOnClick } from '../lib/configure-link';
 import { useReorder } from '../hooks/use-home-cart';
+import { pizzaConfigure } from '../lib/constants';
 import { useHomeFulfillment } from '../hooks/use-home-fulfillment';
 import { imageSrcSet, scaledImage } from '../lib/images';
 import type { FavoriteVM, LastOrderVM, OfferVM, RedeemVM, SofiaVM } from '../lib/types';
@@ -230,7 +233,21 @@ function RedeemFavorite({ redeem }: { redeem: RedeemVM }): ReactElement {
     );
 }
 
-/** «Tus favoritas» (desde `c_pjFavorites`), con el canje como tercera tarjeta si le alcanzan los puntos. */
+/** Hoja de la favorita con su tamaño (Familiar, el precio que muestra la tarjeta). */
+function favoriteDetail(p: FavoriteVM): ConfigureProductDetail {
+    return pizzaConfigure(p.id, 'family') ?? { productId: p.id };
+}
+
+/** Respaldo del «Agregar» de una favorita: la ficha con el tamaño, o la ficha del producto si no es pizza. */
+function favoriteHref(p: FavoriteVM): string {
+    return pizzaConfigure(p.id, 'family') ? configureFallbackHref(favoriteDetail(p)) : p.href;
+}
+
+/**
+ * «Tus favoritas» (desde `c_pjFavorites`), con el canje como tercera tarjeta si le alcanzan los puntos.
+ * «Agregar · $16.900» abre la hoja sobre la Home con su favorita marcada (AUD-compra P1-2: sin salir de
+ * donde está).
+ */
 export function Favorites({ items, redeem }: { items: FavoriteVM[]; redeem?: RedeemVM | null }): ReactElement | null {
     const { t } = useTranslation('extPjHome');
     if (items.length === 0) return null;
@@ -255,7 +272,11 @@ export function Favorites({ items, redeem }: { items: FavoriteVM[]; redeem?: Red
                             <span className="pj-card-title">{p.name}</span>
                             <span className="pj-small text-pj-gray-strong">{t('sofia.times', { count: p.times })}</span>
                             <Link
-                                to={p.href}
+                                to={favoriteHref(p)}
+                                onClick={
+                                    pizzaConfigure(p.id, 'family') ? configureOnClick(favoriteDetail(p)) : undefined
+                                }
+                                data-testid="pj-home-fav-add"
                                 className="mt-auto flex min-h-11 items-center justify-center rounded-full bg-pj-basil text-sm font-bold text-pj-dough transition-transform hover:bg-pj-basil-deep focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-basil active:scale-[0.97] lg:min-h-[46px] lg:text-base">
                                 {p.price !== null
                                     ? t('sofia.addFor', { price: formatClp(p.price) })
@@ -340,6 +361,8 @@ export function MonthCard({
 }): ReactElement | null {
     const { t } = useTranslation('extPjHome');
     if (!offer) return null;
+    // Hoy es el combo `cb-pizza-del-mes` (ficha de PRO); si el contenido pasa a una pizza, abre la hoja.
+    const configure = pizzaConfigure(offer.id, 'family');
     const eyebrow = t(`sofia.monthEyebrow.${moment ?? 'default'}`, { defaultValue: t('sofia.monthEyebrow.default') });
     const discount = offer.listPrice ? Math.round((1 - offer.price / offer.listPrice) * 100) : 0;
     return (
@@ -380,7 +403,8 @@ export function MonthCard({
                     showSavings={false}
                 />
                 <Link
-                    to={offer.href}
+                    to={configure ? configureFallbackHref(configure) : offer.href}
+                    onClick={configure ? configureOnClick(configure) : undefined}
                     aria-label={`${t('sofia.monthAdd')} ${offer.name} · ${formatClp(offer.price)}`}
                     className="mt-1 flex min-h-11 items-center justify-between gap-4 rounded-full bg-pj-basil px-5 font-bold text-pj-dough transition-transform hover:bg-pj-basil-deep focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-basil active:scale-[0.97] lg:self-start">
                     <span>{t('sofia.monthAdd')}</span>

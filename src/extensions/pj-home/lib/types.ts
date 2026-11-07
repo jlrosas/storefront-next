@@ -153,3 +153,10 @@ export interface HomeData {
     features?: FeaturePhotosVM;
     sofia: SofiaVM | null;
 }
+
+/**
+ * Atributo común de los componentes de la Home: a qué perfil se muestra (además de los grupos de clientes).
+ * Vive aquí (no en `home-data.server.ts`) para que los componentes de Page Designer lo importen sin
+ * arrastrar el módulo de servidor al cliente.
+ */
+export type ProfileGate = 'all' | DemoProfile;

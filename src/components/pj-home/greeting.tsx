@@ -20,7 +20,7 @@ import { AttributeDefinition } from '@/lib/decorators/attribute-definition';
 import { RegionDefinition } from '@/lib/decorators';
 import { getDemoProfile } from '@/extensions/pj-shared/lib/profile';
 import { visibleFor } from './loaders';
-import type { ProfileGate } from './loaders';
+import type { ProfileGate } from '@/extensions/pj-home/lib/types';
 import { GreetingStrip } from '@/extensions/pj-home/components/home-blocks';
 
 @Component('pjGreeting', {

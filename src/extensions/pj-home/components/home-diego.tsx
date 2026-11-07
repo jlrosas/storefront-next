@@ -71,7 +71,7 @@ function OccasionBody({ o }: { o: OccasionVM }): ReactElement {
 
 function ForThreeCard({ o }: { o: OccasionVM }): ReactElement {
     const { t } = useTranslation('extPjHome');
-    const { add, pending, failed } = useAddLines(t('serves.forThreeToast'));
+    const { add, pending, failed } = useAddLines(t('serves.forThreeToast'), t('serves.forThreeName'));
     return (
         <>
             <button

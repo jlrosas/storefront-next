@@ -26,7 +26,7 @@ import { formatClp, formatCount, formatRating } from '@/extensions/pj-shared/lib
 import { FoodCard } from './food-card';
 import { useHomeFulfillment } from '../hooks/use-home-fulfillment';
 import { imageSrcSet, scaledImage } from '../lib/images';
-import { MIN_WEEKLY_ORDERS } from '../lib/constants';
+import { MIN_WEEKLY_ORDERS, pizzaConfigure } from '../lib/constants';
 import type { IntentVM, PopularVM } from '../lib/types';
 
 /**
@@ -172,7 +172,7 @@ export interface PopularProps {
 
 /**
  * «Las más pedidas» (HOM-01 criterio 4, HOM-07 P2-11): tarjetas con foto macro, sello «LA MÁS PEDIDA»,
- * «+» que agrega la Familiar tradicional en un toque, ★ y «N esta semana» solo si N ≥ 100.
+ * «+» que abre la hoja con la Familiar marcada (04 regla 1, AUD-compra P1-1), ★ y «N esta semana» solo si N ≥ 100.
  */
 export function Popular({ items, title, compact = false, best = false }: PopularProps): ReactElement | null {
     const { t } = useTranslation('extPjHome');
@@ -206,16 +206,12 @@ export function Popular({ items, title, compact = false, best = false }: Popular
                                 }
                                 description={compact ? null : p.sensory}
                                 price={family ? `${t('popular.family')} ${family}` : null}
-                                quickAdd={
+                                configure={p.quickAddId && family ? pizzaConfigure(p.id, 'family') : null}
+                                plusLabel={
                                     p.quickAddId && family
-                                        ? {
-                                              productId: p.quickAddId,
-                                              label: t('popular.quickAdd', { name: p.name, price: family }),
-                                              toastName: `${p.name} ${t('popular.family')}`,
-                                          }
-                                        : null
+                                        ? t('popular.quickAdd', { name: p.name, price: family })
+                                        : t('popular.view', { name: p.name })
                                 }
-                                plusLabel={t('popular.view', { name: p.name })}
                             />
                         </li>
                     );
@@ -293,7 +289,12 @@ export function IntentRail({ intents, title }: { intents: IntentVM[]; title?: st
                                     )}
                                 </>
                             }
-                            plusLabel={t('popular.view', { name: p.name })}
+                            configure={pizzaConfigure(p.id)}
+                            plusLabel={
+                                pizzaConfigure(p.id)
+                                    ? t('intent.add', { name: p.name })
+                                    : t('popular.view', { name: p.name })
+                            }
                         />
                     </li>
                 ))}
