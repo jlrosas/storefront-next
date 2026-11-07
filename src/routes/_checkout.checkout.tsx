@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import { type ReactElement, Suspense, use, useLayoutEffect } from 'react';
-import { loader, type CheckoutPageData } from '@/lib/checkout/loaders.server';
+import { loader as templateLoader, type CheckoutPageData } from '@/lib/checkout/loaders.server';
 import { createPage, type RouteComponentProps } from '@/components/create-page';
 import type { Route } from './+types/_checkout.checkout';
 import { SeoMeta } from '@/components/seo-meta';
@@ -38,8 +38,27 @@ import { action as submitPayment } from '@/lib/checkout/actions/submit-payment.s
 import { getLogger } from '@/lib/logger.server';
 import { createActionError } from '@/lib/action-error-helpers.server';
 import { ErrorCode } from '@/lib/error-codes';
+// @sfdc-extension-block-start SFDC_EXT_PJ_CHECKOUT
+import { loadPjCheckout } from '@/extensions/pj-checkout/lib/checkout.server';
+import type { PjCheckoutData } from '@/extensions/pj-checkout/lib/types';
+import PjCheckoutPage from '@/extensions/pj-checkout/components/pj-checkout-page';
+// @sfdc-extension-block-end SFDC_EXT_PJ_CHECKOUT
 
-export { loader };
+type CheckoutLoaderData = CheckoutPageData & {
+    // @sfdc-extension-line SFDC_EXT_PJ_CHECKOUT
+    pjCheckout?: PjCheckoutData;
+};
+
+export async function loader(args: Route.LoaderArgs): Promise<CheckoutLoaderData | Response> {
+    // @sfdc-extension-block-start SFDC_EXT_PJ_CHECKOUT
+    // CHK-01/03 (VAL-C3 H-1): el checkout de Papa Johns continúa «Mi pedido» (modalidad, líneas, canje y el mismo
+    // total). Sin el *prefill* del template, que ponía la dirección de la casa y el despacho con retiro.
+    const pjCheckout = await loadPjCheckout(args, args.request);
+    if (pjCheckout instanceof Response) return pjCheckout;
+    if (pjCheckout) return { basket: pjCheckout.basket, pjCheckout } as CheckoutLoaderData;
+    // @sfdc-extension-block-end SFDC_EXT_PJ_CHECKOUT
+    return templateLoader(args);
+}
 export { shouldRevalidate } from '@/lib/revalidation/routes/checkout';
 
 export async function action({ request, context }: Route.ActionArgs) {
@@ -172,12 +191,30 @@ function CheckoutView({
     return wrappers.reduceRight((children, wrap) => wrap(children), content);
 }
 
+// @sfdc-extension-block-start SFDC_EXT_PJ_CHECKOUT
+function PjCheckoutView({ data }: { data: PjCheckoutData }) {
+    const { t } = useTranslation('extPjCheckout');
+    return (
+        <CheckoutErrorBoundary>
+            <SeoMeta title={t('page.metaTitle')} noIndex />
+            <PjCheckoutPage data={data} />
+        </CheckoutErrorBoundary>
+    );
+}
+// @sfdc-extension-block-end SFDC_EXT_PJ_CHECKOUT
+
 const CheckoutPageWithErrorBoundary = createPage({
     component: CheckoutView,
     fallback: <CheckoutSkeleton />,
 });
 
-function CheckoutPage(props: RouteComponentProps<CheckoutPageData>) {
+function CheckoutPage(props: RouteComponentProps<CheckoutLoaderData>) {
+    // @sfdc-extension-block-start SFDC_EXT_PJ_CHECKOUT
+    const pjCheckout = props.loaderData.pjCheckout;
+    if (pjCheckout) {
+        return <PjCheckoutView data={pjCheckout} />;
+    }
+    // @sfdc-extension-block-end SFDC_EXT_PJ_CHECKOUT
     return (
         <CheckoutErrorBoundary>
             <CheckoutPageWithErrorBoundary {...props} />

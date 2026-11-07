@@ -57,6 +57,11 @@ import { getOrderDeliveryShipments, getOrderPickupShipment } from '@/extensions/
 import { getPickupStoreFromMap } from '@/extensions/bopis/lib/store-utils';
 import StoreDetails from '@/extensions/store-locator/components/store-locator/details';
 // @sfdc-extension-block-end SFDC_EXT_BOPIS
+// @sfdc-extension-block-start SFDC_EXT_PJ_CHECKOUT
+import { loadPjConfirmation } from '@/extensions/pj-checkout/lib/confirmation.server';
+import type { PjConfirmationData } from '@/extensions/pj-checkout/lib/types';
+import PjConfirmation from '@/extensions/pj-checkout/components/pj-confirmation';
+// @sfdc-extension-block-end SFDC_EXT_PJ_CHECKOUT
 
 type ProductDataById = Record<string, ShopperProducts.schemas['Product'] | undefined>;
 
@@ -70,6 +75,8 @@ type OrderConfirmationData = {
 type CheckoutConfirmationLoaderData = {
     orderData: Promise<OrderConfirmationData>;
     showPostOrderRegistration: boolean;
+    // @sfdc-extension-line SFDC_EXT_PJ_CHECKOUT
+    pjConfirmation?: Promise<PjConfirmationData>;
 };
 
 type ImageSource = {
@@ -110,7 +117,12 @@ const getPrimaryImageFromProduct = (product: ShopperProducts.schemas['Product'] 
  * @param args - Loader function arguments containing context and parameters
  * @returns Promise that resolves to an object containing the order data promise
  */
-export async function loader({ context, params }: Route.LoaderArgs): Promise<CheckoutConfirmationLoaderData> {
+export async function loader({
+    context,
+    params,
+    // @sfdc-extension-line SFDC_EXT_PJ_CHECKOUT
+    request,
+}: Route.LoaderArgs): Promise<CheckoutConfirmationLoaderData> {
     const { orderNo } = params;
     const logger = getLogger(context);
     logger.debug('OrderConfirmation: loader starting', { orderNo });
@@ -160,9 +172,18 @@ export async function loader({ context, params }: Route.LoaderArgs): Promise<Che
         })
     );
 
+    // @sfdc-extension-block-start SFDC_EXT_PJ_CHECKOUT
+    // CHK-05: «¡Pago aprobado!» de Papa Johns (lo cobrado sin la pizza canjeada, cuándo está listo y los puntos).
+    const pjConfirmation = orderPromise.then((order) => loadPjConfirmation(context, request, order));
+    pjConfirmation.catch(() => undefined);
+    combinedPromise.catch(() => undefined);
+    // @sfdc-extension-block-end SFDC_EXT_PJ_CHECKOUT
+
     return {
         orderData: combinedPromise,
         showPostOrderRegistration,
+        // @sfdc-extension-line SFDC_EXT_PJ_CHECKOUT
+        pjConfirmation,
     };
 }
 
@@ -706,6 +727,8 @@ export default function OrderConfirmationPage({
     loaderData: CheckoutConfirmationLoaderData;
 }): ReactElement {
     const { t } = useTranslation('checkout');
+    // @sfdc-extension-line SFDC_EXT_PJ_CHECKOUT
+    const { t: tPj } = useTranslation('extPjCheckout');
 
     // The confirmation content mounts inside <Await> already holding the "order confirmed" copy,
     // so on its own it is never announced. This region is mounted from first paint (through the
@@ -724,6 +747,29 @@ export default function OrderConfirmationPage({
         announcedOrderRef.current = orderNo;
         setAnnouncement(message);
     }, []);
+
+    // @sfdc-extension-block-start SFDC_EXT_PJ_CHECKOUT
+    if (loaderData.pjConfirmation) {
+        return (
+            <>
+                <SeoMeta title={tPj('confirmation.metaTitle')} noIndex />
+                <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
+                    {announcement}
+                </div>
+                <Suspense fallback={<OrderSkeleton />}>
+                    <Await resolve={loaderData.pjConfirmation}>
+                        {(pjData) => (
+                            <>
+                                <OrderConfirmedAnnouncer orderNo={pjData.orderNo} onAnnounce={announce} />
+                                <PjConfirmation data={pjData} />
+                            </>
+                        )}
+                    </Await>
+                </Suspense>
+            </>
+        );
+    }
+    // @sfdc-extension-block-end SFDC_EXT_PJ_CHECKOUT
 
     return (
         <>

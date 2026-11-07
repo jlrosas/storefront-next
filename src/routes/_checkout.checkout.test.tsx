@@ -49,6 +49,17 @@ vi.mock('@/lib/checkout/loaders.server', () => ({
     clientLoader: mockGetClientLoaderData,
 }));
 
+// @sfdc-extension-block-start SFDC_EXT_PJ_CHECKOUT
+// Sin datos de Papa Johns (null) el loader sigue con el del template; las pruebas de abajo cubren el desvío.
+const mockLoadPjCheckout = vi.fn().mockResolvedValue(null);
+vi.mock('@/extensions/pj-checkout/lib/checkout.server', () => ({
+    loadPjCheckout: (...args: unknown[]) => mockLoadPjCheckout(...args),
+}));
+vi.mock('@/extensions/pj-checkout/components/pj-checkout-page', () => ({
+    default: () => <div data-testid="pj-checkout-page" />,
+}));
+// @sfdc-extension-block-end SFDC_EXT_PJ_CHECKOUT
+
 vi.mock('@/middlewares/auth.server', () => ({
     getAuth: mockGetAuthServer,
 }));
@@ -323,6 +334,35 @@ describe('Checkout Route Components', () => {
             expect(mockCheckoutLoadersLoader).toHaveBeenCalledWith(mockArgs);
             expect(result).toBe(mockLoaderResult);
         });
+
+        // @sfdc-extension-block-start SFDC_EXT_PJ_CHECKOUT
+        it('CHK-01: con datos de Papa Johns no llama al loader del template', async () => {
+            const pjData = { basket: { basketId: 'b-1' }, cart: {}, contact: {}, cashAvailable: false };
+            mockLoadPjCheckout.mockResolvedValueOnce(pjData);
+            mockCheckoutLoadersLoader.mockClear();
+            const checkoutRoute = await import('./_checkout.checkout');
+            const mockArgs = {
+                request: new Request('http://localhost/checkout'),
+                params: {},
+                context: { get: vi.fn(), set: vi.fn() },
+            } as any;
+            const result = await checkoutRoute.loader(mockArgs);
+            expect(mockCheckoutLoadersLoader).not.toHaveBeenCalled();
+            expect(result).toEqual({ basket: pjData.basket, pjCheckout: pjData });
+        });
+
+        it('CHK-01: sin productos, el loader de Papa Johns redirige a «Mi pedido»', async () => {
+            const redirectResponse = new Response(null, { status: 302, headers: { Location: '/cart' } });
+            mockLoadPjCheckout.mockResolvedValueOnce(redirectResponse);
+            const checkoutRoute = await import('./_checkout.checkout');
+            const result = await checkoutRoute.loader({
+                request: new Request('http://localhost/checkout'),
+                params: {},
+                context: { get: vi.fn(), set: vi.fn() },
+            } as any);
+            expect(result).toBe(redirectResponse);
+        });
+        // @sfdc-extension-block-end SFDC_EXT_PJ_CHECKOUT
     });
 
     describe('CheckoutView Component Integration', () => {
