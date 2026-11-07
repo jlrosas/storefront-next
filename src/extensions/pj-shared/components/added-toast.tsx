@@ -22,6 +22,11 @@ import { formatCount } from '../lib/format';
 export interface AddedToastProps {
     /** Nombre de lo agregado («Pollo BBQ Familiar»). Opcional: el título ya dice «¡Agregada!». */
     productName?: string;
+    /**
+     * Configuración de lo agregado, en el mismo orden que la hoja y el carrito: «Familiar · Tradicional ·
+     * sin cebolla · + Pepperoni» o «Familiar · Tradicional · ½ Pollo BBQ · ½ Pepperoni» (CAR-01).
+     */
+    detail?: string;
     /** Papa Puntos por acreditar que suma lo agregado (`pointsFor`). 0 oculta la línea. */
     points?: number;
     /** «Deshacer»: quita lo recién agregado. Sin función, no se muestra. */
@@ -44,6 +49,7 @@ export interface AddedToastProps {
  */
 export function AddedToast({
     productName,
+    detail,
     points = 0,
     onUndo,
     onViewOrder,
@@ -64,6 +70,11 @@ export function AddedToast({
                     {t('toast.added')}
                     {productName ? ` ${productName}` : ''}
                 </p>
+                {detail && (
+                    <p className="line-clamp-2 text-sm text-pj-dough" data-testid="pj-added-toast-detail">
+                        {detail}
+                    </p>
+                )}
                 {points > 0 && (
                     <p className="text-sm font-semibold text-pj-pepperoncini">
                         {t('toast.addedPoints', { points: formatCount(points) })}

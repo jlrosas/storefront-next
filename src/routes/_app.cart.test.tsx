@@ -195,6 +195,17 @@ describe('Cart route component', () => {
                 </AllProvidersWrapper>
             );
 
+            const skeletonState = { pjCart: false };
+            // @sfdc-extension-block-start SFDC_EXT_PJ_CART
+            // UX-3 §3.9: con el carrito de Papa Johns el skeleton tiene la forma del pedido y nunca el carrusel.
+            skeletonState.pjCart = true;
+            await waitFor(() => {
+                expect(screen.getByTestId('pj-cart-skeleton')).toBeInTheDocument();
+            });
+            expect(screen.queryByTestId('product-recommendation-skeleton')).not.toBeInTheDocument();
+            // @sfdc-extension-block-end SFDC_EXT_PJ_CART
+            if (skeletonState.pjCart) return;
+
             // Gate A is showing — CartSkeleton, not CartBody/cart-content-stub.
             await waitFor(() => {
                 expect(screen.getByTestId('cart-skeleton')).toBeInTheDocument();

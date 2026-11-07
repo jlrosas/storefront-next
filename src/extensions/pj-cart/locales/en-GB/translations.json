@@ -1,1 +1,129 @@
-{}
+{
+    "size": {
+        "individual": "Individual",
+        "medium": "Mediana",
+        "family": "Familiar",
+        "extra_large": "Extra grande"
+    },
+    "crust": {
+        "traditional": "Tradicional",
+        "thin": "Delgada",
+        "stuffed": "Borde de queso mozzarella",
+        "parmesan": "Masa Maestra",
+        "philadelphia": "Philadelphia",
+        "cauliflower": "Coliflor",
+        "parmesan_base": "Parmesan Crunch",
+        "cheddar_stuffed": "Borde de queso cheddar",
+        "pan_pizza_stuffed": "Pan Pizza",
+        "croissant": "Croissant"
+    },
+    "line": {
+        "without": "sin {{name}}",
+        "plus": "+ {{name}}",
+        "edit": "Editar",
+        "editAria": "Editar {{name}}",
+        "editHalves": "Editar mitades",
+        "remove": "Quitar",
+        "removeAria": "Quitar {{name}} del pedido",
+        "decreaseAria": "Uno menos de {{name}}",
+        "increaseAria": "Uno más de {{name}}",
+        "quantityAria": "Cantidad de {{name}}: {{count}}",
+        "halvesAria": "Pizza dividida: {{parts}}",
+        "error": "No pudimos actualizar tu pedido. Inténtalo de nuevo.",
+        "unitPrice": "{{count}} × {{price}}",
+        "savings": "Ahorras {{amount}}",
+        "redeemed": "Canjeada con {{points}} Papa Puntos",
+        "free": "Gratis",
+        "comboName": "Combo Palitos y bebida",
+        "removed": "Quitaste {{name}}",
+        "undo": "Deshacer",
+        "undoAria": "Deshacer: volver a agregar {{name}}",
+        "pickupOnly": "Esta promo es solo para retiro",
+        "toPickup": "Cambiar a retiro",
+        "extrasAria": "Extras: {{list}}"
+    },
+    "page": {
+        "title": "Mi pedido",
+        "count_one": "{{count}} producto",
+        "count_other": "{{count}} productos",
+        "linesLabel": "Productos de tu pedido"
+    },
+    "fulfillment": {
+        "label": "Cómo recibes tu pedido",
+        "pickupTitle": "Retiro en {{store}}",
+        "deliveryTitle": "Delivery a {{address}}",
+        "deliveryTitleNoAddress": "Delivery desde {{store}}",
+        "pickupReady": "Listo en {{minutes}} min",
+        "deliveryEta": "Llega en {{from}}–{{to}} min",
+        "scheduled": "Programado",
+        "openUntil": "abierta hasta {{time}}",
+        "change": "Cambiar",
+        "changeAria": "Cambiar cómo recibes tu pedido",
+        "emptyTitle": "¿Retiro o delivery?",
+        "emptyHint": "Elige cómo lo quieres y te decimos cuándo está listo.",
+        "choose": "Elegir",
+        "fromStore": "desde {{store}}",
+        "closedTitle": "{{store}} está cerrada",
+        "closedDetail": "Abre a las {{time}}",
+        "schedule": "Programar para las {{time}}",
+        "changeStore": "Cambiar tienda"
+    },
+    "summary": {
+        "pickupFee": "Retiro en tienda",
+        "deliveryFee": "Despacho",
+        "free": "Gratis",
+        "subtotal": "Productos",
+        "total": "Total",
+        "checkout": "Ir a pagar",
+        "checkoutAria": "Ir a pagar {{total}}",
+        "keepBrowsing": "Seguir viendo el menú",
+        "threshold": "Te faltan {{amount}} para pedir delivery",
+        "comboSavings": "Ahorro en combos",
+        "canje": "Canje Papa Puntos",
+        "updating": "Actualizando…",
+        "opening": "Abriendo pago…",
+        "blockNoFulfillment": "Elige retiro o delivery",
+        "blockClosed": "Tienda cerrada · elige otra",
+        "blockMinimum": "Agrega {{amount}} para delivery",
+        "blockPickupOnly": "Revisa tu pedido",
+        "toPickup": "o cámbiate a retiro",
+        "progressAria": "Llevas {{amount}} de {{minimum}} para delivery"
+    },
+    "empty": {
+        "title": "Tu pedido está vacío",
+        "hint": "Elige tu pizza y la armamos como te gusta.",
+        "cta": "Ver el menú",
+        "lastOrder": "Tu último pedido",
+        "repeat": "Repetir pedido"
+    },
+    "offer": {
+        "convertEyebrow": "Ahorras {{amount}}",
+        "convertText": "Tus Palitos y tu Coca-Cola salen más baratos en combo",
+        "convert": "Convertir en combo",
+        "drinkTitle": "¿Y para tomar?",
+        "dessertTitle": "¿Cerramos con algo dulce?",
+        "add": "Agregar {{name}}, {{price}}",
+        "label": "Para completar tu pedido"
+    },
+    "points": {
+        "label": "Papa Puntos",
+        "eyebrow": "Este pedido suma {{points}} Papa Puntos",
+        "missing": "Te faltan {{points}} puntos para una pizza gratis",
+        "offer": "Tienes {{balance}} puntos. Llévate una {{name}} mediana gratis",
+        "redeem": "Canjear {{points}} puntos",
+        "redeemed": "Canjeaste {{points}} puntos. Te quedan {{left}}, y este pedido suma {{earn}}.",
+        "undo": "Deshacer",
+        "error": "No pudimos canjear tus puntos. Inténtalo de nuevo.",
+        "earnPrefix": "Este pedido suma",
+        "earnPoints": "{{points}} Papa Puntos",
+        "doubleSuffix": "(dobles por volver)"
+    },
+    "load": {
+        "error": "No pudimos cargar tu pedido.",
+        "retry": "Reintentar",
+        "loading": "Cargando tu pedido"
+    },
+    "panel": {
+        "viewOrder": "Ver mi pedido"
+    }
+}

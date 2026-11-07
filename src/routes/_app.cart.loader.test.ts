@@ -62,6 +62,20 @@ vi.mock('@/extensions/bopis/lib/api/stores.server', () => ({
 }));
 // @sfdc-extension-block-end SFDC_EXT_BOPIS
 
+// @sfdc-extension-block-start SFDC_EXT_PJ_CART
+// CAR-01: el loader suma nombres de las líneas y la modalidad; sin SCAPI real en la prueba.
+vi.mock('@/extensions/pj-cart/lib/cart.server', () => ({
+    loadPjCartData: vi.fn(() =>
+        Promise.resolve({
+            lineProducts: {},
+            fulfillment: null,
+            extras: { drink: null, dessert: null, convert: null, redeem: null, emptyImage: null, comboImage: null },
+            canje: null,
+        })
+    ),
+}));
+// @sfdc-extension-block-end SFDC_EXT_PJ_CART
+
 import { getBasket, getBasketSnapshot } from '@/middlewares/basket.server';
 import { fetchProductsInBasket } from '@/lib/cart/basket-products.server';
 import { fetchPromotionsForBasket } from '@/lib/cart/basket-promotions.server';
