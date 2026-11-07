@@ -55,8 +55,8 @@ import PickupProvider from '@/extensions/bopis/context/pickup-context';
 import { ShippingDeliveryProvider } from '@/extensions/shipping-delivery/context/shipping-delivery-context';
 // @sfdc-extension-block-end SFDC_EXT_SHIPPING_DELIVERY
 // @sfdc-extension-block-start SFDC_EXT_PJ_PRODUCT
-import { loadPizzaPdp, type PizzaPdpData } from '@/extensions/pj-product/lib/pdp.server';
-import { PizzaProductView } from '@/extensions/pj-product/components/pizza-product-view';
+import { loadPjPdp, type PjPdpData } from '@/extensions/pj-product/lib/product-pdp.server';
+import { PjProductView } from '@/extensions/pj-product/components/pj-product-view';
 // @sfdc-extension-block-end SFDC_EXT_PJ_PRODUCT
 
 @PageType({
@@ -87,8 +87,8 @@ export type ProductPageData = {
     pageUrl: string;
     productSchema: Promise<ReturnType<typeof generateProductSchema> | null>;
     // @sfdc-extension-block-start SFDC_EXT_PJ_PRODUCT
-    /** Ficha de pizza de Papa Johns (PRO-03); `null` para los demás productos. */
-    pjPizza?: PizzaPdpData | null;
+    /** Ficha de Papa Johns según el tipo de producto (PRO-03 pizza, PRO-08 combo y simple). */
+    pjPdp?: PjPdpData | null;
     // @sfdc-extension-block-end SFDC_EXT_PJ_PRODUCT
 };
 
@@ -193,8 +193,10 @@ export async function loader(args: Route.LoaderArgs): Promise<ProductPageData> {
     const pageUrl = buildSeoPageUrl(context, requestUrl);
 
     // @sfdc-extension-block-start SFDC_EXT_PJ_PRODUCT
-    // La pizza se arma con su configurador (crítico: precio en el tamaño y el botón); `pz-mitades` redirige.
-    const pjPizza = await loadPizzaPdp(context, request, product);
+    // PRO-08: ningún producto cae en la ficha del template. Pizza → configurador (PRO-03); Super Dúo y
+    // Super Trío → 302 a su constructor; combos con ficha y productos simples → fichas propias;
+    // `pz-mitades` → armador. Crítico: el precio va en el botón.
+    const pjPdp = await loadPjPdp(context, request, product);
     // @sfdc-extension-block-end SFDC_EXT_PJ_PRODUCT
 
     // Generate product schema in loader (server-side) for SEO.
@@ -232,7 +234,7 @@ export async function loader(args: Route.LoaderArgs): Promise<ProductPageData> {
         pageUrl,
         productSchema: productSchemaPromise,
         // @sfdc-extension-line SFDC_EXT_PJ_PRODUCT
-        pjPizza,
+        pjPdp,
     };
 }
 
@@ -315,10 +317,10 @@ function ProductContent({ product, url }: { product: ShopperProducts.schemas['Pr
 function ProductDetailView({ loaderData }: { loaderData: ProductPageData }) {
     const { t } = useTranslation('product');
     // @sfdc-extension-block-start SFDC_EXT_PJ_PRODUCT
-    if (loaderData.pjPizza) {
+    if (loaderData.pjPdp) {
         return (
-            <PizzaProductView
-                data={loaderData.pjPizza}
+            <PjProductView
+                data={loaderData.pjPdp}
                 url={loaderData.pageUrl}
                 description={loaderData.product.pageDescription}
             />

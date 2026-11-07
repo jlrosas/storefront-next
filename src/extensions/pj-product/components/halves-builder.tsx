@@ -27,7 +27,13 @@ import { PJ_ROUTES } from '@/extensions/pj-shared/lib/routes';
 import { usePjMe } from '@/extensions/pj-shared/hooks/use-pj-me';
 import { useShowAddedToast } from '@/extensions/pj-shared/lib/added-toast';
 import { crustSurcharge, findVariant } from '../lib/pizza';
-import { initialHalvesSelection, nextEmptyHalf, type HalvesBuilderData, type HalvesSelection } from '../lib/halves';
+import {
+    halvesPrice,
+    initialHalvesSelection,
+    nextEmptyHalf,
+    type HalvesBuilderData,
+    type HalvesSelection,
+} from '../lib/halves';
 import { linesTotal, pizzaLineCount } from '../lib/cart-lines';
 import { PRO_TOKENS } from '../lib/tokens';
 import { usePjCart } from '../hooks/use-pj-cart';
@@ -102,6 +108,9 @@ export function HalvesBuilder({ data, layout, onClose, onSaved }: HalvesBuilderP
         ' · '
     );
 
+    // AUD P1-3: el botón dice el monto (promedio R2.1), no solo «Pagas el promedio».
+    const averagePrice = halvesPrice(chosen, selection.size, surcharge);
+
     const change = (patch: Partial<HalvesSelection>) => {
         const next = { ...selection, ...patch };
         if (!config.variants.some((v) => v.size === next.size && v.crust === next.crust)) {
@@ -126,7 +135,10 @@ export function HalvesBuilder({ data, layout, onClose, onSaved }: HalvesBuilderP
         const variant = findVariant(config, selection.size, selection.crust);
         if (!variant) return;
         if (!editItemId) {
-            const outcome = await ensureFulfillment(t('halves.toastName', { size: sizeLabel }));
+            const outcome = await ensureFulfillment(
+                t('halves.toastName', { size: sizeLabel }),
+                averagePrice != null ? formatClp(averagePrice) : undefined
+            );
             if (outcome.status === 'cancelled') return;
         }
         setError(null);
@@ -352,7 +364,9 @@ export function HalvesBuilder({ data, layout, onClose, onSaved }: HalvesBuilderP
                         data-testid="pj-halves-add"
                         className="flex h-[54px] w-full items-center justify-between rounded-full bg-pj-green px-[22px] text-[17px] font-bold text-pj-surface disabled:opacity-70">
                         <span>{editing ? t('sheet.save') : t('sheet.add')}</span>
-                        <span>{t('halves.average')}</span>
+                        <span data-testid="pj-halves-total">
+                            {averagePrice != null ? formatClp(averagePrice) : t('halves.average')}
+                        </span>
                     </button>
                 )}
             </footer>
