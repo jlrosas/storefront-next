@@ -126,5 +126,25 @@
     },
     "panel": {
         "viewOrder": "Ver mi pedido"
+    },
+    "recs": {
+        "title": "¿Le sumamos algo?",
+        "kind": {
+            "drink": "Para tomar",
+            "side": "Para picar",
+            "dessert": "Algo dulce"
+        }
+    },
+    "group": {
+        "name": {
+            "duo": "Super Dúo",
+            "trio": "Super Trío"
+        },
+        "extras": "{{price}} + {{extras}} en extras",
+        "broken_one": "Falta {{count}} pizza: el resto se cobra a precio normal, sin la promo {{name}}",
+        "broken_other": "Faltan {{count}} pizzas: el resto se cobra a precio normal, sin la promo {{name}}",
+        "listAria": "Pizzas del {{name}}",
+        "remove": "Quitar {{name}}",
+        "removeAria": "Quitar el {{name}} completo del pedido"
     }
 }

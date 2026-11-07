@@ -18,6 +18,7 @@ import { type ReactElement, type ReactNode, Suspense, lazy, useMemo, useRef, use
 import { Await, useRevalidator } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
+import type { ShopperBasketsV2 } from '@/scapi';
 import { Link } from '@/components/link';
 import { FoodImage } from '@/extensions/pj-shared/components/food-image';
 import { PriceTag } from '@/extensions/pj-shared/components/price-tag';
@@ -41,7 +42,8 @@ import {
 import type { SideProduct } from '../lib/upsell';
 import { halvesHref } from '../lib/halves';
 import { linesTotal } from '../lib/cart-lines';
-import { flyToCart } from '../lib/cart-bump';
+import { flyToCart } from '@/extensions/pj-shared/lib/fly-to-cart';
+import { nextCrossSell } from '../lib/cross-sell';
 import { ensureFulfillment } from '../lib/fulfillment-request';
 import { PRO_TOKENS } from '../lib/tokens';
 import { reviewMockFor } from '../mocks/reviews';
@@ -51,7 +53,10 @@ import { CheckIcon, ClockIcon, GiftIcon, PeopleIcon, PlusIcon, ZoomIcon } from '
 import { useImageUrl } from '../hooks/use-image-url';
 import { weeklyOrdersFor } from '../lib/weekly';
 
+type Basket = ShopperBasketsV2.schemas['Basket'];
+
 const PhotoZoom = lazy(() => import('./photo-zoom'));
+const UpsellSheet = lazy(() => import('./upsell-sheet'));
 
 /**
  * Foto de la ficha (N11): cuadrada en móvil; en escritorio llena el alto visible bajo el encabezado y
@@ -93,6 +98,7 @@ export function PizzaPdp({ config, sides, initialSize }: PizzaPdpProps): ReactEl
     const [zoom, setZoom] = useState(false);
     const [zoomMounted, setZoomMounted] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [upsell, setUpsell] = useState<{ basket: Basket; detail: string; itemId?: string } | null>(null);
 
     const current = useMemo(() => normalizeSelection(config, selection), [config, selection]);
     const pizzaTotal = totalPrice(config, current);
@@ -142,8 +148,14 @@ export function PizzaPdp({ config, sides, initialSize }: PizzaPdpProps): ReactEl
             return;
         }
         const ids = result.addedItemIds ?? [];
-        flyToCart(heroRef.current, config.image?.src ?? null);
+        // Un solo vuelo (D-P1-4): el de pj-shared, desde la foto de la ficha.
+        void flyToCart(heroRef.current);
         setAdded(ids);
+        // «Completa tu pedido» también desde la ficha (S-D19); su franja confirma lo agregado.
+        if (nextCrossSell(result.basket, config.kind === 'builder' ? 'builder' : 'pizza')) {
+            setUpsell({ basket: result.basket, detail: summary, itemId: ids[0] });
+            return;
+        }
         showAddedToast({
             productName: config.name,
             detail: summary,
@@ -547,6 +559,22 @@ export function PizzaPdp({ config, sides, initialSize }: PizzaPdpProps): ReactEl
                         src={config.image.src}
                         name={config.name}
                         caption={config.description}
+                    />
+                </Suspense>
+            )}
+            {upsell && (
+                <Suspense fallback={null}>
+                    <UpsellSheet
+                        open
+                        onOpenChange={(open) => {
+                            if (!open) setUpsell(null);
+                        }}
+                        addedTitle={t('upsell.addedTitle', { name: config.name })}
+                        addedDetail={upsell.detail}
+                        basket={upsell.basket}
+                        addedKind={config.kind === 'builder' ? 'builder' : 'pizza'}
+                        comboFor={upsell.itemId}
+                        continueToMenu
                     />
                 </Suspense>
             )}

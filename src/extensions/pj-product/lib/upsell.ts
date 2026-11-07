@@ -101,8 +101,26 @@ export function promotionSavingsInBasket(
     return total;
 }
 
-/** Datos del paso «Hazlo combo» de la hoja (`/resource/pj-upsell`). */
+/** Una bebida de «Completa tu pedido» con sus tamaños (chips «1,5 L · $3.490», «2,5 L · $4.490»). */
+export interface CrossSellDrink {
+    flavor: 'original' | 'zero';
+    name: string;
+    image: string | null;
+    sizes: Array<{ size: '1.5' | '2.5'; productId: string; price: number }>;
+}
+
+/** Catálogo de la venta cruzada (S-D19): bebidas por tamaño, acompañamientos y postres. */
+export interface CrossSellCatalog {
+    drinks: CrossSellDrink[];
+    sides: SideProduct[];
+    desserts: SideProduct[];
+}
+
+export const EMPTY_CROSS_SELL: CrossSellCatalog = { drinks: [], sides: [], desserts: [] };
+
+/** Datos del paso «Completa tu pedido» de la hoja (`/resource/pj-upsell`). */
 export interface SheetUpsell {
     offer: HazloComboOffer | null;
     extras: SideProduct[];
+    catalog: CrossSellCatalog;
 }

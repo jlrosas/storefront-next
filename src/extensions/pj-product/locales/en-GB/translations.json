@@ -12,7 +12,10 @@
         "loading": "Cargando la pizza",
         "loadError": "No pudimos cargar esta pizza. Vuelve a intentarlo.",
         "error": "No pudimos agregarla a tu pedido. Vuelve a intentarlo.",
-        "close": "Cerrar"
+        "close": "Cerrar",
+        "slotDone": "Listo",
+        "slotIncluded": "Incluida",
+        "slotNote": "Incluida en el combo"
     },
     "slices": {
         "individual": "4 trozos",
@@ -75,9 +78,9 @@
         "separate": "O agrega por separado",
         "addAria": "Agregar {{name}}",
         "removeAria": "Quitar {{name}}",
-        "viewOrder": "Ver pedido",
-        "viewOrderCount": "Ver pedido ({{count}})",
-        "noThanks": "No, gracias. Seguir viendo el menú",
+        "viewOrder": "Ver mi pedido",
+        "viewOrderCount": "Ver mi pedido ({{count}})",
+        "noThanks": "Seguir viendo el menú",
         "compactAria": "Hazlo combo con tu {{name}}",
         "compactTitle": "Suma {{side}} y {{drink}}",
         "flavorDrink": {
@@ -202,5 +205,21 @@
             "extra": "Salsas y extras"
         },
         "pizzaLabel": "Pizza"
+    },
+    "complete": {
+        "dialogTitle": "Completa tu pedido",
+        "title": "Completa tu pedido",
+        "party": "Son {{count}} pizzas: para la mesa, palitos y bebida de 2,5 L",
+        "sides": "Acompañamientos",
+        "desserts": "Postres",
+        "drinkTitle": "¿Y para tomar?",
+        "drinkAddAria": "Agregar {{name}} por {{price}}",
+        "drinkShare": "La de 2,5 L alcanza para toda la mesa",
+        "upsize": "Tu bebida de 1,5 L también viene en 2,5 L",
+        "upsized": "Listo: tu bebida ahora es de 2,5 L",
+        "upsizeCta": "Súbela · +{{price}}",
+        "upsizeCtaNoPrice": "Súbela a 2,5 L",
+        "addAria": "Agregar {{name}} por {{price}}",
+        "addedCombo": "{{name}} agregado"
     }
 }

@@ -40,6 +40,8 @@ export interface PizzaConfiguratorProps {
     /** `sheet`: hoja «Arma tu pizza» (extras en filas). `pdp`: ficha (extras en chips; dos columnas de masa desde lg). */
     layout: 'sheet' | 'pdp';
     className?: string;
+    /** Ranura de un combo (S-D20): el tamaño viene dado por el combo y no se muestra con precio suelto. */
+    hideSize?: boolean;
 }
 
 const SECTION_SHEET = 'flex flex-col gap-2.5 border-t-8 border-[var(--pj-section)] px-4 py-3';
@@ -67,6 +69,7 @@ export function PizzaConfigurator({
     selection,
     onChange,
     layout,
+    hideSize = false,
     className,
 }: PizzaConfiguratorProps): ReactElement {
     const { t } = useTranslation('extPjProduct');
@@ -103,7 +106,7 @@ export function PizzaConfigurator({
     return (
         <div className={cn('flex flex-col', !sheet && 'lg:gap-5', className)} data-testid="pj-pizza-configurator">
             {/* Tamaño */}
-            <section className={sectionClass} aria-labelledby={`${layout}-size`}>
+            <section className={cn(sectionClass, hideSize && 'hidden')} aria-labelledby={`${layout}-size`}>
                 <div id={`${layout}-size`}>
                     {heading(
                         t('config.size'),
