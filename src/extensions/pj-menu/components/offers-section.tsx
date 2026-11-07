@@ -19,14 +19,14 @@ import { useTranslation } from 'react-i18next';
 import { Link } from '@/components/link';
 import { cropForPhoto, FoodImage, LtoBadge, PriceTag } from '@/extensions/pj-shared';
 import { PJ_ROUTES } from '@/extensions/pj-shared/lib/routes';
-import { discountPercent, FEATURED_OFFERS, type MenuProduct } from '../lib/menu-model';
+import { discountPercent, FEATURED_OFFERS, offerHref, type MenuProduct } from '../lib/menu-model';
 
 export function OfferCard({ offer, priority = false }: { offer: MenuProduct; priority?: boolean }): ReactElement {
     const { t } = useTranslation('extPjMenu');
     const off = discountPercent(offer.price, offer.listPrice);
     return (
         <Link
-            to={`/p/${offer.id}`}
+            to={offerHref(offer.id)}
             data-testid="pj-menu-offer-card"
             className="flex w-60 shrink-0 snap-start flex-col overflow-hidden rounded-[16px] bg-pj-surface text-pj-ink no-underline shadow-pj-card focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green lg:w-auto">
             <div className="relative">
