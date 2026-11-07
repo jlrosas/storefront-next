@@ -31,6 +31,25 @@ import {
 } from '../lib/fulfillment-store';
 import { pickupMinutes, shortStoreName } from '../lib/store-info';
 
+/**
+ * Mecanismo estándar para otras extensiones (OFE, MEN, PRO): `pj:open-fulfillment` abre el panel.
+ * Se escucha desde que carga el módulo y no desde un efecto: un «Agregar» tocado mientras la página
+ * todavía hidrata (React lo repite al hidratar) también encuentra quién abra el panel, en vez de
+ * agregar sin tienda.
+ */
+function onOpenFulfillmentEvent(event: Event): void {
+    event.preventDefault();
+    openFulfillmentPanel(requestFromEventDetail((event as CustomEvent).detail));
+}
+
+if (typeof window !== 'undefined') {
+    // Con HMR el módulo se evalúa otra vez: se reemplaza el oyente anterior en vez de duplicarlo.
+    const w = window as Window & { __pjOpenFulfillment?: (event: Event) => void };
+    if (w.__pjOpenFulfillment) window.removeEventListener(PJ_FULFILLMENT_EVENTS.open, w.__pjOpenFulfillment);
+    w.__pjOpenFulfillment = onOpenFulfillmentEvent;
+    window.addEventListener(PJ_FULFILLMENT_EVENTS.open, onOpenFulfillmentEvent);
+}
+
 // El panel pesa (hoja, Google Places): se carga la primera vez que alguien lo pide.
 const FulfillmentPanel = lazy(() => import('../components/fulfillment-panel'));
 
@@ -46,17 +65,10 @@ function FulfillmentSync(): null {
 
     useEffect(() => {
         hydrateFulfillment();
-        // Mecanismo estándar para otras extensiones (OFE, MEN, PRO): ver PJ_FULFILLMENT_EVENTS.
-        const onOpen = (event: Event) => {
-            event.preventDefault();
-            openFulfillmentPanel(requestFromEventDetail((event as CustomEvent).detail));
-        };
         // Otra extensión cambió la modalidad por su cuenta (cookie ya escrita): el chip se actualiza.
         const onChanged = () => hydrateFulfillment();
-        window.addEventListener(PJ_FULFILLMENT_EVENTS.open, onOpen);
         window.addEventListener(PJ_FULFILLMENT_EVENTS.changed, onChanged);
         return () => {
-            window.removeEventListener(PJ_FULFILLMENT_EVENTS.open, onOpen);
             window.removeEventListener(PJ_FULFILLMENT_EVENTS.changed, onChanged);
         };
     }, []);

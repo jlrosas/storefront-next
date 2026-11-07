@@ -42,12 +42,24 @@ const DEFAULT_OPEN_UNTIL = '23:00';
 const DEFAULT_PICKUP_MINUTES = 15;
 const DEFAULT_DELIVERY_MINUTES = 30;
 
-/** «Papa Johns El Bosque» → «El Bosque». */
+const LOWER_WORDS = new Set(['de', 'del', 'la', 'las', 'los', 'el', 'y']);
+
+/**
+ * «Papa Johns El Bosque» → «El Bosque». Algunos nombres del sandbox vienen en minúscula
+ * («irarrazaval», «San miguel», VAL-TIE-04 H5): se capitalizan para mostrarlos.
+ */
 export function shortStoreName(name: string): string {
     return name
         .replace(/^papa johns\s+/i, '')
         .replace(/\.$/, '')
-        .trim();
+        .trim()
+        .split(/\s+/)
+        .map((word, i) =>
+            i > 0 && LOWER_WORDS.has(word.toLowerCase())
+                ? word
+                : word.charAt(0).toLocaleUpperCase('es-CL') + word.slice(1)
+        )
+        .join(' ');
 }
 
 /**
