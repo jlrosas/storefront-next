@@ -95,6 +95,8 @@ export function ComboBuilder({
     const [state, setState] = useState<ComboState>(() => initialState(offer.slots));
     const [waitingForStore, setWaitingForStore] = useState(false);
     const [switchedToPickup, setSwitchedToPickup] = useState(false);
+    // F4: tras agregar, el botón pasa a «Ver mi pedido» (un segundo toque no agrega otra vez).
+    const [added, setAdded] = useState(false);
     const lastHandled = useRef<unknown>(null);
 
     const total = offer.slots.length;
@@ -140,6 +142,7 @@ export function ComboBuilder({
         if (fetcher.state !== 'idle' || !fetcher.data || lastHandled.current === fetcher.data) return;
         lastHandled.current = fetcher.data;
         if (fetcher.data.success) {
+            setAdded(true);
             const points = pointsFor(offer.price, shippingFor(readFulfillmentFromDocument()));
             showComboAddedToast({
                 title: t('toast.added', { name: offer.name }),
@@ -151,6 +154,10 @@ export function ComboBuilder({
     }, [fetcher.state, fetcher.data, offer.name, offer.price, navigate, t]);
 
     const onAdd = () => {
+        if (added) {
+            void navigate(PJ_ROUTES.cart);
+            return;
+        }
         if (!complete || blocked || sending || waitingForStore) return;
         if (!readFulfillmentFromDocument() && requestFulfillmentPanel()) {
             setWaitingForStore(true);
@@ -166,12 +173,13 @@ export function ComboBuilder({
 
     const failed = fetcher.state === 'idle' && fetcher.data && !fetcher.data.success;
     let buttonLabel: string;
-    if (blocked) buttonLabel = t('unavailable.addDisabled');
+    if (added) buttonLabel = t('builder.viewOrder');
+    else if (blocked) buttonLabel = t('unavailable.addDisabled');
     else if (!complete) buttonLabel = t('builder.missing', { count: missing });
     else if (sending) buttonLabel = t('builder.adding');
     else if (waitingForStore) buttonLabel = t('builder.waitingStore');
     else buttonLabel = t('builder.add', { name: offer.name });
-    const buttonEnabled = complete && !blocked && !sending && !waitingForStore;
+    const buttonEnabled = added || (complete && !blocked && !sending && !waitingForStore);
 
     return (
         <div
@@ -179,7 +187,7 @@ export function ComboBuilder({
             data-testid="pj-combo-builder"
             className="mx-auto -mt-8 flex max-w-[880px] flex-col bg-pj-cream">
             {/* El constructor tiene su propia barra de acción abajo: no lleva barra inferior (como Combo.dc.html). */}
-            <style>{'body:has([data-pj-combo-builder]) [data-testid="pj-bottom-nav"]{display:none}'}</style>
+            <style>{`@media (prefers-reduced-motion: no-preference){@keyframes pj-pop{0%{transform:scale(.8)}60%{transform:scale(1.12)}100%{transform:scale(1)}}@keyframes pj-beat{0%,100%{transform:scale(1)}40%{transform:scale(1.04)}}[data-pj-pop]{animation:pj-pop 300ms ease-out}[data-pj-beat]{animation:pj-beat 600ms ease-out 1}}body:has([data-pj-combo-builder]) [data-testid="pj-bottom-nav"]{display:none}`}</style>
 
             <header className="sticky top-16 z-30 flex flex-col gap-2.5 border-b border-pj-line bg-pj-surface px-2 pt-2 pb-3 lg:top-[72px]">
                 <div className="flex items-center gap-2">
@@ -241,19 +249,26 @@ export function ComboBuilder({
                                 aria-label={`${label}: ${option?.name ?? t('builder.slotEmpty')}`}
                                 data-testid={`pj-combo-slot-${index + 1}`}
                                 data-filled={option ? 'true' : 'false'}
-                                onClick={() => setState((s) => selectSlot(s, index))}
+                                onClick={() => {
+                                    setState((s) => selectSlot(s, index));
+                                }}
                                 className={cn(
                                     'flex min-h-[56px] min-w-0 items-center gap-2 rounded-xl border-2 p-1.5 text-left text-pj-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green',
                                     active ? 'border-pj-green bg-pj-lime-soft' : 'border-pj-line bg-pj-surface'
                                 )}>
                                 {option?.image ? (
-                                    <FoodImage
-                                        src={imageAt(option.image, 96) ?? ''}
-                                        alt=""
-                                        bleed
-                                        crop="macro"
-                                        className="size-[40px] shrink-0 rounded-full"
-                                    />
+                                    <span key={option.id} data-pj-pop className="relative shrink-0">
+                                        <FoodImage
+                                            src={imageAt(option.image, 96) ?? ''}
+                                            alt=""
+                                            bleed
+                                            crop="macro"
+                                            className="size-[40px] shrink-0 rounded-full"
+                                        />
+                                        <span className="absolute -right-1 -bottom-1 flex size-4 items-center justify-center rounded-full bg-pj-green text-pj-surface">
+                                            <CheckIcon className="size-2.5" />
+                                        </span>
+                                    </span>
                                 ) : (
                                     <span
                                         aria-hidden="true"
@@ -336,7 +351,10 @@ export function ComboBuilder({
                                 type="button"
                                 aria-pressed={on}
                                 data-testid={`pj-combo-option-${option.id}`}
-                                onClick={() => setState((s) => selectOption(s, option.id))}
+                                onClick={() => {
+                                    setAdded(false);
+                                    setState((s) => selectOption(s, option.id));
+                                }}
                                 className={cn(
                                     'relative flex flex-col overflow-hidden rounded-[14px] border-[3px] bg-pj-surface p-0 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green',
                                     on ? 'border-pj-green' : 'border-transparent shadow-pj-card'
@@ -373,17 +391,18 @@ export function ComboBuilder({
             <footer className="sticky bottom-0 z-30 border-t border-pj-line bg-pj-surface px-4 pt-3 pb-[calc(1rem+env(safe-area-inset-bottom))]">
                 <button
                     type="button"
+                    key={buttonEnabled && !added ? 'ready' : 'idle'}
+                    data-pj-beat={buttonEnabled && !added && total > 1 ? '' : undefined}
                     aria-disabled={!buttonEnabled}
                     onClick={onAdd}
                     data-testid="pj-combo-add"
                     className={cn(
-                        'flex h-[54px] w-full items-center justify-center rounded-full px-[22px] text-base font-bold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green',
+                        'flex h-[54px] w-full items-center justify-center rounded-full px-[22px] text-base transition-transform active:scale-[0.97] font-bold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green',
                         buttonEnabled
                             ? 'bg-pj-green text-pj-surface hover:bg-pj-green-dark lg:text-[17px]'
                             : 'cursor-not-allowed bg-pj-dough-deep text-pj-gray'
                     )}>
-                    <span>{buttonLabel}</span>
-                    {buttonEnabled && <span>{` · ${formatClp(offer.price)}`}</span>}
+                    <span>{buttonEnabled && !added ? `${buttonLabel} · ${formatClp(offer.price)}` : buttonLabel}</span>
                 </button>
             </footer>
         </div>

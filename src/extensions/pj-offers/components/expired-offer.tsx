@@ -43,7 +43,7 @@ export function ExpiredOffer({ expired, alternatives, search }: ExpiredOfferProp
         <div
             className="mx-auto flex max-w-[720px] flex-col gap-[18px] px-4 pb-8 lg:pb-14"
             data-testid="pj-expired-offer">
-            <section className="overflow-hidden rounded-[18px] bg-pj-surface shadow-pj-card">
+            <section className="surface-garlic overflow-hidden rounded-pj-section shadow-pj-card">
                 {expired?.image && (
                     <div className="relative">
                         <FoodImage
@@ -57,17 +57,17 @@ export function ExpiredOffer({ expired, alternatives, search }: ExpiredOfferProp
                             className="h-[170px] opacity-75 grayscale-[0.7] lg:h-[260px]"
                         />
                         {endedOn && (
-                            <span className="absolute top-3 left-3 rounded-full bg-pj-gray-strong px-2.5 py-1 text-xs font-extrabold tracking-wide text-pj-surface uppercase">
+                            <span className="absolute top-3 left-3 rounded-full bg-pj-sauce px-3 py-1 text-xs font-extrabold tracking-wide text-pj-dough uppercase">
                                 {t('expired.badge', { date: endedOn })}
                             </span>
                         )}
                     </div>
                 )}
                 <div className="flex flex-col gap-1.5 px-4 pt-3.5 pb-4">
-                    <h1 className="text-[30px]">
-                        {endedOn ? t('expired.title', { date: endedOn }) : t('expired.titleNoDate')}
+                    <h1 className="text-[34px] leading-[0.95] lg:text-[44px]">
+                        {expired ? t('expired.title', { name: expired.name }) : t('expired.titleNoDate')}
                     </h1>
-                    <p className="text-[15px] leading-snug text-pj-gray-strong">
+                    <p className="text-[16px] leading-snug">
                         {expired && endedOn
                             ? t('expired.body', { name: expired.name, date: endedOn })
                             : t('expired.bodyNoName')}

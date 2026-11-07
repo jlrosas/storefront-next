@@ -87,8 +87,9 @@ export function OfferCard({
             data-offer={offer.id}
             data-featured={featured ? 'true' : undefined}
             className={cn(
-                'flex flex-col overflow-hidden rounded-[18px] bg-pj-surface shadow-pj-card',
-                featured && 'lg:col-span-full lg:flex-row-reverse lg:rounded-3xl lg:bg-pj-green-dark lg:text-pj-surface'
+                'flex flex-col overflow-hidden',
+                featured ? '' : 'rounded-[18px] bg-pj-surface shadow-pj-card',
+                featured && 'surface-basil rounded-pj-section shadow-pj-float lg:col-span-full lg:flex-row-reverse'
             )}>
             <div className={cn('relative', featured && 'lg:flex-[1.3_1_0%]')}>
                 <FoodImage
@@ -99,10 +100,10 @@ export function OfferCard({
                     bleed
                     crop={cropForPhoto(offer.id)}
                     priority={priority}
-                    className={cn('h-[180px] lg:h-[210px]', featured && 'lg:h-full lg:min-h-[420px]')}
+                    className={cn('h-[180px] lg:h-[210px]', featured && 'h-[300px] lg:h-full lg:min-h-[420px]')}
                 />
                 {percent > 0 && (
-                    <LtoBadge size="md" animate={priority} className="absolute top-2.5 left-2.5">
+                    <LtoBadge size={featured ? 'lg' : 'md'} animate={priority} className="absolute top-2.5 left-2.5">
                         {t('card.off', { percent })}
                     </LtoBadge>
                 )}
@@ -115,10 +116,10 @@ export function OfferCard({
             <div
                 className={cn(
                     'flex flex-1 flex-col gap-1 px-3.5 pt-3 pb-3.5',
-                    featured && 'lg:flex-[1_1_0%] lg:justify-center lg:gap-3 lg:p-10'
+                    featured && 'gap-2 px-5 pt-4 pb-5 lg:flex-[1_1_0%] lg:justify-center lg:gap-3 lg:p-10'
                 )}>
                 {featured && (
-                    <span className="hidden self-start rounded-full bg-pj-lime px-3 py-1 text-xs font-bold uppercase text-pj-green-dark lg:inline-block">
+                    <span className="pj-micro inline-block self-start rounded-full bg-pj-garlic px-3 py-1 text-pj-sauce">
                         {t('card.featured')}
                     </span>
                 )}
@@ -126,17 +127,21 @@ export function OfferCard({
                     id={titleId}
                     className={cn(
                         'font-sans text-[19px] leading-tight font-bold normal-case tracking-normal',
-                        featured && 'lg:font-heading lg:text-[52px] lg:leading-[0.95] lg:font-extrabold lg:uppercase'
+                        featured && 'font-heading text-[38px] leading-[0.92] font-extrabold uppercase lg:text-[52px]'
                     )}>
                     {offer.name}
                 </h2>
-                <p className={cn('text-sm text-pj-gray-strong', featured && 'lg:text-[17px] lg:text-pj-surface/90')}>
+                <p
+                    className={cn(
+                        'text-sm text-pj-gray-strong',
+                        featured && 'text-[15px] text-pj-dough/90 lg:text-[17px]'
+                    )}>
                     {offer.description}
                 </p>
-                <div className={cn('mt-0.5 flex gap-2.5 text-xs text-pj-gray', featured && 'lg:text-pj-surface/80')}>
+                <div className={cn('mt-0.5 flex gap-2.5 text-xs text-pj-gray', featured && 'text-pj-dough/80')}>
                     <span>{t(`card.mode.${dispatchKey(offer)}`)}</span>
                     {validity && (
-                        <span className={cn('font-bold text-pj-sauce', featured && 'lg:text-pj-lime')}>
+                        <span className={cn('font-bold text-pj-sauce', featured && 'text-pj-accent')}>
                             {t('card.until', { date: validity })}
                         </span>
                     )}
@@ -167,7 +172,7 @@ export function OfferCard({
                         className={cn(
                             'inline-flex min-h-[46px] shrink-0 items-center rounded-full bg-pj-green px-5 font-bold text-pj-surface no-underline hover:bg-pj-green-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green',
                             featured &&
-                                'lg:min-h-[54px] lg:bg-pj-lime lg:px-[30px] lg:text-[17px] lg:text-pj-green-dark lg:hover:bg-pj-lime-soft lg:focus-visible:outline-pj-lime'
+                                'min-h-[50px] bg-pj-lime text-pj-green-dark hover:bg-pj-lime-soft focus-visible:outline-pj-lime lg:min-h-[54px] lg:px-[30px] lg:text-[17px] active:scale-[0.97] transition-transform'
                         )}>
                         {cta}
                     </Link>
@@ -180,25 +185,9 @@ export function OfferCard({
 /** Precio de la portada (VIS-02): precio display; en escritorio va sobre verde oscuro, así que usa lima. */
 function FeaturedPrice({ offer }: { offer: Offer }): ReactElement {
     return (
-        <>
-            <PriceTag
-                variant="display"
-                size="md"
-                surface="dough"
-                price={offer.price}
-                listPrice={offer.priceBefore}
-                className="lg:hidden"
-            />
-            <span className="hidden lg:block" data-testid="pj-featured-price">
-                <PriceTag
-                    variant="display"
-                    size="md"
-                    surface="basil"
-                    price={offer.price}
-                    listPrice={offer.priceBefore}
-                />
-            </span>
-        </>
+        <span data-testid="pj-featured-price">
+            <PriceTag variant="display" size="md" surface="basil" price={offer.price} listPrice={offer.priceBefore} />
+        </span>
     );
 }
 
