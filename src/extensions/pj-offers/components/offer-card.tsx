@@ -24,13 +24,16 @@ import { FoodImage } from '@/extensions/pj-shared/components/food-image';
 import { cropForPhoto } from '@/extensions/pj-shared/lib/photo';
 import { PriceTag } from '@/extensions/pj-shared/components/price-tag';
 import { LtoBadge } from '@/extensions/pj-shared/components/lto-badge';
+import { AccentWord } from '@/extensions/pj-shared/components/accent-word';
 import { PJ_ROUTES } from '@/extensions/pj-shared/lib/routes';
 import type { FulfillmentMode } from '@/extensions/pj-shared/lib/fulfillment';
 import {
     type Offer,
     discountPercent,
     dispatchKey,
+    featuredAccent,
     formatDayMonth,
+    fullRowFraming,
     imageSrcSet,
     showsValidity,
     whoLabel,
@@ -79,6 +82,9 @@ export function OfferCard({
         ? t('card.buildAria', { name: offer.name })
         : t('card.viewAria', { name: offer.name });
     const titleId = `pj-offer-${offer.slug}`;
+    // N15: las fotos con la fila completa (Super Dúo, Super Trío, Combo con Postre) no se acercan en tarjetas anchas.
+    const framing = featured ? null : fullRowFraming(offer.id);
+    const accent = featured ? featuredAccent(offer.name) : null;
 
     return (
         <article
@@ -98,7 +104,8 @@ export function OfferCard({
                     sizes={featured ? '(min-width: 1024px) 700px, 100vw' : '(min-width: 1024px) 400px, 100vw'}
                     alt={offer.name}
                     bleed
-                    crop={cropForPhoto(offer.id)}
+                    crop={framing?.crop ?? cropForPhoto(offer.id)}
+                    imgClassName={framing?.imgClassName}
                     priority={priority}
                     className={cn('h-[180px] lg:h-[210px]', featured && 'h-[300px] lg:h-full lg:min-h-[420px]')}
                 />
@@ -108,7 +115,12 @@ export function OfferCard({
                     </LtoBadge>
                 )}
                 {who && (
-                    <span className="absolute top-2.5 right-2.5 rounded-full bg-pj-surface px-2.5 py-0.5 text-xs font-bold text-pj-green-dark">
+                    <span
+                        className={cn(
+                            // #61: sin sello de descuento, el «Para N» va a la izquierda (no tapa la botella del centro).
+                            'absolute top-2.5 rounded-full bg-pj-surface px-2.5 py-0.5 text-xs font-bold text-pj-green-dark',
+                            percent > 0 ? 'right-2.5' : 'left-2.5'
+                        )}>
                         {who}
                     </span>
                 )}
@@ -126,10 +138,18 @@ export function OfferCard({
                 <h2
                     id={titleId}
                     className={cn(
-                        'font-sans text-[19px] leading-tight font-bold normal-case tracking-normal',
-                        featured && 'font-heading text-[38px] leading-[0.92] font-extrabold uppercase lg:text-[52px]'
+                        // N6: un solo título de tarjeta en todo el sitio.
+                        featured
+                            ? 'font-heading text-[38px] leading-[0.92] font-extrabold uppercase lg:text-[52px]'
+                            : 'pj-card-title'
                     )}>
-                    {offer.name}
+                    {accent ? (
+                        <>
+                            {t('card.featuredLead')} <AccentWord tone="lime">{accent}</AccentWord>
+                        </>
+                    ) : (
+                        offer.name
+                    )}
                 </h2>
                 <p
                     className={cn(

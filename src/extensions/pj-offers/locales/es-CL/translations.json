@@ -5,7 +5,10 @@
         "filterLabel": "¿Para cuántos?",
         "filterAria": "Filtrar por ocasión",
         "empty": "Todavía no hay ofertas para esa ocasión. Mira todas las promos.",
-        "seeAll": "Ver todas"
+        "seeAll": "Ver todas",
+        "closingTitle": "¿Ninguna te convence?",
+        "closingBody": "Arma la tuya a mitades o elige entre todas las especialidades del menú.",
+        "closingCta": "Ver el menú"
     },
     "filters": {
         "todas": "Todas",
@@ -28,7 +31,8 @@
             "delivery": "Solo delivery"
         },
         "pickupOnlyTitle": "Solo para retiro",
-        "pickupOnlyBody": "Con delivery no está disponible. Retírala en {{store}} · listo en {{minutes}} min, o mira las ofertas con delivery."
+        "pickupOnlyBody": "Con delivery no está disponible. Retírala en {{store}} · listo en {{minutes}} min, o mira las ofertas con delivery.",
+        "featuredLead": "Pizza del mes"
     },
     "builder": {
         "back": "Volver a promos",
@@ -57,7 +61,8 @@
             "both": "Retiro o delivery",
             "pickup": "Solo retiro"
         },
-        "viewOrder": "Ver mi pedido"
+        "viewOrder": "Ver mi pedido",
+        "offLabel": "{{percent}} % de descuento"
     },
     "unavailable": {
         "title": "Esta oferta es solo para retiro.",
@@ -73,7 +78,7 @@
     "expired": {
         "title": "Llegaste tarde a {{name}}",
         "badge": "Se fue el {{date}}",
-        "body": "{{name}} se fue el {{date}}. Pero el horno sigue prendido:",
+        "body": "{{name}} ya se fue. Pero el horno sigue prendido:",
         "bodyNoName": "Esta oferta ya se fue. Pero el horno sigue prendido:",
         "listLabel": "Ofertas vigentes",
         "seeAll": "Ver todas las ofertas",
@@ -83,7 +88,10 @@
             "cb-super-duo": "Para compartir",
             "cb-papa-combo-postre": "Con postre"
         },
-        "titleNoDate": "Llegaste tarde a esta oferta"
+        "titleNoDate": "Llegaste tarde a esta oferta",
+        "short": {
+            "cb-box-halloween": "Halloween"
+        }
     },
     "toast": {
         "added": "¡Agregado! {{name}}",

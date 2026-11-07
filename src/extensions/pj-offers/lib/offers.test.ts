@@ -16,6 +16,9 @@
 /** @sfdc-extension-file SFDC_EXT_PJ_OFFERS */
 import { describe, expect, it } from 'vitest';
 import {
+    featuredAccent,
+    fullRowFraming,
+    gridGap,
     daysLeft,
     discountPercent,
     filterByOccasion,
@@ -116,5 +119,24 @@ describe('offers', () => {
             '/promos/super-duo?utm_source=meta&utm_campaign=PJSD26'
         );
         expect(withUtm('/promos', '?x=1')).toBe('/promos');
+    });
+});
+
+describe('OFE-06: encuadre, destacada y grilla', () => {
+    it('las fotos en fila completa van sin zoom', () => {
+        expect(fullRowFraming('cb-super-duo')?.crop).toBe('none');
+        expect(fullRowFraming('cb-papa-combo-postre')).not.toBeNull();
+        expect(fullRowFraming('cb-papa-flash')).toBeNull();
+    });
+    it('separa el nombre de la pizza del mes para el acento', () => {
+        expect(featuredAccent('Pizza del Mes The Works Familiar')).toBe('The Works');
+        expect(featuredAccent('Pizza del mes Pepperoni')).toBe('Pepperoni');
+        expect(featuredAccent('Super Dúo')).toBeNull();
+    });
+    it('cuenta las celdas que faltan para cerrar la fila', () => {
+        expect(gridGap(5, 3)).toBe(1);
+        expect(gridGap(4, 3)).toBe(2);
+        expect(gridGap(6, 3)).toBe(0);
+        expect(gridGap(0, 3)).toBe(0);
     });
 });
