@@ -14,12 +14,28 @@
  * limitations under the License.
  */
 /** @sfdc-extension-file SFDC_EXT_PJ_SHARED */
-import { type ReactElement, useState } from 'react';
+import { type ReactElement, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { useReducedMotion } from '../hooks/use-reduced-motion';
 import { PauseIcon, PlayIcon } from './icons';
-import { FOOD_IMAGE_CROP, type FoodImageCrop } from '../lib/photo';
+import {
+    CROP_SCALE,
+    FOOD_IMAGE_CROP,
+    type FoodImageCrop,
+    KEN_BURNS_SCALE,
+    clampCropScale,
+    cropScaleAt,
+    isDisUrl,
+    normalizeSrcSet,
+    originalWidthFor,
+    photoSrcSet,
+    photoWidth,
+    scaleSizes,
+} from '../lib/photo';
+
+/** Ancho de `lg` (escritorio) para saber qué escala usa el recorte `hero`. */
+const DESKTOP_QUERY = '(min-width: 1024px)';
 
 export type { FoodImageCrop };
 
@@ -28,9 +44,16 @@ export interface FoodImageProps {
     src: string;
     /** Texto alternativo que describe la comida («Pollo BBQ con queso estirándose»). */
     alt: string;
-    /** `srcset` responsivo (`url 640w, url 1280w`). */
+    /**
+     * `srcset` responsivo (`url 640w, url 1280w`). Si `src` es del DIS y no se pasa, `FoodImage` lo arma
+     * (320–1.440 px). En URLs del DIS ningún candidato pasa del original (VIS-06).
+     */
     srcSet?: string;
-    /** `sizes` para el `srcset` (`(min-width: 1024px) 50vw, 100vw`). */
+    /**
+     * `sizes` de la **caja** de la foto (`(min-width: 1024px) 50vw, 100vw`). `FoodImage` lo multiplica por
+     * la escala del recorte y, ya montada, lo reemplaza por el ancho medido: así pide `sw = ancho pintado ×
+     * DPR × escala` (VIS-06).
+     */
     sizes?: string;
     /** Relación de aspecto del recorte (`16/9`, `4/3`, `1/1`). Reserva el espacio: sin saltos de layout. */
     aspect?: string;
@@ -72,9 +95,50 @@ export function FoodImage({
     const reducedMotion = useReducedMotion();
     const [paused, setPaused] = useState(false);
     const moving = animate && !reducedMotion;
+    const frameRef = useRef<HTMLDivElement>(null);
+    // Medida de la caja (cliente): ancho y si estamos en escritorio. `null` en SSR y en la hidratación.
+    const [box, setBox] = useState<{ width: number; desktop: boolean } | null>(null);
+
+    useEffect(() => {
+        const el = frameRef.current;
+        if (!el || typeof ResizeObserver === 'undefined') return;
+        const update = () => {
+            const width = el.offsetWidth;
+            const desktop = typeof window.matchMedia === 'function' && window.matchMedia(DESKTOP_QUERY).matches;
+            setBox((prev) =>
+                prev && prev.width === width && prev.desktop === desktop ? prev : width > 0 ? { width, desktop } : prev
+            );
+        };
+        update();
+        const observer = new ResizeObserver(update);
+        observer.observe(el);
+        return () => observer.disconnect();
+    }, []);
+
+    // VIS-06 (UX-2 N1): resolución según lo que se pinta, no según la caja.
+    const disSource = isDisUrl(src);
+    const originalWidth = originalWidthFor(src);
+    const motionScale = moving ? KEN_BURNS_SCALE : 1;
+    // El recorte nunca agranda la foto por encima del original (caja × escala ≤ ancho natural).
+    const baseScale = box ? cropScaleAt(crop, box.desktop) : CROP_SCALE[crop];
+    const cropScale = box ? clampCropScale(baseScale, box.width, originalWidth) : baseScale;
+    const scaleStyle = box && crop !== 'none' && cropScale < baseScale ? { scale: String(cropScale) } : undefined;
+    const finalSrcSet = srcSet
+        ? normalizeSrcSet(srcSet, originalWidth)
+        : disSource
+          ? photoSrcSet(src, undefined, originalWidth)
+          : undefined;
+    // Antes de medir: el `sizes` del llamador × escala. Ya medida: el ancho pintado exacto (CSS px; el
+    // navegador multiplica por el DPR al elegir).
+    const finalSizes = finalSrcSet
+        ? box
+            ? `${photoWidth(box.width, 1, cropScale * motionScale, Number.MAX_SAFE_INTEGER)}px`
+            : scaleSizes(sizes ?? '100vw', CROP_SCALE[crop] * motionScale)
+        : undefined;
 
     return (
         <div
+            ref={frameRef}
             className={cn(
                 'relative overflow-hidden bg-pj-sand',
                 !bleed && 'rounded-pj-card',
@@ -87,8 +151,8 @@ export function FoodImage({
             data-motion={moving ? (paused ? 'paused' : 'running') : 'none'}>
             <img
                 src={src}
-                srcSet={srcSet}
-                sizes={srcSet ? (sizes ?? '100vw') : undefined}
+                srcSet={finalSrcSet}
+                sizes={finalSizes}
                 alt={alt}
                 loading={priority ? 'eager' : 'lazy'}
                 fetchPriority={priority ? 'high' : undefined}
@@ -99,7 +163,11 @@ export function FoodImage({
                     moving && 'animate-[pj-ken-burns_14s_ease-in-out_infinite_alternate] motion-reduce:animate-none',
                     imgClassName
                 )}
-                style={moving && paused ? { animationPlayState: 'paused' } : undefined}
+                style={
+                    scaleStyle || (moving && paused)
+                        ? { ...scaleStyle, ...(moving && paused ? { animationPlayState: 'paused' } : {}) }
+                        : undefined
+                }
             />
             {moving && (
                 <button

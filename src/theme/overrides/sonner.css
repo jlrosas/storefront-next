@@ -96,3 +96,12 @@
     width: min(420px, calc(100vw - 32px));
     max-width: calc(100vw - 32px);
 }
+
+/* VIS-06 (UX-2 N10): en móvil (≤ 600 px) sonner ignora `offset` y usa `--mobile-offset-top` (16 px), así
+ * que el aviso tapaba el logo y el carrito, y con ellos el vuelo de la foto y el salto del contador.
+ * Se ancla bajo el encabezado, igual que en escritorio (`offset` del AppToaster). */
+@media (max-width: 600px) {
+    [data-sonner-toaster][data-y-position='top'] {
+        top: calc(var(--header-height, 60px) + 0.5rem) !important;
+    }
+}

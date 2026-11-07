@@ -23,7 +23,7 @@ export type LtoBadgeSize = 'sm' | 'md' | 'lg';
 export interface LtoBadgeProps {
     /**
      * Texto del sello en MAYÚSCULAS cortas: «-50%», «NUEVO», «DEL MES», «SOLO HOY». Para dos líneas,
-     * pasa un salto de línea (`'DEL\nMES'`): el interlineado queda al 75 % (playbook p. 119).
+     * pasa un salto de línea (`'DEL\nMES'`): el interlineado queda al 80 % (playbook p. 119, UX-2 N9).
      */
     children: ReactNode;
     /**
@@ -90,7 +90,9 @@ export function LtoBadge({
                 animate && 'motion-safe:animate-[pj-lto-in_350ms_cubic-bezier(0.34,1.56,0.64,1)_both]',
                 className
             )}>
-            <span aria-hidden={label ? true : undefined} className="block pt-[0.08em]">
+            {/* VIS-06 (UX-2 N9): el interlineado va en el span interno; en el externo, `cn` lo quita al
+                fusionar la clase de tamaño (`text-[21px]` pisa `leading-*`). */}
+            <span aria-hidden={label ? true : undefined} className="block pt-[0.08em] leading-[0.8]">
                 {lines
                     ? lines.map((line) => (
                           <span key={line} className="block">
