@@ -21,6 +21,9 @@ import type { ShopperBasketsV2 } from '@/scapi';
 import { useNavigate } from '@/hooks/use-navigate';
 import { BottomSheet } from '@/extensions/pj-shared/components/bottom-sheet';
 import { FoodImage } from '@/extensions/pj-shared/components/food-image';
+import { LtoBadge } from '@/extensions/pj-shared/components/lto-badge';
+import { PriceTag } from '@/extensions/pj-shared/components/price-tag';
+import { productLto } from '../lib/lto';
 import { Stars } from '@/extensions/pj-shared/components/stars';
 import { formatClp } from '@/extensions/pj-shared/lib/format';
 import { pointsFor } from '@/extensions/pj-shared/lib/points';
@@ -37,6 +40,7 @@ import {
     optionItemsFor,
     selectionSummary,
     totalPrice,
+    unitPrice,
     type PizzaConfig,
     type PizzaSelection,
 } from '../lib/pizza';
@@ -168,6 +172,8 @@ function PizzaSheetBody({
 
     const total = config && current ? totalPrice(config, current) : 0;
     const points = pointsFor(total, 0, me?.doublePoints ?? false);
+    const linePrice = config && current ? unitPrice(config, current) : 0;
+    const lto = config ? productLto(config.badges) : null;
     const size = config?.sizes.find((s) => s.id === current?.size);
     const summary =
         config && current
@@ -361,24 +367,33 @@ function PizzaSheetBody({
                                     bleed
                                     priority
                                     crop="macro"
-                                    className="h-[230px] w-full lg:h-[260px]"
+                                    className="h-[260px] w-full lg:h-[280px]"
                                 />
                             ) : (
-                                <div className="h-[230px] bg-pj-sand" aria-hidden="true" />
+                                <div className="h-[260px] bg-pj-sand lg:h-[280px]" aria-hidden="true" />
+                            )}
+                            {lto && (
+                                <LtoBadge
+                                    variant={lto.variant}
+                                    size="md"
+                                    animate
+                                    label={t(`lto.${lto.key}Label`)}
+                                    className="pointer-events-none absolute top-3 left-3 text-[14px] shadow-pj-float">
+                                    {t(`lto.${lto.key}`)}
+                                </LtoBadge>
                             )}
                             {/* Cerrar sobre la foto (como el lienzo): se va con el scroll y no tapa los precios. */}
                             <SheetClose onClose={() => onOpenChange(false)} />
                         </div>
                         <div className="flex flex-col gap-2 px-4 pt-4 pb-2 lg:px-6">
-                            <div className="flex flex-wrap items-baseline justify-between gap-x-3">
-                                <h2 className="font-heading text-[30px] leading-none font-extrabold uppercase">
-                                    {config.name}
-                                </h2>
-                                {config.rating != null && <Stars rating={config.rating} count={config.reviewCount} />}
+                            <h2 className="pj-h2 text-pj-basil lg:text-[40px]">{config.name}</h2>
+                            <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
+                                <PriceTag variant="display" size="md" surface="dough" price={linePrice} />
+                                {config.rating != null && (
+                                    <Stars rating={config.rating} count={config.reviewCount} className="text-[13px]" />
+                                )}
                             </div>
-                            {config.sensory && (
-                                <p className="text-[15px] leading-snug text-pj-gray-strong">{config.sensory}</p>
-                            )}
+                            {config.sensory && <p className="pj-body text-pj-gray-strong">{config.sensory}</p>}
                             <div className="flex flex-wrap gap-1.5">
                                 {size?.serves && (
                                     <span className="rounded-full bg-pj-track px-2.5 py-1 text-xs font-semibold">

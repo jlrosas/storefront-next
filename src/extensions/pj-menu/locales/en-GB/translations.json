@@ -73,12 +73,11 @@
         "add": "Agregar",
         "addAria": "Agregar {{name}}",
         "half": "½ Mitad",
-        "halfShort": "½",
         "halfAria": "Usar {{name}} en una pizza mitad y mitad",
         "from": "desde"
     },
     "badge": {
-        "top": "Más vendida",
+        "top": "La más pedida",
         "spicy": "Picante",
         "new": "Novedad",
         "forTwo": "Ideal para 2"
@@ -106,7 +105,7 @@
     },
     "order": {
         "title": "Tu pedido",
-        "empty": "Todavía no agregas nada. Empieza con una pizza o arma una mitad y mitad.",
+        "empty": "Tu pedido está vacío… por ahora.",
         "total": "Total",
         "checkout": "Ir a pagar",
         "earn": "Ganas {{points}} Papa Puntos",

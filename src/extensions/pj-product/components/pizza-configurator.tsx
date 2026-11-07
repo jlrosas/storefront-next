@@ -85,11 +85,9 @@ export function PizzaConfigurator({
     const heading = (text: ReactNode, aside?: ReactNode) => (
         <div className="flex items-baseline justify-between gap-3">
             {sheet ? (
-                <h3 className="text-[17px] font-bold">{text}</h3>
+                <h3 className="pj-card-title text-pj-basil">{text}</h3>
             ) : (
-                <h2 className="font-sans text-lg font-bold normal-case lg:font-heading lg:text-[26px] lg:leading-none lg:font-extrabold lg:uppercase">
-                    {text}
-                </h2>
+                <h2 className="pj-card-title text-pj-basil">{text}</h2>
             )}
             {aside}
         </div>
