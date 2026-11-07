@@ -22,6 +22,7 @@ import { cn } from '@/lib/utils';
 import type { BasketActionResponse } from '@/routes/types/action-responses';
 import { FoodImage } from '@/extensions/pj-shared/components/food-image';
 import { PriceTag } from '@/extensions/pj-shared/components/price-tag';
+import { LtoBadge } from '@/extensions/pj-shared/components/lto-badge';
 import { useNavigate } from '@/hooks/use-navigate';
 import { showComboAddedToast } from '../lib/combo-toast';
 import { pointsFor } from '@/extensions/pj-shared/lib/points';
@@ -45,7 +46,7 @@ import {
     requestFulfillmentPanel,
 } from '../lib/hooks-fulfillment';
 import { FALLBACK_DELIVERY_ADDRESS, NEAREST_PICKUP_STORE } from '../lib/mock';
-import { imageAt, imageSrcSet, type Offer, withUtm } from '../lib/offers';
+import { discountPercent, imageAt, imageSrcSet, type Offer, withUtm } from '../lib/offers';
 import { useFulfillment } from '../lib/use-fulfillment';
 
 export const COMBO_ADD_ACTION = '/action/pj-combo-add';
@@ -73,6 +74,21 @@ function CheckIcon({ className }: { className?: string }): ReactElement {
             aria-hidden="true"
             className={className}>
             <path d="m5 12 5 5 9-10" />
+        </svg>
+    );
+}
+
+function PlusIcon({ className }: { className?: string }): ReactElement {
+    return (
+        <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.4"
+            strokeLinecap="round"
+            aria-hidden="true"
+            className={className}>
+            <path d="M12 5v14M5 12h14" />
         </svg>
     );
 }
@@ -181,20 +197,24 @@ export function ComboBuilder({
     else buttonLabel = t('builder.add', { name: offer.name });
     const buttonEnabled = added || (complete && !blocked && !sending && !waitingForStore);
 
+    const percent = discountPercent(offer);
+
     return (
         <div
             data-pj-combo-builder
             data-testid="pj-combo-builder"
-            className="mx-auto -mt-8 flex max-w-[880px] flex-col bg-pj-cream">
+            className="mx-auto -mt-8 flex w-full max-w-[1240px] flex-col bg-pj-cream pb-[calc(84px+env(safe-area-inset-bottom))] lg:mt-0 lg:grid lg:grid-cols-[minmax(0,500px)_minmax(0,1fr)] lg:items-start lg:gap-8 lg:bg-transparent lg:px-6 lg:pt-2 lg:pb-14">
             {/* El constructor tiene su propia barra de acción abajo: no lleva barra inferior (como Combo.dc.html). */}
             <style>{`@media (prefers-reduced-motion: no-preference){@keyframes pj-pop{0%{transform:scale(.8)}60%{transform:scale(1.12)}100%{transform:scale(1)}}@keyframes pj-beat{0%,100%{transform:scale(1)}40%{transform:scale(1.04)}}[data-pj-pop]{animation:pj-pop 300ms ease-out}[data-pj-beat]{animation:pj-beat 600ms ease-out 1}}body:has([data-pj-combo-builder]) [data-testid="pj-bottom-nav"]{display:none}`}</style>
 
-            <header className="sticky top-16 z-30 flex flex-col gap-2.5 border-b border-pj-line bg-pj-surface px-2 pt-2 pb-3 lg:top-[72px]">
-                <div className="flex items-center gap-2">
+            {/* OFE-06 (UX-2 N4): en móvil, cabecera fija arriba; en escritorio, columna izquierda *sticky* con
+                las ranuras grandes, el sello, el precio display y el botón. */}
+            <aside className="sticky top-16 z-30 flex flex-col gap-2.5 border-b border-pj-line bg-pj-surface px-2 pt-2 pb-3 lg:top-[96px] lg:gap-5 lg:rounded-pj-section lg:border-0 lg:p-6 lg:shadow-pj-float">
+                <div className="flex items-center gap-2 lg:items-start">
                     <Link
                         to={withUtm(PJ_ROUTES.promos, search)}
                         aria-label={t('builder.back')}
-                        className="flex size-[44px] items-center justify-center rounded-full text-pj-ink focus-visible:outline-2 focus-visible:outline-pj-green">
+                        className="flex size-[44px] shrink-0 items-center justify-center rounded-full text-pj-ink focus-visible:outline-2 focus-visible:outline-pj-green lg:-ml-2">
                         <svg
                             width="22"
                             height="22"
@@ -209,22 +229,32 @@ export function ComboBuilder({
                         </svg>
                     </Link>
                     <div className="min-w-0 flex-1">
-                        <h1 className="text-[26px] leading-none">{t('builder.title', { name: offer.name })}</h1>
+                        <h1 className="text-[26px] leading-none lg:text-[44px] lg:leading-[0.9]">
+                            {t('builder.title', { name: offer.name })}
+                        </h1>
                         <div
-                            className="flex flex-wrap items-baseline gap-x-2 text-[13px] text-pj-gray"
+                            className="mt-1 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[13px] text-pj-gray lg:mt-2 lg:text-sm"
                             data-testid="pj-combo-price">
-                            <span>{subtitle}</span>
+                            <span className="basis-full">{subtitle}</span>
                             <PriceTag
                                 variant="display"
-                                size="sm"
+                                size="md"
                                 price={offer.price}
                                 listPrice={offer.priceBefore}
                                 showSavings={false}
                             />
+                            {percent > 0 && (
+                                <LtoBadge
+                                    size="sm"
+                                    className="hidden lg:inline-grid lg:size-14 lg:text-[19px]"
+                                    label={t('builder.offLabel', { percent })}>
+                                    {t('card.off', { percent })}
+                                </LtoBadge>
+                            )}
                         </div>
                     </div>
                     <p
-                        className="pr-2 text-[13px] font-bold text-pj-green"
+                        className="self-start pt-1 pr-2 text-[13px] font-bold text-pj-green lg:pt-3 lg:pr-0 lg:text-sm"
                         aria-live="polite"
                         data-testid="pj-combo-progress">
                         {t('builder.progress', { filled: filledCount(state.selection), total })}
@@ -233,7 +263,7 @@ export function ComboBuilder({
                 <div
                     role="group"
                     aria-label={t('builder.slotsLabel')}
-                    className="grid gap-2 px-2"
+                    className="grid gap-2 px-2 lg:gap-3 lg:px-0"
                     style={{ gridTemplateColumns: `repeat(${total}, minmax(0, 1fr))` }}>
                     {offer.slots.map((slot, index) => {
                         const chosen = state.selection[index];
@@ -253,33 +283,52 @@ export function ComboBuilder({
                                     setState((s) => selectSlot(s, index));
                                 }}
                                 className={cn(
-                                    'flex min-h-[56px] min-w-0 items-center gap-2 rounded-xl border-2 p-1.5 text-left text-pj-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green',
-                                    active ? 'border-pj-green bg-pj-lime-soft' : 'border-pj-line bg-pj-surface'
+                                    'flex min-h-[56px] min-w-0 items-center gap-2 rounded-xl border-2 p-1.5 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green lg:flex-col lg:items-stretch lg:gap-2.5 lg:rounded-[20px] lg:p-2.5 lg:pb-3 lg:text-center',
+                                    // N7: el seleccionado es Basil relleno + Dough en todo el sitio (no lima).
+                                    active
+                                        ? 'border-pj-basil bg-pj-basil text-pj-dough [--pj-heading-color:var(--pj-dough)]'
+                                        : 'border-pj-line bg-pj-surface text-pj-ink'
                                 )}>
                                 {option?.image ? (
-                                    <span key={option.id} data-pj-pop className="relative shrink-0">
+                                    <span
+                                        key={option.id}
+                                        data-pj-pop
+                                        className="relative size-[40px] shrink-0 lg:aspect-square lg:size-auto lg:w-full">
                                         <FoodImage
-                                            src={imageAt(option.image, 96) ?? ''}
+                                            src={imageAt(option.image, 520) ?? ''}
+                                            srcSet={imageSrcSet(option.image, [96, 320, 520])}
+                                            sizes="(min-width: 1024px) 240px, 40px"
                                             alt=""
                                             bleed
                                             crop="macro"
-                                            className="size-[40px] shrink-0 rounded-full"
+                                            className="size-full rounded-full shadow-pj-card"
                                         />
-                                        <span className="absolute -right-1 -bottom-1 flex size-4 items-center justify-center rounded-full bg-pj-green text-pj-surface">
-                                            <CheckIcon className="size-2.5" />
+                                        <span className="absolute -right-1 -bottom-1 flex size-4 items-center justify-center rounded-full bg-pj-basil text-pj-dough ring-2 ring-pj-dough lg:right-[6%] lg:bottom-[6%] lg:size-9">
+                                            <CheckIcon className="size-2.5 lg:size-5" />
                                         </span>
                                     </span>
                                 ) : (
                                     <span
                                         aria-hidden="true"
-                                        className="size-[40px] shrink-0 rounded-full border-2 border-dashed border-pj-input-line"
-                                    />
+                                        className={cn(
+                                            'flex size-[40px] shrink-0 items-center justify-center rounded-full border-2 border-dashed lg:aspect-square lg:size-auto lg:w-full lg:border-[3px]',
+                                            active ? 'border-pj-dough/80' : 'border-pj-input-line'
+                                        )}>
+                                        <PlusIcon className="hidden size-12 lg:block" />
+                                    </span>
                                 )}
                                 <span className="flex min-w-0 flex-col">
-                                    <span className="text-xs text-pj-gray" aria-hidden="true">
+                                    <span
+                                        className={cn(
+                                            'text-xs lg:text-[13px]',
+                                            active ? 'text-pj-dough' : 'text-pj-gray'
+                                        )}
+                                        aria-hidden="true">
                                         {label}
                                     </span>
-                                    <span className="truncate text-sm font-bold" aria-hidden="true">
+                                    <span
+                                        className="truncate text-sm font-bold lg:pj-card-title lg:whitespace-normal"
+                                        aria-hidden="true">
                                         {option?.name ?? t('builder.slotEmpty')}
                                     </span>
                                 </span>
@@ -287,9 +336,30 @@ export function ComboBuilder({
                         );
                     })}
                 </div>
-            </header>
 
-            <div className="flex flex-col gap-2.5 px-4 pt-3.5 pb-4">
+                <div className="fixed inset-x-0 bottom-0 z-30 border-t border-pj-line bg-pj-surface px-4 pt-3 pb-[calc(1rem+env(safe-area-inset-bottom))] lg:static lg:border-0 lg:bg-transparent lg:p-0">
+                    <button
+                        type="button"
+                        key={buttonEnabled && !added ? 'ready' : 'idle'}
+                        data-pj-beat={buttonEnabled && !added && total > 1 ? '' : undefined}
+                        aria-disabled={!buttonEnabled}
+                        onClick={onAdd}
+                        data-testid="pj-combo-add"
+                        className={cn(
+                            'flex h-[54px] w-full items-center justify-center rounded-full border-2 px-[22px] text-base font-bold transition-transform focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green active:scale-[0.97] lg:h-[60px] lg:text-[17px]',
+                            // N4: incompleto en contorno Basil que dice lo que falta, nunca gris mudo.
+                            buttonEnabled
+                                ? 'border-pj-basil bg-pj-basil text-pj-dough hover:border-pj-green-dark hover:bg-pj-green-dark'
+                                : 'cursor-not-allowed border-pj-basil bg-pj-surface text-pj-basil'
+                        )}>
+                        <span>
+                            {buttonEnabled && !added ? `${buttonLabel} · ${formatClp(offer.price)}` : buttonLabel}
+                        </span>
+                    </button>
+                </div>
+            </aside>
+
+            <div className="flex flex-col gap-2.5 px-4 pt-3.5 pb-4 lg:gap-4 lg:px-0 lg:pt-0">
                 {blocked && (
                     <section
                         role="alert"
@@ -326,7 +396,7 @@ export function ComboBuilder({
                     <div
                         role="status"
                         data-testid="pj-combo-switched"
-                        className="rounded-xl bg-pj-lime-soft px-3 py-2.5 text-sm font-semibold text-pj-green-dark">
+                        className="rounded-xl bg-pj-garlic px-3 py-2.5 text-sm font-semibold text-pj-sauce">
                         {t('unavailable.switched', {
                             store: NEAREST_PICKUP_STORE.name,
                             address: NEAREST_PICKUP_STORE.address,
@@ -334,7 +404,7 @@ export function ComboBuilder({
                     </div>
                 )}
 
-                <h2 className="font-sans text-[15px] font-bold normal-case tracking-normal" aria-live="polite">
+                <h2 className="pj-card-title lg:text-[32px]" aria-live="polite">
                     {activeChoice
                         ? t('builder.promptChange', { n: state.active + 1 })
                         : t('builder.prompt', { n: state.active + 1 })}
@@ -342,7 +412,7 @@ export function ComboBuilder({
                 <div
                     role="group"
                     aria-label={t('builder.optionsLabel')}
-                    className="grid grid-cols-2 gap-2.5 lg:grid-cols-3">
+                    className="grid grid-cols-2 gap-3 lg:grid-cols-3 lg:gap-5">
                     {activeOptions.map((option) => {
                         const on = option.id === activeChoice;
                         return (
@@ -356,26 +426,38 @@ export function ComboBuilder({
                                     setState((s) => selectOption(s, option.id));
                                 }}
                                 className={cn(
-                                    'relative flex flex-col overflow-hidden rounded-[14px] border-[3px] bg-pj-surface p-0 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green',
-                                    on ? 'border-pj-green' : 'border-transparent shadow-pj-card'
+                                    'group relative flex flex-col overflow-hidden rounded-pj-card border-[3px] p-0 text-left shadow-pj-card transition-shadow hover:shadow-pj-float focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green lg:rounded-[20px]',
+                                    on ? 'border-pj-basil bg-pj-basil' : 'border-transparent bg-pj-surface'
                                 )}>
+                                {/* Patrón de la FoodCard de HOM: foto 4:3 en recorte macro y zoom suave al pasar el cursor. */}
                                 <FoodImage
-                                    src={option.image ?? ''}
-                                    srcSet={imageSrcSet(option.image, [320, 640])}
-                                    sizes="(min-width: 1024px) 280px, 50vw"
+                                    src={imageAt(option.image, 480) ?? ''}
+                                    srcSet={imageSrcSet(option.image, [320, 480, 640, 900])}
+                                    sizes="(min-width: 1024px) 30vw, 50vw"
                                     alt=""
+                                    aspect="4/3"
                                     bleed
                                     crop="macro"
-                                    className="h-[110px]"
+                                    imgClassName="transition-transform duration-500 ease-out motion-reduce:transition-none lg:group-hover:[transform:scale(1.05)]"
                                 />
                                 {on && (
-                                    <span className="absolute top-1.5 right-1.5 flex size-[24px] items-center justify-center rounded-full bg-pj-green text-pj-surface">
-                                        <CheckIcon />
+                                    <span className="absolute top-2 right-2 flex size-8 items-center justify-center rounded-full bg-pj-basil text-pj-dough ring-2 ring-pj-dough lg:top-3 lg:right-3 lg:size-10">
+                                        <CheckIcon className="size-4 lg:size-5" />
                                     </span>
                                 )}
-                                <span className="flex flex-col gap-0.5 px-2.5 pt-2 pb-2.5">
-                                    <span className="text-[15px] font-bold">{option.name}</span>
-                                    <span className="text-xs leading-snug text-pj-gray-strong">{option.taste}</span>
+                                <span
+                                    className={cn(
+                                        'flex flex-1 flex-col gap-1 px-3 pt-2.5 pb-3 lg:gap-1.5 lg:px-[18px] lg:pt-4 lg:pb-5',
+                                        on && 'surface-basil'
+                                    )}>
+                                    <span className="pj-card-title">{option.name}</span>
+                                    <span
+                                        className={cn(
+                                            'line-clamp-3 text-[13px] leading-snug lg:text-sm',
+                                            on ? 'text-pj-dough' : 'text-pj-gray-strong'
+                                        )}>
+                                        {option.taste}
+                                    </span>
                                 </span>
                             </button>
                         );
@@ -387,24 +469,6 @@ export function ComboBuilder({
                     </p>
                 )}
             </div>
-
-            <footer className="sticky bottom-0 z-30 border-t border-pj-line bg-pj-surface px-4 pt-3 pb-[calc(1rem+env(safe-area-inset-bottom))]">
-                <button
-                    type="button"
-                    key={buttonEnabled && !added ? 'ready' : 'idle'}
-                    data-pj-beat={buttonEnabled && !added && total > 1 ? '' : undefined}
-                    aria-disabled={!buttonEnabled}
-                    onClick={onAdd}
-                    data-testid="pj-combo-add"
-                    className={cn(
-                        'flex h-[54px] w-full items-center justify-center rounded-full px-[22px] text-base transition-transform active:scale-[0.97] font-bold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green',
-                        buttonEnabled
-                            ? 'bg-pj-green text-pj-surface hover:bg-pj-green-dark lg:text-[17px]'
-                            : 'cursor-not-allowed bg-pj-dough-deep text-pj-gray'
-                    )}>
-                    <span>{buttonEnabled && !added ? `${buttonLabel} · ${formatClp(offer.price)}` : buttonLabel}</span>
-                </button>
-            </footer>
         </div>
     );
 }
