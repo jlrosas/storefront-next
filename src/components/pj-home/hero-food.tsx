@@ -20,7 +20,8 @@ import { AttributeDefinition } from '@/lib/decorators/attribute-definition';
 import { RegionDefinition } from '@/lib/decorators';
 import { getDemoProfile } from '@/extensions/pj-shared/lib/profile';
 import { HomeHero } from '@/extensions/pj-home/components/home-hero';
-import { loadHeroBlock, type ProfileGate } from '@/extensions/pj-home/lib/home-data.server';
+import { loadHeroBlock } from './loaders';
+import type { ProfileGate } from './loaders';
 import type { OfferVM } from '@/extensions/pj-home/lib/types';
 
 @Component('pjHeroFood', {

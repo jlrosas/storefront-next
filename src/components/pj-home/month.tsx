@@ -19,7 +19,8 @@ import { Component } from '@/lib/decorators/component';
 import { AttributeDefinition } from '@/lib/decorators/attribute-definition';
 import { RegionDefinition } from '@/lib/decorators';
 import { getDemoMoment, getDemoProfile } from '@/extensions/pj-shared/lib/profile';
-import { loadProfileBlock, type ProfileGate } from '@/extensions/pj-home/lib/home-data.server';
+import { loadProfileBlock } from './loaders';
+import type { ProfileGate } from './loaders';
 import { MonthCard } from '@/extensions/pj-home/components/home-sofia';
 import type { HomeData } from '@/extensions/pj-home/lib/types';
 

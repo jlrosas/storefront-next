@@ -19,7 +19,8 @@ import { Component } from '@/lib/decorators/component';
 import { AttributeDefinition } from '@/lib/decorators/attribute-definition';
 import { RegionDefinition } from '@/lib/decorators';
 import { getDemoProfile } from '@/extensions/pj-shared/lib/profile';
-import { visibleFor, type ProfileGate } from '@/extensions/pj-home/lib/home-data.server';
+import { visibleFor } from './loaders';
+import type { ProfileGate } from './loaders';
 import { StartOrder } from '@/extensions/pj-home/components/home-blocks';
 
 @Component('pjStartOrder', {
