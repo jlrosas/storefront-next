@@ -10,7 +10,8 @@
         "account": "Cuenta",
         "points": "Papa Puntos",
         "stores": "Locales",
-        "tracking": "Sigue tu pedido"
+        "tracking": "Sigue tu pedido",
+        "accountOf": "Cuenta de {{name}}"
     },
     "header": {
         "search": "Buscar",
@@ -23,7 +24,8 @@
         "greeting": "Hola, {{name}}",
         "greetingPoints": "{{points}} pts",
         "greetingAria": "Mi cuenta: {{name}}, {{points}} Papa Puntos",
-        "homeAria": "Papa Johns, inicio"
+        "homeAria": "Papa Johns, inicio",
+        "accountAria": "Mi cuenta: {{name}}"
     },
     "footer": {
         "brand": "PAPA JOHNS",

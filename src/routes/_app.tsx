@@ -31,6 +31,7 @@ import { cn } from '@/lib/utils';
 import { useBasketSnapshot } from '@/providers/basket';
 import { BottomNav } from '@/extensions/pj-shared/components/bottom-nav';
 import { usePjPath } from '@/extensions/pj-shared/hooks/use-pj-path';
+import { usePjHeaderAccount } from '@/extensions/pj-shared/hooks/use-pj-me';
 import { showsBottomNav } from '@/extensions/pj-shared/lib/routes';
 // @sfdc-extension-block-end SFDC_EXT_PJ_SHARED
 import {
@@ -173,6 +174,7 @@ export default function DefaultLayout(_props: { loaderData: LoaderData }) {
     const currentPath = usePjPath();
     const cartCount = useBasketSnapshot()?.totalItemCount ?? 0;
     const showBottomNav = showsBottomNav(currentPath);
+    const account = usePjHeaderAccount();
     // @sfdc-extension-block-end SFDC_EXT_PJ_SHARED
 
     // Papa Johns (INT-02): el lienzo no tiene mega-menú, franja de anuncio ni lista de deseos.
@@ -201,8 +203,15 @@ export default function DefaultLayout(_props: { loaderData: LoaderData }) {
                 <Outlet />
             </main>
             <Footer />
-            {/* @sfdc-extension-line SFDC_EXT_PJ_SHARED */}
-            {showBottomNav && <BottomNav currentPath={currentPath} cartCount={cartCount} />}
+            {/* @sfdc-extension-block-start SFDC_EXT_PJ_SHARED */}
+            {showBottomNav && (
+                <BottomNav
+                    currentPath={currentPath}
+                    cartCount={cartCount}
+                    account={account.kind === 'customer' ? account : null}
+                />
+            )}
+            {/* @sfdc-extension-block-end SFDC_EXT_PJ_SHARED */}
         </>
     );
 }

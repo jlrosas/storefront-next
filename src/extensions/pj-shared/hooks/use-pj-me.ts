@@ -15,9 +15,11 @@
  */
 /** @sfdc-extension-file SFDC_EXT_PJ_SHARED */
 import { useEffect } from 'react';
-import { useFetcher } from 'react-router';
+import { useFetcher, useRouteLoaderData } from 'react-router';
 import { useAuth } from '@/providers/auth';
 import type { PjMe } from '../routes/resource.pj-me';
+import type { DemoProfile } from '../lib/profile';
+import { resolveHeaderAccount, type HeaderAccount } from '../lib/persona';
 
 export const PJ_ME_RESOURCE = '/resource/pj-me';
 
@@ -38,4 +40,20 @@ export function usePjMe(): PjMe | null {
         }
     }, [registered, customerId, load]);
     return registered ? (fetcher.data ?? null) : null;
+}
+
+/** Perfil forzado con `?perfil=` que entrega el loader de `root` (INT-08). */
+export function usePjDemoProfile(): DemoProfile | null {
+    return useRouteLoaderData<{ pjDemoProfile?: DemoProfile | null }>('root')?.pjDemoProfile ?? null;
+}
+
+/**
+ * Quién aparece en el encabezado y en «Cuenta» de la barra inferior: el cliente con sesión, el
+ * cliente de demo del perfil forzado (`?perfil=`) o el invitado. El perfil forzado llega en el
+ * HTML del servidor, así que el saludo de demo se pinta sin parpadeo (INT-08).
+ */
+export function usePjHeaderAccount(): HeaderAccount {
+    const me = usePjMe();
+    const demoProfile = usePjDemoProfile();
+    return resolveHeaderAccount({ me, demoProfile });
 }

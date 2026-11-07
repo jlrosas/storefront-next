@@ -24,6 +24,7 @@ import { cropForPhoto } from '@/extensions/pj-shared/lib/photo';
 import { PJ_ROUTES } from '@/extensions/pj-shared/lib/routes';
 import { formatClp, formatCount, formatRating } from '@/extensions/pj-shared/lib/format';
 import { FoodCard } from './food-card';
+import { useHomeFulfillment } from '../hooks/use-home-fulfillment';
 import { imageSrcSet, scaledImage } from '../lib/images';
 import { MIN_WEEKLY_ORDERS } from '../lib/constants';
 import type { IntentVM, PopularVM } from '../lib/types';
@@ -109,6 +110,10 @@ const START_ICON = 'grid size-11 shrink-0 place-items-center rounded-full bg-pj-
  */
 export function StartOrder(): ReactElement {
     const { t } = useTranslation('extPjHome');
+    // #10: el tiempo de la modalidad elegida sale de la misma fuente que el chip del encabezado.
+    const view = useHomeFulfillment();
+    const pickupTime = view.chosen && view.mode === 'pickup' && !view.scheduled ? view.time : undefined;
+    const deliveryTime = view.chosen && view.mode === 'delivery' && !view.scheduled ? view.time : undefined;
     return (
         <section
             aria-label={t('start.title')}
@@ -119,7 +124,9 @@ export function StartOrder(): ReactElement {
                 </span>
                 <span className="flex min-w-0 flex-col">
                     <span className="text-base font-bold text-pj-basil lg:text-xl">{t('start.delivery')}</span>
-                    <span className="pj-small text-pj-gray-strong">{t('start.deliveryTime')}</span>
+                    <span className="pj-small text-pj-gray-strong">
+                        {t('start.deliveryTime', { time: deliveryTime ?? '35–45 min' })}
+                    </span>
                 </span>
             </Link>
             <Link to={`${PJ_ROUTES.stores}?modo=pickup`} className={START_TILE}>
@@ -128,7 +135,9 @@ export function StartOrder(): ReactElement {
                 </span>
                 <span className="flex min-w-0 flex-col">
                     <span className="text-base font-bold text-pj-basil lg:text-xl">{t('start.pickup')}</span>
-                    <span className="pj-small text-pj-gray-strong">{t('start.pickupTime')}</span>
+                    <span className="pj-small text-pj-gray-strong">
+                        {t('start.pickupTime', { time: pickupTime ?? '15 min' })}
+                    </span>
                 </span>
             </Link>
             <Link to={PJ_ROUTES.menu} className={cn(START_TILE, 'hidden lg:flex')}>

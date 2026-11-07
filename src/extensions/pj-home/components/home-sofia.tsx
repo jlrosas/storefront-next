@@ -25,6 +25,7 @@ import { PJ_ROUTES } from '@/extensions/pj-shared/lib/routes';
 import { formatClp } from '@/extensions/pj-shared/lib/format';
 import { pointsToClp } from '@/extensions/pj-shared/lib/points';
 import { useReorder } from '../hooks/use-home-cart';
+import { useHomeFulfillment } from '../hooks/use-home-fulfillment';
 import { imageSrcSet, scaledImage } from '../lib/images';
 import type { FavoriteVM, LastOrderVM, OfferVM, RedeemVM, SofiaVM } from '../lib/types';
 
@@ -137,7 +138,7 @@ export function UsualHero({ sofia }: { sofia: SofiaVM }): ReactElement | null {
                     <h2 className="pj-h2">{t('sofia.usualTitle')}</h2>
                     <p className="text-base leading-snug text-balance lg:text-xl">{order.summary}</p>
                     <p className="pj-small text-pj-gray-strong lg:text-pj-dough">
-                        {t('sofia.usualMeta', { store: order.storeLabel })}
+                        <UsualMeta storeLabel={order.storeLabel} />
                     </p>
                     <p>
                         <PriceTag
@@ -172,6 +173,25 @@ export function UsualHero({ sofia }: { sofia: SofiaVM }): ReactElement | null {
                 </div>
             </div>
         </section>
+    );
+}
+
+/**
+ * «Retiro en El Bosque · listo en 15 min · …» con la modalidad del chip (#10): si Sofía elige otra
+ * tienda o delivery en el panel, la línea de «¿Lo de siempre?» lo dice igual que el encabezado.
+ */
+function UsualMeta({ storeLabel }: { storeLabel: string }): ReactElement {
+    const { t } = useTranslation('extPjHome');
+    const view = useHomeFulfillment(storeLabel);
+    if (view.mode === 'delivery') {
+        return <>{t('sofia.usualMetaDelivery', { address: view.address ?? '', time: view.time })}</>;
+    }
+    return (
+        <>
+            {view.scheduled
+                ? t('sofia.usualMetaScheduled', { store: view.storeName, time: view.time })
+                : t('sofia.usualMeta', { store: view.storeName, time: view.time })}
+        </>
     );
 }
 

@@ -22,9 +22,12 @@ import { BottomNav } from '../bottom-nav';
 
 const { t } = getTranslation();
 
-function renderNav(currentPath: string, cartCount = 0) {
+function renderNav(currentPath: string, cartCount = 0, account: { firstName: string; initial: string } | null = null) {
     const Stub = createRoutesStub([
-        { path: '/', Component: () => <BottomNav currentPath={currentPath} cartCount={cartCount} /> },
+        {
+            path: '/',
+            Component: () => <BottomNav currentPath={currentPath} cartCount={cartCount} account={account} />,
+        },
     ]);
     return render(
         <AllProvidersWrapper>
@@ -77,5 +80,14 @@ describe('BottomNav (INT-02 · criterio 1)', () => {
         expect(menu.className).toContain('text-xs');
         expect(menu.className).not.toContain('text-[11px]');
         expect(screen.getByTestId('pj-bottom-nav-count')).toHaveAttribute('data-pj-cart-count');
+    });
+
+    it('con cliente (sesión o ?perfil=), «Cuenta» pasa a su avatar y su nombre (INT-08)', async () => {
+        renderNav('/', 0, { firstName: 'Sofía', initial: 'S' });
+        const account = await screen.findByTestId('pj-bottom-nav-account');
+        expect(account).toHaveTextContent('Sofía');
+        expect(account.querySelector('[data-testid="pj-account-avatar"]')).toHaveTextContent('S');
+        expect(account).toHaveAccessibleName(t('extPjShared:nav.accountOf', { name: 'Sofía' }));
+        expect(screen.queryByText(t('extPjShared:nav.account'))).not.toBeInTheDocument();
     });
 });

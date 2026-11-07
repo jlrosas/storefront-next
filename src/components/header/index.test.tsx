@@ -55,10 +55,14 @@ vi.mock('@/targets/ui-target', () => ({
     UITarget: () => null,
 }));
 
-// Papa Johns (INT-02): the greeting reads the customer through a fetcher; the header tests use a plain
-// MemoryRouter (no data router), so the hook is stubbed as a guest.
+// Papa Johns (INT-02, INT-08): the greeting reads the customer through a fetcher and the forced demo
+// profile through the root loader; the header tests use a plain MemoryRouter (no data router), so the
+// hook is stubbed (guest by default).
+const { mockHeaderAccount } = vi.hoisted(() => ({
+    mockHeaderAccount: vi.fn((): unknown => ({ kind: 'guest' })),
+}));
 vi.mock('@/extensions/pj-shared/hooks/use-pj-me', () => ({
-    usePjMe: () => null,
+    usePjHeaderAccount: () => mockHeaderAccount(),
 }));
 
 vi.mock('@/hooks/use-analytics', () => ({
@@ -101,6 +105,39 @@ describe('Header', () => {
             expect(screen.queryByTestId('search')).not.toBeInTheDocument();
             expect(screen.queryByTestId('user-actions')).not.toBeInTheDocument();
             expect(screen.queryByTestId('cart-badge')).not.toBeInTheDocument();
+        });
+
+        // INT-08: with a session or a forced demo profile («?perfil=sofia») the account link shows the
+        // customer (avatar with the initial, greeting and points) instead of «Ingresar».
+        it('shows the customer instead of «Ingresar» when there is one', () => {
+            mockHeaderAccount.mockReturnValueOnce({
+                kind: 'customer',
+                firstName: 'Sofía',
+                initial: 'S',
+                points: 340,
+                source: 'demo',
+            });
+            renderHeader(<Header />);
+            const account = screen.getByTestId('pj-header-account');
+            expect(account).not.toHaveTextContent('header.signIn');
+            expect(account).toHaveTextContent('header.greeting');
+            expect(account).toHaveTextContent('header.greetingPoints');
+            expect(account).toHaveAttribute('data-pj-account', 'demo');
+            expect(screen.getByTestId('pj-account-avatar')).toHaveTextContent('S');
+        });
+
+        it('hides the points pill when the customer has none to show', () => {
+            mockHeaderAccount.mockReturnValueOnce({
+                kind: 'customer',
+                firstName: 'Diego',
+                initial: 'D',
+                points: null,
+                source: 'demo',
+            });
+            renderHeader(<Header />);
+            const account = screen.getByTestId('pj-header-account');
+            expect(account).toHaveTextContent('header.greeting');
+            expect(account).not.toHaveTextContent('header.greetingPoints');
         });
 
         it('renders children passed as navigation menu', () => {
