@@ -1,7 +1,7 @@
 {
     "greeting": {
-        "returningStrong": "Hola de nuevo.",
-        "returningRest": "Tu pedido de vuelta suma Papa Puntos dobles."
+        "returningStrong": "¡Volviste!",
+        "returningRest": "Este pedido suma Papa Puntos al doble."
     },
     "hero": {
         "seasonEyebrow": "Pizza del mes de noviembre",
@@ -15,7 +15,9 @@
         "before": "Antes {{price}}",
         "pause": "Pausar movimiento",
         "play": "Reanudar movimiento",
-        "section": "Oferta destacada"
+        "section": "Oferta destacada",
+        "seasonDescription": "Pepperoni que se dora, salchicha, jamón y verduras en cada porción. Alcanza para 3 o 4.",
+        "discountAria": "{{percent}} % de descuento"
     },
     "start": {
         "title": "Empieza tu pedido",
@@ -34,16 +36,19 @@
         "weekly": "{{n}} esta semana",
         "family": "Familiar",
         "badge": {
-            "mas-pedida": "Más pedida",
+            "mas-pedida": "La más pedida",
             "ideal-para-2": "Ideal para 2",
-            "novedad": "Novedad"
-        }
+            "novedad": "Nuevo"
+        },
+        "quickAdd": "Agregar {{name}} Familiar · {{price}}",
+        "view": "Ver {{name}}"
     },
     "benefits": {
-        "title": "Pedir aquí tiene premio",
-        "points": "Ganas Papa Puntos desde tu primer pedido",
-        "tracking": "Sigues tu pedido en vivo",
-        "payment": "Pagas con Mercado Pago o en efectivo, al retirar o al recibir"
+        "title": "Pedir directo tiene premio",
+        "points": "Papa Puntos desde tu primer pedido",
+        "tracking": "Ves tu pizza salir del horno",
+        "payment": "Mercado Pago o efectivo, como prefieras",
+        "photoAlt": "Primer plano de una Napolitana Cherry con pepperoncini"
     },
     "serves": {
         "title": "¿Para cuántos?",
@@ -62,7 +67,7 @@
             "para-6": "3 pizzas familiares a elección"
         },
         "forThreeName": "Pizza del Mes + Palitos + bebida",
-        "forThreeNote": "armado para 3",
+        "forThreeNote": "armado para 3",
         "forThreeAdd": "Agregar al pedido",
         "forThreeToast": "Armado para 3",
         "addFailed": "No pudimos agregarlo. Intenta de nuevo."
@@ -97,33 +102,52 @@
             "title": "Antojo de noche",
             "desc": "Pizza, palitos de ajo y bebida 1,5 L. Delivery hasta las 23:30.",
             "cta": "Lo quiero"
-        }
+        },
+        "photoAlt": "Una mano levanta una porción de napolitana con el queso estirándose"
     },
     "sofia": {
         "greeting": "Hola, {{name}}",
         "balance": "{{points}} Papa Puntos",
         "balanceValue": "{{points}} Papa Puntos = {{amount}}",
         "balanceAria": "Tienes {{points}} Papa Puntos, equivalen a {{amount}}",
-        "usualEyebrow": "¿Lo de siempre? · Tu último pedido, {{date}}",
+        "usualEyebrow": "Tu último pedido · {{date}}",
         "usualMeta": "Retiro en {{store}} · listo en 15 min · Mercado Pago, Visa ····4521",
         "reorder": "Repetir pedido",
         "reorderBusy": "Cargando tu pedido…",
         "reorderFailed": "No pudimos cargar tu pedido. Intenta de nuevo.",
         "favorites": "Tus favoritas",
         "addFor": "Agregar · {{price}}",
-        "redeemTitle": "Ya puedes canjear una {{name}} mediana",
         "redeemMeta": "Tienes {{points}} puntos ({{amount}}) · la canjeas con {{needed}}",
         "redeemCta": "Canjear en mi pedido",
         "redeemBar": "Papa Puntos",
-        "monthEyebrow": "Para tu viernes · Pizza del mes",
+        "monthEyebrow": {
+            "default": "Pizza del mes",
+            "almuerzo": "Para tu almuerzo · Pizza del mes",
+            "partido": "Para el partido · Pizza del mes",
+            "celebracion": "Para celebrar · Pizza del mes",
+            "bajon": "Para el antojo de noche · Pizza del mes"
+        },
         "monthAdd": "Agregar",
         "times_one": "La pediste 1 vez",
-        "times_other": "La pediste {{count}} veces"
+        "times_other": "La pediste {{count}} veces",
+        "usualTitle": "¿Lo de siempre?",
+        "badgeAria": "Tu último pedido fue el {{date}}",
+        "redeemEyebrow": "Tus Papa Puntos",
+        "redeemLead": "Tus puntos ya alcanzan para una",
+        "redeemName": "{{name}} mediana",
+        "redeemAsk": "¿La sumamos?"
     },
     "cookies": {
         "label": "Aviso de cookies"
     },
     "pd": {
         "empty": "Configura este componente en Page Designer."
+    },
+    "intent": {
+        "title": "¿Qué se te antoja?",
+        "choose": "Elige qué buscas",
+        "compartir": "Para compartir",
+        "economico": "Menos de $15 mil",
+        "from": "desde"
     }
 }

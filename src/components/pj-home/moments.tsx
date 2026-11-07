@@ -77,6 +77,11 @@ export function fallback() {
 export default function PjMoments({ title, data }: Props) {
     if (!data?.visible) return null;
     return (
-        <Moments items={data.data?.moments ?? []} initial={data.data?.moment ?? 'partido'} title={title || undefined} />
+        <Moments
+            items={data.data?.moments ?? []}
+            initial={data.data?.moment ?? 'partido'}
+            title={title || undefined}
+            photo={data.data?.features?.cheesePull}
+        />
     );
 }

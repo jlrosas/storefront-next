@@ -15,7 +15,8 @@
  */
 /** @sfdc-extension-file SFDC_EXT_PJ_HOME */
 import type { ReactElement, ReactNode } from 'react';
-import { Benefits, GreetingStrip, Popular, StartOrder } from './home-blocks';
+import { useTranslation } from 'react-i18next';
+import { Benefits, GreetingStrip, IntentRail, Popular, StartOrder } from './home-blocks';
 import { Moments, Occasions } from './home-diego';
 import { HomeHero } from './home-hero';
 import { Favorites, MonthCard, RedeemCard, SofiaGreeting, UsualHero } from './home-sofia';
@@ -23,25 +24,30 @@ import type { HomeData } from '../lib/types';
 
 function Main({ children }: { children: ReactNode }): ReactElement {
     return (
-        <div className="mx-auto flex w-full max-w-[1240px] flex-col gap-6 pt-6 lg:gap-11 lg:px-6 lg:pt-9">
+        <div className="mx-auto flex w-full max-w-[1240px] flex-col gap-10 pt-8 lg:gap-16 lg:px-6 lg:pt-12">
             {children}
         </div>
     );
 }
 
 /**
- * Composición por defecto de la Home por perfil (lienzo `Home*`). La usa la ruta cuando la página
- * `homepage` de Page Designer no trae contenido para la región; con contenido, manda Page Designer
- * con estos mismos bloques (`src/components/pj-home`).
+ * Composición por defecto de la Home por perfil (lienzo `Home*`, ritmo de color de UX-1 §3.1). La usa la
+ * ruta cuando la página `homepage` de Page Designer no trae contenido para la región; con contenido,
+ * manda Page Designer con estos mismos bloques (`src/components/pj-home`).
+ *
+ * Ritmo (nunca dos bloques verdes seguidos): Valentina crema → verde (momentos) → crema → granate
+ * (lealtad) → footer verde. Diego: crema → verde (momentos) → crema → footer. Sofía: crema → granate
+ * (puntos) → crema → footer.
  */
 export function HomeDefault({ data }: { data: HomeData }): ReactElement {
+    const { t } = useTranslation('extPjHome');
     if (data.profile === 'diego') {
         return (
             <>
                 <HomeHero offer={data.hero} variant="ad" />
                 <Main>
                     <Occasions items={data.occasions} />
-                    <Moments items={data.moments} initial={data.moment} />
+                    <Moments items={data.moments} initial={data.moment} photo={data.features?.cheesePull} />
                     <Popular items={data.popular} best compact />
                 </Main>
             </>
@@ -51,16 +57,14 @@ export function HomeDefault({ data }: { data: HomeData }): ReactElement {
         return (
             <>
                 <SofiaGreeting sofia={data.sofia} />
-                <div className="mt-[22px] lg:mt-0">
-                    <UsualHero sofia={data.sofia} />
-                </div>
+                <UsualHero sofia={data.sofia} />
                 <Main>
                     <Favorites items={data.sofia.favorites} />
-                    <div className="mx-4 flex flex-col gap-6 lg:mx-0 lg:flex-row lg:flex-wrap lg:gap-5">
+                    <div className="mx-4 flex flex-col gap-6 lg:mx-0 lg:flex-row lg:gap-5">
                         <div className="lg:min-w-[360px] lg:flex-1">
                             <RedeemCard sofia={data.sofia} />
                         </div>
-                        <MonthCard offer={data.month} />
+                        <MonthCard offer={data.month} moment={data.moment} />
                     </div>
                 </Main>
             </>
@@ -69,11 +73,13 @@ export function HomeDefault({ data }: { data: HomeData }): ReactElement {
     return (
         <>
             <GreetingStrip />
-            <HomeHero offer={data.hero} variant="season" />
+            <HomeHero offer={data.hero} variant="season" description={t('hero.seasonDescription')} />
             <Main>
                 <StartOrder />
                 <Popular items={data.popular} />
-                <Benefits />
+                <Moments items={data.moments} initial={data.moment} photo={data.features?.cheesePull} />
+                <IntentRail intents={data.intents ?? []} />
+                <Benefits photo={data.features?.napocherry} />
             </Main>
         </>
     );

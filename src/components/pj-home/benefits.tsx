@@ -24,7 +24,7 @@ import { Benefits } from '@/extensions/pj-home/components/home-blocks';
 
 @Component('pjBenefits', {
     name: 'Papa Johns · Beneficios del canal propio',
-    description: '«Pedir aquí tiene premio» con tres beneficios.',
+    description: '«Pedir directo tiene premio» con tres beneficios, sobre Rich Sauce.',
     group: 'Content',
 })
 @RegionDefinition([])

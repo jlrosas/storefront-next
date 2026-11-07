@@ -1,6 +1,6 @@
 {
     "name": "Papa Johns · Saludo de vuelta",
-    "description": "Una línea bajo el encabezado: «Hola de nuevo. Tu pedido de vuelta suma Papa Puntos dobles».",
+    "description": "Franja lila bajo el encabezado: «¡Volviste! Este pedido suma Papa Puntos al doble.»",
     "group": "Content",
     "arch_type": "headless",
     "region_definitions": [],
@@ -8,7 +8,7 @@
         {
             "id": "pjGreeting",
             "name": "Papa Johns · Saludo de vuelta",
-            "description": "Una línea bajo el encabezado: «Hola de nuevo. Tu pedido de vuelta suma Papa Puntos dobles».",
+            "description": "Franja lila bajo el encabezado: «¡Volviste! Este pedido suma Papa Puntos al doble.»",
             "attribute_definitions": [
                 {
                     "id": "strong",
@@ -16,7 +16,7 @@
                     "type": "string",
                     "required": false,
                     "description": "Field: strong",
-                    "default_value": "Hola de nuevo."
+                    "default_value": "¡Volviste!"
                 },
                 {
                     "id": "rest",
@@ -24,7 +24,7 @@
                     "type": "string",
                     "required": false,
                     "description": "Field: rest",
-                    "default_value": "Tu pedido de vuelta suma Papa Puntos dobles."
+                    "default_value": "Este pedido suma Papa Puntos al doble."
                 },
                 {
                     "id": "profile",

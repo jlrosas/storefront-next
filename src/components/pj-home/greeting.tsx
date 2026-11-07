@@ -24,7 +24,7 @@ import { GreetingStrip } from '@/extensions/pj-home/components/home-blocks';
 
 @Component('pjGreeting', {
     name: 'Papa Johns · Saludo de vuelta',
-    description: 'Una línea bajo el encabezado: «Hola de nuevo. Tu pedido de vuelta suma Papa Puntos dobles».',
+    description: 'Franja lila bajo el encabezado: «¡Volviste! Este pedido suma Papa Puntos al doble.»',
     group: 'Content',
 })
 @RegionDefinition([])
@@ -34,7 +34,7 @@ export class PjGreetingMetadata {
         id: 'strong',
         name: 'Texto en negrita',
         type: 'string',
-        defaultValue: 'Hola de nuevo.',
+        defaultValue: '¡Volviste!',
     })
     strong?: string;
 
@@ -42,7 +42,7 @@ export class PjGreetingMetadata {
         id: 'rest',
         name: 'Resto del texto',
         type: 'string',
-        defaultValue: 'Tu pedido de vuelta suma Papa Puntos dobles.',
+        defaultValue: 'Este pedido suma Papa Puntos al doble.',
     })
     rest?: string;
 

@@ -47,6 +47,34 @@ export interface PopularVM {
     image: string;
     imageAlt: string;
     href: string;
+    /** Variante Familiar tradicional para el «+» de agregar en un toque (HOM-07, P2-11). */
+    quickAddId?: string | null;
+}
+
+/** Tarjeta de un carrusel por intención (HOM-07, P2-13). */
+export interface RailItemVM {
+    id: string;
+    name: string;
+    image: string;
+    imageAlt: string;
+    price: number;
+    listPrice: number | null;
+    /** `true` si el precio es «desde» (pizza con varios tamaños). */
+    from: boolean;
+    rating: number | null;
+    href: string;
+}
+
+/** Carrusel por intención: «Para compartir», «Menos de $15 mil». */
+export interface IntentVM {
+    id: 'compartir' | 'economico';
+    items: RailItemVM[];
+}
+
+/** Fotos destacadas (P2-17): URL lista para `scaledImage`, o `null` si no hay foto base del catálogo. */
+export interface FeaturePhotosVM {
+    cheesePull: string | null;
+    napocherry: string | null;
 }
 
 /** Una opción de «¿Para cuántos?». `lines` solo viene en «Para 3» (se agrega al carrito). */
@@ -112,5 +140,8 @@ export interface HomeData {
     popular: PopularVM[];
     occasions: OccasionVM[];
     moments: MomentVM[];
+    /** Carruseles por intención (Valentina). */
+    intents?: IntentVM[];
+    features?: FeaturePhotosVM;
     sofia: SofiaVM | null;
 }
