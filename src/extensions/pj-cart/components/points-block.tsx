@@ -18,12 +18,11 @@ import { type ReactElement, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FoodImage } from '@/extensions/pj-shared/components/food-image';
 import { formatCount } from '@/extensions/pj-shared/lib/format';
-import { usePjCart } from '@/extensions/pj-product/hooks/use-pj-cart';
 import { cn } from '@/lib/utils';
 import type { CanjeState } from '../lib/cart-model';
-import { writeCanjeCookie } from '../lib/canje';
 import type { CartExtras } from '../lib/types';
 import { useCountUp } from '../hooks/use-count-up';
+import { useCanje } from '../hooks/use-canje';
 
 export interface PointsBlockProps {
     /** Puntos que suma el pedido (`pointsFor`). */
@@ -52,7 +51,7 @@ export function PointsBlock({
     className,
 }: PointsBlockProps): ReactElement {
     const { t } = useTranslation('extPjCart');
-    const { submit, busy } = usePjCart();
+    const { redeem: redeemCanje, undo: undoCanje, busy } = useCanje();
     const [error, setError] = useState(false);
     const left = balance !== null && canje ? balance - canje.points : balance;
     const shownLeft = useCountUp(left ?? 0, 600);
@@ -66,25 +65,20 @@ export function PointsBlock({
     const doRedeem = async () => {
         if (!redeem) return;
         setError(false);
-        const result = await submit({ intent: 'add', items: [{ productId: redeem.productId, quantity: 1 }] });
-        const itemId = result.addedItemIds?.[0];
-        if (!result.success || !itemId) {
+        const next = await redeemCanje({ productId: redeem.productId, points: redeem.points, price: redeem.price });
+        if (!next) {
             setError(true);
             return;
         }
-        const next: CanjeState = { itemId, productId: redeem.productId, points: redeem.points, value: redeem.price };
-        writeCanjeCookie(next);
         onCanje(next);
     };
 
     const undo = async () => {
         if (!canje) return;
-        const result = await submit({ intent: 'remove', itemIds: [canje.itemId] });
-        if (!result.success) {
+        if (!(await undoCanje(canje))) {
             setError(true);
             return;
         }
-        writeCanjeCookie(null);
         onCanje(null);
     };
 

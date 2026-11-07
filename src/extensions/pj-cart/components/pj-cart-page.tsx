@@ -22,7 +22,8 @@ import { useBasket, useBasketUpdater } from '@/providers/basket';
 import { formatClp } from '@/extensions/pj-shared/lib/format';
 import { DELIVERY_MINIMUM_CLP } from '@/extensions/pj-shared/lib/fulfillment';
 import { PJ_ROUTES } from '@/extensions/pj-shared/lib/routes';
-import { usePjMe } from '@/extensions/pj-shared/hooks/use-pj-me';
+import { usePjDemoProfile, usePjMe } from '@/extensions/pj-shared/hooks/use-pj-me';
+import { DEMO_PERSONAS } from '@/extensions/pj-shared/lib/persona';
 import { usePjCart } from '@/extensions/pj-product/hooks/use-pj-cart';
 import { HAZLO_COMBO_DRINKS, HAZLO_COMBO_SIDE } from '@/extensions/pj-product/lib/upsell';
 import { openFulfillmentPanel } from '@/extensions/pj-store/lib/fulfillment-store';
@@ -98,6 +99,7 @@ export function PjCartPage({
     const contextBasket = useBasket();
     const updateBasket = useBasketUpdater();
     const me = usePjMe();
+    const demoProfile = usePjDemoProfile();
     const undoCart = usePjCart();
 
     // Igual que el carrito del template: la canasta del loader entra al contexto antes de pintar.
@@ -185,6 +187,9 @@ export function PjCartPage({
     // Igual que el contador «Mi pedido · N» del encabezado: unidades de la canasta.
     const count = summaries.reduce((sum, line) => sum + line.quantity, 0);
     const registered = Boolean(me?.registered);
+    // CTA: con un perfil de demo (`?perfil=`) y sin sesión, el saldo es el del cliente de demo, para que el
+    // canje hecho desde `/puntos` muestre «Te quedan N» y «Deshacer».
+    const balance = registered ? (me?.points ?? null) : demoProfile ? DEMO_PERSONAS[demoProfile].points : null;
 
     const keepBrowsing = (
         <Link
@@ -264,7 +269,7 @@ export function PjCartPage({
                         <PointsBlock
                             earn={totals.points}
                             doublePoints={me?.doublePoints ?? false}
-                            balance={registered ? (me?.points ?? null) : null}
+                            balance={balance}
                             redeem={extras.redeem}
                             canje={canje}
                             onCanje={(next) => {

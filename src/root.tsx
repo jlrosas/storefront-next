@@ -77,6 +77,7 @@ import type { SelectedStoreInfo } from '@/extensions/store-locator/stores/store-
 // @sfdc-extension-block-start SFDC_EXT_PJ_SHARED
 import { pjDemoMiddleware, pjUnprefixedRedirectMiddleware } from '@/extensions/pj-shared/middlewares/demo.server';
 import { pjDemoContext, type DemoProfile } from '@/extensions/pj-shared/lib/profile';
+import { PjNotFoundPage } from '@/extensions/pj-shared/components/not-found-page';
 // @sfdc-extension-block-end SFDC_EXT_PJ_SHARED
 import { correlationMiddleware } from '@/middlewares/correlation.server';
 import { requestOriginMiddleware } from '@/middlewares/request-origin';
@@ -309,7 +310,15 @@ export const loader = ({
         clientAuth,
         seoMeta,
         getI18next: () => i18next,
-        errorTranslations: (i18next.getResourceBundle(i18next.language, 'routeError') as Record<string, unknown>) ?? {},
+        errorTranslations: {
+            ...((i18next.getResourceBundle(i18next.language, 'routeError') as Record<string, unknown>) ?? {}),
+            // @sfdc-extension-block-start SFDC_EXT_PJ_SHARED
+            // INT-10: textos de la 404 de marca (el ErrorBoundary solo tiene el espacio `routeError`).
+            pjNotFound:
+                (i18next.getResourceBundle(i18next.language, 'extPjShared') as { notFound?: unknown } | undefined)
+                    ?.notFound ?? undefined,
+            // @sfdc-extension-block-end SFDC_EXT_PJ_SHARED
+        },
         pageDesignerPageUpdateMode: appConfig.features.livePreview ? 'client' : 'server',
         pageDesignerMode: isDesignModeActive(request) ? 'EDIT' : isPreviewModeActive(request) ? 'PREVIEW' : undefined,
         nonce,
@@ -540,12 +549,19 @@ function TranslatedErrorPageContent({
     homepageUrl: string;
 }) {
     const { t } = useTranslation('routeError');
+    const { i18n: pjI18n } = useTranslation('routeError'); /** @sfdc-extension-line SFDC_EXT_PJ_SHARED */
 
     let title: string;
     let message: string | undefined;
     let secondaryMessage: string | undefined;
     let statusDetails: string | undefined;
 
+    // @sfdc-extension-block-start SFDC_EXT_PJ_SHARED
+    // INT-10: la 404 de marca («Esta página se nos quemó») con enlaces al inicio, el menú y las promos.
+    if (status === 404 && pjI18n.exists('pjNotFound.title', { ns: 'routeError' })) {
+        return <PjNotFoundPage homepageUrl={homepageUrl} />;
+    }
+    // @sfdc-extension-block-end SFDC_EXT_PJ_SHARED
     if (status === 404) {
         title = t('404.title');
         message = t('404.message');
