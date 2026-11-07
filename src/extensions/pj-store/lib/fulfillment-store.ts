@@ -128,9 +128,43 @@ export function subscribeFulfillment(listener: () => void): () => void {
     return () => listeners.delete(listener);
 }
 
-/** Abre el panel (aunque ya haya modalidad: lo usa el chip para cambiarla). */
+/**
+ * Abre el panel (aunque ya haya modalidad: lo usa el chip para cambiarla).
+ *
+ * Si el panel ya está abierto (por ejemplo, un segundo `pj:open-fulfillment` mientras todavía carga),
+ * la nueva solicitud se suma a la pendiente en vez de reemplazarla: no se pierde el `onConfirmed`
+ * del agregado que lo abrió (OFE-06) ni su motivo o monto.
+ */
 export function openFulfillmentPanel(options: RequireFulfillmentOptions = {}): void {
-    emit({ panel: options });
+    const pending = state.panel;
+    if (!pending) {
+        emit({ panel: options });
+        return;
+    }
+    const merged: RequireFulfillmentOptions = { ...pending, ...dropUndefined(options) };
+    if (pending.onConfirmed && options.onConfirmed && pending.onConfirmed !== options.onConfirmed) {
+        const first = pending.onConfirmed;
+        const second = options.onConfirmed;
+        merged.onConfirmed = (fulfillment) => {
+            first(fulfillment);
+            second(fulfillment);
+        };
+    }
+    if (pending.onDismissed && options.onDismissed && pending.onDismissed !== options.onDismissed) {
+        const first = pending.onDismissed;
+        const second = options.onDismissed;
+        merged.onDismissed = () => {
+            first();
+            second();
+        };
+    }
+    emit({ panel: merged });
+}
+
+function dropUndefined(options: RequireFulfillmentOptions): RequireFulfillmentOptions {
+    return Object.fromEntries(
+        Object.entries(options).filter(([, value]) => value !== undefined)
+    ) as RequireFulfillmentOptions;
 }
 
 /** Eventos de `window` que son el mecanismo estándar para abrir el panel desde otras extensiones. */
