@@ -120,6 +120,35 @@ def data_all(path, key="data", count=200, params=None):
             return out
 
 
+def site_import(folder, name=None, timeout=1200):
+    """Importa una carpeta con forma de site archive: zip → WebDAV (Impex/src/instance) → job
+    sfcc-site-archive-import por OCAPI. Espera el fin y devuelve la ejecución. Borra el zip al terminar."""
+    import io
+    import zipfile
+    folder = Path(folder)
+    name = name or f"{folder.name}-{int(time.time())}"
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as z:
+        for f in sorted(folder.rglob("*")):
+            if f.is_file():
+                z.write(f, f"{name}/{f.relative_to(folder)}")
+    dav = f"https://{host()}/on/demandware.servlet/webdav/Sites/Impex/src/instance/{name}.zip"
+    auth = {"Authorization": f"Bearer {token()}"}
+    http("PUT", dav, buf.getvalue(), dict(auth, **{"Content-Type": "application/zip"}), raw=True)
+    try:
+        ex = data("POST", "/jobs/sfcc-site-archive-import/executions", {"file_name": f"{name}.zip"})
+        end = time.time() + timeout
+        while ex.get("execution_status") not in ("finished", "aborted") and time.time() < end:
+            time.sleep(3)
+            ex = data("GET", f"/jobs/sfcc-site-archive-import/executions/{ex['id']}")
+        return ex
+    finally:
+        try:
+            http("DELETE", dav, None, auth, raw=True)
+        except ApiError:
+            pass
+
+
 # ---------- SCAPI Shopper (SLAS público con PKCE) ----------
 
 def _pkce():

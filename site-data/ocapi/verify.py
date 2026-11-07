@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Verifica con llamadas reales (SCAPI y OCAPI Data) los criterios de DAT-02 a DAT-07.
+"""Verifica con llamadas reales (SCAPI y OCAPI Data) los criterios de DAT-02 a DAT-07 y DAT-11.
 
-Uso:  python3 site-data/ocapi/verify.py [dat02 dat03 dat04 dat05 dat06 dat07]
+Uso:  python3 site-data/ocapi/verify.py [dat02 dat03 dat04 dat05 dat06 dat07 dat11]
 Imprime OK/FALLA por criterio. DAT-04 crea un pedido de invitado (no toca a los clientes de demo).
 """
 import json
@@ -211,8 +211,155 @@ def dat07(s):
     check("DAT-07.3 source code PJSD26", "PJSD26" in json.dumps(sc), str(sc.get("specifications") or sc)[:120])
 
 
+# ---------- DAT-11: Super Dúo y Super Trío como pizzas reales (S-D20) + pedidos de CHK ----------
+
+FAM = "pz-{}-family-{}"
+
+
+def combo_line(pid, value, group, extras=(), **custom):
+    """Línea de pizza del constructor: opción pjCombo y c_pjComboGroup (contrato §7, DAT-11)."""
+    opts = [{"optionId": "pjCombo", "optionValueId": value}] if value else []
+    opts += [{"optionId": f"pjExtras_{e}", "optionValueId": "si"} for e in extras]
+    line = {"productId": pid, "quantity": 1, "optionItems": opts, **custom}
+    if group:
+        line["c_pjComboGroup"] = group
+    return line
+
+
+def promos_of(item):
+    return [p.get("promotionId") for p in item.get("priceAdjustments", [])]
+
+
+def dat11(s):
+    # 1. Super Dúo: Pollo BBQ con «+ Pepperoni» + Super Pepperoni delgada, marcadas duo y con el mismo grupo.
+    s.new_basket()
+    r = s.add([combo_line(FAM.format("pollo-bbq", "traditional"), "duo", "duo-1", ["pepperoni"]),
+               combo_line(FAM.format("super-pepperoni", "thin"), "duo", "duo-1")])
+    lines = r["productItems"]
+    check("DAT-11.1 Super Dúo + «+ Pepperoni» = $22.590 + $1.940", r["productTotal"] == 22590 + 1940,
+          f"productTotal={r['productTotal']} líneas={[(i['productId'], i['priceAfterItemDiscount']) for i in lines]}")
+    check("DAT-11.1 la promoción es pj-super-duo en las dos líneas",
+          all(promos_of(i) == ["pj-super-duo"] for i in lines), str([promos_of(i) for i in lines]))
+    ext = [o for i in lines for o in i.get("optionItems", [])
+           if o["optionId"] == "pjExtras_pepperoni" and o["optionValueId"] == "si"]
+    check("DAT-11.3 el extra no lo absorbe la promoción", len(ext) == 1 and ext[0]["priceAfterItemDiscount"] == 1940,
+          str([(o["price"], o["priceAfterItemDiscount"]) for o in ext]))
+    check("DAT-11.4 SCAPI escribe y devuelve c_pjComboGroup", all(i.get("c_pjComboGroup") == "duo-1" for i in lines))
+    # Al quitar una pizza del grupo, la otra vuelve a su precio normal (sin cupones que limpiar).
+    r = pj.shop("DELETE", BASKETS + f"/{s.basket}/items/{lines[1]['itemId']}", s.tok)
+    check("DAT-11.2 quitar una pizza deshace el Dúo (precio normal)", r["productTotal"] == 16900 + 1940,
+          f"productTotal={r['productTotal']}")
+
+    # 2. Las mismas pizzas sin marcar = precio normal (no basta con tener dos familiares).
+    s.new_basket()
+    r = s.add([combo_line(FAM.format("pollo-bbq", "traditional"), None, None, ["pepperoni"]),
+               combo_line(FAM.format("super-pepperoni", "thin"), None, None)])
+    check("DAT-11.2 sin pjCombo valen su precio normal", r["productTotal"] == 16900 + 1940 + 16900,
+          f"productTotal={r['productTotal']}")
+
+    # 3. Dúo + una familiar suelta: la suelta no entra aunque sea más cara.
+    s.new_basket()
+    r = s.add([combo_line(FAM.format("hawaiana", "traditional"), "duo", "duo-1"),
+               combo_line(FAM.format("boom-de-jamon", "traditional"), "duo", "duo-1"),
+               combo_line(FAM.format("todas-las-carnes", "traditional"), None, None)])
+    loose = [i for i in r["productItems"] if not i.get("c_pjComboGroup")][0]
+    check("DAT-11.2 Dúo + familiar suelta: la suelta paga $18.900", r["productTotal"] == 22590 + 18900 and
+          not promos_of(loose), f"productTotal={r['productTotal']}")
+
+    # 4. Super Trío con un extra.
+    s.new_basket()
+    r = s.add([combo_line(FAM.format("pollo-bbq", "traditional"), "trio", "trio-1", ["champinon"]),
+               combo_line(FAM.format("todas-las-carnes", "parmesan"), "trio", "trio-1"),
+               combo_line(FAM.format("napolitana-caprese", "thin"), "trio", "trio-1")])
+    check("DAT-11.1 Super Trío + «+ Champiñón» = $33.900 + $1.940", r["productTotal"] == 33900 + 1940 and
+          all(promos_of(i) == ["pj-super-trio"] for i in r["productItems"]), f"productTotal={r['productTotal']}")
+
+    # 5. Dos Dúos en la misma canasta, y un Dúo incompleto con masa con recargo (no entra).
+    s.new_basket()
+    r = s.add([combo_line(FAM.format(p, "traditional"), "duo", g) for p, g in
+               [("pollo-bbq", "duo-1"), ("hawaiana", "duo-1"), ("super-pepperoni", "duo-2"), ("boom-de-jamon", "duo-2")]])
+    check("DAT-11.2 dos Dúos = 2 × $22.590", r["productTotal"] == 2 * 22590, f"productTotal={r['productTotal']}")
+    s.new_basket()
+    r = s.add([combo_line(FAM.format("pollo-bbq", "stuffed"), "duo", "duo-1"),
+               combo_line(FAM.format("hawaiana", "traditional"), "duo", "duo-1")])
+    check("DAT-11.1 masa con recargo (rellena) no entra en el Dúo", r["productTotal"] == 20390 + 13900,
+          f"productTotal={r['productTotal']}")
+
+    # 6. No choca con «Hazlo combo»: Dúo + Palitos de Ajo + Coca-Cola 1,5 L.
+    s.new_basket()
+    r = s.add([combo_line(FAM.format("pollo-bbq", "traditional"), "duo", "duo-1"),
+               combo_line(FAM.format("super-pepperoni", "traditional"), "duo", "duo-1"),
+               {"productId": "cp-palitos-de-ajo", "quantity": 1, "c_pjComboFor": "duo-1"},
+               {"productId": "cp-coca-cola-2", "quantity": 1, "c_pjComboFor": "duo-1"}])
+    promos = sorted({p for i in r["productItems"] for p in promos_of(i)})
+    check("DAT-11.5 Dúo + Hazlo combo = $22.590 + $6.990", r["productTotal"] == 22590 + 6990 and
+          promos == ["pj-hazlo-combo", "pj-super-duo"], f"productTotal={r['productTotal']} {promos}")
+    check("DAT-11.4 SCAPI escribe y devuelve c_pjComboFor",
+          sum(i.get("c_pjComboFor") == "duo-1" for i in r["productItems"]) == 2)
+
+    # 7. Canje (CHK): pedido canónico de Sofía + Super Pepperoni mediana con el cupón = $23.890.
+    s.new_basket()
+    s.add([{"productId": FAM.format("pollo-bbq", "traditional"), "quantity": 1, "c_pjRemoved": ["cebolla"]},
+           {"productId": "cp-palitos-de-ajo", "quantity": 1}, {"productId": "cp-coca-cola-sin-azucar-10", "quantity": 1},
+           {"productId": "pz-super-pepperoni-medium-traditional", "quantity": 2}])
+    r = pj.shop("GET", BASKETS + f"/{s.basket}", s.tok)
+    check("DAT-11 canje: sin el cupón la Super Pepperoni mediana se cobra", r["productTotal"] == 16900 + 6990 + 2 * 13000,
+          f"productTotal={r['productTotal']}")
+    r = pj.shop("POST", BASKETS + f"/{s.basket}/coupons", s.tok, {"code": "PJ-CANJE-PUNTOS"})
+    sp = [i for i in r["productItems"] if i["productId"].startswith("pz-super-pepperoni-medium")][0]
+    check("DAT-11 canje: solo una Super Pepperoni mediana a $0 (de 2)", sp["priceAfterItemDiscount"] == sp["basePrice"],
+          f"2 unidades: {sp['price']} → {sp['priceAfterItemDiscount']}")
+    pj.shop("PATCH", BASKETS + f"/{s.basket}/items/{sp['itemId']}", s.tok, {"quantity": 1})
+    r = pj.shop("GET", BASKETS + f"/{s.basket}", s.tok)
+    coupon = r.get("couponItems", [{}])[0]
+    check("DAT-11 canje: pedido canónico + Super Pepperoni canjeada = $23.890", r["productTotal"] == 23890,
+          f"productTotal={r['productTotal']} cupón={coupon.get('code')} valid={coupon.get('valid')} "
+          f"status={coupon.get('statusCode')}")
+
+    # 8. Atributos de canasta → pedido, PJ_CASH y precio del Dúo en el pedido final (invitado, retiro El Bosque).
+    s.new_basket()
+    s.add([combo_line(FAM.format("pollo-bbq", "traditional"), "duo", "duo-1", ["pepperoni"]),
+           combo_line(FAM.format("hawaiana", "traditional"), "duo", "duo-1")])
+    attrs = {"c_pjNote": "Sin cortar, por favor", "c_pjStoreId": "pj-48", "c_pjDocType": "boleta", "c_pjRedeemed": 0,
+             "c_pjPointsEarned": 24, "c_pjStatus": "recibido"}
+    b = pj.shop("PATCH", BASKETS + f"/{s.basket}", s.tok, attrs)
+    check("DAT-11 CHK: atributos de canasta escribibles por el comprador",
+          all(b.get(k) == v for k, v in attrs.items()), str({k: b.get(k) for k in attrs}))
+    methods = pj.shop("GET", BASKETS + f"/{s.basket}/payment-methods", s.tok)
+    ids = [m["id"] for m in methods.get("applicablePaymentMethods", [])]
+    check("DAT-11 CHK: PJ_CASH es un medio de pago aplicable", "PJ_CASH" in ids, str(ids))
+    addr = {"firstName": "Prueba", "lastName": "DAT", "address1": "Tobalaba 201", "city": "Las Condes",
+            "countryCode": "CL", "phone": "+56900000000"}
+    pj.shop("PUT", BASKETS + f"/{s.basket}/customer", s.tok, {"email": "verificacion@demo.pj.cl"})
+    pj.shop("PUT", BASKETS + f"/{s.basket}/shipments/me/shipping-method", s.tok, {"id": "005"})
+    pj.shop("PUT", BASKETS + f"/{s.basket}/shipments/me/shipping-address", s.tok, addr)
+    b = pj.shop("PUT", BASKETS + f"/{s.basket}/billing-address", s.tok, addr)
+    pj.shop("POST", BASKETS + f"/{s.basket}/payment-instruments", s.tok,
+            {"paymentMethodId": "PJ_CASH", "amount": b["orderTotal"]})
+    order = pj.shop("POST", ORDERS, s.tok, {"basketId": s.basket})
+    s.basket = None
+    check("DAT-11 pedido con Dúo + extra y PJ_CASH = $24.530", order["productTotal"] == 22590 + 1940 and
+          order["paymentInstruments"][0]["paymentMethodId"] == "PJ_CASH",
+          f"pedido {order['orderNo']} total={order['orderTotal']} {order['paymentInstruments'][0]['paymentMethodId']}")
+    check("DAT-11 CHK: los atributos de la canasta se copian al pedido", all(order.get(k) == v for k, v in attrs.items()),
+          str({k: order.get(k) for k in attrs}))
+    check("DAT-11 c_pjComboGroup llega al pedido", all(i.get("c_pjComboGroup") == "duo-1" for i in order["productItems"]))
+
+    # 9. Venta cruzada (S-D19): bebidas 1,5 L y 2,5 L (no hay 2 L ni 3 L en el catálogo), acompañamientos y postres.
+    xsell = {"cp-coca-cola-2": "1,5 L", "cp-coca-cola-3": "2,5 L", "cp-coca-cola-sin-azucar-10": "1,5 L",
+             "cp-coca-cola-sin-azucar-9": "2,5 L", "cp-sprite-18": "1,5 L", "cp-sprite-19": "2,5 L",
+             "cp-fanta-22": "1,5 L", "cp-fanta-23": "2,5 L", "cp-palitos-de-ajo": "", "cp-cheesyquenos": "",
+             "cp-palitos-de-queso": "", "cp-cookie": "", "cp-brownie": "", "cp-cinnapie": ""}
+    r = pj.shop("GET", PRODUCTS, s.tok, params={"ids": ",".join(xsell), "expand": "prices,availability,images",
+                                                "inventoryIds": "inventory_pj_48,inventory_pj_9"})
+    bad = [p["id"] for p in r["data"] if not (p.get("price") and p.get("inventory", {}).get("orderable")
+                                              and all(i["orderable"] for i in p.get("inventories", [])))]
+    bad += sorted(set(xsell) - {p["id"] for p in r["data"]})
+    check("DAT-11 S-D19 venta cruzada: precio y orderable (sitio, El Bosque, Salvador)", not bad, f"fallan {bad}")
+
+
 def main():
-    wanted = sys.argv[1:] or ["dat02", "dat03", "dat04", "dat05", "dat06", "dat07"]
+    wanted = sys.argv[1:] or ["dat02", "dat03", "dat04", "dat05", "dat06", "dat07", "dat11"]
     s = Shopper()
     for name in wanted:
         print(f"== {name.upper()}")

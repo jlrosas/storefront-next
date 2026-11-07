@@ -409,7 +409,63 @@ def images_xml(image, indent):
     return f"{pad}<images>\n{groups}{pad}</images>\n"
 
 
-def extras_xml(ingredients, pad):
+# ---------- Super Dúo y Super Trío como pizzas reales (S-D20, DAT-11) ----------
+# El constructor agrega cada pizza como una línea normal con la opción pjCombo = duo|trio (precio $0) y
+# c_pjComboGroup. La promoción solo mira las líneas con esa opción: no basta con tener dos familiares en el
+# carrito, y la opción no toca el precio de los extras (opciones pjExtras_*), que se siguen cobrando.
+COMBO_OPTION = "pjCombo"
+COMBO_PROMOS = [
+    # (promoción, combo de referencia, valor de pjCombo, nombre)
+    ("pj-super-duo", "cb-super-duo", "duo", "Super Dúo"),
+    ("pj-super-trio", "cb-super-trio", "trio", "Super Trío"),
+]
+
+
+def combo_promo_specs(products):
+    """Precio, cantidad y variantes elegibles de cada promoción, a partir de D.COMBOS (c_pjSlots).
+
+    Solo entran las masas sin recargo del tamaño del slot (la variante con el precio mínimo de ese tamaño):
+    «total fixed price» se tragaría el recargo de la masa rellena o con base parmesano.
+    """
+    by_id = {p["id"]: p for p in products}
+    combos = {c["id"]: c for c in D.COMBOS}
+    out = []
+    for promo_id, combo_id, value, name in COMBO_PROMOS:
+        c = combos[combo_id]
+        slots = [s for s in c["slots"] if s["kind"] == "pizza"]
+        size = slots[0]["size"]
+        masters = list(dict.fromkeys(m for s in slots for m in s["choices"]))
+        variants = []
+        for m in masters:
+            vs = [v for v in by_id[m]["variants"] if v["attrs"]["pjSize"] == size]
+            low = min(v["price"] for v in vs)
+            variants += [v["id"] for v in vs if v["price"] == low]
+        out.append({"id": promo_id, "combo": combo_id, "value": value, "name": name, "price": c["price"],
+                    "quantity": len(slots), "masters": masters, "variants": variants})
+    return out
+
+
+COMBO_MASTERS = {m for c in D.COMBOS if c["id"] in {cid for _, cid, _, _ in COMBO_PROMOS}
+                 for s in c["slots"] if s["kind"] == "pizza" for m in s["choices"]}
+
+
+def combo_option_xml(pad):
+    """Opción pjCombo (no | duo | trio, todas a $0) de las pizzas que entran en el Dúo o el Trío."""
+    rows = [f'{pad}    <option option-id="{COMBO_OPTION}">',
+            f'{pad}        <display-name xml:lang="x-default">Combo</display-name>',
+            f"{pad}        <sort-mode>position</sort-mode>",
+            f"{pad}        <option-values>"]
+    for value, label in [("no", "Pizza sola")] + [(v, n) for _, _, v, n in COMBO_PROMOS]:
+        default = "true" if value == "no" else "false"
+        rows += [f'{pad}            <option-value value-id="{value}" default="{default}">',
+                 f'{pad}                <display-value xml:lang="x-default">{x(label)}</display-value>',
+                 f'{pad}                <option-value-prices><option-value-price currency="{CURRENCY}">0</option-value-price></option-value-prices>',
+                 f"{pad}            </option-value>"]
+    rows += [f"{pad}        </option-values>", f"{pad}    </option>"]
+    return rows
+
+
+def extras_xml(ingredients, pad, combo=False):
     """Una opción por ingrediente (pjExtras_<id>, valores no/si) en el maestro.
 
     Las opciones viven en el maestro (B2C no guarda opciones propias en las variantes), con el precio de
@@ -436,6 +492,8 @@ def extras_xml(ingredients, pad):
             f"{pad}        </option-values>",
             f"{pad}    </option>",
         ]
+    if combo:
+        rows += combo_option_xml(pad)
     rows.append(f"{pad}</options>")
     return rows
 
@@ -459,7 +517,7 @@ def product_xml(p, ingredients):
     if ca:
         out += ["        <custom-attributes>", *ca, "        </custom-attributes>"]
     if p["extras"]:
-        out += extras_xml(ingredients, " " * 8)
+        out += extras_xml(ingredients, " " * 8, combo=p["id"] in COMBO_MASTERS)
     if p["vattrs"]:
         out.append("        <variations>")
         out.append("            <attributes>")
@@ -809,6 +867,9 @@ LINE_ITEM_ATTRS = [
     ("pjParts", "Cantidad de partes", "int"),
     ("pjRemoved", "Ingredientes quitados", "set-of-string"),
     ("pjComboChoices", "Elección del combo (JSON)", "text", '[{"slot":"pizza1","product":"pz-pollo-bbq-family-traditional"},…]'),
+    ("pjComboGroup", "Grupo de combo", "string",
+     "ID que une las líneas de un mismo Super Dúo o Super Trío (y la venta cruzada); lo genera el storefront"),
+    ("pjComboFor", "Combo de la pizza", "string", "Vínculo de la línea «Hazlo combo» con su pizza (itemId o grupo)"),
 ]
 STORE_ATTRS = [
     ("pjPickupMinutes", "Minutos de retiro", "int"),
@@ -845,12 +906,18 @@ ORDER_ATTRS = [
      "Pedidos históricos de demo: la fecha real de creación no se puede cambiar"),
     ("pjStoreId", "Tienda del pedido", "string"),
 ]
+# Atributos del pedido que el comprador escribe en la canasta (CHK, DAT-11): mismo ID en Basket y Order, así
+# Commerce los copia al pedido al crearlo.
+BASKET_ATTR_IDS = ["pjRedeemed", "pjPointsEarned", "pjStatus", "pjStoreId", "pjDocType", "pjRut", "pjBusinessName",
+                   "pjBusinessActivity", "pjBusinessAddress", "pjNote"]
+BASKET_ATTRS = [a for a in ORDER_ATTRS if a[0] in BASKET_ATTR_IDS]
 SHIPPING_ATTRS = [("pjMinOrder", "Pedido mínimo", "int", "Mínimo de productos para este método (delivery $12.000)")]
 
 
 def option_attrs(ingredients):
     """B2C exige un atributo de producto con el mismo ID de cada opción (guarda su valor por defecto)."""
-    return [(f"pjExtras_{i['iid']}", f"Extra: {i['name']}", "string") for i in ingredients]
+    return ([(f"pjExtras_{i['iid']}", f"Extra: {i['name']}", "string") for i in ingredients]
+            + [(COMBO_OPTION, "Combo de la línea", "string", "no, duo, trio (opción pjCombo, DAT-11)")])
 
 
 def meta_xml(ingredients):
@@ -861,6 +928,7 @@ def meta_xml(ingredients):
 {type_ext("Store", STORE_ATTRS)}
 {type_ext("Profile", PROFILE_ATTRS)}
 {type_ext("Order", ORDER_ATTRS)}
+{type_ext("Basket", BASKET_ATTRS)}
 {type_ext("ShippingMethod", SHIPPING_ATTRS)}
 </metadata>
 """
@@ -1007,7 +1075,149 @@ def search_xml():
 """
 
 
-def promotions_xml(drinks_1500):
+def combo_promotions_xml(specs):
+    """pj-super-duo y pj-super-trio (DAT-11): N familiares marcadas con pjCombo pagan juntas el precio del combo.
+
+    «Con combinación de productos» + «total fixed price»: la promoción reparte el precio entre las N pizzas
+    (prorrateado) y no toca las opciones, así que los extras (pjExtras_*) se cobran encima. Se aplica tantas
+    veces como grupos completos haya (dos Dúos = dos aplicaciones). Sin cupón: el filtro es la opción de la línea.
+    """
+    out = []
+    for c in specs:
+        ids = "".join(f"<product-id>{v}</product-id>" for v in c["variants"])
+        out.append(f"""    <promotion promotion-id="{c['id']}">
+        <enabled-flag>true</enabled-flag>
+        <archived-flag>false</archived-flag>
+        <searchable-flag>false</searchable-flag>
+        <refinable-flag>false</refinable-flag>
+        <prevent-requalifying-flag>false</prevent-requalifying-flag>
+        <prorate-across-eligible-items-flag>false</prorate-across-eligible-items-flag>
+        <exclusivity>no</exclusivity>
+        <name xml:lang="x-default">{x(c['name'])}</name>
+        <callout-msg xml:lang="x-default">{x(c['name'])}: {c['quantity']} pizzas familiares por {money(c['price'])}</callout-msg>
+        <details xml:lang="x-default">Pizzas marcadas con la opción {COMBO_OPTION}={c['value']} por el constructor del combo. Masas sin recargo. Los extras se cobran aparte.</details>
+        <product-promotion-rule>
+            <discounted-products-combination>
+                <product-constraints>
+                    <product-constraint>
+                        <quantity>{c['quantity']}</quantity>
+                        <product-specification>
+                            <included-products>
+                                <condition-group>
+                                    <product-id-condition operator="is equal">{ids}</product-id-condition>
+                                    <option-condition operator="is equal" option-id="{COMBO_OPTION}"><option-value-id>{c['value']}</option-value-id></option-condition>
+                                </condition-group>
+                            </included-products>
+                        </product-specification>
+                    </product-constraint>
+                </product-constraints>
+            </discounted-products-combination>
+            <simple-discount>
+                <total-fixed-price>{c['price']}</total-fixed-price>
+            </simple-discount>
+        </product-promotion-rule>
+    </promotion>""")
+    return "\n".join(out)
+
+
+def combo_assignments_xml(specs):
+    out = []
+    for c in specs:
+        out.append(f"""    <promotion-campaign-assignment promotion-id="{c['id']}" campaign-id="pj-demo">
+        <qualifiers match-mode="any">
+            <customer-groups/>
+            <source-codes/>
+            <coupons/>
+        </qualifiers>
+    </promotion-campaign-assignment>""")
+    return "\n".join(out)
+
+
+# Medios de pago propios de la demo (contrato §4.2). PJ_CASH: efectivo al recibir o retirar. Commerce no
+# filtra medios de pago por tienda: el checkout lo ofrece solo si la tienda tiene c_pjCash = true.
+PJ_PAYMENT_METHODS = """    <payment-method method-id="PJ_CASH">
+        <name xml:lang="x-default">Efectivo</name>
+        <description xml:lang="x-default">Pagas en efectivo al recibir o al retirar (solo tiendas con c_pjCash)</description>
+        <enabled-flag>true</enabled-flag>
+        <processor-id>PJ_CASH</processor-id>
+    </payment-method>
+
+"""
+PJ_PAYMENT_PROCESSORS = """    <payment-processor processor-id="PJ_CASH">
+        <description>Efectivo de la demo: sin autorización en línea.</description>
+        <preferences>
+            <all-instances/>
+            <development/>
+            <staging/>
+            <production/>
+        </preferences>
+    </payment-processor>
+
+"""
+
+# Canje de Papa Puntos (R1.8, S-D12): el cupón de código fijo deja en $0 una pizza canjeable mediana (una sola).
+REDEEM_PROMO, REDEEM_COUPON = "pj-canje-puntos", "PJ-CANJE-PUNTOS"
+
+
+def redeem_variants(products):
+    by_id = {p["id"]: p for p in products}
+    return [v["id"] for m in D.REDEEM_POINTS for v in by_id[m]["variants"] if v["attrs"]["pjSize"] == "medium"]
+
+
+def redeem_promotion_xml(variants):
+    ids = "".join(f"<product-id>{v}</product-id>" for v in variants)
+    return f"""    <promotion promotion-id="{REDEEM_PROMO}">
+        <enabled-flag>true</enabled-flag>
+        <archived-flag>false</archived-flag>
+        <searchable-flag>false</searchable-flag>
+        <refinable-flag>false</refinable-flag>
+        <prevent-requalifying-flag>false</prevent-requalifying-flag>
+        <prorate-across-eligible-items-flag>false</prorate-across-eligible-items-flag>
+        <exclusivity>no</exclusivity>
+        <name xml:lang="x-default">Canje de Papa Puntos</name>
+        <callout-msg xml:lang="x-default">Canjeada con Papa Puntos</callout-msg>
+        <product-promotion-rule>
+            <discounted-products>
+                <included-products>
+                    <condition-group>
+                        <product-id-condition operator="is equal">{ids}</product-id-condition>
+                    </condition-group>
+                </included-products>
+            </discounted-products>
+            <simple-discount>
+                <fixed-price>0</fixed-price>
+            </simple-discount>
+            <max-applications>1</max-applications>
+        </product-promotion-rule>
+    </promotion>"""
+
+
+def redeem_assignment_xml():
+    return f"""    <promotion-campaign-assignment promotion-id="{REDEEM_PROMO}" campaign-id="pj-demo">
+        <qualifiers match-mode="any">
+            <coupons/>
+        </qualifiers>
+        <coupons>
+            <coupon coupon-id="{REDEEM_COUPON}"/>
+        </coupons>
+    </promotion-campaign-assignment>"""
+
+
+def coupons_xml():
+    return f"""<?xml version="1.0" encoding="UTF-8"?>
+<coupons xmlns="http://www.demandware.com/xml/impex/coupon/2008-06-17">
+    <coupon coupon-id="{REDEEM_COUPON}">
+        <description>Canje de Papa Puntos (R1.8): lo aplica el checkout cuando el cliente canjea</description>
+        <enabled-flag>true</enabled-flag>
+        <case-insensitive>true</case-insensitive>
+        <redemption-limits/>
+        <single-code>{REDEEM_COUPON}</single-code>
+    </coupon>
+</coupons>
+"""
+
+
+def promotions_xml(drinks_1500, combo_specs=(), redeem=()):
     """Campaña de la demo y sus promociones (contrato §4.2).
 
     - pj-hazlo-combo: pizza + Palitos de Ajo + bebida 1,5 L bajan $2.490 (la oferta de la hoja, 04). La usa
@@ -1089,6 +1299,8 @@ def promotions_xml(drinks_1500):
             </simple-discount>
         </product-promotion-rule>
     </promotion>
+{combo_promotions_xml(combo_specs)}
+{redeem_promotion_xml(redeem) if redeem else ""}
     <promotion-campaign-assignment promotion-id="pj-hazlo-combo" campaign-id="pj-demo">
         <qualifiers match-mode="any">
             <customer-groups/>
@@ -1103,6 +1315,8 @@ def promotions_xml(drinks_1500):
             <coupons/>
         </qualifiers>
     </promotion-campaign-assignment>
+{combo_assignments_xml(combo_specs)}
+{redeem_assignment_xml() if redeem else ""}
 </promotions>
 """
 
@@ -1401,9 +1615,15 @@ def main():
     write(site / "customer-groups.xml", customer_groups_xml())
     write(site / "sourcecodes.xml", source_codes_xml())
     write(site / "search2.xml", search_xml())
-    write(site / "promotions.xml", promotions_xml(drinks_1500(prices)))
+    write(site / "promotions.xml", promotions_xml(drinks_1500(prices), combo_promo_specs(products),
+                                                   redeem_variants(products)))
+    write(site / "coupons.xml", coupons_xml())
     for name in ("payment-methods.xml", "payment-processors.xml"):
-        shutil.copy(ROOT / "reference" / name, site / name)
+        ref = (ROOT / "reference" / name).read_text()
+        # Los medios van antes de las tarjetas (payment-card) en paymentmethod.xsd.
+        tag = "    <payment-card " if name == "payment-methods.xml" else "</payment-processors>"
+        extra = PJ_PAYMENT_METHODS if name == "payment-methods.xml" else PJ_PAYMENT_PROCESSORS
+        write(site / name, ref.replace(tag, extra + tag, 1))
 
     category_static = OUT / "catalogs" / STOREFRONT / "static" / "default" / "images"
     category_static.mkdir(parents=True, exist_ok=True)
