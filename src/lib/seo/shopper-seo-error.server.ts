@@ -17,6 +17,14 @@ import { ApiError } from '@/scapi';
 
 export function sanitizeShopperSeoError(error: unknown): never {
     if (error instanceof ApiError) {
+        // @sfdc-extension-block-start SFDC_EXT_PJ_SHARED
+        // INT-10: un 4xx de Shopper SEO (403 sin el scope en el cliente SLAS, 404 sin mapeo) no es una
+        // falla del upstream: la URL simplemente no existe para el comprador → página 404 de marca, no 502.
+        if (error.status >= 400 && error.status < 500) {
+            // oxlint-disable-next-line typescript/only-throw-error
+            throw new Response('Not Found', { status: 404 });
+        }
+        // @sfdc-extension-block-end SFDC_EXT_PJ_SHARED
         // React Router treats thrown Responses as route errors.
         // oxlint-disable-next-line typescript/only-throw-error
         throw new Response('Bad Gateway', { status: 502 });

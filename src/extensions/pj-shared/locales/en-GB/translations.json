@@ -78,5 +78,16 @@
     "tracking": {
         "inProgress": "Pedido en curso",
         "viewTracking": "Ver seguimiento"
+    },
+    "notFound": {
+        "metaTitle": "Esta página se nos quemó | Papa Johns Chile",
+        "eyebrow": "Error 404",
+        "title": "Esta página se nos quemó",
+        "message": "La buscamos en el horno y no estaba. Lo que sí sigue saliendo caliente es la pizza.",
+        "imageAlt": "Pizza Super Pepperoni recién salida del horno",
+        "navLabel": "Seguir pidiendo",
+        "menu": "Ver el menú",
+        "promos": "Ver promos",
+        "home": "Volver al inicio"
     }
 }
