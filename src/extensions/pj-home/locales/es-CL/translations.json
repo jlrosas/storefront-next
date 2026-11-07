@@ -16,7 +16,7 @@
         "pause": "Pausar movimiento",
         "play": "Reanudar movimiento",
         "section": "Oferta destacada",
-        "seasonDescription": "Pepperoni que se dora, salchicha, jamón y verduras en cada porción. Alcanza para 3 o 4.",
+        "seasonDescription": "Pepperoni que se dora, salchicha, jamón y verduras. Alcanza para 3 o 4.",
         "discountAria": "{{percent}} % de descuento"
     },
     "start": {
@@ -94,7 +94,8 @@
             "tag": "Fin de semana · Celebración",
             "title": "¿Hay algo que celebrar?",
             "desc": "Pizza, bebida 1,5 L y un postre horneado: el trío perfecto.",
-            "cta": "Lo quiero"
+            "cta": "Lo quiero",
+            "titleAccent": "celebrar"
         },
         "bajon": {
             "label": "Bajón",
@@ -135,7 +136,11 @@
         "redeemEyebrow": "Tus Papa Puntos",
         "redeemLead": "Tus puntos ya alcanzan para una",
         "redeemName": "{{name}} mediana",
-        "redeemAsk": "¿La sumamos?"
+        "redeemAsk": "¿La sumamos?",
+        "favRedeemName": "{{name}} mediana",
+        "favRedeemNote": "Canjéala con tus puntos",
+        "favRedeemCta": "Canjear · {{points}} pts",
+        "favRedeemAria": "Canjear {{name}} mediana con {{points}} Papa Puntos"
     },
     "cookies": {
         "label": "Aviso de cookies"
@@ -149,5 +154,9 @@
         "compartir": "Para compartir",
         "economico": "Menos de $15 mil",
         "from": "desde"
+    },
+    "firstOrder": {
+        "lead": "Primer pedido directo:",
+        "points": "+100 Papa Puntos"
     }
 }

@@ -119,13 +119,21 @@ export interface LastOrderVM {
     storeLabel: string;
 }
 
+/** Pizza canjeable con puntos (Super Pepperoni mediana, S-D12). */
+export interface RedeemVM {
+    id: string;
+    name: string;
+    image: string;
+    points: number;
+}
+
 export interface SofiaVM {
     firstName: string;
     points: number;
     lastOrder: LastOrderVM | null;
     favorites: FavoriteVM[];
     /** Pizza canjeable (`c_pjRedeemPoints`) que alcanza con el saldo. */
-    redeem: { id: string; name: string; image: string; points: number } | null;
+    redeem: RedeemVM | null;
     /** `true` si salen del cliente real; `false` si son los datos de ejemplo del lienzo. */
     live: boolean;
 }

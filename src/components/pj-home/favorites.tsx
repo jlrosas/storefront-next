@@ -68,7 +68,7 @@ export default function PjFavorites({ data }: Props) {
     if (!data?.visible) return null;
     return data.data?.sofia ? (
         <div className="lg:mx-auto lg:max-w-[1240px] lg:px-6">
-            <Favorites items={data.data.sofia.favorites} />
+            <Favorites items={data.data.sofia.favorites} redeem={data.data.sofia.redeem} />
         </div>
     ) : null;
 }

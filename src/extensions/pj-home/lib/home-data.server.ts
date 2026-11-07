@@ -25,7 +25,7 @@ import {
     AD_OFFER_ID,
     BUDGET_IDS,
     BUDGET_MAX_CLP,
-    DEFAULT_MOMENT,
+    momentFor,
     FEATURE_PHOTOS,
     FOR_THREE_IDS,
     MOMENT_OFFER_IDS,
@@ -349,7 +349,7 @@ export interface HomeDataArgs {
  * cliente. Nunca falla: si Commerce no responde, devuelve bloques vacíos y la Home oculta lo que falta.
  */
 export async function loadHomeData({ context, profile, moment }: HomeDataArgs): Promise<HomeData> {
-    const shownMoment = moment ?? DEFAULT_MOMENT;
+    const shownMoment = momentFor(profile, moment);
     const ids: string[] = [SEASON_OFFER_ID, ...POPULAR_IDS];
     if (profile === 'valentina') ids.push(...SHARE_IDS, ...BUDGET_IDS, ...Object.values(MOMENT_OFFER_IDS));
     if (profile === 'diego') {
