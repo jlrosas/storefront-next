@@ -77,7 +77,15 @@
         "removeAria": "Quitar {{name}}",
         "viewOrder": "Ver pedido",
         "viewOrderCount": "Ver pedido ({{count}})",
-        "noThanks": "No, gracias. Seguir viendo el menú"
+        "noThanks": "No, gracias. Seguir viendo el menú",
+        "compactAria": "Hazlo combo con tu {{name}}",
+        "compactTitle": "Suma {{side}} y {{drink}}",
+        "flavorDrink": {
+            "original": "Coca-Cola 1,5 L",
+            "zero": "Coca-Cola Sin Azúcar 1,5 L",
+            "light": "Coca-Cola Light 1,5 L"
+        },
+        "compactNo": "No, gracias"
     },
     "halves": {
         "title": "Mitad y mitad",
@@ -139,7 +147,8 @@
         "faqSpicy": "¿Es picante?",
         "faqHalves": "¿La puedo pedir por mitades?",
         "faqHalvesAnswer": "Sí: elige otra especialidad para la segunda mitad y pagas el promedio.",
-        "faqHalvesLink": "Armar por mitades"
+        "faqHalvesLink": "Armar por mitades",
+        "weeklyShort": "{{formatted}} esta semana"
     },
     "lto": {
         "top": "LA MÁS\nPEDIDA",

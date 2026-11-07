@@ -56,6 +56,9 @@ import { HALVES_PRODUCT_ID, type HalvesBuilderData } from '../lib/halves';
 import { MinusIcon, PlusIcon } from './icons';
 import { CloseIcon } from '@/extensions/pj-shared/components/icons';
 import { useImageUrl } from '../hooks/use-image-url';
+import { cn } from '@/lib/utils';
+import { requestComboOffer } from '../lib/combo-offer';
+import { weeklyOrdersFor } from '../lib/weekly';
 
 type Basket = ShopperBasketsV2.schemas['Basket'];
 
@@ -75,6 +78,13 @@ export interface PizzaSheetProps {
 }
 
 type Step = 'configure' | 'upsell';
+
+/**
+ * La hoja trae su propio «Cerrar» sobre la foto (o «Volver» en mitades): la cabecera de `BottomSheet`
+ * queda solo para el lector de pantalla y su botón sale del todo (VAL-MEN-05 H2: había un segundo
+ * «Cerrar» de 1 px que recibía el foco inicial).
+ */
+const SHEET_OWN_CLOSE = '[&>div:nth-of-type(2)]:sr-only [&>div:nth-of-type(2)>button]:hidden';
 
 /**
  * Hoja «Arma tu pizza» (Sheet-Pizza.dc.html, PRO-01) y su paso «Hazlo combo» (Complementa.dc.html,
@@ -105,7 +115,7 @@ function HalvesSheet({ productId, open, onOpenChange, itemId, size, onSaved }: P
             onOpenChange={onOpenChange}
             title={t('halves.title')}
             hideTitle
-            className="[&>div:nth-of-type(2)]:sr-only [&>div:nth-of-type(3)]:pb-0">
+            className={cn(SHEET_OWN_CLOSE, '[&>div:nth-of-type(3)]:pb-0')}>
             <div className="-mx-4 lg:-mx-6" style={PRO_TOKENS}>
                 {fetcher.data ? (
                     <HalvesBuilder
@@ -174,6 +184,8 @@ function PizzaSheetBody({
     const points = pointsFor(total, 0, me?.doublePoints ?? false);
     const linePrice = config && current ? unitPrice(config, current) : 0;
     const lto = config ? productLto(config.badges) : null;
+    const weeklyData = weeklyOrdersFor(config?.weeklyOrders);
+    const weekly = weeklyData ? t('pdp.weeklyShort', weeklyData) : null;
     const size = config?.sizes.find((s) => s.id === current?.size);
     const summary =
         config && current
@@ -223,17 +235,25 @@ function PizzaSheetBody({
             return;
         }
         const pizzaId = ids[0] ?? null;
+        const toast = () =>
+            showAddedToast({
+                productName: `${config.name} ${size?.label ?? ''}`.trim(),
+                points: pointsFor(linesTotal(result.basket, ids), 0, me?.doublePoints ?? false),
+                onUndo: ids.length ? () => void submit({ intent: 'remove', itemIds: ids }) : undefined,
+            });
+        // Escritorio con «Tu pedido» a la vista: la oferta va al panel, bajo la línea (UX-2 #52).
+        if (pizzaId && requestComboOffer({ itemId: pizzaId, productName: config.name })) {
+            toast();
+            onOpenChange(false);
+            return;
+        }
         if (pizzaLineCount(result.basket) === 1 && pizzaId) {
             // La franja «<pizza> agregada · Editar» de «Hazlo combo» ya confirma: sin aviso encima (VAL-PRO R2).
             setAddedPizzaId(pizzaId);
             setEditItemId(undefined);
             setStep('upsell');
         } else {
-            showAddedToast({
-                productName: `${config.name} ${size?.label ?? ''}`.trim(),
-                points: pointsFor(linesTotal(result.basket, ids), 0, me?.doublePoints ?? false),
-                onUndo: ids.length ? () => void submit({ intent: 'remove', itemIds: ids }) : undefined,
-            });
+            toast();
             onOpenChange(false);
         }
     };
@@ -256,7 +276,7 @@ function PizzaSheetBody({
                 onOpenChange={onOpenChange}
                 title={t('upsell.dialogTitle')}
                 hideTitle
-                className="[&>div:nth-of-type(2)]:sr-only"
+                className={SHEET_OWN_CLOSE}
                 footer={
                     <div className="flex flex-col gap-1.5">
                         <button
@@ -294,6 +314,7 @@ function PizzaSheetBody({
                         submit={submit}
                         busy={busy}
                         onBasket={setBasket}
+                        onClose={() => onOpenChange(false)}
                     />
                 </div>
             </BottomSheet>
@@ -306,7 +327,7 @@ function PizzaSheetBody({
             onOpenChange={onOpenChange}
             title={t('sheet.title', { name: config?.name ?? '' })}
             hideTitle
-            className="[&>div:nth-of-type(2)]:sr-only"
+            className={SHEET_OWN_CLOSE}
             footer={
                 step === 'configure' ? (
                     <div className="flex flex-col gap-2">
@@ -354,7 +375,11 @@ function PizzaSheetBody({
                     </div>
                 ) : undefined
             }>
-            <div className="-mx-4 lg:-mx-6" style={PRO_TOKENS}>
+            <div className="relative -mx-4 lg:-mx-6" style={PRO_TOKENS}>
+                {/* Cerrar sobre la foto (como el lienzo): se va con el scroll y no tapa los precios. Es el
+                    primer control de la hoja y no se desmonta al pasar del esqueleto a la pizza, así el foco
+                    inicial queda en un botón visible (VAL-MEN-05 H2). */}
+                <SheetClose onClose={() => onOpenChange(false)} />
                 {config && current ? (
                     <>
                         <div className="relative">
@@ -382,15 +407,20 @@ function PizzaSheetBody({
                                     {t(`lto.${lto.key}`)}
                                 </LtoBadge>
                             )}
-                            {/* Cerrar sobre la foto (como el lienzo): se va con el scroll y no tapa los precios. */}
-                            <SheetClose onClose={() => onOpenChange(false)} />
                         </div>
                         <div className="flex flex-col gap-2 px-4 pt-4 pb-2 lg:px-6">
                             <h2 className="pj-h2 text-pj-basil lg:text-[40px]">{config.name}</h2>
                             <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
                                 <PriceTag variant="display" size="md" surface="dough" price={linePrice} />
                                 {config.rating != null && (
-                                    <Stars rating={config.rating} count={config.reviewCount} className="text-[13px]" />
+                                    <span className="inline-flex flex-wrap items-baseline gap-x-1 text-[13px]">
+                                        <Stars rating={config.rating} count={config.reviewCount} />
+                                        {weekly && (
+                                            <span className="text-pj-gray-strong" data-testid="pj-sheet-weekly">
+                                                · {weekly}
+                                            </span>
+                                        )}
+                                    </span>
                                 )}
                             </div>
                             {config.sensory && <p className="pj-body text-pj-gray-strong">{config.sensory}</p>}
@@ -402,7 +432,7 @@ function PizzaSheetBody({
                                 )}
                                 {points > 0 && (
                                     <span
-                                        className="rounded-full bg-pj-lime-soft px-2.5 py-1 text-xs font-semibold text-pj-green-dark"
+                                        className="rounded-full bg-pj-garlic px-2.5 py-1 text-xs font-semibold text-pj-sauce"
                                         data-testid="pj-sheet-points">
                                         {t('sheet.points', { count: points })}
                                     </span>
@@ -421,10 +451,7 @@ function PizzaSheetBody({
                         />
                     </>
                 ) : (
-                    <div className="relative">
-                        <SheetSkeleton failed={pizzaFetcher.state === 'idle' && pizzaFetcher.data != null && !config} />
-                        <SheetClose onClose={() => onOpenChange(false)} />
-                    </div>
+                    <SheetSkeleton failed={pizzaFetcher.state === 'idle' && pizzaFetcher.data != null && !config} />
                 )}
             </div>
         </BottomSheet>
@@ -439,7 +466,7 @@ function SheetClose({ onClose }: { onClose: () => void }): ReactElement {
             onClick={onClose}
             aria-label={t('sheet.close')}
             data-testid="pj-sheet-close"
-            className="absolute top-3 right-3 flex size-[44px] items-center justify-center rounded-full bg-pj-surface text-pj-ink shadow-pj-card focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green">
+            className="absolute top-3 right-3 z-10 flex size-[44px] items-center justify-center rounded-full bg-pj-surface text-pj-ink shadow-pj-card focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green">
             <CloseIcon size={20} />
         </button>
     );

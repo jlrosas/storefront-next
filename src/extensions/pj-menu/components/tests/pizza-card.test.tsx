@@ -93,4 +93,11 @@ describe('PizzaCard (MEN-05)', () => {
         expect(labels[0].className).not.toMatch(/hidden/);
         expect(screen.getByTestId('pj-menu-pizza-price').querySelector('.text-pj-sauce')).toHaveTextContent('$');
     });
+
+    it('N14: el «+» de la foto es el único «Agregar» y «½ Mitad» queda como acción secundaria de 44 px', () => {
+        renderCard(<PizzaCard product={pizza} size="family" />);
+        expect(screen.queryByTestId('pj-menu-pizza-add')).toBeNull();
+        expect(screen.getAllByRole('link', { name: 'Agregar Pollo BBQ' })).toHaveLength(1);
+        expect(screen.getByTestId('pj-menu-pizza-half').className).toContain('min-h-[44px]');
+    });
 });

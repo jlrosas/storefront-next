@@ -32,6 +32,8 @@ import {
 import { asTr, type Tr } from '../lib/i18n';
 import { BuildCards } from './build-cards';
 import { PizzaCard } from './pizza-card';
+import { GridCloser, type GridCloserKind } from './grid-closer';
+import { PIZZA_GRID } from '../lib/grid-layout';
 
 interface PizzasSectionProps {
     menu: MenuData;
@@ -41,7 +43,30 @@ interface PizzasSectionProps {
     onFilter: (filter: PizzaFilter) => void;
 }
 
-const GRID = 'grid grid-cols-2 gap-2.5 sm:grid-cols-3 lg:grid-cols-[repeat(auto-fill,minmax(190px,1fr))] lg:gap-3.5';
+const GRID = PIZZA_GRID;
+const CLOSERS: GridCloserKind[] = ['halves', 'arma', 'promos'];
+
+/**
+ * Cierre de cada grupo: rota entre los tres para no repetir el anterior; «mitad y mitad» solo con una
+ * pizza del grupo que lo permite (Pan Pizza y Croissant no).
+ */
+function closersFor(
+    groups: Array<{ products: MenuProduct[] }>
+): Array<{ kind: GridCloserKind; product?: MenuProduct }> {
+    let next = 0;
+    let previous: GridCloserKind | null = null;
+    return groups.map(({ products }) => {
+        const half = products.find((product) => product.halves);
+        for (let tries = 0; tries < CLOSERS.length; tries++) {
+            const kind = CLOSERS[(next + tries) % CLOSERS.length];
+            if (kind === previous || (kind === 'halves' && !half)) continue;
+            next = (next + tries + 1) % CLOSERS.length;
+            previous = kind;
+            return { kind, product: kind === 'halves' ? half : products[0] };
+        }
+        return { kind: 'promos', product: products[0] };
+    });
+}
 
 /** Pizzas (MEN-01.3 a .6): selector de tamaño, filtros, tarjetas de construcción y grupos con su rango. */
 export function PizzasSection({ menu, size, filter, onSize, onFilter }: PizzasSectionProps): ReactElement {
@@ -55,6 +80,7 @@ export function PizzasSection({ menu, size, filter, onSize, onFilter }: PizzasSe
         .map((group) => ({ ...group, products: group.products.filter((product) => matchesFilter(product, filter)) }))
         .filter((group) => group.products.length > 0);
     const flat = filtered.flatMap((group) => group.products);
+    const closers = closersFor(filtered);
     let priority = 0;
 
     return (
@@ -129,8 +155,9 @@ export function PizzasSection({ menu, size, filter, onSize, onFilter }: PizzasSe
             />
 
             {filter === 'all' ? (
-                filtered.map((group) => {
+                filtered.map((group, groupIndex) => {
                     const range = groupPriceRange(group.products, size);
+                    const closer = closers[groupIndex];
                     return (
                         <div
                             key={group.id}
@@ -151,6 +178,12 @@ export function PizzasSection({ menu, size, filter, onSize, onFilter }: PizzasSe
                                         priority={priority++ < 2}
                                     />
                                 ))}
+                                <GridCloser
+                                    kind={closer.kind}
+                                    product={closer.product}
+                                    count={group.products.length}
+                                    size={size}
+                                />
                             </div>
                         </div>
                     );
@@ -168,6 +201,7 @@ export function PizzasSection({ menu, size, filter, onSize, onFilter }: PizzasSe
                             {flat.map((product) => (
                                 <PizzaCard key={product.id} product={product} size={size} />
                             ))}
+                            <GridCloser kind="promos" product={flat[0]} count={flat.length} size={size} />
                         </div>
                     ) : (
                         <p className="text-pj-gray">{t('filter.empty')}</p>

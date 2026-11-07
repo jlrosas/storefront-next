@@ -64,7 +64,7 @@ export default function UpsellSheet({
             onOpenChange={onOpenChange}
             title={t('upsell.dialogTitle')}
             hideTitle
-            className="[&>div:nth-of-type(2)]:sr-only"
+            className="[&>div:nth-of-type(2)]:sr-only [&>div:nth-of-type(2)>button]:hidden"
             footer={
                 <div className="flex flex-col gap-1.5">
                     <button
@@ -101,6 +101,7 @@ export default function UpsellSheet({
                     submit={submit}
                     busy={busy}
                     onBasket={setBasket}
+                    onClose={() => onOpenChange(false)}
                 />
             </div>
         </BottomSheet>
