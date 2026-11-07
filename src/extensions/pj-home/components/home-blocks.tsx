@@ -38,18 +38,43 @@ export function GreetingStrip({ strong, rest }: { strong?: string; rest?: string
         <p
             data-testid="pj-home-greeting"
             className="surface-garlic flex min-h-11 items-center gap-2.5 px-4 py-2 text-sm leading-snug lg:justify-center lg:text-[15px]">
-            <svg
-                aria-hidden="true"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="shrink-0 text-pj-basil">
-                <path d="M12 2.5l2.6 6 6.4.6-4.9 4.3 1.5 6.3L12 16.4l-5.6 3.3 1.5-6.3L3 9.1l6.4-.6z" />
-            </svg>
+            <StarIcon className="text-pj-basil" />
             <span>
                 <strong className="font-extrabold">{strong ?? t('greeting.returningStrong')}</strong>{' '}
                 {rest ?? t('greeting.returningRest')}
+            </span>
+        </p>
+    );
+}
+
+function StarIcon({ className }: { className: string }): ReactElement {
+    return (
+        <svg
+            aria-hidden="true"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            className={cn('shrink-0', className)}>
+            <path d="M12 2.5l2.6 6 6.4.6-4.9 4.3 1.5 6.3L12 16.4l-5.6 3.3 1.5-6.3L3 9.1l6.4-.6z" />
+        </svg>
+    );
+}
+
+/**
+ * Franja de Diego en Rich Sauce (HOM-08, UX-2 N8): el gancho del *switcher* («Primer pedido directo:
+ * +100 Papa Puntos») y el acento granate que le faltaba a su Home. Lima sobre Rich Sauce (9,0:1).
+ */
+export function FirstOrderStrip({ lead, points }: { lead?: string; points?: string }): ReactElement {
+    const { t } = useTranslation('extPjHome');
+    return (
+        <p
+            data-testid="pj-home-first-order"
+            className="surface-sauce flex min-h-11 items-center gap-2.5 px-4 py-2 text-sm leading-snug lg:justify-center lg:text-[15px]">
+            <StarIcon className="text-pj-pepperoncini" />
+            <span>
+                {lead ?? t('firstOrder.lead')}{' '}
+                <strong className="font-extrabold text-pj-pepperoncini">{points ?? t('firstOrder.points')}</strong>
             </span>
         </p>
     );

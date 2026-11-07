@@ -26,7 +26,7 @@ import { formatClp } from '@/extensions/pj-shared/lib/format';
 import { pointsToClp } from '@/extensions/pj-shared/lib/points';
 import { useReorder } from '../hooks/use-home-cart';
 import { imageSrcSet, scaledImage } from '../lib/images';
-import type { FavoriteVM, LastOrderVM, OfferVM, SofiaVM } from '../lib/types';
+import type { FavoriteVM, LastOrderVM, OfferVM, RedeemVM, SofiaVM } from '../lib/types';
 
 /** «2 OCT» para el sello del último pedido. */
 function badgeDate(iso: string): string {
@@ -66,7 +66,7 @@ function Balance({ points }: { points: number }): ReactElement {
 export function SofiaGreeting({ sofia }: { sofia: SofiaVM }): ReactElement {
     const { t } = useTranslation('extPjHome');
     return (
-        <div className="flex items-center justify-between gap-3 px-4 pt-[18px] pb-3 lg:hidden">
+        <div className="flex items-center justify-between gap-3 px-4 pt-3 pb-2 lg:hidden">
             <h1 className="pj-h1">{t('sofia.greeting', { name: sofia.firstName })}</h1>
             <Balance points={sofia.points} />
         </div>
@@ -74,8 +74,8 @@ export function SofiaGreeting({ sofia }: { sofia: SofiaVM }): ReactElement {
 }
 
 /**
- * «¿Lo de siempre?» (HOM-03, HOM-07): su último pedido real como hero a sangre. En móvil la foto ocupa el
- * 60 % del alto con la tarjeta crema flotante (sello con la fecha, total en precio display y «Repetir
+ * «¿Lo de siempre?» (HOM-03, HOM-07, HOM-08): su último pedido real como hero a sangre. En móvil la foto
+ * ocupa el 51 % del alto (N3: «Repetir pedido» queda en el primer pliegue) con la tarjeta crema flotante (sello con la fecha, total en precio display y «Repetir
  * pedido»); en escritorio, layout *full* con el saludo sobre el degradado verde.
  */
 export function UsualHero({ sofia }: { sofia: SofiaVM }): ReactElement | null {
@@ -93,7 +93,7 @@ export function UsualHero({ sofia }: { sofia: SofiaVM }): ReactElement | null {
             className="relative lg:flex lg:min-h-[560px] lg:items-center lg:overflow-hidden lg:bg-pj-basil-deep">
             <div
                 data-testid="pj-home-hero-photo"
-                className="relative h-[60svh] max-h-[620px] min-h-[360px] bg-pj-basil lg:absolute lg:inset-0 lg:h-auto lg:max-h-none">
+                className="relative h-[51svh] max-h-[560px] min-h-[340px] bg-pj-basil lg:absolute lg:inset-0 lg:h-auto lg:max-h-none">
                 {hero && (
                     <FoodImage
                         src={scaledImage(hero, 1200)}
@@ -113,13 +113,13 @@ export function UsualHero({ sofia }: { sofia: SofiaVM }): ReactElement | null {
                     className="pointer-events-none absolute inset-0 hidden bg-gradient-to-r from-pj-basil-deep via-pj-basil-deep/90 via-55% to-transparent lg:block lg:w-[80%]"
                 />
             </div>
-            <div className="relative z-10 mx-4 -mt-24 rounded-pj-section surface-dough p-5 shadow-pj-float lg:mx-auto lg:mt-0 lg:w-full lg:max-w-[1240px] lg:bg-[transparent] lg:px-6 lg:py-14 lg:text-pj-dough lg:shadow-none lg:[--pj-heading-color:var(--pj-dough)]">
-                <div className="flex flex-col gap-3 lg:max-w-[560px] lg:gap-4">
+            <div className="relative z-10 mx-4 -mt-28 rounded-pj-section surface-dough p-5 shadow-pj-float lg:mx-auto lg:mt-0 lg:w-full lg:max-w-[1240px] lg:bg-[transparent] lg:px-6 lg:py-14 lg:text-pj-dough lg:shadow-none lg:[--pj-heading-color:var(--pj-dough)]">
+                <div className="flex flex-col gap-2.5 lg:max-w-[560px] lg:gap-4">
                     <div className="hidden flex-wrap items-center gap-4 lg:flex">
                         <h1 className="pj-display">{t('sofia.greeting', { name: sofia.firstName })}</h1>
                         <Balance points={sofia.points} />
                     </div>
-                    <div className="flex min-h-11 items-end gap-3">
+                    <div className="flex min-h-9 items-end gap-3 lg:min-h-11">
                         {date && (
                             <LtoBadge
                                 variant="garlic"
@@ -135,7 +135,7 @@ export function UsualHero({ sofia }: { sofia: SofiaVM }): ReactElement | null {
                         </p>
                     </div>
                     <h2 className="pj-h2">{t('sofia.usualTitle')}</h2>
-                    <p className="text-base leading-snug lg:text-xl">{order.summary}</p>
+                    <p className="text-base leading-snug text-balance lg:text-xl">{order.summary}</p>
                     <p className="pj-small text-pj-gray-strong lg:text-pj-dough">
                         {t('sofia.usualMeta', { store: order.storeLabel })}
                     </p>
@@ -175,8 +175,43 @@ export function UsualHero({ sofia }: { sofia: SofiaVM }): ReactElement | null {
     );
 }
 
-/** «Tus favoritas» (desde `c_pjFavorites`). */
-export function Favorites({ items }: { items: FavoriteVM[] }): ReactElement | null {
+/**
+ * Tercera tarjeta de «Tus favoritas» (HOM-08, decisión UX-2 #65): la Super Pepperoni mediana que ya alcanza
+ * con sus puntos, sobre Garlic. Une las favoritas con la lealtad y llena la fila de 3 en escritorio.
+ */
+function RedeemFavorite({ redeem }: { redeem: RedeemVM }): ReactElement {
+    const { t } = useTranslation('extPjHome');
+    return (
+        <li
+            data-testid="pj-home-fav-redeem"
+            className="surface-garlic flex w-[200px] shrink-0 snap-start flex-col overflow-hidden rounded-pj-card shadow-pj-card lg:w-auto lg:rounded-[20px]">
+            <FoodImage
+                src={scaledImage(redeem.image, 480)}
+                srcSet={imageSrcSet(redeem.image, [320, 480, 640])}
+                sizes="(min-width: 1024px) 30vw, 180px"
+                alt={t('sofia.favRedeemName', { name: redeem.name })}
+                bleed
+                crop="macro"
+                aspect="4/3"
+            />
+            <div className="flex flex-1 flex-col gap-1.5 px-2.5 pt-2 pb-2.5 lg:px-[18px] lg:pt-3.5 lg:pb-[18px]">
+                <span className="pj-card-title text-pj-sauce [--pj-heading-color:var(--pj-sauce)]">
+                    {t('sofia.favRedeemName', { name: redeem.name })}
+                </span>
+                <span className="pj-small text-pj-sauce">{t('sofia.favRedeemNote')}</span>
+                <Link
+                    to={PJ_ROUTES.points}
+                    aria-label={t('sofia.favRedeemAria', { name: redeem.name, points: redeem.points })}
+                    className="mt-auto flex min-h-11 items-center justify-center rounded-full bg-pj-sauce text-sm font-bold text-pj-pepperoncini transition-transform hover:bg-pj-sauce/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-sauce active:scale-[0.97] lg:min-h-[46px] lg:text-base">
+                    {t('sofia.favRedeemCta', { points: redeem.points })}
+                </Link>
+            </div>
+        </li>
+    );
+}
+
+/** «Tus favoritas» (desde `c_pjFavorites`), con el canje como tercera tarjeta si le alcanzan los puntos. */
+export function Favorites({ items, redeem }: { items: FavoriteVM[]; redeem?: RedeemVM | null }): ReactElement | null {
     const { t } = useTranslation('extPjHome');
     if (items.length === 0) return null;
     return (
@@ -196,12 +231,12 @@ export function Favorites({ items }: { items: FavoriteVM[] }): ReactElement | nu
                             crop="macro"
                             aspect="4/3"
                         />
-                        <div className="flex flex-col gap-1.5 px-2.5 pt-2 pb-2.5 lg:px-[18px] lg:pt-3.5 lg:pb-[18px]">
+                        <div className="flex flex-1 flex-col gap-1.5 px-2.5 pt-2 pb-2.5 lg:px-[18px] lg:pt-3.5 lg:pb-[18px]">
                             <span className="pj-card-title">{p.name}</span>
                             <span className="pj-small text-pj-gray-strong">{t('sofia.times', { count: p.times })}</span>
                             <Link
                                 to={p.href}
-                                className="flex min-h-11 items-center justify-center rounded-full bg-pj-basil text-sm font-bold text-pj-dough transition-transform hover:bg-pj-basil-deep focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-basil active:scale-[0.97] lg:min-h-[46px] lg:text-base">
+                                className="mt-auto flex min-h-11 items-center justify-center rounded-full bg-pj-basil text-sm font-bold text-pj-dough transition-transform hover:bg-pj-basil-deep focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-basil active:scale-[0.97] lg:min-h-[46px] lg:text-base">
                                 {p.price !== null
                                     ? t('sofia.addFor', { price: formatClp(p.price) })
                                     : t('sofia.monthAdd')}
@@ -209,6 +244,7 @@ export function Favorites({ items }: { items: FavoriteVM[] }): ReactElement | nu
                         </div>
                     </li>
                 ))}
+                {redeem && items.length < 3 && <RedeemFavorite redeem={redeem} />}
             </ul>
         </section>
     );
@@ -216,7 +252,8 @@ export function Favorites({ items }: { items: FavoriteVM[] }): ReactElement | nu
 
 /**
  * Lealtad de Sofía en Rich Sauce (HOM-07, UX-1 §3.1): «Tus puntos ya alcanzan para una Super Pepperoni
- * mediana. ¿La sumamos?», con la barra de progreso en Tangy Tomato (forma, sin texto) y el CTA lima.
+ * mediana. ¿La sumamos?», con la barra de progreso lima sobre una pista Dough al 20 % (HOM-08, UX-2 #65:
+ * 9,0:1; Tomato sobre Rich Sauce eran dos rojos que no se veían) y el CTA lima.
  */
 export function RedeemCard({ sofia }: { sofia: SofiaVM }): ReactElement | null {
     const { t } = useTranslation('extPjHome');
@@ -249,7 +286,7 @@ export function RedeemCard({ sofia }: { sofia: SofiaVM }): ReactElement | null {
                     aria-label={t('sofia.redeemBar')}
                     className="h-2.5 overflow-hidden rounded-full bg-pj-dough/20">
                     <div
-                        className="h-full origin-left rounded-full bg-pj-tomato"
+                        className="h-full origin-left rounded-full bg-pj-pepperoncini"
                         style={{ width: `${Math.round((value / redeem.points) * 100)}%` }}
                     />
                 </div>

@@ -25,7 +25,7 @@ import { PriceTag } from '@/extensions/pj-shared/components/price-tag';
 import { PauseIcon, PlayIcon } from '@/extensions/pj-shared/components/icons';
 import { useReducedMotion } from '@/extensions/pj-shared/hooks/use-reduced-motion';
 import { imageSrcSet, scaledImage } from '../lib/images';
-import { HOME_ROUTES } from '../lib/constants';
+import { HOME_ROUTES, heroTitle } from '../lib/constants';
 import type { OfferVM } from '../lib/types';
 
 export interface HomeHeroProps {
@@ -102,8 +102,9 @@ function HeroVideo({ src, poster }: { src: string; poster: string }): ReactEleme
 }
 
 /**
- * Hero de comida (HOM-01/02, HOM-07): la foto es la protagonista. En móvil va a sangre en el 60 % del
- * alto de la pantalla, con una tarjeta crema flotante encima (patrón Domino's, UX-1 §3.4): sello LTO,
+ * Hero de comida (HOM-01/02, HOM-07, HOM-08): la foto es la protagonista. En móvil va a sangre en el 51 %
+ * del alto de la pantalla (UX-2 N3: el precio y el CTA quedan en el primer pliegue sobre la barra
+ * inferior), con una tarjeta crema flotante encima (patrón Domino's, UX-1 §3.4): sello LTO,
  * titular display, precio display y CTA con el precio. En escritorio, layout *full* del playbook: la foto
  * llena el ancho y el texto va sobre el degradado verde de la izquierda. Es el elemento LCP.
  */
@@ -148,7 +149,11 @@ export function HomeHero({
             className="relative lg:flex lg:min-h-[600px] lg:items-center lg:overflow-hidden lg:bg-pj-basil-deep">
             <div
                 data-testid="pj-home-hero-photo"
-                className="relative h-[60svh] max-h-[640px] min-h-[380px] lg:absolute lg:inset-0 lg:h-auto lg:max-h-none">
+                className={cn(
+                    'relative h-[51svh] max-h-[560px] min-h-[340px] lg:absolute lg:inset-0 lg:h-auto lg:max-h-none',
+                    // Dos pizzas (N8): en escritorio la foto ocupa la derecha para que se vean las dos enteras.
+                    variant === 'ad' && 'lg:left-[38%]'
+                )}>
                 <FoodImage
                     src={scaledImage(offer.image, 1200)}
                     srcSet={imageSrcSet(offer.image, WIDTHS)}
@@ -161,8 +166,8 @@ export function HomeHero({
                     className="h-full [&_[aria-pressed]]:top-3 [&_[aria-pressed]]:bottom-auto lg:[&_[aria-pressed]]:top-auto lg:[&_[aria-pressed]]:bottom-4 lg:[&_[aria-pressed]]:right-4"
                     imgClassName={
                         variant === 'ad'
-                            ? // Dos pizzas en fila: en móvil se acerca a una para no dejar el hueco al centro.
-                              'origin-[90%_60%] object-[90%_60%] lg:origin-[70%_55%] lg:object-[70%_55%]'
+                            ? // Dos pizzas en fila (N8): recorte `hero` suavizado para que entren las dos.
+                              'scale-[1.12] origin-[50%_60%] object-[50%_60%] lg:scale-[1.04] lg:origin-[50%_55%] lg:object-[50%_55%]'
                             : 'lg:object-[70%_55%]'
                     }
                 />
@@ -170,12 +175,17 @@ export function HomeHero({
                 {/* Escritorio: degradado verde a la izquierda para el texto (layout full, UX-1 §3.2). */}
                 <div
                     aria-hidden="true"
-                    className="pointer-events-none absolute inset-0 hidden bg-gradient-to-r from-pj-basil-deep via-pj-basil-deep/90 via-55% to-transparent lg:block lg:w-[80%]"
+                    className={cn(
+                        'pointer-events-none absolute inset-0 hidden bg-gradient-to-r from-pj-basil-deep lg:block',
+                        variant === 'ad'
+                            ? 'to-transparent lg:w-[22%]'
+                            : 'via-pj-basil-deep/90 via-55% to-transparent lg:w-[80%]'
+                    )}
                 />
             </div>
-            <div className="relative z-10 mx-4 -mt-24 rounded-pj-section surface-dough px-5 pt-5 pb-5 shadow-pj-float lg:mx-auto lg:mt-0 lg:w-full lg:max-w-[1240px] lg:bg-[transparent] lg:px-6 lg:py-16 lg:text-pj-dough lg:shadow-none lg:[--pj-heading-color:var(--pj-dough)]">
-                <div className="flex flex-col gap-3 lg:max-w-[560px] lg:gap-4">
-                    <div className="flex min-h-11 items-end gap-3">
+            <div className="relative z-10 mx-4 -mt-28 rounded-pj-section surface-dough px-5 pt-5 pb-5 shadow-pj-float lg:mx-auto lg:mt-0 lg:w-full lg:max-w-[1240px] lg:bg-[transparent] lg:px-6 lg:py-16 lg:text-pj-dough lg:shadow-none lg:[--pj-heading-color:var(--pj-dough)]">
+                <div className="flex flex-col gap-2.5 lg:max-w-[560px] lg:gap-4">
+                    <div className="flex min-h-9 items-end gap-3 lg:min-h-11">
                         {discount > 0 && (
                             <LtoBadge
                                 variant="sauce"
@@ -190,9 +200,11 @@ export function HomeHero({
                             {eyebrow ?? t(variant === 'season' ? 'hero.seasonEyebrow' : 'hero.adEyebrow')}
                         </p>
                     </div>
-                    <h1 className="pj-display text-balance">{offer.name}</h1>
+                    <h1 className="pj-display text-balance">
+                        {variant === 'season' ? heroTitle(offer.name) : offer.name}
+                    </h1>
                     {text && (
-                        <p className="line-clamp-3 text-base leading-snug text-pj-gray-strong lg:line-clamp-none lg:text-lg lg:text-pj-dough">
+                        <p className="line-clamp-3 text-base leading-snug text-balance text-pj-gray-strong lg:line-clamp-none lg:text-lg lg:text-pj-dough">
                             {text}
                         </p>
                     )}
