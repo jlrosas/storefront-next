@@ -30,7 +30,11 @@
         "increaseAria": "Uno más de {{name}}",
         "quantityAria": "Cantidad de {{name}}: {{count}}",
         "halvesAria": "Pizza dividida: {{parts}}",
-        "error": "No pudimos actualizar tu pedido. Inténtalo de nuevo."
+        "error": "No pudimos actualizar tu pedido. Inténtalo de nuevo.",
+        "combo": "Combo: {{parts}}",
+        "comboPrice": "+{{price}}",
+        "comboRemove": "Quitar combo",
+        "comboRemoveAria": "Quitar el combo {{parts}}"
     },
     "page": {
         "title": "Mi pedido",

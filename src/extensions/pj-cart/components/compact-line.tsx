@@ -16,18 +16,20 @@
 /** @sfdc-extension-file SFDC_EXT_PJ_CART */
 import type { ReactElement } from 'react';
 import { formatClp } from '@/extensions/pj-shared/lib/format';
-import type { LineSummary } from '../lib/line-summary';
+import type { ComboGroup, LineSummary } from '../lib/line-summary';
+import { ComboAddon } from './combo-addon';
 import { LineConfig } from './line-config';
 
 export interface CompactLineProps {
     summary: LineSummary;
+    combo?: ComboGroup | null;
 }
 
 /**
  * Línea del panel «Tu pedido» del menú (MEN-03): «1× Pollo BBQ», el total con extras y la misma
  * configuración que `/cart` (`LineConfig`).
  */
-export function CompactLine({ summary }: CompactLineProps): ReactElement {
+export function CompactLine({ summary, combo }: CompactLineProps): ReactElement {
     return (
         <div className="flex flex-col gap-0.5" data-testid="pj-compact-line" data-kind={summary.kind}>
             <span className="flex justify-between gap-2">
@@ -37,6 +39,7 @@ export function CompactLine({ summary }: CompactLineProps): ReactElement {
                 <span className="shrink-0 font-bold">{formatClp(summary.total)}</span>
             </span>
             <LineConfig summary={summary} showExtraPrices={false} className="text-[13px]" />
+            {combo && <ComboAddon combo={combo} removable={false} className="mt-1 text-[13px]" />}
         </div>
     );
 }

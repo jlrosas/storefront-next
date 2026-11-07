@@ -56,7 +56,7 @@ export function PjCartPage({ basket: loaderBasket, lineProducts, fulfillment }: 
 
     const basket = contextBasket?.basketId === loaderBasket?.basketId ? (contextBasket ?? loaderBasket) : loaderBasket;
     const items = basket?.productItems as SummaryLineItem[] | undefined;
-    const { summaries } = useLineSummaries(items, lineProducts);
+    const { summaries, entries } = useLineSummaries(items, lineProducts);
     const count = summaries.reduce((sum, line) => sum + line.quantity, 0);
 
     if (!summaries.length) {
@@ -141,8 +141,8 @@ export function PjCartPage({ basket: loaderBasket, lineProducts, fulfillment }: 
                         aria-label={t('page.linesLabel')}
                         className="m-0 list-none divide-y divide-pj-line rounded-pj-card bg-pj-surface px-4 shadow-pj-card"
                         data-testid="pj-cart-lines">
-                        {summaries.map((summary) => (
-                            <CartLine key={summary.itemId} summary={summary} products={lineProducts} />
+                        {entries.map(({ summary, combo }) => (
+                            <CartLine key={summary.itemId} summary={summary} combo={combo} products={lineProducts} />
                         ))}
                     </ul>
                     <div className="lg:hidden">{summaryBlock}</div>

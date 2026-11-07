@@ -16,6 +16,7 @@
 /** @sfdc-extension-file SFDC_EXT_PJ_CART */
 import { describe, expect, it } from 'vitest';
 import {
+    groupHazloCombo,
     lineKind,
     lineProductIds,
     lineText,
@@ -128,8 +129,8 @@ describe('summarizeLine · pizza con extras y un ingrediente quitado', () => {
 
     it('lista solo los extras en «si», con su precio (las opciones en «no» no se muestran)', () => {
         expect(summary.extras).toEqual([
-            { id: 'champinon', name: 'Champiñon', price: 1940 },
             { id: 'pepperoni', name: 'Pepperoni', price: 1940 },
+            { id: 'champinon', name: 'Champiñon', price: 1940 },
         ]);
     });
 
@@ -158,7 +159,7 @@ describe('summarizeLine · pizza con extras y un ingrediente quitado', () => {
     });
 
     it('en una línea: igual orden que el resumen de la hoja', () => {
-        expect(lineText(summary, labels)).toBe('Familiar · Tradicional · sin cebolla · + Champiñon · + Pepperoni');
+        expect(lineText(summary, labels)).toBe('Familiar · Tradicional · sin cebolla · + Pepperoni · + Champiñon');
     });
 
     it('lee igual que el resumen de la hoja de PRO para la misma pizza', () => {
@@ -166,9 +167,10 @@ describe('summarizeLine · pizza con extras y un ingrediente quitado', () => {
             sizes: [{ id: 'family', label: 'Familiar' }],
             crusts: [{ id: 'traditional', label: 'Tradicional' }],
             base: [{ id: 'cebolla', name: 'Cebolla' }],
+            // La hoja ordena los extras con `sortExtras` (destacados del lienzo primero).
             extras: [
-                { id: 'champinon', name: 'Champiñon' },
                 { id: 'pepperoni', name: 'Pepperoni' },
+                { id: 'champinon', name: 'Champiñon' },
             ],
         } as unknown as PizzaConfig;
         const sheet = selectionSummary(
@@ -209,7 +211,7 @@ describe('summarizeLine · mitades', () => {
     it('«½ Pollo BBQ · ½ Super Pepperoni» en orden de parte, con foto de cada mitad', () => {
         expect(summary.kind).toBe('halves');
         expect(summary.name).toBe('Pizza mitad y mitad');
-        expect(summary.detail).toBe('Familiar · Tradicional · ½ Pollo BBQ · ½ Super Pepperoni');
+        expect(summary.detail).toBe('Familiar · Tradicional · ½\u00a0Pollo BBQ · ½\u00a0Super Pepperoni');
         expect(summary.halves.map((h) => h.image)).toEqual(['https://img/pollo.jpg', 'https://img/pepperoni.jpg']);
         expect(summary.extras).toEqual([]);
         expect(summary.edit).toBe('halves');
@@ -266,5 +268,58 @@ describe('utilidades', () => {
         };
         const all = [polloBbq, halves, superDuo, arma].map((item) => summarizeLine(item, labels, names));
         expect(summariesTotal(all)).toBe(73990);
+    });
+});
+
+describe('groupHazloCombo', () => {
+    const ids = { side: 'cp-palitos-de-ajo', drinks: ['cp-coca-cola-2', 'cp-coca-cola-sin-azucar-10'] };
+    const simple = (itemId: string, productId: string, name: string, price: number): SummaryLineItem => ({
+        itemId,
+        productId,
+        productName: name,
+        quantity: 1,
+        price,
+        priceAfterItemDiscount: price,
+    });
+
+    it('agrupa palitos + bebida bajo la pizza anterior, con el total de la canasta', () => {
+        const lines = [
+            polloBbq,
+            simple('s', 'cp-palitos-de-ajo', 'Palitos de Ajo', 4490),
+            simple('d', 'cp-coca-cola-sin-azucar-10', 'Coca-Cola Sin azúcar 1,5 L', 2500),
+            superDuo,
+        ].map((item) => summarizeLine(item, labels, names));
+        const entries = groupHazloCombo(lines, ids);
+        expect(entries.map((e) => e.summary.itemId)).toEqual(['line-1', 'line-3']);
+        expect(entries[0].combo).toEqual({
+            parts: ['Palitos de Ajo', 'Coca-Cola Sin azúcar 1,5 L'],
+            itemIds: ['s', 'd'],
+            total: 6990,
+        });
+        expect(entries[1].combo).toBeNull();
+    });
+
+    it('sin pizza, o con solo una de las dos piezas, quedan sueltas', () => {
+        const onlySide = [polloBbq, simple('s', 'cp-palitos-de-ajo', 'Palitos de Ajo', 4490)].map((item) =>
+            summarizeLine(item, labels)
+        );
+        expect(groupHazloCombo(onlySide, ids).map((e) => e.combo)).toEqual([null, null]);
+        const noPizza = [
+            simple('s', 'cp-palitos-de-ajo', 'Palitos de Ajo', 4490),
+            simple('d', 'cp-coca-cola-2', 'Coca-Cola 1,5 L', 2500),
+        ].map((item) => summarizeLine(item, labels));
+        expect(groupHazloCombo(noPizza, ids)).toHaveLength(2);
+    });
+});
+
+describe('elecciones de combo desde atributos de la línea', () => {
+    it('acepta { slot, productId } y listas de IDs', () => {
+        expect(parseComboChoices([{ slot: 'pizza', productId: 'pz-the-works-family-traditional' }])).toEqual([
+            { slot: 'pizza', product: 'pz-the-works-family-traditional' },
+        ]);
+        expect(parseComboChoices('["pz-pollo-bbq-family-traditional","cp-coca-cola-2"]')).toEqual([
+            { slot: '1', product: 'pz-pollo-bbq-family-traditional' },
+            { slot: '2', product: 'cp-coca-cola-2' },
+        ]);
     });
 });

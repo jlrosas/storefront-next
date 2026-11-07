@@ -24,9 +24,10 @@ import { SplitPizzaImage } from '@/extensions/pj-product/components/split-pizza-
 import { useImageUrl } from '@/extensions/pj-product/hooks/use-image-url';
 import { MinusIcon, PlusIcon } from '@/extensions/pj-product/components/icons';
 import { cn } from '@/lib/utils';
-import type { LineProducts, LineSummary } from '../lib/line-summary';
+import type { ComboGroup, LineProducts, LineSummary } from '../lib/line-summary';
 import { useLineQuantity } from '../hooks/use-line-quantity';
 import { LineConfig } from './line-config';
+import { ComboAddon } from './combo-addon';
 
 const MAX_QUANTITY = 10;
 const PHOTO = 72;
@@ -35,6 +36,8 @@ export interface CartLineProps {
     summary: LineSummary;
     /** Fotos por ID de producto (loader de `/cart`). */
     products: LineProducts;
+    /** «Hazlo combo» de esta pizza (palitos + bebida), si lo tiene. */
+    combo?: ComboGroup | null;
 }
 
 function LinePhoto({ summary, products }: CartLineProps): ReactElement {
@@ -70,7 +73,7 @@ function LinePhoto({ summary, products }: CartLineProps): ReactElement {
  * Línea de `/cart` (Pedido.dc.html, UX-2 §4 regla 3): foto macro de 72 px (o la pizza dividida), nombre, total
  * con extras (#37), la configuración completa (#34) y «Editar» con la hoja de PRO.
  */
-export function CartLine({ summary, products }: CartLineProps): ReactElement {
+export function CartLine({ summary, products, combo }: CartLineProps): ReactElement {
     const { t } = useTranslation('extPjCart');
     const { setQuantity, busy, failed, pending } = useLineQuantity(summary.itemId);
     const [editing, setEditing] = useState(false);
@@ -93,6 +96,7 @@ export function CartLine({ summary, products }: CartLineProps): ReactElement {
                     </span>
                 </div>
                 <LineConfig summary={summary} />
+                {combo && <ComboAddon combo={combo} className="mt-1" />}
                 <div className="mt-1 flex items-center justify-between gap-2">
                     {summary.edit ? (
                         <button

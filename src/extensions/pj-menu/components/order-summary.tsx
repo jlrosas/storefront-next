@@ -40,7 +40,7 @@ function DefaultSummary({ offer, dismiss }: PanelOffer): ReactElement {
     const basket = useBasket();
     const items = basket?.productItems ?? [];
     const total = basket?.productTotal ?? basket?.productSubTotal ?? 0;
-    const { summaries } = useLineSummaries(items as SummaryLineItem[]);
+    const { entries } = useLineSummaries(items as SummaryLineItem[]);
     // Si la línea ya no está (se deshizo el agregado), la oferta se va con ella.
     const anchored = offer && items.some((item) => item.itemId === offer.itemId) ? offer : null;
     if (items.length === 0) {
@@ -49,10 +49,10 @@ function DefaultSummary({ offer, dismiss }: PanelOffer): ReactElement {
     return (
         <>
             <ul className="m-0 flex list-none flex-col gap-2 p-0" data-testid="pj-menu-order-lines">
-                {items.map((item, index) => (
-                    <li key={item.itemId} className="flex flex-col gap-2 border-b border-pj-sand pb-2 text-sm">
-                        {summaries[index] && <CompactLine summary={summaries[index]} />}
-                        {anchored && anchored.itemId === item.itemId && (
+                {entries.map(({ summary, combo }) => (
+                    <li key={summary.itemId} className="flex flex-col gap-2 border-b border-pj-sand pb-2 text-sm">
+                        <CompactLine summary={summary} combo={combo} />
+                        {anchored && anchored.itemId === summary.itemId && (
                             <Suspense
                                 fallback={<div className="h-[190px] rounded-pj-card bg-pj-sand" aria-hidden="true" />}>
                                 <HazloComboCompact productName={anchored.productName} onDone={dismiss} />

@@ -17,7 +17,11 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { useFetcher } from 'react-router';
 import { useTranslation } from 'react-i18next';
+import { HAZLO_COMBO_DRINKS, HAZLO_COMBO_SIDE } from '@/extensions/pj-product/lib/upsell';
 import {
+    comboChoicesFromItem,
+    groupHazloCombo,
+    type CartEntry,
     lineProductIds,
     summarizeLine,
     type LineLabels,
@@ -49,16 +53,15 @@ export function useLineLabels(): LineLabels {
 export function useLineSummaries(
     items: SummaryLineItem[] | undefined,
     seed?: LineProducts
-): { summaries: LineSummary[]; labels: LineLabels } {
+): { summaries: LineSummary[]; entries: CartEntry[]; labels: LineLabels } {
     const labels = useLineLabels();
     const fetcher = useFetcher<{ lineProducts: LineProducts }>({ key: 'pj-cart-lines' });
     const { load } = fetcher;
     const names = useMemo(() => ({ ...(fetcher.data?.lineProducts ?? {}), ...(seed ?? {}) }), [fetcher.data, seed]);
     // Solo hacen falta nombres de lo que la línea no trae: mitades y elecciones del combo.
-    const missing = (items ?? [])
-        .filter((item) => item.c_pjHalves || item.c_pjComboChoices)
-        .flatMap((item) => lineProductIds([{ c_pjHalves: item.c_pjHalves, c_pjComboChoices: item.c_pjComboChoices }]))
-        .filter((id) => !names[id]);
+    const missing = lineProductIds(
+        (items ?? []).filter((item) => item.c_pjHalves || comboChoicesFromItem(item).length)
+    ).filter((id) => !names[id]);
     const missingKey = [...new Set(missing)].sort().join(',');
     // Se pide una vez por cada conjunto de IDs que falta (sin reintentos en bucle si SCAPI no los conoce).
     const requested = useRef('');
@@ -71,5 +74,10 @@ export function useLineSummaries(
         () => (items ?? []).map((item) => summarizeLine(item, labels, names)),
         [items, labels, names]
     );
-    return { summaries, labels };
+    const entries = useMemo(
+        () =>
+            groupHazloCombo(summaries, { side: HAZLO_COMBO_SIDE, drinks: HAZLO_COMBO_DRINKS.map((d) => d.productId) }),
+        [summaries]
+    );
+    return { summaries, entries, labels };
 }
