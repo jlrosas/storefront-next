@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { getTranslation } from '@salesforce/storefront-next-runtime/i18n';
 import { FoodImage } from '../food-image';
@@ -117,5 +117,77 @@ describe('FoodImage (R4.7)', () => {
         rerender(<FoodImage src="/pizza.jpg" alt="Pizza" />);
         expect(screen.getByTestId('pj-food-image')).toHaveAttribute('data-crop', 'none');
         expect(screen.getByRole('img').className).not.toContain('scale-');
+    });
+
+    describe('nitidez (VIS-06, UX-2 N1)', () => {
+        const DIS =
+            'https://edge.disstg.commercecloud.salesforce.com/dw/image/v2/ZYFJ_001/on/demandware.static/-/x/images/pollo-bbq.jpg';
+
+        it('pide al DIS según lo pintado: srcset hasta 1.440 y sizes × escala del recorte', () => {
+            mockReducedMotion(false);
+            render(
+                <FoodImage
+                    src={`${DIS}?sw=780`}
+                    srcSet={`${DIS}?sw=480 480w, ${DIS}?sw=1600 1600w`}
+                    sizes="(min-width: 1024px) 50vw, 100vw"
+                    alt="Pizza"
+                    crop="macro"
+                />
+            );
+            const img = screen.getByRole('img');
+            const widths = (img.getAttribute('srcset') ?? '').split(', ').map((c) => c.split(' ')[1]);
+            expect(widths).toEqual(['320w', '480w', '640w', '800w', '960w', '1200w', '1440w']);
+            expect(img.getAttribute('srcset')).not.toContain('sw=1600');
+            expect(img).toHaveAttribute('sizes', '(min-width: 1024px) calc(50vw * 1.45), calc(100vw * 1.45)');
+        });
+
+        it('sin srcSet arma uno para las fotos del DIS', () => {
+            render(<FoodImage src={DIS} alt="Pizza" />);
+            const srcset = screen.getByRole('img').getAttribute('srcset') ?? '';
+            expect(srcset).toContain(`${DIS}?sw=320 320w`);
+            expect(srcset).toContain(`${DIS}?sw=1440 1440w`);
+            expect(screen.getByRole('img')).toHaveAttribute('sizes', '100vw');
+        });
+
+        it('ya medida, sizes es el ancho pintado y el recorte no pasa del original', () => {
+            mockReducedMotion(false);
+            const originalRO = globalThis.ResizeObserver;
+            const widthSpy = vi.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockReturnValue(1425);
+            globalThis.ResizeObserver = class {
+                observe() {}
+                unobserve() {}
+                disconnect() {}
+            } as unknown as typeof ResizeObserver;
+            try {
+                render(<FoodImage src={DIS} alt="Hero" crop="macro" />);
+                const img = screen.getByRole('img');
+                // 1.440 / 1.425 → la escala baja de 1,45 a 1,01 y se pide lo pintado (1.440 px).
+                expect(img.style.scale).toBe('1.01');
+                expect(img).toHaveAttribute('sizes', '1440px');
+            } finally {
+                widthSpy.mockRestore();
+                globalThis.ResizeObserver = originalRO;
+            }
+        });
+
+        it('en una caja chica deja el recorte entero', () => {
+            mockReducedMotion(false);
+            const originalRO = globalThis.ResizeObserver;
+            const widthSpy = vi.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockReturnValue(174);
+            globalThis.ResizeObserver = class {
+                observe() {}
+                unobserve() {}
+                disconnect() {}
+            } as unknown as typeof ResizeObserver;
+            try {
+                render(<FoodImage src={DIS} alt="Pizza" crop="macro" />);
+                const img = screen.getByRole('img');
+                expect(img.style.scale).toBe('');
+                expect(img).toHaveAttribute('sizes', '253px');
+            } finally {
+                widthSpy.mockRestore();
+                globalThis.ResizeObserver = originalRO;
+            }
+        });
     });
 });

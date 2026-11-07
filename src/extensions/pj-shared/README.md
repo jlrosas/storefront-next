@@ -79,6 +79,10 @@ blanco, Dough sobre verde o granate. **Nunca en negro.** Ningún texto baja de 1
 ## Piezas visuales
 
 - `FoodImage crop="macro" | "hero" | "combo" | "none"` y `cropForPhoto(idOrSrc, fallback)`.
+- **Nitidez (VIS-06):** pasa en `sizes` el ancho de la **caja**; `FoodImage` lo multiplica por la escala del
+  recorte y, ya montada, usa el ancho pintado medido. Pide al DIS `sw = ancho pintado × DPR × escala`, con
+  tope en el original (1.440, o el de `SMALL_ORIGINALS`), y el recorte nunca agranda la foto por encima de
+  su ancho natural. Si `src` es del DIS, el `srcSet` es opcional.
 - `LtoBadge` (sello LTO circular) y `PriceTag variant="display"`.
 - `flyToCart(source?)` y `bumpCartCount()` (`lib/fly-to-cart.ts`): al agregar, la foto vuela al
   carrito y el contador salta. `showAddedToast` ya lo llama; nada se mueve con «reducir movimiento».
