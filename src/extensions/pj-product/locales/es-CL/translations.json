@@ -148,7 +148,8 @@
         "faqHalves": "¿La puedo pedir por mitades?",
         "faqHalvesAnswer": "Sí: elige otra especialidad para la segunda mitad y pagas el promedio.",
         "faqHalvesLink": "Armar por mitades",
-        "weeklyShort": "{{formatted}} esta semana"
+        "weeklyShort": "{{formatted}} esta semana",
+        "halvesCta": "Arma por mitades"
     },
     "lto": {
         "top": "LA MÁS\nPEDIDA",
@@ -157,5 +158,49 @@
         "newLabel": "Pizza nueva",
         "forTwo": "PARA\nDOS",
         "forTwoLabel": "Ideal para dos"
+    },
+    "pdpx": {
+        "add": "Agregar",
+        "addWith": "Agregar + {{count}}",
+        "addComboWith": "Agregar combo + {{count}}",
+        "error": "No pudimos agregarlo a tu pedido. Vuelve a intentarlo.",
+        "readyIn": "Listo en {{minutes}} min en {{store}}",
+        "quantity": "Cantidad",
+        "decrease": "Quitar una unidad de {{name}}",
+        "increase": "Agregar una unidad de {{name}}",
+        "offers": "Promos",
+        "imageAlt": "{{name}} recién salido del horno",
+        "monthly": "DEL\nMES",
+        "monthlyLabel": "Pizza del mes",
+        "off": "-{{percent}}%",
+        "offLabel": "{{percent}} % de descuento",
+        "beforeFrom": "Antes desde {{price}}",
+        "until": "Hasta el {{date}}",
+        "includes": "Qué incluye",
+        "choose": {
+            "pizza": "Elige tu pizza",
+            "drink": "Elige tu bebida",
+            "dessert": "Elige tu postre",
+            "side": "Elige tu acompañamiento"
+        },
+        "mostOrdered": "La más pedida",
+        "mostOrderedFirst": "Lo más pedido primero",
+        "size": {
+            "individual": "Individual",
+            "medium": "Mediana",
+            "family": "Familiar",
+            "extra_large": "Extra grande"
+        },
+        "completeHintCombo": "Márcalos y se agregan junto con tu combo.",
+        "completeHint": "Márcalos y se agregan en el mismo pedido.",
+        "chooseSize": "Elige el tamaño",
+        "chooseFlavor": "Elige el sabor",
+        "section": {
+            "side": "Acompañamientos",
+            "drink": "Bebidas",
+            "dessert": "Postres",
+            "extra": "Salsas y extras"
+        },
+        "pizzaLabel": "Pizza"
     }
 }

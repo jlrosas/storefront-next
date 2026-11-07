@@ -160,6 +160,24 @@ export function initialHalvesSelection(
     return { size: sizeId, crust: crustId, halves: parts };
 }
 
+/**
+ * Precio de la pizza por mitades que muestra el botón (R2.1, AUD P1-3): el promedio del precio de las dos
+ * especialidades en el tamaño elegido (masa Tradicional), redondeado al peso, más el recargo de la masa.
+ * `null` mientras falte una mitad o el precio de alguna. **Es lo que cobrará el hook de DAT**: mientras los
+ * hooks de SCAPI estén apagados, el carrito cobra el precio base de `pz-mitades` y no este monto.
+ */
+export function halvesPrice(
+    flavors: ReadonlyArray<Pick<HalfFlavor, 'prices'> | null>,
+    size: string,
+    crustSurcharge = 0
+): number | null {
+    if (flavors.length !== HALVES_PARTS) return null;
+    const prices = flavors.map((f) => f?.prices[size]);
+    if (prices.some((p) => typeof p !== 'number' || !Number.isFinite(p))) return null;
+    const average = (prices as number[]).reduce((sum, p) => sum + p, 0) / prices.length;
+    return Math.round(average) + crustSurcharge;
+}
+
 /** Índice de la primera mitad vacía (o -1 si están todas). */
 export function nextEmptyHalf(halves: Array<string | null>): number {
     return halves.findIndex((h) => !h);

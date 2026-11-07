@@ -353,6 +353,19 @@ export function PizzaPdp({ config, sides, initialSize }: PizzaPdpProps): ReactEl
 
                         <PizzaConfigurator config={config} selection={current} onChange={change} layout="pdp" />
 
+                        {/* AUD P1-4: entrada a mitades desde la ficha (04, «la ficha móvil lleva al armador»). */}
+                        {config.halvesEnabled && (
+                            <div className="px-4 pb-3 lg:p-0">
+                                <Link
+                                    to={halvesHref({ first: config.productId })}
+                                    data-testid="pj-pdp-halves"
+                                    className="flex min-h-[48px] items-center justify-center gap-2 rounded-full border-[1.5px] border-pj-basil bg-pj-surface px-4 text-[15px] font-bold text-pj-basil no-underline hover:bg-[var(--pj-chip)]">
+                                    <span aria-hidden="true">½</span>
+                                    {t('pdp.halvesCta')}
+                                </Link>
+                            </div>
+                        )}
+
                         <div className="hidden flex-col gap-2 lg:flex">
                             <p className="truncate text-[13px] text-pj-gray" data-testid="pj-pdp-summary">
                                 {config.name} · {summary}
