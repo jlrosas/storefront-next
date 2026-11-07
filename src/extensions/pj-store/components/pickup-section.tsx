@@ -249,29 +249,37 @@ function StoreOption({
             onClick={onSelect}
             data-testid={`pj-store-${store.id}`}
             className={cn(
-                'flex min-h-[44px] cursor-pointer items-center gap-3 rounded-[14px] border-2 bg-pj-surface p-3 text-left text-pj-ink',
-                'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green',
-                selected ? 'border-pj-green' : 'border-pj-line',
-                closed && 'opacity-80'
+                'flex min-h-[44px] cursor-pointer items-center gap-3 rounded-pj-card p-3 text-left shadow-pj-card transition-colors',
+                'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-basil',
+                selected ? 'bg-pj-basil text-pj-dough' : 'bg-pj-surface text-pj-ink',
+                closed && !selected && 'opacity-80'
             )}>
             <span
                 aria-hidden="true"
                 className={cn(
                     'flex size-[22px] shrink-0 items-center justify-center rounded-full border-2',
-                    selected ? 'border-pj-green' : 'border-pj-input-line'
+                    selected ? 'border-pj-dough' : 'border-pj-input-line'
                 )}>
-                <span className={cn('size-3 rounded-full', selected ? 'bg-pj-green' : 'bg-transparent')} />
+                <span className={cn('size-3 rounded-full', selected ? 'bg-pj-dough' : 'bg-transparent')} />
             </span>
             <span className="flex min-w-0 flex-1 flex-col gap-0.5">
                 <span className="text-base font-bold">{shortStoreName(store.name)}</span>
-                <span className="text-[13px] text-pj-gray">
+                <span className={cn('text-[13px]', selected ? 'text-pj-dough' : 'text-pj-gray')}>
                     {[store.address1, formatKm(store.distance)].filter(Boolean).join(' · ')}
                 </span>
-                <span className={cn('text-[13px] font-semibold', closed ? 'text-pj-sauce' : 'text-pj-basil')}>
+                <span
+                    className={cn(
+                        'text-[13px] font-semibold',
+                        selected ? 'text-pj-lime' : closed ? 'text-pj-sauce' : 'text-pj-basil'
+                    )}>
                     {status}
                 </span>
             </span>
-            <span className="whitespace-pre-line text-right text-[13px] leading-tight font-bold text-pj-green">
+            <span
+                className={cn(
+                    'text-right text-[13px] leading-tight font-bold whitespace-pre-line',
+                    selected ? 'text-pj-lime' : 'text-pj-basil'
+                )}>
                 {closed ? t('pickup.onlyScheduled') : t('pickup.ready', { minutes: pickupMinutes(store) })}
             </span>
         </button>
@@ -282,7 +290,7 @@ function StoreSkeleton(): ReactElement {
     return (
         <>
             {[0, 1, 2].map((i) => (
-                <div key={i} className="h-[88px] animate-pulse rounded-[14px] bg-pj-track" aria-hidden="true" />
+                <div key={i} className="h-[88px] animate-pulse rounded-pj-card bg-pj-dough-deep" aria-hidden="true" />
             ))}
         </>
     );

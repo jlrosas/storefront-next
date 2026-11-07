@@ -52,6 +52,10 @@ export interface RequireFulfillmentOptions {
     onDismissed?: () => void;
     /** Monto que se muestra a la derecha del botón («$16.900»). */
     amountLabel?: string;
+    /** Modalidad con la que abre el panel (por defecto, la guardada o retiro). Locales usa `?modo=delivery`. */
+    initialMode?: 'pickup' | 'delivery';
+    /** Tienda que abre marcada en retiro (la que se tocó en Locales). */
+    initialStoreId?: string;
 }
 
 interface State {
