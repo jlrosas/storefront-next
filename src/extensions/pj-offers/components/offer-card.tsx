@@ -87,7 +87,8 @@ export function OfferCard({
             data-offer={offer.id}
             data-featured={featured ? 'true' : undefined}
             className={cn(
-                'flex flex-col overflow-hidden rounded-[18px] bg-pj-surface shadow-pj-card',
+                'flex flex-col overflow-hidden',
+                featured ? '' : 'rounded-[18px] bg-pj-surface shadow-pj-card',
                 featured && 'surface-basil rounded-pj-section shadow-pj-float lg:col-span-full lg:flex-row-reverse'
             )}>
             <div className={cn('relative', featured && 'lg:flex-[1.3_1_0%]')}>
