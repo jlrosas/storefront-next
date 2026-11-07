@@ -22,19 +22,22 @@ import { cropForPhoto } from '@/extensions/pj-shared/lib/photo';
 import { SplitPizzaImage } from '@/extensions/pj-product/components/split-pizza-image';
 import { useImageUrl } from '@/extensions/pj-product/hooks/use-image-url';
 import type { ComboGroup, LineProducts, LineSummary } from '../lib/line-summary';
+import { linePrice } from '../lib/cart-model';
 
 export interface CompactLineProps {
     summary: LineSummary;
     combo?: ComboGroup | null;
     /** Fotos (las del recurso `/resource/pj-cart-lines`). */
     products?: LineProducts;
+    /** La línea es la pizza canjeada con Papa Puntos: «$0» con el precio de catálogo tachado (VAL-C3 H-2). */
+    canje?: { value: number } | null;
 }
 
 /**
  * Línea del panel «Tu pedido» del menú (UX-3 §3.12): foto de 48 px, nombre de 16 Bold (sin «1×» con cantidad
  * 1), configuración y extras en una línea de 13 px y, debajo, su «Combo Palitos y bebida» con sangría.
  */
-export function CompactLine({ summary, combo, products = {} }: CompactLineProps): ReactElement {
+export function CompactLine({ summary, combo, products = {}, canje }: CompactLineProps): ReactElement {
     const { t } = useTranslation('extPjCart');
     const { url } = useImageUrl();
     const src =
@@ -75,7 +78,16 @@ export function CompactLine({ summary, combo, products = {} }: CompactLineProps)
                             {summary.quantity > 1 ? `${summary.quantity}× ` : ''}
                             {summary.name}
                         </span>
-                        <span className="shrink-0 font-bold tabular-nums">{formatClp(summary.total)}</span>
+                        {canje ? (
+                            <span
+                                className="flex shrink-0 items-baseline gap-1.5 tabular-nums"
+                                data-testid="pj-compact-canje">
+                                <span className="font-bold text-pj-price">{formatClp(0)}</span>
+                                <s className="text-[13px] text-pj-gray-strong">{formatClp(canje.value)}</s>
+                            </span>
+                        ) : (
+                            <span className="shrink-0 font-bold tabular-nums">{formatClp(linePrice(summary))}</span>
+                        )}
                     </span>
                     {config && <span className="text-[13px] leading-snug text-pj-gray-strong">{config}</span>}
                 </div>

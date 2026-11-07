@@ -19,7 +19,6 @@ import { useTranslation } from 'react-i18next';
 import { Link } from '@/components/link';
 import { routes } from '@/route-paths';
 import { formatClp, formatCount } from '@/extensions/pj-shared/lib/format';
-import { pointsFor } from '@/extensions/pj-shared/lib/points';
 import { PJ_ROUTES } from '@/extensions/pj-shared/lib/routes';
 import { usePjMe } from '@/extensions/pj-shared/hooks/use-pj-me';
 
@@ -27,11 +26,10 @@ import { usePjMe } from '@/extensions/pj-shared/hooks/use-pj-me';
  * Pie del panel «Tu pedido» del menú (UX-3 §3.12): los puntos en una línea `surface-sauce` antes del CTA,
  * «Ir a pagar · $X» y «Ver mi pedido» hacia `/cart`.
  */
-export function PanelFooter({ total }: { total: number }): ReactElement {
+export function PanelFooter({ total, points }: { total: number; points: number }): ReactElement {
     const { t } = useTranslation('extPjCart');
     const me = usePjMe();
     const registered = Boolean(me?.registered);
-    const points = pointsFor(total, 0, me?.doublePoints ?? false);
     const to = registered ? routes.checkout : `${routes.login}?returnUrl=${encodeURIComponent(routes.checkout)}`;
     return (
         <div className="flex flex-col gap-2.5" data-testid="pj-panel-footer">

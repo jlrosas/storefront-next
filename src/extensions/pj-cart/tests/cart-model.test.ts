@@ -15,7 +15,7 @@
  */
 /** @sfdc-extension-file SFDC_EXT_PJ_CART */
 import { describe, expect, it } from 'vitest';
-import { cartTotals, checkoutBlock, pickOffer, type OfferContext } from '../lib/cart-model';
+import { cartTotals, checkoutBlock, linePrice, pickOffer, type OfferContext } from '../lib/cart-model';
 import { groupHazloCombo, summarizeLine, type LineLabels, type SummaryLineItem } from '../lib/line-summary';
 import { parseCanje, readCanjeCookie } from '../lib/canje';
 import { readdComboPayload, readdPayload } from '../lib/undo';
@@ -199,5 +199,22 @@ describe('canje y deshacer', () => {
                 { productId: 'cp-coca-cola-2', quantity: 1 },
             ],
         });
+    });
+});
+
+describe('linePrice · VAL-C3 H-3', () => {
+    it('palitos y bebida con promoción de combo, sueltos, se ven a precio normal', () => {
+        const { entries } = build([
+            line('x', 'pz-arma-tu-pizza-family-traditional', 12400),
+            line('m', 'cb-pizza-del-mes', 10990),
+            line('s', 'cp-palitos-de-ajo', 5990, 1573),
+            line('d', 'cp-coca-cola-2', 3490, 917),
+        ]);
+        expect(entries.map((e) => linePrice(e.summary))).toEqual([12400, 10990, 5990, 3490]);
+        const totals = cartTotals(
+            entries.map((e) => e.summary),
+            { delivery: false, doublePoints: false, canje: null }
+        );
+        expect(totals).toMatchObject({ products: 32870, comboSavings: 2490, total: 30380 });
     });
 });

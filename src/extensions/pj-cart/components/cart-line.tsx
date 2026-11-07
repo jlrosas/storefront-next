@@ -28,6 +28,7 @@ import { useImageUrl } from '@/extensions/pj-product/hooks/use-image-url';
 import { MinusIcon, PlusIcon } from '@/extensions/pj-product/components/icons';
 import { cn } from '@/lib/utils';
 import type { LineProducts, LineSummary } from '../lib/line-summary';
+import { linePrice } from '../lib/cart-model';
 import { useLineQuantity } from '../hooks/use-line-quantity';
 import { useCountUp } from '../hooks/use-count-up';
 import { LineConfig } from './line-config';
@@ -162,7 +163,8 @@ export function CartLine({ summary, products, canje, notice, onRemoved, joined }
     const [leaving, setLeaving] = useState(false);
     const { setQuantity, busy, failed, pending } = useLineQuantity(summary.itemId, () => onRemoved(summary));
     const quantity = pending && pending > 0 ? pending : summary.quantity;
-    const price = useCountUp(summary.total);
+    const shownTotal = linePrice(summary);
+    const price = useCountUp(shownTotal);
     const editLabel = summary.edit === 'halves' ? t('line.editHalves') : t('line.edit');
 
     useEffect(() => {
@@ -227,7 +229,7 @@ export function CartLine({ summary, products, canje, notice, onRemoved, joined }
                                 <span className="text-[13px] text-pj-gray-strong tabular-nums">
                                     {t('line.unitPrice', {
                                         count: summary.quantity,
-                                        price: formatClp(Math.round(summary.total / summary.quantity)),
+                                        price: formatClp(Math.round(shownTotal / summary.quantity)),
                                     })}
                                 </span>
                             )}

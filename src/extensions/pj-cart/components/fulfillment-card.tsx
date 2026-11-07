@@ -108,8 +108,25 @@ export function FulfillmentCard({ fulfillment }: FulfillmentCardProps): ReactEle
         String(t(phrase.key as 'fulfillment.pickupTitle', phrase.values as { store: string }));
     const phrases = current ? fulfillmentPhrases(current) : null;
     const title = phrases ? say(phrases.title) : t('fulfillment.emptyTitle');
+    // VAL-C3 H-7: el delivery dice el mismo rango y la misma tienda que el chip del encabezado (meta de TIE).
+    const sameAsChip =
+        current?.mode === 'delivery' &&
+        live.fulfillment?.storeId === current.storeId &&
+        live.meta?.storeId === current.storeId &&
+        Boolean(live.meta?.timeText);
+    const chipDetail =
+        sameAsChip && live.meta
+            ? [
+                  live.meta.scheduled
+                      ? live.meta.timeText
+                      : t('fulfillment.deliveryEtaText', { time: live.meta.timeText }),
+                  t('fulfillment.fromStore', {
+                      store: live.meta.storeName || current?.storeName || current?.storeId || '',
+                  }),
+              ].join(' · ')
+            : null;
     const detail = phrases
-        ? phrases.detail.map(say).join(' · ') || (changed ? (live.meta?.timeText ?? '') : '')
+        ? chipDetail || phrases.detail.map(say).join(' · ') || (changed ? (live.meta?.timeText ?? '') : '')
         : t('fulfillment.emptyHint');
 
     if (current?.closed) {
