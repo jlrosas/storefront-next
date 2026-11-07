@@ -44,6 +44,12 @@ export interface RequireFulfillmentOptions {
      * Familiar.» El panel le suma «Lo recordamos para la próxima.»
      */
     reason?: string;
+    /**
+     * Lo piden para agregar algo al carrito (`reason: 'add-to-cart'` o con `productName`). Sin
+     * `reason`, el panel dice «Para agregar a tu pedido.» y no «Elige cómo quieres tu pedido.», y el
+     * botón dice «Confirmar y agregar» (05 regla 1).
+     */
+    adding?: boolean;
     /** Se llama una vez guardada la modalidad (y cerrado el panel), con la modalidad elegida. */
     onConfirmed?: (fulfillment: Fulfillment) => void;
     /** Texto del botón de confirmar. Por defecto «Confirmar y agregar» si hay `onConfirmed`, si no «Confirmar». */
@@ -195,7 +201,9 @@ export function notifyFulfillmentChanged(fulfillment: Fulfillment): void {
 
 /**
  * Convierte el `detail` de `pj:open-fulfillment` en solicitud: `reason` con espacios se usa como
- * frase; `amountLabel` («$16.900») y `confirmLabel` («Confirmar y agregar») personalizan el botón; si trae `productName`, «Para agregar tu {productName}.»; un código como `add-to-cart` usa el texto por defecto.
+ * frase; `amountLabel` («$16.900») y `confirmLabel` («Confirmar y agregar») personalizan el botón; si trae
+ * `productName`, «Para agregar tu {productName}.»; el código `add-to-cart` sin nombre marca `adding` y el
+ * panel dice «Para agregar a tu pedido.».
  */
 export function requestFromEventDetail(detail: unknown): RequireFulfillmentOptions {
     const d = (detail ?? {}) as {
@@ -205,8 +213,10 @@ export function requestFromEventDetail(detail: unknown): RequireFulfillmentOptio
         confirmLabel?: unknown;
     };
     const options: RequireFulfillmentOptions = {};
+    const productName = typeof d.productName === 'string' ? d.productName.trim() : '';
     if (typeof d.reason === 'string' && d.reason.includes(' ')) options.reason = d.reason;
-    else if (typeof d.productName === 'string' && d.productName) options.reason = `Para agregar tu ${d.productName}.`;
+    else if (productName) options.reason = `Para agregar tu ${productName}.`;
+    if (productName || d.reason === 'add-to-cart') options.adding = true;
     if (typeof d.amountLabel === 'string') options.amountLabel = d.amountLabel;
     if (typeof d.confirmLabel === 'string') options.confirmLabel = d.confirmLabel;
     return options;
