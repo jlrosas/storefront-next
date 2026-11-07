@@ -155,7 +155,8 @@
         "choose": "Elige qué buscas",
         "compartir": "Para compartir",
         "economico": "Menos de $15 mil",
-        "from": "desde"
+        "from": "desde",
+        "add": "Agregar {{name}}"
     },
     "firstOrder": {
         "lead": "Primer pedido directo:",

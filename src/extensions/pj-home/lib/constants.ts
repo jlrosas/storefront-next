@@ -15,6 +15,7 @@
  */
 /** @sfdc-extension-file SFDC_EXT_PJ_HOME */
 import type { DemoMoment } from '@/extensions/pj-shared/lib/profile';
+import type { ConfigureProductDetail, PjSize } from '@/extensions/pj-shared/lib/events';
 
 /** Pizza del Mes de noviembre (S-D1): The Works Familiar. */
 export const SEASON_OFFER_ID = 'cb-pizza-del-mes';
@@ -106,9 +107,24 @@ export const FEATURE_PHOTOS = {
     napocherry: 'napocherry-1730987248.jpg',
 } as const;
 
-/** Destino de un producto de la Home: los combos armables van a su constructor. */
+/**
+ * Destino de un producto de la Home (S-D3, AUD-compra P0-3): Super Dúo y Super Trío van a su
+ * constructor; los demás combos, a su ficha. Las pizzas abren la hoja (ver `pizzaConfigure`) y este
+ * enlace queda como respaldo.
+ */
 export function offerHref(id: string): string {
     if (id === AD_OFFER_ID) return HOME_ROUTES.superDuo;
     if (id === 'cb-super-trio') return HOME_ROUTES.superTrio;
     return productHref(id);
+}
+
+/**
+ * Si el producto es una pizza (`pz-*`), lo que pide la hoja «Arma tu pizza» de PRO (04 regla 1: el
+ * Agregar de una pizza siempre abre la hoja). `null` para combos y productos simples.
+ */
+export function pizzaConfigure(id: string, size?: PjSize): ConfigureProductDetail | null {
+    if (!id.startsWith('pz-')) return null;
+    if (id === 'pz-arma-tu-pizza') return { productId: id, builder: 'arma-tu-pizza', ...(size ? { size } : {}) };
+    if (id === 'pz-mitades') return { productId: id, builder: 'mitades' };
+    return { productId: id, ...(size ? { size } : {}) };
 }

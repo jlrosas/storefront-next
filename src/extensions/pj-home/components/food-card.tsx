@@ -15,12 +15,12 @@
  */
 /** @sfdc-extension-file SFDC_EXT_PJ_HOME */
 import type { ReactElement, ReactNode } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Link } from '@/components/link';
 import { cn } from '@/lib/utils';
 import { FoodImage } from '@/extensions/pj-shared/components/food-image';
 import type { FoodImageCrop } from '@/extensions/pj-shared/lib/photo';
-import { useAddLines } from '../hooks/use-home-cart';
+import { configureFallbackHref, type ConfigureProductDetail } from '@/extensions/pj-shared/lib/events';
+import { configureOnClick } from '../lib/configure-link';
 import { imageSrcSet, scaledImage } from '../lib/images';
 
 function PlusIcon(): ReactElement {
@@ -40,34 +40,7 @@ function PlusIcon(): ReactElement {
 }
 
 const PLUS =
-    'absolute right-2.5 bottom-2.5 z-10 grid size-11 place-items-center rounded-full bg-pj-pepperoncini text-pj-basil shadow-pj-float transition-transform hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-basil active:scale-[0.92] disabled:opacity-70';
-
-/** «+» que agrega en un toque (variante ya elegida) con el aviso y el vuelo al carrito de pj-shared. */
-function QuickAdd({ productId, label, toastName }: { productId: string; label: string; toastName: string }) {
-    const { t } = useTranslation('extPjHome');
-    const { add, pending, failed } = useAddLines(toastName);
-    return (
-        <>
-            <button
-                type="button"
-                className={PLUS}
-                aria-label={label}
-                disabled={pending}
-                aria-busy={pending}
-                data-testid="pj-home-card-plus"
-                onClick={() => add([{ productId, quantity: 1 }])}>
-                <PlusIcon />
-            </button>
-            {failed && (
-                <p
-                    role="alert"
-                    className="absolute inset-x-2.5 top-2.5 z-10 rounded-lg bg-pj-dough px-2 py-1 pj-micro text-pj-sauce">
-                    {t('serves.addFailed')}
-                </p>
-            )}
-        </>
-    );
-}
+    'absolute right-2.5 bottom-2.5 z-10 grid size-11 place-items-center rounded-full bg-pj-pepperoncini text-pj-basil shadow-pj-float transition-transform hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-basil active:scale-[0.92]';
 
 export interface FoodCardProps {
     name: string;
@@ -83,9 +56,13 @@ export interface FoodCardProps {
     description?: string | null;
     /** Precio en Rich Sauce Bold 20 px (ya formateado y con su prefijo). */
     price?: ReactNode;
-    /** Variante que agrega el «+» en un toque; sin ella, el «+» lleva a la ficha. */
-    quickAdd?: { productId: string; label: string; toastName: string } | null;
-    /** Texto del «+» cuando lleva a la ficha. */
+    /**
+     * Pizza: el «+» abre la hoja «Arma tu pizza» sobre la Home (04 regla 1; AUD-compra P1-1), que pasa
+     * por el panel de tienda y ofrece «Hazlo combo» después. Sin él, el «+» lleva a `href` (ficha o
+     * constructor).
+     */
+    configure?: ConfigureProductDetail | null;
+    /** Texto del «+». */
     plusLabel: string;
     /** Clases del ancho en el carrusel. */
     className?: string;
@@ -96,7 +73,7 @@ export interface FoodCardProps {
  * Tarjeta de comida de la Home (UX-1 §3.4, P2-11): foto 4:3 en recorte macro con radio solo arriba,
  * sello sobre la foto, «+» lima de 44 px sobre la esquina de la foto, título Condensed, ★, descripción
  * a 2 líneas y precio en Rich Sauce. Sombra cálida y zoom de la foto al pasar el cursor (escritorio).
- * Toda la tarjeta lleva a la ficha (enlace estirado); el «+» es un control aparte.
+ * Toda la tarjeta lleva a la ficha (enlace estirado); el «+» es un control aparte: en una pizza abre la hoja.
  */
 export function FoodCard({
     name,
@@ -108,7 +85,7 @@ export function FoodCard({
     meta,
     description,
     price,
-    quickAdd,
+    configure,
     plusLabel,
     className,
     sizes = '(min-width: 1024px) 30vw, 240px',
@@ -136,8 +113,16 @@ export function FoodCard({
                         {badge}
                     </span>
                 )}
-                {quickAdd ? (
-                    <QuickAdd {...quickAdd} />
+                {configure ? (
+                    <Link
+                        to={configureFallbackHref(configure)}
+                        onClick={configureOnClick(configure)}
+                        aria-label={plusLabel}
+                        aria-haspopup="dialog"
+                        className={PLUS}
+                        data-testid="pj-home-card-plus">
+                        <PlusIcon />
+                    </Link>
                 ) : (
                     <Link to={href} aria-label={plusLabel} className={PLUS} data-testid="pj-home-card-plus">
                         <PlusIcon />

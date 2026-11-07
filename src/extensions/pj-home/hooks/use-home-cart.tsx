@@ -21,7 +21,7 @@ import { toast } from 'sonner';
 import { flyToCart } from '@/extensions/pj-shared/lib/fly-to-cart';
 import { PJ_ROUTES } from '@/extensions/pj-shared/lib/routes';
 import { HomeAddedToast } from '../components/home-added-toast';
-import { readFulfillmentFromDocument } from '@/extensions/pj-shared/lib/fulfillment';
+import { ensureStore } from '@/extensions/pj-shared/lib/events';
 import { pointsFor } from '@/extensions/pj-shared/lib/points';
 import { HOME_ROUTES } from '../lib/constants';
 
@@ -61,8 +61,11 @@ export function useReorder() {
     };
 }
 
-/** Agrega varias líneas con el aviso «¡Agregada!» (HOM-02, «Para 3»). */
-export function useAddLines(productName: string) {
+/**
+ * Agrega varias líneas con el aviso «¡Agregada!» (HOM-02, «Para 3»). `panelName` es lo que dice el panel
+ * de tienda («Para agregar tu {panelName}.», 05 regla 1); por defecto, `productName`.
+ */
+export function useAddLines(productName: string, panelName: string = productName) {
     const fetcher = useFetcher<CartResult>();
     const handled = useRef<CartResult | null>(null);
     const navigate = useNavigate();
@@ -101,37 +104,17 @@ export function useAddLines(productName: string) {
     );
 
     /**
-     * Sin tienda elegida pide el panel de TIE (evento \`pj:open-fulfillment\`, mismo contrato que OFE) y
-     * agrega al confirmar; si el panel se cierra no agrega; si nadie lo toma, agrega igual.
+     * Sin tienda elegida pide el panel de TIE (`ensureStore` de pj-shared, con el nombre para que diga
+     * «Para agregar tu …») y agrega al confirmar; si el panel se cierra no agrega; si nadie lo toma,
+     * agrega igual.
      */
     const add = useCallback(
         (lines: { productId: string; quantity: number }[]) => {
-            if (readFulfillmentFromDocument()) {
-                submit(lines);
-                return;
-            }
-            const taken = !window.dispatchEvent(
-                new CustomEvent('pj:open-fulfillment', {
-                    cancelable: true,
-                    detail: { source: 'pj-home', reason: 'add-to-cart' },
-                })
+            void ensureStore({ source: 'pj-home', reason: 'add-to-cart', productName: panelName }).then(
+                (ok) => ok && submit(lines)
             );
-            if (!taken) {
-                submit(lines);
-                return;
-            }
-            const cleanup = () => {
-                window.removeEventListener('pj:fulfillment-changed', onChanged);
-                window.removeEventListener('pj:fulfillment-dismissed', cleanup);
-            };
-            const onChanged = () => {
-                cleanup();
-                submit(lines);
-            };
-            window.addEventListener('pj:fulfillment-changed', onChanged);
-            window.addEventListener('pj:fulfillment-dismissed', cleanup);
         },
-        [submit]
+        [submit, panelName]
     );
     return { add, pending: fetcher.state !== 'idle', failed: fetcher.data?.success === false };
 }

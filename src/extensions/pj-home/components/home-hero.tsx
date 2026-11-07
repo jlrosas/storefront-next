@@ -25,7 +25,9 @@ import { PriceTag } from '@/extensions/pj-shared/components/price-tag';
 import { PauseIcon, PlayIcon } from '@/extensions/pj-shared/components/icons';
 import { useReducedMotion } from '@/extensions/pj-shared/hooks/use-reduced-motion';
 import { imageSrcSet, scaledImage } from '../lib/images';
-import { HOME_ROUTES, heroTitle } from '../lib/constants';
+import { configureFallbackHref } from '@/extensions/pj-shared/lib/events';
+import { configureOnClick } from '../lib/configure-link';
+import { HOME_ROUTES, heroTitle, pizzaConfigure } from '../lib/constants';
 import type { OfferVM } from '../lib/types';
 
 export interface HomeHeroProps {
@@ -121,6 +123,9 @@ export function HomeHero({
 }: HomeHeroProps): ReactElement | null {
     const { t } = useTranslation('extPjHome');
     if (!offer) return null;
+    // Una pizza abre la hoja «Arma tu pizza» (04 regla 1, AUD-compra P0-3); un combo va a `offer.href`
+    // (constructor de Super Dúo/Trío o ficha). Un destino explícito de Page Designer manda.
+    const configure = ctaHref ? null : pizzaConfigure(offer.id, 'family');
     const discount = offer.listPrice ? Math.round((1 - offer.price / offer.listPrice) * 100) : 0;
     // Con texto propio (Page Designer o el de la Home), se usa tal cual; sin él, el del catálogo + «Para N».
     const text =
@@ -232,7 +237,9 @@ export function HomeHero({
                     </p>
                     <div className="flex flex-wrap gap-3 lg:mt-1">
                         <Link
-                            to={ctaHref ?? offer.href}
+                            to={configure ? configureFallbackHref(configure) : (ctaHref ?? offer.href)}
+                            onClick={configure ? configureOnClick(configure) : undefined}
+                            aria-haspopup={configure ? 'dialog' : undefined}
                             aria-label={`${label} · ${price}`}
                             data-testid="pj-home-hero-cta"
                             className="inline-flex min-h-[52px] flex-1 items-center justify-between gap-6 rounded-full bg-pj-basil px-6 text-[17px] font-bold text-pj-dough transition-transform hover:bg-pj-basil-deep focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-basil active:scale-[0.97] lg:min-h-14 lg:flex-none lg:bg-pj-pepperoncini lg:px-8 lg:text-lg lg:text-pj-basil lg:hover:bg-pj-pepperoncini/90 lg:focus-visible:outline-pj-pepperoncini">

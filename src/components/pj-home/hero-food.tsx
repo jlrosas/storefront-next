@@ -21,8 +21,7 @@ import { RegionDefinition } from '@/lib/decorators';
 import { getDemoProfile } from '@/extensions/pj-shared/lib/profile';
 import { HomeHero } from '@/extensions/pj-home/components/home-hero';
 import { loadHeroBlock } from './loaders';
-import type { ProfileGate } from './loaders';
-import type { OfferVM } from '@/extensions/pj-home/lib/types';
+import type { OfferVM, ProfileGate } from '@/extensions/pj-home/lib/types';
 
 @Component('pjHeroFood', {
     name: 'Papa Johns · Hero de comida',
