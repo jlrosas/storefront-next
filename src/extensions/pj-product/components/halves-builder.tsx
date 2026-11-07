@@ -157,7 +157,8 @@ export function HalvesBuilder({ data, layout, onClose, onSaved }: HalvesBuilderP
             return;
         }
         showAddedToast({
-            productName: t('halves.toastName', { size: sizeLabel }),
+            productName: t('halves.lineName'),
+            detail,
             points: pointsFor(price, 0, me?.doublePoints ?? false),
             onUndo: ids.length ? () => void submit({ intent: 'remove', itemIds: ids }) : undefined,
         });

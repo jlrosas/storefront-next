@@ -196,13 +196,13 @@ describe('precio en vivo', () => {
         });
     });
 
-    it('resumen «Familiar · Tradicional · sin cebolla · + choclo»', () => {
+    it('resumen «Familiar · Tradicional · sin cebolla · + Choclo»', () => {
         const summary = selectionSummary(
             config,
             { size: 'family', crust: 'traditional', removed: ['cebolla'], extras: ['choclo'], quantity: 1 },
             { without: (n) => `sin ${n}`, plus: (n) => `+ ${n}` }
         );
-        expect(summary).toBe('Familiar · Tradicional · sin cebolla · + choclo');
+        expect(summary).toBe('Familiar · Tradicional · sin cebolla · + Choclo');
     });
 });
 

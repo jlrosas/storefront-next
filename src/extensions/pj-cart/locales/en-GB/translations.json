@@ -1,1 +1,77 @@
-{}
+{
+    "size": {
+        "individual": "Individual",
+        "medium": "Mediana",
+        "family": "Familiar",
+        "extra_large": "Extra grande"
+    },
+    "crust": {
+        "traditional": "Tradicional",
+        "thin": "Delgada",
+        "stuffed": "Borde de queso mozzarella",
+        "parmesan": "Masa Maestra",
+        "philadelphia": "Philadelphia",
+        "cauliflower": "Coliflor",
+        "parmesan_base": "Parmesan Crunch",
+        "cheddar_stuffed": "Borde de queso cheddar",
+        "pan_pizza_stuffed": "Pan Pizza",
+        "croissant": "Croissant"
+    },
+    "line": {
+        "without": "sin {{name}}",
+        "plus": "+ {{name}}",
+        "extrasAria": "Extras: {{list}}",
+        "edit": "Editar",
+        "editAria": "Editar {{name}}",
+        "editHalves": "Editar mitades",
+        "remove": "Quitar",
+        "removeAria": "Quitar {{name}} del pedido",
+        "decreaseAria": "Uno menos de {{name}}",
+        "increaseAria": "Uno más de {{name}}",
+        "quantityAria": "Cantidad de {{name}}: {{count}}",
+        "halvesAria": "Pizza dividida: {{parts}}",
+        "error": "No pudimos actualizar tu pedido. Inténtalo de nuevo.",
+        "combo": "Combo: {{parts}}",
+        "comboPrice": "+{{price}}",
+        "comboRemove": "Quitar combo",
+        "comboRemoveAria": "Quitar el combo {{parts}}"
+    },
+    "page": {
+        "title": "Mi pedido",
+        "count_one": "{{count}} producto",
+        "count_other": "{{count}} productos",
+        "linesLabel": "Productos de tu pedido"
+    },
+    "fulfillment": {
+        "label": "Cómo recibes tu pedido",
+        "pickupTitle": "Retiro en {{store}}",
+        "deliveryTitle": "Delivery a {{address}}",
+        "deliveryTitleNoAddress": "Delivery desde {{store}}",
+        "pickupReady": "Listo en {{minutes}} min",
+        "deliveryEta": "Llega en {{minutes}} min",
+        "scheduled": "Programado",
+        "openUntil": "Abierta hasta {{time}}",
+        "change": "Cambiar",
+        "changeAria": "Cambiar cómo recibes tu pedido",
+        "emptyTitle": "¿Retiro o delivery?",
+        "emptyHint": "Elige cómo lo quieres y te decimos cuándo está listo.",
+        "choose": "Elegir"
+    },
+    "summary": {
+        "points": "Con este pedido ganas {{points}} Papa Puntos",
+        "pickupFee": "Retiro en tienda",
+        "deliveryFee": "Despacho",
+        "free": "Gratis",
+        "subtotal": "Productos",
+        "total": "Total",
+        "checkout": "Ir a pagar",
+        "checkoutAria": "Ir a pagar {{total}}",
+        "keepBrowsing": "Seguir viendo el menú",
+        "threshold": "Te faltan {{amount}} para pedir delivery"
+    },
+    "empty": {
+        "title": "Tu pedido está vacío",
+        "hint": "Elige tu pizza y la armamos como te gusta.",
+        "cta": "Ver el menú"
+    }
+}

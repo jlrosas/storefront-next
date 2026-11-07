@@ -145,7 +145,8 @@ export function PizzaPdp({ config, sides, initialSize }: PizzaPdpProps): ReactEl
         flyToCart(heroRef.current, config.image?.src ?? null);
         setAdded(ids);
         showAddedToast({
-            productName: `${config.name} ${size?.label ?? ''}`.trim(),
+            productName: config.name,
+            detail: summary,
             points: pointsFor(linesTotal(result.basket, ids), 0, me?.doublePoints ?? false),
             onUndo: ids.length
                 ? () => {

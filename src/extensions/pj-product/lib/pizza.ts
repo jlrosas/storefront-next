@@ -294,7 +294,10 @@ export interface SelectionSummaryLabels {
     plus: (name: string) => string;
 }
 
-/** «Familiar · Tradicional · sin cebolla · + choclo» (línea de resumen de la hoja y la ficha). */
+/**
+ * «Familiar · Tradicional · sin cebolla · + Choclo» (línea de resumen de la hoja y la ficha). Los extras van con
+ * su nombre («+ Pepperoni»), igual que en el carrito de CAR (`pj-cart/lib/line-summary.ts`).
+ */
 export function selectionSummary(
     config: PizzaConfig,
     selection: PizzaSelection,
@@ -309,7 +312,7 @@ export function selectionSummary(
         if (selection.removed.includes(ingredient.id)) parts.push(labels.without(lowerIngredientName(ingredient.name)));
     }
     for (const ingredient of config.extras) {
-        if (selection.extras.includes(ingredient.id)) parts.push(labels.plus(lowerIngredientName(ingredient.name)));
+        if (selection.extras.includes(ingredient.id)) parts.push(labels.plus(ingredient.name));
     }
     return parts.join(' · ');
 }
