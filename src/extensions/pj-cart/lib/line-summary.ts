@@ -48,6 +48,7 @@ export interface SummaryLineItem {
         price?: number;
         priceAfterItemDiscount?: number;
     }>;
+    priceAdjustments?: Array<{ promotionId?: string; price?: number }>;
     c_pjRemoved?: unknown;
     c_pjHalves?: unknown;
     c_pjComboChoices?: unknown;
@@ -58,6 +59,12 @@ export interface SummaryLineItem {
 export interface LineProduct {
     name: string;
     image: string | null;
+    /** `c_pjKind`: `pizza`, `combo`, `side`, `drink`, `dessert`… */
+    kind?: string | null;
+    /** `c_pjPriceBefore` del combo («Ahorras $X» = antes − precio). */
+    priceBefore?: number | null;
+    /** `c_pjDispatch` del combo: `delivery`, `pickup` o `both`. */
+    dispatch?: string | null;
 }
 export type LineProducts = Record<string, LineProduct>;
 
@@ -101,6 +108,14 @@ export interface LineSummary {
     quantity: number;
     /** Precio de la línea con sus opciones (lo que cobra la canasta). */
     total: number;
+    /** Lo mismo antes de las promociones de la línea (`price` + opciones). */
+    baseTotal: number;
+    /** Promociones que ajustan la línea (`pj-hazlo-combo`, `pj-canje-puntos`…). */
+    promotions: string[];
+    /** `c_pjKind` del producto, si se conoce (`drink`, `dessert`, `side`…). */
+    productKind: string | null;
+    /** Combos: «Ahorras $X» frente a `c_pjPriceBefore` (0 si no aplica). */
+    savings: number;
     /** «Editar»: la hoja de PRO (`sheet`) o el armador de mitades (`halves`). */
     edit: 'sheet' | 'halves' | null;
 }
@@ -212,6 +227,20 @@ function humanizeId(id: string): string {
     return text.charAt(0).toUpperCase() + text.slice(1);
 }
 
+/**
+ * Formato de la demo para nombres del catálogo (UX-3 §3.11): volumen con coma decimal y unidad corta
+ * («1.5 LT» → «1,5 L», «350 ML» → «350 ml») y sin la marca repetida («Coca-Cola Coca-Cola 350 ml»).
+ */
+export function displayProductName(name: string): string {
+    return name
+        .replace(/(\d+)[.,](\d+)\s*(?:LT|Lt|lt|L)\b/g, '$1,$2 L')
+        .replace(/(\d+)\s*(?:LT|Lt|lt)\b/g, '$1 L')
+        .replace(/(\d+)\s*ML\b/gi, '$1 ml')
+        .replace(/^(\S+(?:\s\S+)?)\s+\1\b/, '$1')
+        .replace(/\s{2,}/g, ' ')
+        .trim();
+}
+
 /** Quita «Familiar Tradicional» del final del nombre de la línea («Pollo BBQ Familiar Tradicional» → «Pollo BBQ»). */
 export function stripVariantSuffix(name: string, sizeLabel: string, crustLabel: string): string {
     const suffix = [sizeLabel, crustLabel].filter(Boolean).join(' ');
@@ -254,25 +283,37 @@ export function summarizeLine(item: SummaryLineItem, labels: LineLabels, names: 
         name: names[id]?.name ?? humanizeId(id),
         image: names[id]?.image ?? null,
     }));
-    const choices =
-        kind === 'combo'
-            ? comboChoicesFromItem(item).map((choice) => {
-                  const id = choiceProductId(choice.product);
-                  return names[id]?.name ?? names[choice.product]?.name ?? humanizeId(id);
-              })
-            : [];
+    const rawChoices = kind === 'combo' ? comboChoicesFromItem(item) : [];
+    // Solo pizzas (Super Dúo): «Pollo BBQ + Todas las Carnes». Con complementos (Papa Flash):
+    // «Pepperoni individual · Mini palitos · Coca-Cola 350 ml».
+    const onlyPizzas = rawChoices.every((choice) => parseVariantId(choice.product));
+    const choices = rawChoices.map((choice) => {
+        const pizza = parseVariantId(choice.product);
+        const id = choiceProductId(choice.product);
+        const base = displayProductName(names[id]?.name ?? names[choice.product]?.name ?? humanizeId(id));
+        if (!pizza || onlyPizzas) return base;
+        const size = labels.size(pizza.size).toLowerCase();
+        return size ? `${base} ${size}` : base;
+    });
 
     const name =
         kind === 'pizza' && variant
             ? (names[variant.masterId]?.name ?? stripVariantSuffix(rawName, sizeLabel, crustLabel))
-            : stripVariantSuffix(rawName, sizeLabel, crustLabel);
+            : displayProductName(stripVariantSuffix(rawName, sizeLabel, crustLabel));
 
     const parts: string[] = [];
     if (sizeLabel) parts.push(sizeLabel);
     if (crustLabel) parts.push(crustLabel);
     for (const half of halvesInfo) parts.push(`½\u00a0${half.name}`); // «½» no queda solo al final de la línea
     for (const r of removed) parts.push(labels.without(r.name));
-    if (choices.length) parts.push(choices.join(' + '));
+    if (choices.length) parts.push(choices.join(onlyPizzas ? ' + ' : ' · '));
+    const total = lineTotal(item);
+    const baseTotal =
+        (item.price ?? 0) + options.filter((o) => o.optionValueId !== 'no').reduce((sum, o) => sum + (o.price ?? 0), 0);
+    const priceBefore = names[productId]?.priceBefore ?? null;
+    const quantity = item.quantity ?? 1;
+    const savings =
+        kind === 'combo' && priceBefore && priceBefore * quantity > total ? priceBefore * quantity - total : 0;
 
     return {
         itemId: item.itemId ?? '',
@@ -287,8 +328,12 @@ export function summarizeLine(item: SummaryLineItem, labels: LineLabels, names: 
         removed,
         halves: halvesInfo,
         choices,
-        quantity: item.quantity ?? 1,
-        total: lineTotal(item),
+        quantity,
+        total,
+        baseTotal: Math.max(baseTotal, total),
+        promotions: [...new Set((item.priceAdjustments ?? []).map((a) => a.promotionId ?? '').filter(Boolean))],
+        productKind: names[productId]?.kind ?? null,
+        savings,
         edit: kind === 'pizza' ? 'sheet' : kind === 'halves' ? 'halves' : null,
     };
 }
@@ -306,14 +351,23 @@ export function summariesTotal(summaries: LineSummary[]): number {
     return summaries.reduce((sum, line) => sum + line.total, 0);
 }
 
-/** «Hazlo combo» agrupado bajo su pizza: palitos + bebida 1,5 L (promoción `pj-hazlo-combo`). */
+/** Promociones que vuelven combo a palitos + bebida 1,5 L (la de la hoja y la del carrito). */
+export const COMBO_PROMOTIONS: readonly string[] = ['pj-hazlo-combo', 'pj-combo-palitos-upsell'];
+
+/** «Combo Palitos y bebida» (UX-3 §3.4): línea propia bajo su pizza. */
 export interface ComboGroup {
     /** «Palitos de Ajo», «Coca-Cola Sin azúcar 1,5 L». */
     parts: string[];
     /** Líneas del carrito que forman el combo (para quitarlo entero). */
     itemIds: string[];
-    /** Lo que cobra la canasta por las dos líneas (con la promoción, si aplica). */
+    /** Productos de las líneas (para «Deshacer»). */
+    productIds: string[];
+    /** Lo que cobra la canasta por las dos líneas, con la promoción. */
     total: number;
+    /** Lo que costarían sueltas (`price` de las líneas). */
+    baseTotal: number;
+    /** «Ahorras $X»: lo que descontó la promoción en la canasta. */
+    savings: number;
 }
 
 export interface CartEntry {
@@ -326,45 +380,77 @@ export interface HazloComboIds {
     drinks: readonly string[];
 }
 
+const hasComboPromotion = (line: LineSummary) => line.promotions.some((id) => COMBO_PROMOTIONS.includes(id));
+
 /**
- * Agrupa las líneas sueltas de «Hazlo combo» (palitos + bebida, una de cada una) bajo la pizza que las
- * originó: la pizza anterior más cercana en el carrito o, si no hay, la primera libre. Sin pizza, quedan sueltas.
+ * Agrupa palitos + bebida 1,5 L que la canasta cobra como combo (promoción `pj-hazlo-combo` o
+ * `pj-combo-palitos-upsell`) bajo la pizza que los originó (VAL-C2 H1). La canasta guarda las líneas en orden
+ * de creación y «Hazlo combo» agrega las dos piezas justo después de su pizza: solo se agrupan si van juntas y
+ * la línea inmediatamente anterior es una pizza o mitades, o si el pedido tiene una sola pizza y ningún combo
+ * con ficha. Si no hay una pizza clara (varias pizzas, o un `cb-*` con sus complementos de «Completa tu
+ * pedido»), quedan como líneas propias.
  */
-export function groupHazloCombo(summaries: LineSummary[], ids: HazloComboIds): CartEntry[] {
-    const isPizza = (line: LineSummary) => line.kind === 'pizza' || line.kind === 'halves';
-    const sides = summaries
-        .map((line, index) => ({ line, index }))
-        .filter(({ line }) => line.productId === ids.side && line.quantity === 1);
-    const drinks = summaries
-        .map((line, index) => ({ line, index }))
-        .filter(({ line }) => ids.drinks.includes(line.productId) && line.quantity === 1);
+export function groupHazloCombo(
+    summaries: LineSummary[],
+    ids: HazloComboIds,
+    /** Líneas que no cuentan como pizza del combo (la pizza canjeada con Papa Puntos). */
+    ignore: readonly string[] = []
+): CartEntry[] {
+    const isPizza = (line: LineSummary) =>
+        (line.kind === 'pizza' || line.kind === 'halves') && !ignore.includes(line.itemId);
+    const isSide = (line: LineSummary) => line.productId === ids.side && line.quantity === 1 && hasComboPromotion(line);
+    const isDrink = (line: LineSummary) =>
+        ids.drinks.includes(line.productId) && line.quantity === 1 && hasComboPromotion(line);
+    const indexed = summaries.map((line, index) => ({ line, index }));
     const combos = new Map<number, ComboGroup>();
     const grouped = new Set<number>();
-    const pairs = Math.min(sides.length, drinks.length);
-    for (let i = 0; i < pairs; i += 1) {
-        const side = sides[i];
-        const drink = drinks[i];
-        const first = Math.min(side.index, drink.index);
-        const free = (index: number) => isPizza(summaries[index]) && !combos.has(index);
-        let anchor = -1;
-        for (let j = first - 1; j >= 0; j -= 1) {
-            if (free(j)) {
-                anchor = j;
-                break;
-            }
+    for (let i = 1; i + 1 < summaries.length; i += 1) {
+        const a = summaries[i];
+        const b = summaries[i + 1];
+        const pair = isSide(a) && isDrink(b) ? [a, b] : isDrink(a) && isSide(b) ? [b, a] : null;
+        const anchor = i - 1;
+        if (!pair || grouped.has(i) || grouped.has(i + 1) || combos.has(anchor) || !isPizza(summaries[anchor])) {
+            continue;
         }
-        if (anchor === -1) anchor = summaries.findIndex((_, j) => free(j));
-        if (anchor === -1) break;
+        const [side, drink] = pair;
+        const total = side.total + drink.total;
+        const baseTotal = side.baseTotal + drink.baseTotal;
         combos.set(anchor, {
-            parts: [side.line.name, drink.line.name],
-            itemIds: [side.line.itemId, drink.line.itemId],
-            total: side.line.total + drink.line.total,
+            parts: [side.name, drink.name],
+            itemIds: [side.itemId, drink.itemId],
+            productIds: [side.productId, drink.productId],
+            total,
+            baseTotal,
+            savings: Math.max(0, baseTotal - total),
         });
-        grouped.add(side.index);
-        grouped.add(drink.index);
+        grouped.add(i);
+        grouped.add(i + 1);
+        i += 1;
     }
-    return summaries
-        .map((summary, index) => ({ summary, combo: combos.get(index) ?? null, index }))
+    // Sin pizza contigua: si el pedido tiene una sola pizza y ningún combo con ficha, la pizza es clara.
+    const pizzas = indexed.filter(({ line }) => isPizza(line));
+    const hasFichaCombo = summaries.some((line) => line.kind === 'combo');
+    if (pizzas.length === 1 && !hasFichaCombo && !combos.has(pizzas[0].index)) {
+        const sides = indexed.filter(({ line, index }) => isSide(line) && !grouped.has(index));
+        const drinks = indexed.filter(({ line, index }) => isDrink(line) && !grouped.has(index));
+        if (sides.length === 1 && drinks.length === 1) {
+            const side = sides[0].line;
+            const drink = drinks[0].line;
+            const total = side.total + drink.total;
+            const baseTotal = side.baseTotal + drink.baseTotal;
+            combos.set(pizzas[0].index, {
+                parts: [side.name, drink.name],
+                itemIds: [side.itemId, drink.itemId],
+                productIds: [side.productId, drink.productId],
+                total,
+                baseTotal,
+                savings: Math.max(0, baseTotal - total),
+            });
+            grouped.add(sides[0].index);
+            grouped.add(drinks[0].index);
+        }
+    }
+    return indexed
         .filter(({ index }) => !grouped.has(index))
-        .map(({ summary, combo }) => ({ summary, combo }));
+        .map(({ line, index }) => ({ summary: line, combo: combos.get(index) ?? null }));
 }

@@ -19,7 +19,9 @@ import { useRevalidator } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { PJ_FULFILLMENT_EVENTS } from '@/extensions/pj-shared/lib/events';
 import { hydrateFulfillment, openFulfillmentPanel, useFulfillment } from '@/extensions/pj-store/lib/fulfillment-store';
+import { cn } from '@/lib/utils';
 import type { CartFulfillment } from '../lib/types';
+import { MotoIcon, StoreIcon } from './icons';
 
 export interface FulfillmentCardProps {
     /** La modalidad leída en el servidor (`pj_fulfillment` + tienda). */
@@ -31,32 +33,42 @@ type Phrase =
     | { key: 'fulfillment.deliveryTitle'; values: { address: string } }
     | { key: 'fulfillment.deliveryTitleNoAddress'; values: { store: string } }
     | { key: 'fulfillment.pickupTitle'; values: { store: string } }
-    | { key: 'fulfillment.deliveryEta'; values: { minutes: number } }
+    | { key: 'fulfillment.deliveryEta'; values: { from: number; to: number } }
     | { key: 'fulfillment.pickupReady'; values: { minutes: number } }
     | { key: 'fulfillment.scheduled'; values: Record<string, never> }
-    | { key: 'fulfillment.openUntil'; values: { time: string } };
+    | { key: 'fulfillment.openUntil'; values: { time: string } }
+    | { key: 'fulfillment.fromStore'; values: { store: string } };
 
-/** Título y detalle de la tarjeta («Retiro en El Bosque» / «Listo en 15 min · Abierta hasta 23:30»). */
+/**
+ * Título y detalle (UX-3 §3.2): «Retiro en El Bosque» / «Listo en 15 min · abierta hasta 23:30», o
+ * «Delivery a Av. Providencia 1234» / «Llega en 35–45 min · desde Salvador».
+ */
 function fulfillmentPhrases(f: CartFulfillment): { title: Phrase; detail: Phrase[] } {
     const store = f.storeName ?? f.storeId;
-    const title: Phrase =
-        f.mode === 'delivery'
-            ? f.address
-                ? { key: 'fulfillment.deliveryTitle', values: { address: f.address } }
-                : { key: 'fulfillment.deliveryTitleNoAddress', values: { store } }
-            : { key: 'fulfillment.pickupTitle', values: { store } };
-    const minutes = f.mode === 'delivery' ? f.deliveryMinutes : f.pickupMinutes;
+    const delivery = f.mode === 'delivery';
+    const title: Phrase = delivery
+        ? f.address
+            ? { key: 'fulfillment.deliveryTitle', values: { address: f.address } }
+            : { key: 'fulfillment.deliveryTitleNoAddress', values: { store } }
+        : { key: 'fulfillment.pickupTitle', values: { store } };
     const detail: Phrase[] = [];
     if (f.when && f.when !== 'asap') detail.push({ key: 'fulfillment.scheduled', values: {} });
-    else if (minutes && f.mode === 'delivery') detail.push({ key: 'fulfillment.deliveryEta', values: { minutes } });
-    else if (minutes) detail.push({ key: 'fulfillment.pickupReady', values: { minutes } });
-    if (f.openUntil) detail.push({ key: 'fulfillment.openUntil', values: { time: f.openUntil } });
+    else if (delivery && f.deliveryMinutes)
+        detail.push({
+            key: 'fulfillment.deliveryEta',
+            values: { from: Math.max(5, f.deliveryMinutes - 5), to: f.deliveryMinutes + 5 },
+        });
+    else if (!delivery && f.pickupMinutes)
+        detail.push({ key: 'fulfillment.pickupReady', values: { minutes: f.pickupMinutes } });
+    if (delivery && f.address) detail.push({ key: 'fulfillment.fromStore', values: { store } });
+    if (!delivery && f.openUntil) detail.push({ key: 'fulfillment.openUntil', values: { time: f.openUntil } });
     return { title, detail };
 }
 
 /**
- * Primera tarjeta del carrito (CAR-01 crit. 1, UX-2 §4 regla 2, #38): la modalidad del chip con «Cambiar».
- * Nunca dice «Despacho a domicilio» si el chip dice retiro: sale de la misma cookie `pj_fulfillment`.
+ * Primera tarjeta del carrito (UX-3 §3.2, #38): la modalidad del chip con su icono y «Cambiar». Sale de la misma
+ * cookie `pj_fulfillment`: nunca dice «despacho» si el chip dice retiro. Con la tienda cerrada (caso 1 del
+ * panel) pasa a granate con «Programar» y «Cambiar tienda».
  */
 export function FulfillmentCard({ fulfillment }: FulfillmentCardProps): ReactElement {
     const { t } = useTranslation('extPjCart');
@@ -88,27 +100,76 @@ export function FulfillmentCard({ fulfillment }: FulfillmentCardProps): ReactEle
                   pickupMinutes: null,
                   deliveryMinutes: null,
                   openUntil: null,
+                  closed: false,
+                  opensAt: null,
               }
             : fulfillment;
-    const phrases = current ? fulfillmentPhrases(current) : null;
     const say = (phrase: Phrase): string =>
         String(t(phrase.key as 'fulfillment.pickupTitle', phrase.values as { store: string }));
-    const lines = phrases ? { title: say(phrases.title), detail: phrases.detail.map(say).join(' · ') } : null;
-    const liveDetail = changed ? (live.meta?.timeText ?? '') : '';
+    const phrases = current ? fulfillmentPhrases(current) : null;
+    const title = phrases ? say(phrases.title) : t('fulfillment.emptyTitle');
+    const detail = phrases
+        ? phrases.detail.map(say).join(' · ') || (changed ? (live.meta?.timeText ?? '') : '')
+        : t('fulfillment.emptyHint');
 
+    if (current?.closed) {
+        const store = current.storeName ?? current.storeId;
+        const time = current.opensAt ?? '12:00';
+        return (
+            <section
+                aria-label={t('fulfillment.label')}
+                data-testid="pj-cart-fulfillment"
+                data-mode={current.mode}
+                data-closed="true"
+                className="surface-sauce flex flex-col gap-3 rounded-pj-card p-4 shadow-pj-card">
+                <div className="flex items-center gap-3">
+                    <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-pj-pepperoncini text-pj-sauce">
+                        <StoreIcon />
+                    </span>
+                    <div className="min-w-0">
+                        <p className="m-0 text-base font-bold">{t('fulfillment.closedTitle', { store })}</p>
+                        <p className="m-0 text-sm">{t('fulfillment.closedDetail', { time })}</p>
+                    </div>
+                </div>
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+                    <button
+                        type="button"
+                        onClick={() =>
+                            openFulfillmentPanel({ initialWhen: 'scheduled', initialStoreId: current.storeId })
+                        }
+                        className="inline-flex min-h-11 items-center rounded-full bg-pj-pepperoncini px-5 text-[15px] font-bold text-pj-sauce">
+                        {t('fulfillment.schedule', { time })}
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => openFulfillmentPanel()}
+                        className="inline-flex min-h-11 items-center px-1 text-[15px] font-bold text-pj-dough underline underline-offset-4">
+                        {t('fulfillment.changeStore')}
+                    </button>
+                </div>
+            </section>
+        );
+    }
+
+    const Icon = current?.mode === 'delivery' ? MotoIcon : StoreIcon;
     return (
         <section
             aria-label={t('fulfillment.label')}
             data-testid="pj-cart-fulfillment"
             data-mode={current?.mode ?? 'none'}
-            className="flex items-center gap-3 rounded-pj-card bg-pj-surface px-4 py-3 shadow-pj-card">
+            className="flex items-center gap-3 rounded-pj-card bg-pj-surface p-4 shadow-pj-card">
+            <span className="surface-pepperoncini flex size-10 shrink-0 items-center justify-center rounded-full text-pj-basil">
+                <Icon />
+            </span>
             <div className="min-w-0 flex-1">
-                <p className="m-0 text-base font-bold text-pj-heading">
-                    {lines ? lines.title : t('fulfillment.emptyTitle')}
+                <p
+                    className={cn(
+                        'm-0 text-base font-bold text-pj-heading',
+                        current?.mode === 'delivery' && 'truncate'
+                    )}>
+                    {title}
                 </p>
-                <p className="m-0 text-sm text-pj-gray-strong">
-                    {lines ? lines.detail || liveDetail : t('fulfillment.emptyHint')}
-                </p>
+                {detail && <p className="m-0 text-sm text-pj-gray-strong">{detail}</p>}
             </div>
             <button
                 type="button"

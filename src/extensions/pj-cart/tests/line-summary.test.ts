@@ -16,6 +16,7 @@
 /** @sfdc-extension-file SFDC_EXT_PJ_CART */
 import { describe, expect, it } from 'vitest';
 import {
+    displayProductName,
     groupHazloCombo,
     lineKind,
     lineProductIds,
@@ -273,20 +274,30 @@ describe('utilidades', () => {
 
 describe('groupHazloCombo', () => {
     const ids = { side: 'cp-palitos-de-ajo', drinks: ['cp-coca-cola-2', 'cp-coca-cola-sin-azucar-10'] };
-    const simple = (itemId: string, productId: string, name: string, price: number): SummaryLineItem => ({
+    const simple = (
+        itemId: string,
+        productId: string,
+        name: string,
+        price: number,
+        promo?: { id: string; discount: number }
+    ): SummaryLineItem => ({
         itemId,
         productId,
         productName: name,
         quantity: 1,
         price,
-        priceAfterItemDiscount: price,
+        priceAfterItemDiscount: price - (promo?.discount ?? 0),
+        priceAdjustments: promo ? [{ promotionId: promo.id, price: -promo.discount }] : [],
     });
 
     it('agrupa palitos + bebida bajo la pizza anterior, con el total de la canasta', () => {
         const lines = [
             polloBbq,
-            simple('s', 'cp-palitos-de-ajo', 'Palitos de Ajo', 4490),
-            simple('d', 'cp-coca-cola-sin-azucar-10', 'Coca-Cola Sin azúcar 1,5 L', 2500),
+            simple('s', 'cp-palitos-de-ajo', 'Palitos de Ajo', 5990, { id: 'pj-hazlo-combo', discount: 1573 }),
+            simple('d', 'cp-coca-cola-sin-azucar-10', 'Coca-Cola Sin azúcar 1.5 LT', 3490, {
+                id: 'pj-hazlo-combo',
+                discount: 917,
+            }),
             superDuo,
         ].map((item) => summarizeLine(item, labels, names));
         const entries = groupHazloCombo(lines, ids);
@@ -294,9 +305,62 @@ describe('groupHazloCombo', () => {
         expect(entries[0].combo).toEqual({
             parts: ['Palitos de Ajo', 'Coca-Cola Sin azúcar 1,5 L'],
             itemIds: ['s', 'd'],
+            productIds: ['cp-palitos-de-ajo', 'cp-coca-cola-sin-azucar-10'],
             total: 6990,
+            baseTotal: 9480,
+            savings: 2490,
         });
         expect(entries[1].combo).toBeNull();
+    });
+
+    it('sin la promoción en la canasta, palitos y bebida quedan sueltos (para «Conviértelo en combo»)', () => {
+        const lines = [
+            polloBbq,
+            simple('s', 'cp-palitos-de-ajo', 'Palitos de Ajo', 5990),
+            simple('d', 'cp-coca-cola-2', 'Coca-Cola 1,5 L', 3490),
+        ].map((item) => summarizeLine(item, labels));
+        expect(groupHazloCombo(lines, ids)).toHaveLength(3);
+    });
+
+    it('VAL-C2 H1: complementos de la ficha de Pizza del Mes no se pegan a otra pizza', () => {
+        const month: SummaryLineItem = {
+            itemId: 'm',
+            productId: 'cb-pizza-del-mes',
+            productName: 'Pizza del Mes',
+            quantity: 1,
+            price: 10990,
+            c_pjComboChoices: '[{"slot":"pizza1","product":"pz-the-works-family-traditional"}]',
+        };
+        const lines = [
+            polloBbq,
+            month,
+            simple('s', 'cp-palitos-de-ajo', 'Palitos de Ajo', 5990, { id: 'pj-hazlo-combo', discount: 1573 }),
+            simple('d', 'cp-coca-cola-2', 'Coca-Cola 1,5 L', 3490, { id: 'pj-hazlo-combo', discount: 917 }),
+        ].map((item) => summarizeLine(item, labels, names));
+        const entries = groupHazloCombo(lines, ids);
+        expect(entries.map((e) => e.summary.itemId)).toEqual(['line-1', 'm', 's', 'd']);
+        expect(entries.every((e) => e.combo === null)).toBe(true);
+    });
+
+    it('con una sola pizza en el pedido, la pizza es clara aunque los complementos vayan antes', () => {
+        const lines = [
+            simple('s', 'cp-palitos-de-ajo', 'Palitos de Ajo', 5990, { id: 'pj-hazlo-combo', discount: 1573 }),
+            simple('d', 'cp-coca-cola-2', 'Coca-Cola 1,5 L', 3490, { id: 'pj-hazlo-combo', discount: 917 }),
+            polloBbq,
+        ].map((item) => summarizeLine(item, labels, names));
+        const entries = groupHazloCombo(lines, ids);
+        expect(entries.map((e) => e.summary.itemId)).toEqual(['line-1']);
+        expect(entries[0].combo?.total).toBe(6990);
+    });
+
+    it('si entre la pizza y los complementos hay otra línea, quedan sueltos', () => {
+        const lines = [
+            polloBbq,
+            superDuo,
+            simple('s', 'cp-palitos-de-ajo', 'Palitos de Ajo', 5990, { id: 'pj-hazlo-combo', discount: 1573 }),
+            simple('d', 'cp-coca-cola-2', 'Coca-Cola 1,5 L', 3490, { id: 'pj-hazlo-combo', discount: 917 }),
+        ].map((item) => summarizeLine(item, labels, names));
+        expect(groupHazloCombo(lines, ids).every((e) => e.combo === null)).toBe(true);
     });
 
     it('sin pizza, o con solo una de las dos piezas, quedan sueltas', () => {
@@ -321,5 +385,56 @@ describe('elecciones de combo desde atributos de la línea', () => {
             { slot: '1', product: 'pz-pollo-bbq-family-traditional' },
             { slot: '2', product: 'cp-coca-cola-2' },
         ]);
+    });
+});
+
+describe('combos con ficha (PRO-08) y nombres', () => {
+    it('Papa Flash dice qué incluye: pizza con su tamaño, complemento y bebida', () => {
+        const flash: SummaryLineItem = {
+            itemId: 'f',
+            productId: 'cb-papa-flash',
+            productName: 'Papa Flash',
+            quantity: 1,
+            price: 5490,
+            c_pjComboChoices: JSON.stringify([
+                { slot: 'pizza1', product: 'pz-pepperoni-individual-traditional' },
+                { slot: 'side', product: 'cp-mini-palitos' },
+                { slot: 'drink', product: 'cp-coca-cola-350' },
+            ]),
+        };
+        const summary = summarizeLine(
+            flash,
+            { ...labels, size: (id) => ({ individual: 'Individual', family: 'Familiar' })[id] ?? '' },
+            {
+                'pz-pepperoni': { name: 'Pepperoni', image: null },
+                'cp-mini-palitos': { name: 'Mini palitos', image: null },
+                'cp-coca-cola-350': { name: 'Coca-Cola Coca-Cola 350 ML', image: null },
+                'cb-papa-flash': { name: 'Papa Flash', image: null, priceBefore: 7990 },
+            }
+        );
+        expect(summary.detail).toBe('Pepperoni individual · Mini palitos · Coca-Cola 350 ml');
+        expect(summary.savings).toBe(2500);
+    });
+
+    it('Pizza del Mes: la pizza elegida', () => {
+        const month = summarizeLine(
+            {
+                itemId: 'm',
+                productId: 'cb-pizza-del-mes',
+                productName: 'Pizza del Mes',
+                quantity: 1,
+                price: 10990,
+                c_pjComboChoices: '[{"slot":"pizza1","product":"pz-the-works-family-traditional"}]',
+            },
+            labels,
+            { 'pz-the-works': { name: 'The Works', image: null } }
+        );
+        expect(month.detail).toBe('The Works');
+    });
+
+    it('displayProductName: coma decimal, unidad corta y sin marca repetida', () => {
+        expect(displayProductName('Coca-Cola Sin azúcar 1.5 LT')).toBe('Coca-Cola Sin azúcar 1,5 L');
+        expect(displayProductName('Coca-Cola Coca-Cola 350 ML')).toBe('Coca-Cola 350 ml');
+        expect(displayProductName('Palitos de Ajo')).toBe('Palitos de Ajo');
     });
 });

@@ -19,7 +19,6 @@ import { useFetcher } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { HAZLO_COMBO_DRINKS, HAZLO_COMBO_SIDE } from '@/extensions/pj-product/lib/upsell';
 import {
-    comboChoicesFromItem,
     groupHazloCombo,
     type CartEntry,
     lineProductIds,
@@ -47,21 +46,21 @@ export function useLineLabels(): LineLabels {
 }
 
 /**
- * Resúmenes de las líneas. Con `seed` (loader de `/cart`) no pide nada; sin él (panel «Tu pedido»), pide los
- * nombres de las mitades y del combo a `/resource/pj-cart-lines` cuando aparece un ID que no conoce.
+ * Resúmenes de las líneas. Con `seed` (loader de `/cart`) parte con lo que trae el servidor; cuando aparece un
+ * producto que no conoce (panel «Tu pedido», o una línea recién agregada) pide `/resource/pj-cart-lines`.
  */
 export function useLineSummaries(
     items: SummaryLineItem[] | undefined,
-    seed?: LineProducts
-): { summaries: LineSummary[]; entries: CartEntry[]; labels: LineLabels } {
+    seed?: LineProducts,
+    /** Líneas que no cuentan como pizza para «Hazlo combo» (la pizza canjeada). */
+    ignore: readonly string[] = []
+): { summaries: LineSummary[]; entries: CartEntry[]; labels: LineLabels; products: LineProducts } {
     const labels = useLineLabels();
     const fetcher = useFetcher<{ lineProducts: LineProducts }>({ key: 'pj-cart-lines' });
     const { load } = fetcher;
     const names = useMemo(() => ({ ...(fetcher.data?.lineProducts ?? {}), ...(seed ?? {}) }), [fetcher.data, seed]);
-    // Solo hacen falta nombres de lo que la línea no trae: mitades y elecciones del combo.
-    const missing = lineProductIds(
-        (items ?? []).filter((item) => item.c_pjHalves || comboChoicesFromItem(item).length)
-    ).filter((id) => !names[id]);
+    // Nombre, foto y tipo de lo que todavía no se conoce (líneas nuevas, mitades y elecciones del combo).
+    const missing = lineProductIds(items).filter((id) => !names[id]);
     const missingKey = [...new Set(missing)].sort().join(',');
     // Se pide una vez por cada conjunto de IDs que falta (sin reintentos en bucle si SCAPI no los conoce).
     const requested = useRef('');
@@ -76,8 +75,12 @@ export function useLineSummaries(
     );
     const entries = useMemo(
         () =>
-            groupHazloCombo(summaries, { side: HAZLO_COMBO_SIDE, drinks: HAZLO_COMBO_DRINKS.map((d) => d.productId) }),
-        [summaries]
+            groupHazloCombo(
+                summaries,
+                { side: HAZLO_COMBO_SIDE, drinks: HAZLO_COMBO_DRINKS.map((d) => d.productId) },
+                ignore
+            ),
+        [summaries, ignore]
     );
-    return { summaries, entries, labels };
+    return { summaries, entries, labels, products: names };
 }

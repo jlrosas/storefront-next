@@ -61,9 +61,10 @@ import { fetchStoresForBasket } from '@/extensions/bopis/lib/api/stores.server';
 import PickupProvider from '@/extensions/bopis/context/pickup-context';
 // @sfdc-extension-block-end SFDC_EXT_BOPIS
 // @sfdc-extension-block-start SFDC_EXT_PJ_CART
-import { loadCartFulfillment, loadLineProducts } from '@/extensions/pj-cart/lib/cart.server';
+import { loadPjCartData } from '@/extensions/pj-cart/lib/cart.server';
 import type { PjCartData } from '@/extensions/pj-cart/lib/types';
 import PjCartPage from '@/extensions/pj-cart/components/pj-cart-page';
+import { PjCartLoadError, PjCartSkeleton } from '@/extensions/pj-cart/components/cart-states';
 // @sfdc-extension-block-end SFDC_EXT_PJ_CART
 
 /**
@@ -142,10 +143,8 @@ export const loader = ({ context, request }: Route.LoaderArgs): CartPageData => 
             // @sfdc-extension-line SFDC_EXT_BOPIS
             fetchStoresForBasket(context, basket),
             // @sfdc-extension-block-start SFDC_EXT_PJ_CART
-            // CAR-01: nombres y fotos de las líneas (mitades, combos) y la modalidad del chip (#34, #38).
-            Promise.all([loadLineProducts(context, basket), loadCartFulfillment(context, request)]).then(
-                ([lineProducts, fulfillment]): PjCartData => ({ lineProducts, fulfillment })
-            ),
+            // CAR-01/02: nombres y fotos de las líneas, la modalidad del chip (#34, #38), la oferta y el canje.
+            loadPjCartData(context, request, basket),
             // @sfdc-extension-block-end SFDC_EXT_PJ_CART
         ]);
 
@@ -297,6 +296,21 @@ export default function Cart(): ReactElement {
         </div>
     ) : undefined;
 
+    const states: { skeleton: ReactElement; loadError: ReactElement } = {
+        skeleton: (
+            <CartSkeleton
+                productItemCount={pageData.basketSnapshot?.uniqueProductCount ?? 0}
+                recommendationsSlot={recommendationsSkeleton}
+            />
+        ),
+        loadError: <CartLoadError />,
+    };
+    // @sfdc-extension-block-start SFDC_EXT_PJ_CART
+    // UX-3 §3.9: skeleton con la forma del carrito de Papa Johns (sin carrusel) y error con «Reintentar».
+    states.skeleton = <PjCartSkeleton />;
+    states.loadError = <PjCartLoadError />;
+    // @sfdc-extension-block-end SFDC_EXT_PJ_CART
+
     return (
         <>
             <SeoMeta
@@ -306,14 +320,8 @@ export default function Cart(): ReactElement {
                 })}
                 openGraph={{ type: 'website', url: pageData.pageUrl }}
             />
-            <Suspense
-                fallback={
-                    <CartSkeleton
-                        productItemCount={pageData.basketSnapshot?.uniqueProductCount ?? 0}
-                        recommendationsSlot={recommendationsSkeleton}
-                    />
-                }>
-                <Await resolve={pageData.basketDataPromise} errorElement={<CartLoadError />}>
+            <Suspense fallback={states.skeleton}>
+                <Await resolve={pageData.basketDataPromise} errorElement={states.loadError}>
                     {(basketData) => (
                         <Suspense
                             fallback={
@@ -376,6 +384,8 @@ function CartBody({
                 basket={basketData.basket}
                 lineProducts={basketData.pjCart.lineProducts}
                 fulfillment={basketData.pjCart.fulfillment}
+                extras={basketData.pjCart.extras}
+                canje={basketData.pjCart.canje}
             />
         );
     }

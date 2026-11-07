@@ -19,12 +19,17 @@ import { useFetcher } from 'react-router';
 import { useBasketUpdater } from '@/providers/basket';
 import { resourceRoutes } from '@/route-paths';
 import type { BasketActionResponse } from '@/routes/types/action-responses';
+import { bumpCartCount } from '@/extensions/pj-shared/lib/fly-to-cart';
 
 /**
- * Cantidad de una línea del carrito: «−», «+» y «Quitar» con las acciones del template (`cart-item-update`
- * conserva los extras y los atributos de la línea). Al volver, actualiza el carrito del contexto.
+ * Cantidad de una línea del carrito: «−», «+» y quitar, con las acciones del template (`cart-item-update`
+ * conserva los extras y los atributos de la línea). Al volver, actualiza el carrito del contexto y hace saltar
+ * el contador del encabezado. `onRemoved` avisa cuando la línea se quitó (para «Quitaste X · Deshacer»).
  */
-export function useLineQuantity(itemId: string): {
+export function useLineQuantity(
+    itemId: string,
+    onRemoved?: () => void
+): {
     setQuantity: (quantity: number) => void;
     busy: boolean;
     failed: boolean;
@@ -33,16 +38,25 @@ export function useLineQuantity(itemId: string): {
     const fetcher = useFetcher<BasketActionResponse>();
     const updateBasket = useBasketUpdater();
     const handled = useRef<unknown>(null);
+    const sent = useRef<number | null>(null);
+    const removedRef = useRef(onRemoved);
+    removedRef.current = onRemoved;
     const { submit, state, data, formData } = fetcher;
 
     useEffect(() => {
         if (state !== 'idle' || !data || handled.current === data) return;
         handled.current = data;
-        if (data.success && data.basket) updateBasket(data.basket);
+        if (data.success && data.basket) {
+            if (sent.current === 0) removedRef.current?.();
+            updateBasket(data.basket);
+            bumpCartCount();
+        }
+        sent.current = null;
     }, [state, data, updateBasket]);
 
     const setQuantity = useCallback(
         (quantity: number) => {
+            sent.current = Math.max(0, quantity);
             if (quantity <= 0) {
                 void submit({ itemId }, { method: 'POST', action: resourceRoutes.cartItemRemove });
                 return;

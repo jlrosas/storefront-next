@@ -16,13 +16,12 @@
 /** @sfdc-extension-file SFDC_EXT_PJ_MENU */
 import { type ReactElement, Suspense, lazy, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from '@/components/link';
 import { UITarget } from '@/targets/ui-target';
 import { useBasket } from '@/providers/basket';
-import { formatClp, PointsBadge, pointsFor } from '@/extensions/pj-shared';
 import { HAZLO_COMBO_SIDE, PJ_COMBO_OFFER_EVENT, type PjComboOfferDetail } from '@/extensions/pj-product';
-// CAR-01: la línea se lee igual que en /cart (configuración, extras y total con opciones, #34 y #37).
+// CAR-01/02: la línea y el pie se leen igual que en /cart (configuración, extras, combo, puntos y CTA con monto).
 import { CompactLine } from '@/extensions/pj-cart/components/compact-line';
+import { PanelFooter } from '@/extensions/pj-cart/components/panel-footer';
 import { useLineSummaries } from '@/extensions/pj-cart/hooks/use-line-summaries';
 import type { SummaryLineItem } from '@/extensions/pj-cart/lib/line-summary';
 
@@ -40,7 +39,7 @@ function DefaultSummary({ offer, dismiss }: PanelOffer): ReactElement {
     const basket = useBasket();
     const items = basket?.productItems ?? [];
     const total = basket?.productTotal ?? basket?.productSubTotal ?? 0;
-    const { entries } = useLineSummaries(items as SummaryLineItem[]);
+    const { entries, products } = useLineSummaries(items as SummaryLineItem[]);
     // Si la línea ya no está (se deshizo el agregado), la oferta se va con ella.
     const anchored = offer && items.some((item) => item.itemId === offer.itemId) ? offer : null;
     if (items.length === 0) {
@@ -51,7 +50,7 @@ function DefaultSummary({ offer, dismiss }: PanelOffer): ReactElement {
             <ul className="m-0 flex list-none flex-col gap-2 p-0" data-testid="pj-menu-order-lines">
                 {entries.map(({ summary, combo }) => (
                     <li key={summary.itemId} className="flex flex-col gap-2 border-b border-pj-sand pb-2 text-sm">
-                        <CompactLine summary={summary} combo={combo} />
+                        <CompactLine summary={summary} combo={combo} products={products} />
                         {anchored && anchored.itemId === summary.itemId && (
                             <Suspense
                                 fallback={<div className="h-[190px] rounded-pj-card bg-pj-sand" aria-hidden="true" />}>
@@ -61,18 +60,7 @@ function DefaultSummary({ offer, dismiss }: PanelOffer): ReactElement {
                     </li>
                 ))}
             </ul>
-            <div className="flex flex-col gap-2.5">
-                <div className="flex justify-between text-lg font-extrabold" data-testid="pj-menu-order-total">
-                    <span>{t('order.total')}</span>
-                    <span>{formatClp(total)}</span>
-                </div>
-                <Link
-                    to={'/checkout'}
-                    className="flex min-h-[52px] items-center justify-center rounded-full bg-pj-green text-base font-bold text-pj-surface no-underline hover:bg-pj-green-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green">
-                    {t('order.checkout')}
-                </Link>
-                <PointsBadge points={pointsFor(total)} className="self-start" />
-            </div>
+            <PanelFooter total={total} />
         </>
     );
 }
