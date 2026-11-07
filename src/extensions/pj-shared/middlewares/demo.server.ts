@@ -20,6 +20,18 @@ import { stripPathPrefix } from '@salesforce/storefront-next-runtime/site-contex
 import { getAuth } from '@/middlewares/auth.server';
 import { unprefixedRedirectTarget } from '../lib/routes';
 import { demoCookieUpdates, pjDemoContext, readDemoSignals, serializeDemoCookie } from '../lib/profile';
+import { PJ_FULFILLMENT_COOKIE, serializeFulfillmentCookie } from '../lib/fulfillment';
+import { demoFulfillmentUpdate } from '../lib/persona';
+
+/** Cabecera `Cookie` con `name` reemplazada (o quitada con `null`). */
+function withCookie(cookieHeader: string | null, name: string, value: string | null): string {
+    const parts = (cookieHeader ?? '')
+        .split(';')
+        .map((part) => part.trim())
+        .filter((part) => part && part.slice(0, part.indexOf('=')).trim() !== name);
+    if (value !== null) parts.push(`${name}=${value}`);
+    return parts.join('; ');
+}
 
 /**
  * Middleware de la demo (CONTRATO §2): deja en `pjDemoContext` las señales del perfil y del
@@ -43,7 +55,36 @@ export const pjDemoMiddleware: MiddlewareFunction<Response> = async ({ request, 
     }
     context.set(pjDemoContext, readDemoSignals(request, { pathname, isRegistered }));
 
+    // INT-08: al cambiar de perfil, la modalidad pasa a la última del cliente de demo (Sofía: retiro en
+    // El Bosque). Se ve ya en esta misma request: los loaders que leen `pj_fulfillment` la reciben.
+    const fulfillmentUpdate = demoFulfillmentUpdate(url.searchParams, request.headers.get('Cookie'));
+    if (fulfillmentUpdate !== undefined) {
+        try {
+            request.headers.set(
+                'Cookie',
+                withCookie(
+                    request.headers.get('Cookie'),
+                    PJ_FULFILLMENT_COOKIE,
+                    fulfillmentUpdate ? encodeURIComponent(JSON.stringify(fulfillmentUpdate)) : null
+                )
+            );
+        } catch {
+            // Cabeceras inmutables: los loaders de esta request no la ven; la cookie llega igual.
+        }
+    }
+
     const response = await next();
+
+    if (fulfillmentUpdate !== undefined) {
+        try {
+            response.headers.append(
+                'Set-Cookie',
+                serializeFulfillmentCookie(fulfillmentUpdate, { secure: url.protocol === 'https:' })
+            );
+        } catch {
+            // Respuestas con cabeceras inmutables (redirecciones de la plataforma): se omite.
+        }
+    }
 
     const updates = demoCookieUpdates(url.searchParams);
     if (updates.length > 0) {

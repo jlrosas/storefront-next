@@ -23,6 +23,8 @@ import { cropForPhoto } from '@/extensions/pj-shared/lib/photo';
 import { formatClp } from '@/extensions/pj-shared/lib/format';
 import type { DemoMoment } from '@/extensions/pj-shared/lib/profile';
 import { useAddLines } from '../hooks/use-home-cart';
+import { useHomeFulfillment } from '../hooks/use-home-fulfillment';
+import { HOME_FULFILLMENT_DEFAULTS } from '../lib/fulfillment-view';
 import { imageSrcSet, scaledImage } from '../lib/images';
 import type { MomentVM, OccasionVM } from '../lib/types';
 
@@ -134,8 +136,14 @@ export interface MomentsProps {
 export function Moments({ items, initial, title, photo }: MomentsProps): ReactElement | null {
     const { t } = useTranslation('extPjHome');
     const [picked, setPicked] = useState<DemoMoment | null>(null);
+    // #10: «Lista en 15 min en El Bosque» repite la tienda y el tiempo del chip si hay retiro elegido.
+    const fulfillment = useHomeFulfillment();
     if (items.length === 0) return null;
     const current = items.find((m) => m.id === (picked ?? initial)) ?? items[0];
+    const view =
+        fulfillment.mode === 'pickup' && !fulfillment.scheduled
+            ? fulfillment
+            : { storeName: HOME_FULFILLMENT_DEFAULTS.storeName, time: HOME_FULFILLMENT_DEFAULTS.pickupTime };
     const { offer } = current;
     return (
         <section
@@ -201,7 +209,9 @@ export function Moments({ items, initial, title, photo }: MomentsProps): ReactEl
                         </span>
                         <span className="line-clamp-2 text-[13px] leading-snug text-pj-gray-strong lg:text-[15px]">
                             <span className="lg:hidden">{offer.name}</span>
-                            <span className="hidden lg:inline">{t(`moment.${current.id}.desc`)}</span>
+                            <span className="hidden lg:inline">
+                                {t(`moment.${current.id}.desc`, { store: view.storeName, time: view.time })}
+                            </span>
                         </span>
                         <span className="flex flex-wrap items-baseline gap-x-1.5">
                             <strong className="text-xl text-pj-sauce lg:text-2xl">{formatClp(offer.price)}</strong>

@@ -22,9 +22,9 @@
     "start": {
         "title": "Empieza tu pedido",
         "delivery": "Delivery",
-        "deliveryTime": "Llega en 35–45 min",
+        "deliveryTime": "Llega en {{time}}",
         "pickup": "Retiro",
-        "pickupTime": "Listo en 15 min",
+        "pickupTime": "Listo en {{time}}",
         "menu": "Menú",
         "menuHint": "Pizzas, acompañamientos y más",
         "promos": "Promos",
@@ -79,7 +79,7 @@
             "label": "Almuerzo",
             "tag": "Hora de almuerzo · 12 a 15 h",
             "title": "Almuerzo en 15 minutos",
-            "desc": "Pizza individual, mini palitos y bebida. Lista en 15 min en El Bosque.",
+            "desc": "Pizza individual, mini palitos y bebida. Lista en {{time}} en {{store}}.",
             "cta": "Lo quiero"
         },
         "partido": {
@@ -111,7 +111,7 @@
         "balanceValue": "{{points}} Papa Puntos = {{amount}}",
         "balanceAria": "Tienes {{points}} Papa Puntos, equivalen a {{amount}}",
         "usualEyebrow": "Tu último pedido · {{date}}",
-        "usualMeta": "Retiro en {{store}} · listo en 15 min · Mercado Pago, Visa ····4521",
+        "usualMeta": "Retiro en {{store}} · listo en {{time}} · Mercado Pago, Visa ····4521",
         "reorder": "Repetir pedido",
         "reorderBusy": "Cargando tu pedido…",
         "reorderFailed": "No pudimos cargar tu pedido. Intenta de nuevo.",
@@ -135,7 +135,9 @@
         "redeemEyebrow": "Tus Papa Puntos",
         "redeemLead": "Tus puntos ya alcanzan para una",
         "redeemName": "{{name}} mediana",
-        "redeemAsk": "¿La sumamos?"
+        "redeemAsk": "¿La sumamos?",
+        "usualMetaScheduled": "Retiro en {{store}} · {{time}} · Mercado Pago, Visa ····4521",
+        "usualMetaDelivery": "Delivery a {{address}} · llega en {{time}} · Mercado Pago, Visa ····4521"
     },
     "cookies": {
         "label": "Aviso de cookies"

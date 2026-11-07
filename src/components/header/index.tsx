@@ -25,7 +25,8 @@ import { cn } from '@/lib/utils';
 import { useBasketSnapshot } from '@/providers/basket';
 import { PJ_ROUTES } from '@/extensions/pj-shared/lib/routes';
 import { matchesPath, usePjPath } from '@/extensions/pj-shared/hooks/use-pj-path';
-import { usePjMe } from '@/extensions/pj-shared/hooks/use-pj-me';
+import { usePjHeaderAccount } from '@/extensions/pj-shared/hooks/use-pj-me';
+import { AccountAvatar } from '@/extensions/pj-shared/components/account-avatar';
 import { CartIcon, SearchIcon } from '@/extensions/pj-shared/components/icons';
 import { formatCount } from '@/extensions/pj-shared/lib/format';
 // @sfdc-extension-block-end SFDC_EXT_PJ_SHARED
@@ -141,16 +142,15 @@ const PJ_HEADER_NAV = [
  * - Móvil: logo, chip de modalidad (UITarget `pj.header.fulfillment`, ocupa el espacio libre),
  *   lupa y botón lima del pedido.
  * - Escritorio (lg): logo, Menú · Promos · Papa Puntos · Locales · Sigue tu pedido, chip de
- *   modalidad, saludo con puntos (o «Ingresar») y «Mi pedido · N».
+ *   modalidad, avatar con la inicial, saludo y puntos (o «Ingresar») y «Mi pedido · N». El cliente
+ *   sale de la sesión o del perfil forzado con `?perfil=` (INT-08, `usePjHeaderAccount`).
  */
 function PjHeaderRow({ children }: PropsWithChildren): ReactElement {
     const { t } = useTranslation('extPjShared');
     const { t: tHeader } = useTranslation('header');
     const currentPath = usePjPath();
     const count = useBasketSnapshot()?.totalItemCount ?? 0;
-    const me = usePjMe();
-    const greetingName = me?.firstName ?? null;
-    const greetingPoints = me?.points ?? null;
+    const account = usePjHeaderAccount();
     return (
         <div className="mx-auto flex min-h-[60px] max-w-[1240px] items-center gap-2 px-4 sm:gap-3 lg:min-h-[72px] lg:gap-7 lg:px-6">
             <Link
@@ -194,18 +194,22 @@ function PjHeaderRow({ children }: PropsWithChildren): ReactElement {
             <Link
                 to={PJ_ROUTES.account}
                 data-testid="pj-header-account"
+                data-pj-account={account.kind === 'customer' ? account.source : 'guest'}
                 aria-label={
-                    greetingName && greetingPoints !== null
-                        ? t('header.greetingAria', { name: greetingName, points: formatCount(greetingPoints) })
+                    account.kind === 'customer'
+                        ? account.points !== null
+                            ? t('header.greetingAria', { name: account.firstName, points: formatCount(account.points) })
+                            : t('header.accountAria', { name: account.firstName })
                         : undefined
                 }
                 className="hidden min-h-11 items-center gap-2 px-3.5 font-semibold text-header-foreground no-underline lg:flex">
-                {greetingName ? (
+                {account.kind === 'customer' ? (
                     <>
-                        <span>{t('header.greeting', { name: greetingName })}</span>
-                        {greetingPoints !== null && (
-                            <span className="rounded-full bg-pj-pepperoncini px-2.5 py-0.5 text-sm font-bold text-pj-basil">
-                                {t('header.greetingPoints', { points: formatCount(greetingPoints) })}
+                        <AccountAvatar initial={account.initial} />
+                        <span className="whitespace-nowrap">{t('header.greeting', { name: account.firstName })}</span>
+                        {account.points !== null && (
+                            <span className="whitespace-nowrap rounded-full bg-pj-pepperoncini px-2.5 py-0.5 text-sm font-bold text-pj-basil">
+                                {t('header.greetingPoints', { points: formatCount(account.points) })}
                             </span>
                         )}
                     </>

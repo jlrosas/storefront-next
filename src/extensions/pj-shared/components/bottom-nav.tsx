@@ -21,6 +21,7 @@ import { cn } from '@/lib/utils';
 import { PJ_ROUTES } from '../lib/routes';
 import { matchesPath } from '../hooks/use-pj-path';
 import { BagIcon, HomeIcon, PizzaIcon, TagIcon, UserIcon } from './icons';
+import { AccountAvatar } from './account-avatar';
 
 export type BottomNavItemId = 'home' | 'menu' | 'promos' | 'order' | 'account';
 
@@ -58,6 +59,11 @@ export interface BottomNavProps {
     currentPath: string;
     /** Productos en el pedido; con más de 0 se muestra el contador sobre «Pedido». */
     cartCount?: number;
+    /**
+     * Cliente con sesión o de demo (`usePjHeaderAccount`): «Cuenta» pasa a su avatar con la inicial
+     * y su nombre (INT-08; a 390 px el encabezado no tiene espacio para el avatar sin cortar el chip).
+     */
+    account?: { firstName: string; initial: string } | null;
     className?: string;
 }
 
@@ -67,7 +73,7 @@ export interface BottomNavProps {
  * (VIS-05, UX-1 §3.4), y el contador del pedido, que salta al agregar (`flyToCart`). Fija abajo y solo
  * bajo `lg`; deja su propio espacio en el flujo para no tapar el footer.
  */
-export function BottomNav({ currentPath, cartCount = 0, className }: BottomNavProps): ReactElement {
+export function BottomNav({ currentPath, cartCount = 0, account = null, className }: BottomNavProps): ReactElement {
     const { t } = useTranslation('extPjShared');
     return (
         <>
@@ -85,13 +91,20 @@ export function BottomNav({ currentPath, cartCount = 0, className }: BottomNavPr
                 {BOTTOM_NAV_ITEMS.map(({ id, to, matches, Icon }) => {
                     const active = matchesPath(currentPath, matches);
                     const showCount = id === 'order' && cartCount > 0;
-                    const label = t(LABEL_KEYS[id]);
+                    const customer = id === 'account' ? account : null;
+                    const label = customer ? customer.firstName : t(LABEL_KEYS[id]);
                     return (
                         <Link
                             key={id}
                             to={to}
                             aria-current={active ? 'page' : undefined}
-                            aria-label={showCount ? t('nav.orderWithCount', { count: cartCount }) : undefined}
+                            aria-label={
+                                showCount
+                                    ? t('nav.orderWithCount', { count: cartCount })
+                                    : customer
+                                      ? t('nav.accountOf', { name: customer.firstName })
+                                      : undefined
+                            }
                             data-testid={`pj-bottom-nav-${id}`}
                             className={cn(
                                 'relative flex h-[var(--pj-bottom-nav-height)] flex-col items-center justify-center gap-0.5 text-xs no-underline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-pj-basil',
@@ -103,7 +116,11 @@ export function BottomNav({ currentPath, cartCount = 0, className }: BottomNavPr
                                     'relative flex h-8 w-14 items-center justify-center rounded-full transition-colors',
                                     active && 'bg-pj-garlic/60'
                                 )}>
-                                <Icon size={24} strong={active} />
+                                {customer ? (
+                                    <AccountAvatar initial={customer.initial} size="sm" />
+                                ) : (
+                                    <Icon size={24} strong={active} />
+                                )}
                                 {active && (
                                     <span
                                         aria-hidden="true"
@@ -121,7 +138,7 @@ export function BottomNav({ currentPath, cartCount = 0, className }: BottomNavPr
                                     </span>
                                 )}
                             </span>
-                            <span>{label}</span>
+                            <span className="max-w-full truncate px-1">{label}</span>
                         </Link>
                     );
                 })}

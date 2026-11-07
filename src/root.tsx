@@ -74,8 +74,10 @@ import {
 } from '@/extensions/store-locator/middlewares/selected-store.server';
 import type { SelectedStoreInfo } from '@/extensions/store-locator/stores/store-locator-store';
 // @sfdc-extension-block-end SFDC_EXT_STORE_LOCATOR
-// @sfdc-extension-line SFDC_EXT_PJ_SHARED
+// @sfdc-extension-block-start SFDC_EXT_PJ_SHARED
 import { pjDemoMiddleware, pjUnprefixedRedirectMiddleware } from '@/extensions/pj-shared/middlewares/demo.server';
+import { pjDemoContext, type DemoProfile } from '@/extensions/pj-shared/lib/profile';
+// @sfdc-extension-block-end SFDC_EXT_PJ_SHARED
 import { correlationMiddleware } from '@/middlewares/correlation.server';
 import { requestOriginMiddleware } from '@/middlewares/request-origin';
 import { getAppOrigin } from '@/lib/origin';
@@ -225,6 +227,8 @@ export const loader = ({
     site: Site;
     currency: string;
     selectedStoreInfo: SelectedStoreInfo | null /** @sfdc-extension-line SFDC_EXT_STORE_LOCATOR */;
+    // Perfil forzado con `?perfil=` (INT-08): el encabezado muestra a ese cliente de demo.
+    pjDemoProfile: DemoProfile | null /** @sfdc-extension-line SFDC_EXT_PJ_SHARED */;
     correlationId: string;
     pageDesignerPageUpdateMode: PageUpdateMode;
     pageDesignerMode: 'EDIT' | 'PREVIEW' | undefined;
@@ -299,6 +303,7 @@ export const loader = ({
         site,
         currency,
         selectedStoreInfo /** @sfdc-extension-line SFDC_EXT_STORE_LOCATOR */,
+        pjDemoProfile: context.get(pjDemoContext)?.forcedProfile ?? null /** @sfdc-extension-line SFDC_EXT_PJ_SHARED */,
         correlationId,
         maintenance,
         clientAuth,
