@@ -163,7 +163,7 @@ export function PickupSection({
                 <div
                     role="alert"
                     ref={alertRef}
-                    className="flex flex-col gap-2.5 rounded-[14px] border-[1.5px] border-pj-dough-line bg-pj-dough-deep px-3.5 py-3">
+                    className="flex flex-col gap-2.5 rounded-[14px] border-[1.5px] border-pj-line bg-pj-dough-deep px-3.5 py-3">
                     <span className="text-sm leading-snug text-pj-gray-strong">
                         <strong className="text-pj-sauce">
                             {t('pickup.closedTitle', { name: shortStoreName(selected.name) })}
@@ -177,7 +177,7 @@ export function PickupSection({
                             <button
                                 type="button"
                                 onClick={() => onSelect(suggestion)}
-                                className="min-h-12 cursor-pointer rounded-xl bg-pj-green px-2 text-sm leading-tight font-bold text-pj-cream focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green">
+                                className="min-h-12 cursor-pointer rounded-xl border-[1.5px] border-pj-basil bg-pj-surface px-2 text-sm leading-tight font-bold text-pj-basil focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green">
                                 {shortStoreName(suggestion.name)}
                                 <br />
                                 <span className="text-xs font-medium">
@@ -290,7 +290,7 @@ function StoreSkeleton(): ReactElement {
     return (
         <>
             {[0, 1, 2].map((i) => (
-                <div key={i} className="h-[88px] animate-pulse rounded-pj-card bg-pj-dough-deep" aria-hidden="true" />
+                <div key={i} className="h-[88px] animate-pulse rounded-pj-card bg-pj-line" aria-hidden="true" />
             ))}
         </>
     );

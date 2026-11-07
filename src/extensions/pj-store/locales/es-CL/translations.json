@@ -1,7 +1,7 @@
 {
     "chip": {
         "emptyTop": "Retiro o delivery",
-        "emptyBottom": "Elige cómo lo quieres",
+        "emptyBottom": "Elige tienda",
         "pickupTop": "Retiro · {{time}}",
         "deliveryTop": "Delivery · {{time}}",
         "pickupScheduledTop": "Retiro · {{time}}"

@@ -80,7 +80,9 @@ function PanelBody({ open, options }: { open: boolean; options: RequireFulfillme
     const setSelectedStoreInfo = useStoreLocator((s) => s.setSelectedStoreInfo);
     const storeFetcher = useFetcher();
     const [mode, setMode] = useState<Mode>(options.initialMode ?? saved?.mode ?? 'pickup');
-    const [when, setWhen] = useState<WhenValue>(ASAP);
+    const [when, setWhen] = useState<WhenValue>(
+        options.initialWhen === 'scheduled' ? { mode: 'later', day: 'today', slot: null } : ASAP
+    );
     const [pickupStore, setPickupStore] = useState<PjStore | null>(null);
     const [delivery, setDelivery] = useState<DeliveryValue | null>(null);
     const [apartment, setApartment] = useState('');

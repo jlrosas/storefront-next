@@ -160,7 +160,13 @@ function LocalCard({ store }: { store: PjStore }): ReactElement {
             </div>
             <button
                 type="button"
-                onClick={() => openFulfillmentPanel({ initialMode: 'pickup', initialStoreId: store.id })}
+                onClick={() =>
+                    openFulfillmentPanel({
+                        initialMode: 'pickup',
+                        initialStoreId: store.id,
+                        initialWhen: closed ? 'scheduled' : 'asap',
+                    })
+                }
                 className="flex min-h-11 w-full cursor-pointer items-center justify-center rounded-full bg-pj-basil px-4 text-[15px] font-bold text-pj-dough transition-transform focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-basil active:scale-[0.97]">
                 {t(closed ? 'locales.schedule' : 'locales.order', { name: shortStoreName(store.name) })}
             </button>
@@ -176,8 +182,11 @@ function LocalesSkeleton(): ReactElement {
                     key={i}
                     aria-hidden="true"
                     data-testid="pj-locales-skeleton"
-                    className="h-[132px] animate-pulse rounded-pj-card bg-pj-dough-deep"
-                />
+                    className="flex h-[132px] flex-col gap-2.5 rounded-pj-card bg-pj-surface p-4 shadow-pj-card">
+                    <div className="h-6 w-2/5 animate-pulse rounded-pj-control bg-pj-line" />
+                    <div className="h-3.5 w-3/4 animate-pulse rounded-pj-control bg-pj-line" />
+                    <div className="mt-auto h-11 w-full animate-pulse rounded-full bg-pj-line" />
+                </div>
             ))}
         </>
     );
