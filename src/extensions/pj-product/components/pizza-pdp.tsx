@@ -47,10 +47,20 @@ import { PRO_TOKENS } from '../lib/tokens';
 import { reviewMockFor } from '../mocks/reviews';
 import { usePjCart } from '../hooks/use-pj-cart';
 import { PizzaConfigurator } from './pizza-configurator';
-import { CheckIcon, ClockIcon, GiftIcon, PeopleIcon, PlusIcon, TrendIcon, ZoomIcon } from './icons';
+import { CheckIcon, ClockIcon, GiftIcon, PeopleIcon, PlusIcon, ZoomIcon } from './icons';
 import { useImageUrl } from '../hooks/use-image-url';
+import { weeklyOrdersFor } from '../lib/weekly';
 
 const PhotoZoom = lazy(() => import('./photo-zoom'));
+
+/**
+ * Foto de la ficha (N11): cuadrada en móvil; en escritorio llena el alto visible bajo el encabezado y
+ * acompaña el scroll de las opciones (columna *sticky*), así la columna izquierda nunca queda vacía.
+ */
+const PDP_PHOTO =
+    'aspect-square w-full lg:aspect-auto lg:h-[min(660px,calc(100svh-var(--header-height,72px)-8rem))] lg:rounded-[18px]';
+/** Recorte macro real (N11): la masa y el queso llenan el cuadro, no la pizza entera sobre el fondo. */
+const PDP_MACRO = 'scale-[1.9] origin-[50%_58%] object-[50%_58%] lg:scale-[2.05]';
 
 export interface PizzaPdpProps {
     config: PizzaConfig;
@@ -205,16 +215,9 @@ export function PizzaPdp({ config, sides, initialSize }: PizzaPdpProps): ReactEl
         });
 
     const lto = productLto(config.badges);
-    const badges = (
-        <div className="flex flex-wrap items-center gap-1.5">
-            {config.weeklyOrders != null && config.weeklyOrders >= 100 && (
-                <span className="inline-flex items-center gap-1 rounded-full bg-pj-garlic px-2.5 py-1 pj-small text-pj-sauce">
-                    <TrendIcon size={13} />
-                    {t('pdp.weeklyOrders', { count: config.weeklyOrders, formatted: formatCount(config.weeklyOrders) })}
-                </span>
-            )}
-        </div>
-    );
+    // #53: el sello «LA MÁS PEDIDA» va sobre la foto; el dato semanal se suma a la línea de valoración.
+    const weeklyData = weeklyOrdersFor(config.weeklyOrders);
+    const weekly = weeklyData ? t('pdp.weeklyShort', weeklyData) : null;
 
     const rating =
         config.rating != null ? (
@@ -234,11 +237,19 @@ export function PizzaPdp({ config, sides, initialSize }: PizzaPdpProps): ReactEl
                         {t('pdp.reviews', { count: config.reviewCount, formatted: formatCount(config.reviewCount) })}
                     </span>
                 )}
+                {weekly && (
+                    <span className="text-pj-gray-strong" data-testid="pj-pdp-weekly">
+                        · {weekly}
+                    </span>
+                )}
             </a>
         ) : null;
 
     return (
-        <div className="bg-pj-cream pb-[150px] text-pj-ink lg:pb-12" style={PRO_TOKENS} data-testid="pj-pizza-pdp">
+        <div
+            className="-mt-8 bg-pj-cream pb-[150px] text-pj-ink lg:pb-12"
+            style={PRO_TOKENS}
+            data-testid="pj-pizza-pdp">
             <div className="mx-auto flex max-w-[1200px] flex-col lg:gap-8 lg:px-6 lg:pt-4">
                 <nav
                     aria-label={t('pdp.breadcrumb')}
@@ -258,7 +269,7 @@ export function PizzaPdp({ config, sides, initialSize }: PizzaPdpProps): ReactEl
 
                 <div className="flex flex-col lg:flex-row lg:items-start lg:gap-8">
                     {/* Columna izquierda: foto */}
-                    <div className="flex min-w-0 flex-col gap-3 lg:flex-[1_1_420px] lg:sticky lg:top-24">
+                    <div className="flex min-w-0 flex-col gap-3 lg:sticky lg:top-[calc(var(--header-height,72px)+1rem)] lg:flex-[1_1_420px]">
                         <div ref={heroRef} className="relative">
                             {config.image ? (
                                 <FoodImage
@@ -270,10 +281,11 @@ export function PizzaPdp({ config, sides, initialSize }: PizzaPdpProps): ReactEl
                                     priority
                                     bleed
                                     crop="macro"
-                                    className="aspect-square w-full lg:aspect-[5/4] lg:rounded-[18px]"
+                                    className={PDP_PHOTO}
+                                    imgClassName={PDP_MACRO}
                                 />
                             ) : (
-                                <div className="aspect-square bg-pj-sand lg:aspect-[5/4] lg:rounded-[18px]" />
+                                <div className={cn(PDP_PHOTO, 'bg-pj-sand')} />
                             )}
                             {lto && (
                                 <LtoBadge
@@ -309,7 +321,6 @@ export function PizzaPdp({ config, sides, initialSize }: PizzaPdpProps): ReactEl
                     {/* Columna derecha: antojo y configurador */}
                     <div className="flex min-w-0 flex-col lg:flex-[1_1_440px] lg:gap-5 lg:rounded-[18px] lg:bg-pj-surface lg:p-6">
                         <section className="flex flex-col gap-2.5 p-4 lg:gap-2 lg:p-0">
-                            {badges}
                             <h1 className="pj-h1 text-pj-basil">{config.name}</h1>
                             <PriceTag variant="display" size="md" surface="dough" price={pizzaTotal} />
                             {rating}
@@ -321,11 +332,18 @@ export function PizzaPdp({ config, sides, initialSize }: PizzaPdpProps): ReactEl
                                             key={h.key}
                                             className={cn(
                                                 'flex items-center gap-2 rounded-xl border px-2.5 py-2 text-[13px]',
+                                                // Puntos en Garlic + Sauce (N7): el lima se lee como «elegido».
                                                 h.strong
-                                                    ? 'border-pj-lime-soft bg-pj-lime-soft font-bold text-pj-green-dark'
+                                                    ? 'border-pj-garlic bg-pj-garlic font-bold text-pj-sauce'
                                                     : 'border-pj-sand bg-pj-surface font-semibold text-pj-ink'
                                             )}>
-                                            <span className="shrink-0 text-pj-green">{h.icon}</span>
+                                            <span
+                                                className={cn(
+                                                    'shrink-0',
+                                                    h.strong ? 'text-pj-sauce' : 'text-pj-green'
+                                                )}>
+                                                {h.icon}
+                                            </span>
                                             {h.text}
                                         </li>
                                     ))}

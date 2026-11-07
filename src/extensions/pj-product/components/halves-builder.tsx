@@ -224,9 +224,13 @@ export function HalvesBuilder({ data, layout, onClose, onSaved }: HalvesBuilderP
                                     data-testid={`pj-half-slot-${index + 1}`}
                                     className={cn(
                                         'flex min-h-[44px] flex-col items-start rounded-[10px] border-2 px-2.5 py-1 text-left',
-                                        on ? 'border-pj-green bg-pj-lime-soft' : 'border-pj-sand bg-pj-surface'
+                                        on
+                                            ? 'border-pj-basil bg-pj-basil text-pj-dough'
+                                            : 'border-pj-sand bg-pj-surface text-pj-ink'
                                     )}>
-                                    <span className="text-xs text-pj-gray">{t(HALF_LABEL_KEYS[index])}</span>
+                                    <span className={cn('text-xs', on ? 'text-pj-dough' : 'text-pj-gray')}>
+                                        {t(HALF_LABEL_KEYS[index])}
+                                    </span>
                                     <span className="text-sm font-bold">{flavor?.name ?? t('halves.choose')}</span>
                                 </button>
                             );
@@ -250,7 +254,7 @@ export function HalvesBuilder({ data, layout, onClose, onSaved }: HalvesBuilderP
                                     className={cn(
                                         'min-h-[44px] rounded-[10px] border-2 text-sm font-bold',
                                         on
-                                            ? 'border-pj-green bg-pj-lime-soft text-pj-green-dark'
+                                            ? 'border-pj-basil bg-pj-basil text-pj-dough'
                                             : 'border-pj-sand bg-pj-surface text-pj-ink'
                                     )}>
                                     {size.label}

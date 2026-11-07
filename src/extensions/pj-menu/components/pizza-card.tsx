@@ -112,28 +112,21 @@ export function PizzaCard({
                         {product.sensory}
                     </p>
                 )}
-                <p className="flex flex-wrap items-baseline gap-x-1.5" data-testid="pj-menu-pizza-price">
-                    <span className="text-[13px] font-bold text-pj-gray">{pricePrefix}</span>
-                    <span className="text-xl leading-none font-bold text-pj-sauce">
-                        {formatClp(price ?? product.price)}
-                    </span>
-                </p>
-                <div className="mt-1 flex gap-1.5">
-                    <Link
-                        to={href}
-                        onClick={configure(addDetail)}
-                        aria-label={t('pizza.addAria', { name: product.name })}
-                        data-testid="pj-menu-pizza-add"
-                        className="flex min-h-[44px] flex-1 items-center justify-center rounded-full bg-pj-basil px-2 text-[13px] font-bold text-pj-dough no-underline transition-transform hover:bg-pj-basil-deep focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-basil active:scale-[0.97] lg:text-sm">
-                        {t('pizza.add')}
-                    </Link>
+                {/* N14: el «+» de la foto agrega; «½ Mitad» queda como única acción secundaria, junto al precio. */}
+                <div className="mt-auto flex flex-wrap items-center justify-between gap-x-2 gap-y-1.5 pt-1">
+                    <p className="flex flex-wrap items-baseline gap-x-1.5" data-testid="pj-menu-pizza-price">
+                        <span className="text-[13px] font-bold text-pj-gray">{pricePrefix}</span>
+                        <span className="text-xl leading-none font-bold text-pj-sauce">
+                            {formatClp(price ?? product.price)}
+                        </span>
+                    </p>
                     {product.halves && (
                         <Link
                             to={configureFallbackHref(halfDetail)}
                             onClick={configure(halfDetail)}
                             aria-label={t('pizza.halfAria', { name: product.name })}
                             data-testid="pj-menu-pizza-half"
-                            className="flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center gap-1 rounded-full border-[1.5px] border-pj-basil px-2.5 text-[13px] font-bold whitespace-nowrap text-pj-basil no-underline transition-transform hover:bg-pj-dough focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-basil active:scale-[0.97] lg:px-3 lg:text-sm">
+                            className="flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center gap-1 rounded-full border-[1.5px] border-pj-basil px-3.5 text-[13px] font-bold whitespace-nowrap text-pj-basil no-underline transition-transform hover:bg-pj-basil hover:text-pj-dough focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-basil active:scale-[0.97] lg:text-sm">
                             <span aria-hidden="true">{t('pizza.half')}</span>
                         </Link>
                     )}

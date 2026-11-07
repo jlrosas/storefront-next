@@ -23,6 +23,7 @@ import { formatClp } from '@/extensions/pj-shared/lib/format';
 import { DEFAULT_DRINK_FLAVOR, type SheetUpsell, type SideProduct } from '../lib/upsell';
 import type { PjCartPayload, PjCartResult } from '../lib/cart-payload';
 import { CheckIcon, PlusIcon } from './icons';
+import { CloseIcon } from '@/extensions/pj-shared/components/icons';
 import { useImageUrl } from '../hooks/use-image-url';
 
 type Basket = ShopperBasketsV2.schemas['Basket'];
@@ -38,6 +39,8 @@ export interface HazloComboStepProps {
     submit: (payload: PjCartPayload) => Promise<PjCartResult>;
     busy: boolean;
     onBasket: (basket: Basket) => void;
+    /** «Cerrar» visible en la franja de confirmación (la cabecera de la hoja queda solo para lectores). */
+    onClose?: () => void;
 }
 
 /**
@@ -53,6 +56,7 @@ export function HazloComboStep({
     submit,
     busy,
     onBasket,
+    onClose,
 }: HazloComboStepProps): ReactElement {
     const { t } = useTranslation('extPjProduct');
     const { url } = useImageUrl();
@@ -127,6 +131,16 @@ export function HazloComboStep({
                     className="flex min-h-[44px] items-center px-1 text-sm font-bold text-pj-green underline-offset-4 hover:underline">
                     {t('upsell.edit')}
                 </button>
+                {onClose && (
+                    <button
+                        type="button"
+                        onClick={onClose}
+                        aria-label={t('sheet.close')}
+                        data-testid="pj-upsell-close"
+                        className="flex size-[44px] shrink-0 items-center justify-center rounded-full bg-pj-surface text-pj-ink shadow-pj-card focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-basil">
+                        <CloseIcon size={20} />
+                    </button>
+                )}
             </div>
 
             <div className="flex flex-col gap-4 px-4 pt-3.5 pb-2">
@@ -188,7 +202,7 @@ export function HazloComboStep({
                                             className={cn(
                                                 'min-h-[44px] rounded-full border-2 px-3.5 text-sm font-semibold',
                                                 on
-                                                    ? 'border-pj-green bg-pj-lime-soft text-pj-green-dark'
+                                                    ? 'border-pj-basil bg-pj-basil text-pj-dough'
                                                     : 'border-pj-line bg-pj-surface text-pj-ink'
                                             )}>
                                             {t(`upsell.flavor.${drink.flavor}`, { defaultValue: drink.flavor })}

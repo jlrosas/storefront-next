@@ -36,3 +36,6 @@ export { isConfigurablePizza, removedFromItem, extrasFromItem, EXTRA_OPTION_PREF
 export { PJ_CART_ACTION, type PjCartPayload, type PjCartResult } from './lib/cart-payload';
 export { ensureFulfillment } from './lib/fulfillment-request';
 export { usePjCart } from './hooks/use-pj-cart';
+export { PJ_COMBO_OFFER_EVENT, requestComboOffer, type PjComboOfferDetail } from './lib/combo-offer';
+export type { HazloComboCompactProps } from './components/hazlo-combo-compact';
+export { HAZLO_COMBO_SIDE } from './lib/upsell';

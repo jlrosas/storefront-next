@@ -50,8 +50,8 @@ export function OfferCard({ offer, priority = false }: { offer: MenuProduct; pri
                     </LtoBadge>
                 )}
             </div>
-            <div className="px-3 pt-2 pb-3">
-                <div className="text-[15px] font-bold lg:text-base">{offer.name}</div>
+            <div className="flex flex-col gap-1 px-3 pt-2.5 pb-3">
+                <h3 className="pj-card-title text-pj-basil">{offer.name}</h3>
                 <PriceTag price={offer.price} listPrice={offer.listPrice} showSavings={false} size="sm" />
             </div>
         </Link>

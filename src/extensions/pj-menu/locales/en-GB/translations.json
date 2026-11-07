@@ -115,5 +115,22 @@
     "cartBar": {
         "view": "Ver pedido ({{count}})",
         "aria": "Ver pedido, {{count}} productos, total {{total}}"
+    },
+    "closer": {
+        "halves": {
+            "title": "¿Dos antojos?",
+            "body": "Mitad {{name}}, mitad lo que quieras. Pagas el promedio.",
+            "cta": "Armar mitad y mitad →"
+        },
+        "arma": {
+            "title": "¿Ninguna te convence?",
+            "body": "Arma la tuya: salsa, queso y hasta 10 ingredientes.",
+            "cta": "Arma tu pizza →"
+        },
+        "promos": {
+            "title": "Combínala y ahorra",
+            "body": "Pizza con bebida y acompañamiento, a precio de combo.",
+            "cta": "Ver las ofertas →"
+        }
     }
 }

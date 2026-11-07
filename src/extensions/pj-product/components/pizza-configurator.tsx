@@ -46,6 +46,13 @@ const SECTION_SHEET = 'flex flex-col gap-2.5 border-t-8 border-[var(--pj-section
 const SECTION_PDP =
     'flex flex-col gap-2.5 border-t-8 border-[var(--pj-section)] px-4 py-3 lg:border-t-0 lg:px-0 lg:py-0';
 
+/**
+ * Seleccionado único del sitio (UX-2 N7): Basil relleno + texto Dough, como el panel de tienda y el
+ * constructor. El lima queda para el CTA sobre fondo oscuro, los sellos y el «+».
+ */
+const SELECTED = 'border-pj-basil bg-pj-basil text-pj-dough';
+const SELECTED_LG = 'lg:border-pj-basil lg:bg-pj-basil lg:text-pj-dough';
+
 function toggle(list: string[], id: string): string[] {
     return list.includes(id) ? list.filter((x) => x !== id) : [...list, id];
 }
@@ -114,11 +121,11 @@ export function PizzaConfigurator({
                                 onClick={() => update({ size: size.id })}
                                 data-testid={`pj-size-${size.id}`}
                                 className={cn(
-                                    'flex min-h-[44px] flex-col items-center gap-0.5 rounded-xl border-2 px-1 py-3 text-pj-ink',
-                                    on ? 'border-pj-green bg-pj-lime-soft' : 'border-pj-line bg-pj-surface'
+                                    'flex min-h-[44px] flex-col items-center gap-0.5 rounded-xl border-2 px-1 py-3 transition-colors',
+                                    on ? SELECTED : 'border-pj-line bg-pj-surface text-pj-ink hover:border-pj-basil'
                                 )}>
                                 <span className="text-[15px] font-bold">{size.label}</span>
-                                <span className="text-xs text-pj-gray">
+                                <span className={cn('text-xs', on ? 'text-pj-dough' : 'text-pj-gray')}>
                                     {t(`slices.${size.id}`, { defaultValue: '' })}
                                 </span>
                                 <span className="text-sm font-bold">{formatClp(size.price)}</span>
@@ -147,7 +154,7 @@ export function PizzaConfigurator({
                                 className={cn(
                                     'flex min-h-[52px] items-center gap-3 border-b border-pj-track px-1 py-1.5 text-left text-pj-ink',
                                     !sheet && 'lg:rounded-xl lg:border-2 lg:px-3',
-                                    !sheet && (on ? 'lg:border-pj-green lg:bg-pj-lime-soft' : 'lg:border-pj-line')
+                                    !sheet && (on ? SELECTED_LG : 'lg:border-pj-line lg:hover:border-pj-basil')
                                 )}>
                                 <span
                                     aria-hidden="true"
@@ -169,7 +176,11 @@ export function PizzaConfigurator({
                                 {add > 0 ? (
                                     <span className="text-sm font-bold">+{formatClp(add)}</span>
                                 ) : (
-                                    <span className="text-[13px] font-semibold text-pj-green">
+                                    <span
+                                        className={cn(
+                                            'text-[13px] font-semibold text-pj-green',
+                                            on && !sheet && 'lg:text-pj-dough'
+                                        )}>
                                         {t('config.included')}
                                     </span>
                                 )}
@@ -247,7 +258,7 @@ export function PizzaConfigurator({
                                             out
                                                 ? 'cursor-not-allowed border-dashed border-pj-gray/40 bg-[var(--pj-section)] text-pj-gray'
                                                 : on
-                                                  ? 'border-pj-green bg-pj-lime-soft text-pj-green-dark'
+                                                  ? SELECTED
                                                   : 'border-pj-line bg-pj-surface text-pj-ink'
                                         )}>
                                         <IngredientThumb ingredient={extra} size="sm" dimmed={out} />

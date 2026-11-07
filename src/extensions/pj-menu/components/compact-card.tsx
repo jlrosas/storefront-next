@@ -82,7 +82,7 @@ export function CompactCard({ product, className }: { product: MenuProduct; clas
                                 className={cn(
                                     'min-h-[44px] shrink-0 cursor-pointer rounded-[10px] border-2 px-3 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pj-green',
                                     on
-                                        ? 'border-pj-green bg-pj-lime-soft text-pj-green-dark'
+                                        ? 'border-pj-basil bg-pj-basil text-pj-dough'
                                         : 'border-pj-line bg-pj-surface text-pj-ink'
                                 )}>
                                 {candidate.label}
