@@ -66,7 +66,8 @@
         "closedTitle": "{{store}} está cerrada",
         "closedDetail": "Abre a las {{time}}",
         "schedule": "Programar para las {{time}}",
-        "changeStore": "Cambiar tienda"
+        "changeStore": "Cambiar tienda",
+        "deliveryEtaText": "Llega en {{time}}"
     },
     "summary": {
         "pickupFee": "Retiro en tienda",

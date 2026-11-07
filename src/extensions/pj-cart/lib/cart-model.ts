@@ -59,6 +59,15 @@ export function pickOffer(entries: CartEntry[], ctx: OfferContext): OfferKind | 
     return null;
 }
 
+/**
+ * Precio que muestra una línea (UX-3 §3.4, VAL-C3 H-3). Palitos o bebida que la canasta cobra como combo pero
+ * que no se pudieron agrupar bajo su pizza se muestran a precio normal: nunca el precio por componente de la
+ * promoción («$4.417»). El ahorro queda en «Ahorro en combos» del resumen.
+ */
+export function linePrice(line: LineSummary): number {
+    return line.promotions.some((id) => COMBO_PROMOTIONS.includes(id)) ? line.baseTotal : line.total;
+}
+
 /** Canje de Papa Puntos activo en el carrito (cookie `pj_canje`, la misma que lee CHK). */
 export interface CanjeState {
     itemId: string;

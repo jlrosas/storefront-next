@@ -22,7 +22,7 @@ import { HAZLO_COMBO_SIDE, PJ_COMBO_OFFER_EVENT, type PjComboOfferDetail } from 
 // CAR-01/02: la línea y el pie se leen igual que en /cart (configuración, extras, combo, puntos y CTA con monto).
 import { CompactLine } from '@/extensions/pj-cart/components/compact-line';
 import { PanelFooter } from '@/extensions/pj-cart/components/panel-footer';
-import { useLineSummaries } from '@/extensions/pj-cart/hooks/use-line-summaries';
+import { usePanelCart } from '@/extensions/pj-cart/hooks/use-panel-cart';
 import type { SummaryLineItem } from '@/extensions/pj-cart/lib/line-summary';
 
 const HazloComboCompact = lazy(() => import('@/extensions/pj-product/components/hazlo-combo-compact'));
@@ -38,8 +38,8 @@ function DefaultSummary({ offer, dismiss }: PanelOffer): ReactElement {
     const { t } = useTranslation('extPjMenu');
     const basket = useBasket();
     const items = basket?.productItems ?? [];
-    const total = basket?.productTotal ?? basket?.productSubTotal ?? 0;
-    const { entries, products } = useLineSummaries(items as SummaryLineItem[]);
+    // VAL-C3 H-2: mismas líneas, canje y totales que /cart.
+    const { entries, products, canje, totals } = usePanelCart(items as SummaryLineItem[]);
     // Si la línea ya no está (se deshizo el agregado), la oferta se va con ella.
     const anchored = offer && items.some((item) => item.itemId === offer.itemId) ? offer : null;
     if (items.length === 0) {
@@ -50,7 +50,12 @@ function DefaultSummary({ offer, dismiss }: PanelOffer): ReactElement {
             <ul className="m-0 flex list-none flex-col gap-2 p-0" data-testid="pj-menu-order-lines">
                 {entries.map(({ summary, combo }) => (
                     <li key={summary.itemId} className="flex flex-col gap-2 border-b border-pj-sand pb-2 text-sm">
-                        <CompactLine summary={summary} combo={combo} products={products} />
+                        <CompactLine
+                            summary={summary}
+                            combo={combo}
+                            products={products}
+                            canje={canje?.itemId === summary.itemId ? canje : null}
+                        />
                         {anchored && anchored.itemId === summary.itemId && (
                             <Suspense
                                 fallback={<div className="h-[190px] rounded-pj-card bg-pj-sand" aria-hidden="true" />}>
@@ -60,7 +65,7 @@ function DefaultSummary({ offer, dismiss }: PanelOffer): ReactElement {
                     </li>
                 ))}
             </ul>
-            <PanelFooter total={total} />
+            <PanelFooter total={totals.total} points={totals.points} />
         </>
     );
 }
