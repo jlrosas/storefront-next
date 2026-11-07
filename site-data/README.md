@@ -9,7 +9,8 @@ Dueño: DAT. Credenciales: `dw.json` de la raíz del proyecto (nunca se copia aq
 # desde la raíz del storefront
 site-data/rebuild.sh                  # todo: archivo del sitio, cartucho, import, reindex y clientes
 site-data/rebuild.sh --skip-customers # sin tocar clientes ni pedidos
-python3 site-data/ocapi/verify.py     # comprueba los criterios DAT-02 a DAT-07 con SCAPI/OCAPI reales
+python3 site-data/ocapi/verify.py     # comprueba los criterios DAT-02 a DAT-07 y DAT-11 con SCAPI/OCAPI reales
+python3 site-data/ocapi/dat11.py      # solo DAT-11, sin reconstruir (el rebuild completo ya lo incluye)
 ```
 
 `rebuild.sh` hace, en orden:
@@ -39,6 +40,7 @@ quedó en [reference/sandbox-2026-11-06](reference/sandbox-2026-11-06/README.md)
 | `ocapi/pj.py` | Cliente mínimo de OCAPI Data y SCAPI Shopper (SLAS público con PKCE) |
 | `ocapi/customers.py` | Clientes de demo (contrato §3) |
 | `ocapi/verify.py` | Verificación de criterios |
+| `ocapi/dat11.py` | Aplica DAT-11 por WebDAV + job de importación (OCAPI): opción `pjCombo`, promociones del Dúo/Trío y del canje, cupón, `PJ_CASH`, atributos de línea y de canasta |
 | `../cartridges/int_papajohns_demo` | Hooks: precio de mitades (`dw.order.calculate`), validaciones de carrito, pedido mínimo de delivery y colocación del pedido |
 
 ## Datos para los demás agentes
@@ -73,6 +75,12 @@ quedó en [reference/sandbox-2026-11-06](reference/sandbox-2026-11-06/README.md)
 
 Campaña `pj-demo`: `pj-hazlo-combo` (pizza + Palitos de Ajo + bebida 1,5 L: los dos últimos a $6.990 en total)
 y `pj-super-duo-pickup` (apagada). Las de DAT-08 se agregan aquí.
+
+DAT-11 (S-D20): `pj-super-duo` (2 familiares = $22.590) y `pj-super-trio` (3 familiares = $33.900) se aplican a
+las líneas de pizza con la opción **`pjCombo` = `duo` | `trio`** (precio $0), sin cupón. Entran las 6 pizzas de
+`c_pjSlots` en masas sin recargo (tradicional, delgada, parmesano). «Total fixed price» no toca las opciones:
+los extras `pjExtras_*` se cobran encima. `pj-canje-puntos`: cupón `PJ-CANJE-PUNTOS`, deja en $0 una mediana
+canjeable (Super Pepperoni, Boom de Jamón, Napolitana Caprese), una por pedido. Medio de pago `PJ_CASH`.
 
 ### Tiendas (contrato §4.3)
 
