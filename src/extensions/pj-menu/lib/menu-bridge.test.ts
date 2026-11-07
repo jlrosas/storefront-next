@@ -49,4 +49,17 @@ describe('menu-bridge', () => {
         await expect(again).resolves.toBe(true);
         window.removeEventListener(PJ_MENU_EVENTS.storeRequired, open);
     });
+    it('pasa el nombre del producto al panel de TIE («Para agregar tu …»)', async () => {
+        let detail: unknown;
+        const open = (event: Event) => {
+            detail = (event as CustomEvent).detail;
+            event.preventDefault();
+        };
+        window.addEventListener(PJ_MENU_EVENTS.storeRequired, open);
+        const pending = ensureStore('Coca-Cola 1,5 L');
+        window.dispatchEvent(new CustomEvent(PJ_MENU_EVENTS.storeSelected));
+        await expect(pending).resolves.toBe(true);
+        expect(detail).toEqual({ source: 'pj-menu', reason: 'add-to-cart', productName: 'Coca-Cola 1,5 L' });
+        window.removeEventListener(PJ_MENU_EVENTS.storeRequired, open);
+    });
 });

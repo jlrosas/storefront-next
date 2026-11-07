@@ -150,10 +150,10 @@ export function useCartLine({ productId, name }: UseCartLineArgs): CartLine {
 
     const increment = useCallback(() => {
         void (async () => {
-            if (basketQuantityRef.current === 0 && !(await ensureStore())) return;
+            if (basketQuantityRef.current === 0 && !(await ensureStore(name))) return;
             setTarget((previous) => Math.min(MAX_LINE_QUANTITY, (previous ?? basketQuantityRef.current) + 1));
         })();
-    }, []);
+    }, [name]);
 
     const decrement = useCallback(() => {
         setTarget((previous) => Math.max(0, (previous ?? basketQuantityRef.current) - 1));
