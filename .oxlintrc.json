@@ -1,6 +1,7 @@
 {
     "$schema": "./node_modules/oxlint/configuration_schema.json",
     "ignorePatterns": [
+        "preventa/**",
         "**/src/scapi-client/generated/**",
         "**/src/scapi/generated/**",
         "**/src/scapi/custom-clients.ts",

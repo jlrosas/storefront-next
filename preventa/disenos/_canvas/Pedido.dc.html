@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Mi pedido</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=Barlow:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; overflow: hidden; background: #FFFBF5; font-family: 'Barlow', sans-serif; color: #1B1D1A">
+
+  <header style="height: 60px; flex-shrink: 0; background: #FFFFFF; border-bottom: 1px solid #E4E2DA; display: flex; align-items: center; gap: 8px; padding: 0 8px">
+    <a href="Menu.dc.html" aria-label="Volver al menú" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #1B1D1A">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg>
+    </a>
+    <h1 style="margin: 0; flex: 1; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 24px; text-transform: uppercase">Mi pedido</h1>
+    <span style="font-size: 13px; color: #5A5F57; padding-right: 8px">{{countLabel}}</span>
+  </header>
+
+  <main style="flex: 1; overflow-y: auto; padding: 12px 16px; display: flex; flex-direction: column; gap: 12px">
+    <div style="background: #FFFFFF; border-radius: 14px; padding: 10px 14px; display: flex; align-items: center; gap: 12px">
+      <div style="flex: 1">
+        <div style="font-weight: 700; font-size: 14px">Retiro en El Bosque</div>
+        <div style="font-size: 13px; color: #5A5F57">Listo en 15 min · Abierta hasta 23:30</div>
+      </div>
+      <a href="Tienda.dc.html" style="font-size: 14px; font-weight: 700; color: #1E4D33; min-height: 44px; display: flex; align-items: center">Cambiar</a>
+    </div>
+
+    <div style="background: #FFFFFF; border-radius: 14px; padding: 2px 14px">
+      <sc-for list="{{lines}}" as="l" hint-placeholder-count="3">
+        <div style="display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid #EFE6DA">
+          <span style="position: relative; width: 68px; height: 68px; flex-shrink: 0">
+            <img src="{{l.img}}" alt="{{l.name}}" style="width: 68px; height: 68px; border-radius: 10px; object-fit: cover; display: block">
+            <sc-if value="{{l.split}}" hint-placeholder-val="{{false}}">
+              <img src="{{l.img2}}" alt="" style="position: absolute; inset: 0; width: 68px; height: 68px; border-radius: 10px; object-fit: cover; clip-path: inset(0 0 0 50%)">
+              <span aria-hidden="true" style="position: absolute; top: 0; bottom: 0; left: 33px; width: 2px; background: #FFFFFF"></span>
+            </sc-if>
+          </span>
+          <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px">
+            <div style="display: flex; justify-content: space-between; gap: 8px">
+              <span style="font-weight: 700; font-size: 15px">{{l.name}}</span>
+              <span style="font-weight: 700; font-size: 15px">{{l.price}}</span>
+            </div>
+            <span style="font-size: 13px; color: #5A5F57">{{l.detail}}</span>
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 2px">
+              <a href="{{l.editHref}}" style="font-size: 14px; font-weight: 700; color: #1E4D33; min-height: 40px; display: flex; align-items: center">{{l.editLabel}}</a>
+              <div style="display: flex; align-items: center; border: 1.5px solid #D5D3CA; border-radius: 999px; height: 38px">
+                <button type="button" aria-label="{{l.subLabel}}" onClick="{{l.dec}}" style="width: 38px; height: 36px; background: none; border: 0; cursor: pointer; color: #1B1D1A; display: flex; align-items: center; justify-content: center">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"></path></svg>
+                </button>
+                <span style="min-width: 16px; text-align: center; font-weight: 700">{{l.qty}}</span>
+                <button type="button" aria-label="{{l.addLabel}}" onClick="{{l.inc}}" style="width: 38px; height: 36px; background: none; border: 0; cursor: pointer; color: #1B1D1A; display: flex; align-items: center; justify-content: center">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+
+    <sc-if value="{{offerCombo}}" hint-placeholder-val="{{true}}">
+      <div style="background: #FFFFFF; border: 2px solid #B3261E; border-radius: 16px; overflow: hidden; display: flex">
+        <img src="/_blob/7fdbaf1dcc74125ff04d0a3659676441" alt="" style="width: 104px; object-fit: cover">
+        <div style="flex: 1; padding: 12px; display: flex; flex-direction: column; gap: 6px">
+          <div style="font-size: 12px; font-weight: 700; color: #B3261E; text-transform: uppercase; letter-spacing: 0.4px">Ahorras $2.490</div>
+          <div style="font-size: 15px; font-weight: 700; line-height: 1.25">Tus Palitos y tu Coca-Cola salen más baratos en combo</div>
+          <button type="button" onClick="{{toCombo}}" style="align-self: flex-start; min-height: 42px; padding: 0 16px; border-radius: 999px; background: #B3261E; color: #FFFFFF; border: 0; font-family: 'Barlow', sans-serif; font-weight: 700; font-size: 15px; cursor: pointer">Convertir en combo</button>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{offerUpgrade}}" hint-placeholder-val="{{false}}">
+      <div style="background: #133423; color: #FFFFFF; border-radius: 14px; padding: 14px; display: flex; align-items: center; gap: 12px">
+        <div style="flex: 1">
+          <div style="font-size: 12px; font-weight: 700; color: #D7EA4A; text-transform: uppercase; letter-spacing: 0.5px">Mejora tu pizza</div>
+          <div style="font-size: 15px; font-weight: 600; margin-top: 2px">Pollo BBQ con borde de queso mozzarella por $3.490 más</div>
+        </div>
+        <button type="button" onClick="{{upgrade}}" style="min-height: 44px; padding: 0 16px; border-radius: 999px; background: #D7EA4A; color: #133423; border: 0; font-family: 'Barlow', sans-serif; font-weight: 700; font-size: 15px; cursor: pointer">Mejorar</button>
+      </div>
+    </sc-if>
+
+    <div style="background: #EEF6C8; color: #133423; border-radius: 14px; padding: 12px 14px; font-size: 14px; font-weight: 600">Con este pedido ganas {{points}} Papa Puntos</div>
+
+    <div style="display: flex; flex-direction: column; gap: 6px; padding: 4px 2px">
+      <sc-if value="{{hasSaving}}" hint-placeholder-val="{{false}}">
+        <div style="display: flex; justify-content: space-between; font-size: 14px; color: #B3261E; font-weight: 700"><span>Ahorro por combo</span><span>-$2.490</span></div>
+      </sc-if>
+      <div style="display: flex; justify-content: space-between; font-size: 14px; color: #5A5F57"><span>Retiro en tienda</span><span>Gratis</span></div>
+    </div>
+  </main>
+
+  <footer style="flex-shrink: 0; padding: 12px 16px 16px; background: #FFFFFF; border-top: 1px solid #E4E2DA">
+    <a href="Login.dc.html" style="height: 52px; border-radius: 999px; background: #1E4D33; color: #FFFFFF; text-decoration: none; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; font-weight: 700; font-size: 16px">
+      <span>Ir a pagar</span>
+      <span>{{total}}</span>
+    </a>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"mitades":{"editor":"boolean","default":false},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { q: { pizza: 1, ajo: 1, coca: 1, combo: 0 }, upgraded: false };
+  }
+  renderVals() {
+    const fmt = (n) => '$' + String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    const st = this.state;
+    const q = st.q;
+    const set = (id, n) => this.setState({ q: { ...q, [id]: Math.max(0, Math.min(n, 9)) } });
+    const half = !!this.props.mitades;
+    const ITEMS = [
+      half
+        ? { id: 'pizza', name: 'Pizza mitad y mitad', price: 17900 + (st.upgraded ? 3490 : 0), img: '/_blob/a0f8034a00f2ee7f9ac16bae53dbf532', img2: '/_blob/16a721124c50a8e185c8b55664ae6e2a', split: true,
+            detail: 'Familiar · ' + (st.upgraded ? 'Borde de queso' : 'Tradicional') + ' · ½ Pollo BBQ · ½ Todas las Carnes', editHref: 'Mitades.dc.html', editLabel: 'Editar mitades' }
+        : { id: 'pizza', name: 'Pollo BBQ', price: 16900 + (st.upgraded ? 3490 : 0), img: '/_blob/a0f8034a00f2ee7f9ac16bae53dbf532',
+            detail: 'Familiar · ' + (st.upgraded ? 'Borde de queso' : 'Tradicional') + ' · sin cebolla', editHref: 'Sheet-Pizza.dc.html', editLabel: 'Editar' },
+      { id: 'combo', name: 'Combo Palitos y bebida', price: 6990, img: '/_blob/7fdbaf1dcc74125ff04d0a3659676441',
+        detail: 'Palitos de Ajo + Coca-Cola Sin azúcar 1,5 L', editHref: '#', editLabel: 'Cambiar bebida' },
+      { id: 'ajo', name: 'Palitos de Ajo', price: 5990, img: '/_blob/578bc1143fbd8e8e0748be683c760f73', detail: 'Recién horneados', editHref: '#', editLabel: '' },
+      { id: 'coca', name: 'Coca-Cola 1,5 L', price: 3490, img: '/_blob/aca97767706b08547001c896a30662fd', detail: 'Sin azúcar', editHref: '#', editLabel: '' }
+    ];
+    let total = 0;
+    let count = 0;
+    const lines = ITEMS.filter((it) => q[it.id] > 0).map((it) => {
+      const n = q[it.id];
+      total += n * it.price;
+      count += n * (it.id === 'combo' ? 2 : 1);
+      return { ...it, qty: n, price: fmt(n * it.price), addLabel: 'Agregar ' + it.name, subLabel: 'Quitar ' + it.name,
+        inc: () => set(it.id, n + 1), dec: () => set(it.id, n - 1) };
+    });
+    const canCombo = q.pizza > 0 && q.ajo > 0 && q.coca > 0;
+    return {
+      lines,
+      offerCombo: canCombo,
+      offerUpgrade: !canCombo && !st.upgraded && q.pizza > 0,
+      hasSaving: q.combo > 0,
+      toCombo: () => this.setState({ q: { ...q, ajo: q.ajo - 1, coca: q.coca - 1, combo: q.combo + 1 } }),
+      upgrade: () => this.setState({ upgraded: true }),
+      total: fmt(total),
+      points: Math.floor(total / 1000),
+      countLabel: count + (count === 1 ? ' producto' : ' productos')
+    };
+  }
+}
+</script>
+</body>
+</html>

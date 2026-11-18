@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Constructor de combos</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=Barlow:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; overflow: hidden; background: #FFFBF5; font-family: 'Barlow', sans-serif; color: #1B1D1A">
+
+  <header style="flex-shrink: 0; background: #FFFFFF; border-bottom: 1px solid #E4E2DA; padding: 8px 8px 12px; display: flex; flex-direction: column; gap: 10px">
+    <div style="display: flex; align-items: center; gap: 8px">
+      <a href="Ofertas.dc.html" aria-label="Volver a promos" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #1B1D1A">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg>
+      </a>
+      <div style="flex: 1">
+        <h1 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 26px; text-transform: uppercase; line-height: 1">{{title}}</h1>
+        <div style="font-size: 13px; color: #5A5F57">{{subtitle}} · <strong style="color: #B3261E">{{price}}</strong> <span style="text-decoration: line-through">{{before}}</span></div>
+      </div>
+    </div>
+    <div role="tablist" aria-label="Pizzas del combo" style="{{slotGrid}}">
+      <sc-for list="{{slots}}" as="s" hint-placeholder-count="2">
+        <button type="button" role="tab" aria-selected="{{s.active}}" onClick="{{s.pick}}" style="{{s.style}}">
+          <sc-if value="{{s.filled}}" hint-placeholder-val="{{false}}">
+            <img src="{{s.img}}" alt="" style="width: 40px; height: 40px; border-radius: 999px; object-fit: cover; flex-shrink: 0">
+          </sc-if>
+          <sc-if value="{{s.empty}}" hint-placeholder-val="{{true}}">
+            <span style="width: 40px; height: 40px; border-radius: 999px; border: 2px dashed #C9B8A3; flex-shrink: 0"></span>
+          </sc-if>
+          <span style="display: flex; flex-direction: column; text-align: left; min-width: 0">
+            <span style="font-size: 12px; color: #5A5F57">{{s.label}}</span>
+            <span style="font-size: 14px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{s.name}}</span>
+          </span>
+        </button>
+      </sc-for>
+    </div>
+  </header>
+
+  <main style="flex: 1; overflow-y: auto; padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 10px">
+    <sc-if value="{{blocked}}" hint-placeholder-val="{{false}}">
+      <section role="alert" style="background: #FFF3E6; border: 1.5px solid #E9C9A6; border-radius: 14px; padding: 12px 14px; display: flex; flex-direction: column; gap: 10px">
+        <span style="font-size: 14px; line-height: 1.4; color: #3E423C"><strong style="color: #5C2408">Esta oferta es solo para retiro.</strong> Elegiste delivery a Av. Providencia 1234. Puedes armarla igual y elegir cómo seguir:</span>
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+          <button type="button" onClick="{{toPickup}}" style="min-height: 48px; border-radius: 12px; border: 0; background: #1E4D33; color: #FFFFFF; font-family: 'Barlow', sans-serif; font-weight: 700; font-size: 14px; cursor: pointer; line-height: 1.2">Retirar en El Bosque<br><span style="font-weight: 500; font-size: 12px">0,8 km · listo en 15 min</span></button>
+          <a href="Ofertas.dc.html" style="min-height: 48px; border-radius: 12px; border: 1.5px solid #1E4D33; color: #1E4D33; font-weight: 700; font-size: 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-decoration: none; line-height: 1.2">Ver ofertas<br><span style="font-weight: 500; font-size: 12px">con delivery</span></a>
+        </div>
+      </section>
+    </sc-if>
+    <sc-if value="{{switched}}" hint-placeholder-val="{{false}}">
+      <div role="status" style="background: #EEF6C8; color: #133423; border-radius: 12px; padding: 10px 12px; font-size: 14px; font-weight: 600">Listo: retiras en El Bosque, Tobalaba 201. Tu combo sigue igual.</div>
+    </sc-if>
+    <sc-if value="{{hasIncluded}}" hint-placeholder-val="{{false}}">
+      <section style="background: #FFFFFF; border-radius: 14px; padding: 12px; display: flex; flex-direction: column; gap: 8px">
+        <div style="font-size: 12px; font-weight: 700; color: #B3261E; text-transform: uppercase; letter-spacing: 0.4px">Ya viene en tu box · {{until}}</div>
+        <sc-for list="{{included}}" as="i" hint-placeholder-count="3">
+          <div style="display: flex; gap: 10px; align-items: center">
+            <img src="{{i.img}}" alt="" style="width: 44px; height: 44px; border-radius: 10px; object-fit: cover">
+            <span style="flex: 1; font-size: 14px; font-weight: 600">{{i.name}}</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1E6B3A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"></path></svg>
+          </div>
+        </sc-for>
+      </section>
+    </sc-if>
+    <div style="font-size: 15px; font-weight: 700" aria-live="polite">{{prompt}}</div>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+      <sc-for list="{{options}}" as="o" hint-placeholder-count="6">
+        <button type="button" aria-pressed="{{o.on}}" onClick="{{o.pick}}" style="{{o.style}}">
+          <img src="{{o.img}}" alt="" style="width: 100%; height: 110px; object-fit: cover; display: block">
+          <span style="padding: 8px 10px 10px; display: flex; flex-direction: column; gap: 2px; text-align: left">
+            <span style="font-weight: 700; font-size: 15px">{{o.name}}</span>
+            <span style="font-size: 12px; color: #3E423C; line-height: 1.3">{{o.taste}}</span>
+          </span>
+        </button>
+      </sc-for>
+    </div>
+  </main>
+
+  <footer style="flex-shrink: 0; padding: 12px 16px 16px; border-top: 1px solid #E4E2DA; background: #FFFFFF">
+    <sc-if value="{{doneBlocked}}" hint-placeholder-val="{{false}}">
+      <div aria-disabled="true" style="height: 54px; border-radius: 999px; background: #E9E4DA; color: #5A5F57; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px">Elige retiro para agregarla</div>
+    </sc-if>
+    <sc-if value="{{done}}" hint-placeholder-val="{{false}}">
+      <a href="Tienda.dc.html" style="height: 54px; border-radius: 999px; background: #1E4D33; color: #FFFFFF; text-decoration: none; display: flex; align-items: center; justify-content: space-between; padding: 0 22px; font-weight: 700; font-size: 17px"><span>{{addLabel}}</span><span>{{price}}</span></a>
+    </sc-if>
+    <sc-if value="{{notDone}}" hint-placeholder-val="{{true}}">
+      <div aria-disabled="true" style="height: 54px; border-radius: 999px; background: #E9E4DA; color: #5A5F57; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px">{{missing}}</div>
+    </sc-if>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"oferta":{"editor":"enum","options":["superduo","supertrio","halloween"],"default":"superduo"},"estado":{"editor":"enum","options":["disponible","no-disponible"],"default":"disponible"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    const n = props.oferta === 'supertrio' ? 3 : props.oferta === 'halloween' ? 1 : 2;
+    const slots = Array(n).fill(null);
+    slots[0] = 'pollo';
+    this.state = { slots, active: n > 1 ? 1 : 0, pickup: false };
+  }
+  renderVals() {
+    const st = this.state;
+    const OFFERS = {
+      superduo: { title: 'Arma tu Super Dúo', subtitle: '2 pizzas familiares', price: '$22.590', before: '$27.800', unit: 'Pizza familiar', add: 'Agregar Super Dúo' },
+      supertrio: { title: 'Arma tu Super Trío', subtitle: '3 pizzas familiares', price: '$33.900', before: '$41.700', unit: 'Pizza familiar', add: 'Agregar Super Trío' },
+      halloween: { title: 'Arma tu Box Halloween', subtitle: 'Pizza mediana + bebida + box', price: '$19.990', before: '$23.880', unit: 'Pizza mediana', add: 'Agregar Box Halloween',
+        until: 'hasta el 2 de noviembre',
+        included: [
+          { name: 'Coca-Cola 1,5 L', img: '/_blob/aca97767706b08547001c896a30662fd' },
+          { name: 'Boom de Trencito con chocolate', img: '/_blob/0a53fb431aa7046682bce23861e01c1c' },
+          { name: 'Cheesyqueños con miel picante', img: '/_blob/a723849e225ee5ee6428b8b0311a4bf6' }
+        ] }
+    };
+    const offer = OFFERS[this.props.oferta ?? 'superduo'] || OFFERS.superduo;
+    const OPTS = [
+      { id: 'pollo', name: 'Pollo BBQ', taste: 'Pollo jugoso y tocino sobre BBQ ahumada', img: '/_blob/a0f8034a00f2ee7f9ac16bae53dbf532' },
+      { id: 'pep', name: 'Super Pepperoni', taste: 'Doble pepperoni dorado en los bordes', img: '/_blob/31b1c48b16e1c46ab38ec585868503d0' },
+      { id: 'carnes', name: 'Todas las Carnes', taste: 'Pepperoni, jamón, tocino y salchicha', img: '/_blob/16a721124c50a8e185c8b55664ae6e2a' },
+      { id: 'boom', name: 'Boom de Jamón', taste: 'Doble jamón y mozzarella que se estira', img: '/_blob/c5a122356aef0a8af1efae4ed408fac8' },
+      { id: 'caprese', name: 'Napolitana Caprese', taste: 'Tomate cherry, mozzarella y pesto', img: '/_blob/0c80c9ce8fac846ed48260d572444089' },
+      { id: 'hawaiana', name: 'Hawaiana', taste: 'Piña dulce, jamón y extra queso', img: '/_blob/c456af5e152ed3e42fa02102b3818639' }
+    ];
+    const byId = (id) => OPTS.find((o) => o.id === id);
+    const n = st.slots.length;
+    const filled = st.slots.filter(Boolean).length;
+    const slots = st.slots.map((id, i) => {
+      const o = id ? byId(id) : null;
+      const active = i === st.active;
+      return {
+        label: n > 1 ? 'Pizza ' + (i + 1) + ' de ' + n : offer.unit, name: o ? o.name : 'Elige', img: o ? o.img : '', filled: !!o, empty: !o, active,
+        pick: () => this.setState({ active: i }),
+        style: 'display: flex; align-items: center; gap: 8px; min-height: 56px; padding: 6px 8px; border-radius: 12px; cursor: pointer; font-family: \'Barlow\', sans-serif; color: #1B1D1A; min-width: 0; ' +
+          (active ? 'background: #EEF6C8; border: 2px solid #1E4D33' : 'background: #FFFFFF; border: 2px solid #E4E2DA')
+      };
+    });
+    const current = st.slots[st.active];
+    const left = n - filled;
+    return {
+      title: offer.title, subtitle: offer.subtitle, price: offer.price, before: offer.before, addLabel: offer.add,
+      hasIncluded: !!offer.included, included: offer.included || [], until: offer.until || '',
+      slotGrid: 'display: grid; grid-template-columns: repeat(' + n + ', minmax(0, 1fr)); gap: 8px; padding: 0 8px',
+      slots,
+      prompt: n > 1 ? 'Elige la pizza ' + (st.active + 1) + (current ? ' (o cámbiala)' : '') : 'Elige tu pizza mediana' + (current ? ' (o cámbiala)' : ''),
+      options: OPTS.map((o) => {
+        const on = o.id === current;
+        return { ...o, on,
+          pick: () => {
+            const next = st.slots.slice();
+            next[st.active] = o.id;
+            const empty = next.findIndex((x) => !x);
+            this.setState({ slots: next, active: empty >= 0 ? empty : st.active });
+          },
+          style: 'padding: 0; border-radius: 14px; overflow: hidden; cursor: pointer; font-family: \'Barlow\', sans-serif; color: #1B1D1A; background: #FFFFFF; display: flex; flex-direction: column; ' +
+            (on ? 'border: 3px solid #1E4D33' : 'border: 3px solid transparent; box-shadow: 0 2px 8px rgba(60,30,10,0.08)') };
+      }),
+      blocked: this.props.estado === 'no-disponible' && !st.pickup,
+      switched: this.props.estado === 'no-disponible' && st.pickup,
+      toPickup: () => this.setState({ pickup: true }),
+      doneBlocked: left === 0 && this.props.estado === 'no-disponible' && !st.pickup,
+      done: left === 0 && !(this.props.estado === 'no-disponible' && !st.pickup),
+      notDone: left > 0,
+      missing: 'Elige ' + left + (left === 1 ? ' pizza más' : ' pizzas más')
+    };
+  }
+}
+</script>
+</body>
+</html>

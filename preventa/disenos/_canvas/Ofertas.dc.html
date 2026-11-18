@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Ofertas</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=Barlow:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 390px; height: 1800px; box-sizing: border-box; position: relative; overflow: hidden; background: #FFFBF5; font-family: 'Barlow', sans-serif; color: #1B1D1A">
+
+  <header style="background: #1E4D33; color: #FFFFFF; height: 60px; padding: 0 16px; display: flex; align-items: center; gap: 12px">
+    <a href="Home.dc.html" style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 19px; line-height: 0.9; letter-spacing: 0.5px; color: #FFFFFF; text-decoration: none">PAPA<br>JOHNS</a>
+    <a href="Tienda.dc.html" style="flex: 1; min-width: 0; color: #FFFFFF; text-decoration: none">
+      <div style="font-size: 12px; opacity: 0.85">Retiro o delivery</div>
+      <div style="font-size: 15px; font-weight: 700">Elige cómo lo quieres</div>
+    </a>
+    <a href="Pedido.dc.html" aria-label="Ver pedido" style="width: 44px; height: 44px; border-radius: 10px; background: #D7EA4A; color: #133423; display: flex; align-items: center; justify-content: center">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.5"></circle><circle cx="18" cy="20" r="1.5"></circle><path d="M2 3h3l2.7 12.4a2 2 0 0 0 2 1.6h7.6a2 2 0 0 0 2-1.5L21 8H6"></path></svg>
+    </a>
+  </header>
+
+  <main style="padding: 16px 16px 96px; display: flex; flex-direction: column; gap: 14px">
+    <h1 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 32px; text-transform: uppercase">Promos</h1>
+    <div role="radiogroup" aria-label="¿Para cuántos?" style="display: flex; gap: 8px; overflow-x: auto; padding-bottom: 2px">
+      <sc-for list="{{filters}}" as="f" hint-placeholder-count="5">
+        <button type="button" role="radio" aria-checked="{{f.on}}" onClick="{{f.pick}}" style="{{f.style}}">{{f.label}}</button>
+      </sc-for>
+    </div>
+
+    <sc-for list="{{deals}}" as="d" hint-placeholder-count="4">
+      <article style="background: #FFFFFF; border-radius: 18px; overflow: hidden; box-shadow: 0 2px 10px rgba(60,30,10,0.10)">
+        <div style="position: relative">
+          <img src="{{d.img}}" alt="{{d.name}}" style="width: 100%; height: 180px; object-fit: cover; display: block">
+          <span style="position: absolute; top: 10px; left: 10px; background: #B3261E; color: #FFFFFF; font-size: 12px; font-weight: 700; padding: 3px 9px; border-radius: 999px">{{d.off}}</span>
+          <span style="position: absolute; top: 10px; right: 10px; background: #FFFFFF; color: #133423; font-size: 12px; font-weight: 700; padding: 3px 9px; border-radius: 999px">{{d.who}}</span>
+        </div>
+        <div style="padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 4px">
+          <h2 style="margin: 0; font-size: 19px; font-weight: 700">{{d.name}}</h2>
+          <p style="margin: 0; font-size: 14px; color: #3E423C">{{d.desc}}</p>
+          <div style="display: flex; gap: 10px; font-size: 12px; color: #5A5F57; margin-top: 2px">
+            <span>{{d.mode}}</span>
+            <sc-if value="{{d.hasUntil}}" hint-placeholder-val="{{false}}"><span style="color: #7A3A12; font-weight: 700">{{d.until}}</span></sc-if>
+          </div>
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 6px">
+            <div>
+              <span style="font-size: 22px; font-weight: 800; color: #B3261E">{{d.price}}</span> <span style="font-size: 14px; color: #5A5F57; text-decoration: line-through">{{d.before}}</span>
+              <div style="font-size: 12px; font-weight: 700; color: #1E6B3A">Ahorras {{d.save}}</div>
+            </div>
+            <a href="{{d.href}}" style="min-height: 46px; padding: 0 20px; border-radius: 999px; background: #1E4D33; color: #FFFFFF; font-weight: 700; display: flex; align-items: center; text-decoration: none">Armar</a>
+          </div>
+        </div>
+      </article>
+    </sc-for>
+  </main>
+
+  <nav aria-label="Principal" style="position: absolute; left: 0; right: 0; bottom: 0; height: 64px; background: #FFFFFF; border-top: 1px solid #E4E2DA; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); font-size: 11px">
+    <a href="Home.dc.html" style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #5A5F57; font-weight: 600; text-decoration: none"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11 12 4l9 7"></path><path d="M5 10v10h14V10"></path><path d="M10 20v-5h4v5"></path></svg><span>Inicio</span></a>
+    <a href="Menu.dc.html" style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #5A5F57; font-weight: 600; text-decoration: none"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 3.5 19.5c5.5 2 11.5 2 17 0L12 3z"></path><circle cx="10.5" cy="13" r="1.2"></circle><circle cx="13.8" cy="16.2" r="1.2"></circle><circle cx="12.2" cy="9.4" r="1"></circle></svg><span>Menú</span></a>
+    <a href="#" aria-current="page" style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #1E4D33; font-weight: 700; text-decoration: none"><span aria-hidden="true" style="position: absolute; top: 0; left: 25%; right: 25%; height: 3px; border-radius: 0 0 3px 3px; background: #1E4D33"></span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 12.5 12.5 20.5a1.5 1.5 0 0 1-2.1 0L3.5 13.6V3.5h10.1l6.9 6.9a1.5 1.5 0 0 1 0 2.1z"></path><circle cx="8" cy="8" r="1.4"></circle></svg><span>Promos</span></a>
+    <a href="Pedido.dc.html" style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #5A5F57; font-weight: 600; text-decoration: none"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1.2 12.2H6.2z"></path><path d="M9 10V6.5a3 3 0 0 1 6 0V10"></path></svg><span>Pedido</span></a>
+    <a href="Puntos.dc.html" style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #5A5F57; font-weight: 600; text-decoration: none"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.6-4 4.6-6 8-6s6.4 2 8 6"></path></svg><span>Cuenta</span></a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1800}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { f: 'all' };
+  }
+  renderVals() {
+    const fmt = (n) => '$' + String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    const DEALS = [
+      { occ: 'p2', who: 'Para 2–3', name: 'Box Halloween de Miedo', desc: 'Pizza mediana a elección, Coca-Cola 1,5 L y box Dulce y Truco.', p: 19990, b: 23880, mode: 'Retiro y delivery', until: 'Hasta el 2 de noviembre', img: '/_blob/0a53fb431aa7046682bce23861e01c1c', href: 'Combo-Halloween.dc.html' },
+      { occ: 'p4', who: 'Para 4', name: 'Super Dúo', desc: 'Dos pizzas familiares a elección.', p: 22590, b: 27800, mode: 'Retiro y delivery', until: '', img: '/_blob/b19ee9f500b6cc3eae024bb333c50ab1', href: 'Combo.dc.html' },
+      { occ: 'p6', who: 'Para 6+', name: 'Super Trío', desc: 'Tres pizzas familiares a elección.', p: 33900, b: 41700, mode: 'Retiro y delivery', until: '', img: '/_blob/16a721124c50a8e185c8b55664ae6e2a', href: 'Combo-Trio.dc.html' },
+      { occ: 'p2', who: 'Para 2', name: 'Papa Combo Palitos', desc: 'Pizza de 3 ingredientes, acompañamiento y bebida 1,5 L.', p: 16490, b: 17880, mode: 'Retiro y delivery', until: '', img: '/_blob/7fdbaf1dcc74125ff04d0a3659676441', href: '#' },
+      { occ: 'p1', who: 'Para 1', name: 'Papa Flash', desc: 'Pizza individual, mini palitos y bebida.', p: 5490, b: 9030, mode: 'Retiro y delivery', until: '', img: '/_blob/c456af5e152ed3e42fa02102b3818639', href: '#' }
+    ];
+    const FILTERS = [{ id: 'all', label: 'Todas' }, { id: 'p1', label: 'Para 1' }, { id: 'p2', label: 'Para 2' }, { id: 'p4', label: 'Para 4' }, { id: 'p6', label: 'Para 6+' }];
+    const f = this.state.f;
+    return {
+      filters: FILTERS.map((x) => {
+        const on = x.id === f;
+        return { ...x, on, pick: () => this.setState({ f: x.id }),
+          style: 'flex-shrink: 0; min-height: 42px; padding: 0 16px; border-radius: 999px; cursor: pointer; font-family: \'Barlow\', sans-serif; font-size: 15px; font-weight: 700; ' +
+            (on ? 'background: #1E4D33; color: #FFFFFF; border: 0' : 'background: #FBE9D7; color: #7A3A12; border: 0') };
+      }),
+      deals: DEALS.filter((d) => f === 'all' || d.occ === f).map((d) => ({ ...d,
+        price: fmt(d.p), before: fmt(d.b), save: fmt(d.b - d.p), off: '-' + Math.round((1 - d.p / d.b) * 100) + '%', hasUntil: !!d.until }))
+    };
+  }
+}
+</script>
+</body>
+</html>

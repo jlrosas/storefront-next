@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Panel del presentador</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=Barlow:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 100%; min-height: 1320px; box-sizing: border-box; background: #1B1D1A; font-family: 'Barlow', sans-serif; color: #F4F3EE; padding: 24px">
+  <div style="max-width: 1240px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px">
+
+    <header style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap">
+      <div style="flex: 1; min-width: 280px">
+        <div style="font-size: 12px; font-weight: 700; color: #D7EA4A; text-transform: uppercase; letter-spacing: 0.6px">Solo para el presentador · no es parte de la tienda</div>
+        <h1 style="margin: 2px 0 0; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 40px; text-transform: uppercase; line-height: 1">Panel de la demo</h1>
+      </div>
+      <a href="Dashboard-Demo.dc.html" style="min-height: 44px; padding: 0 16px; border-radius: 10px; border: 1.5px solid #D7EA4A; color: #D7EA4A; font-weight: 700; font-size: 15px; display: flex; align-items: center; text-decoration: none">Dashboard en vivo</a>
+      <div role="radiogroup" aria-label="Perfil" style="display: flex; gap: 6px; background: #2A2D28; padding: 4px; border-radius: 12px">
+        <sc-for list="{{profiles}}" as="p" hint-placeholder-count="3">
+          <button type="button" role="radio" aria-checked="{{p.on}}" onClick="{{p.pick}}" style="{{p.style}}">{{p.label}}</button>
+        </sc-for>
+      </div>
+    </header>
+
+    <div style="display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-start">
+      <section style="flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+        <div style="background: #2A2D28; border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 10px">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+            <h2 style="margin: 0; font-size: 13px; font-weight: 700; color: #D7EA4A; text-transform: uppercase; letter-spacing: 0.6px">Guion · {{perfilName}} · {{progress}}</h2>
+            <button type="button" onClick="{{resetGuion}}" style="min-height: 36px; padding: 0 12px; border-radius: 999px; border: 1.5px solid #5A5D57; background: transparent; color: #E4E2DA; font-family: 'Barlow', sans-serif; font-weight: 700; font-size: 13px; cursor: pointer">Reiniciar</button>
+          </div>
+          <sc-for list="{{steps}}" as="t" hint-placeholder-count="6">
+            <button type="button" onClick="{{t.fire}}" aria-current="{{t.currentAttr}}" style="{{t.style}}">
+              <span style="{{t.numStyle}}">{{t.n}}</span>
+              <span style="flex: 1; display: flex; flex-direction: column; text-align: left; gap: 2px">
+                <span style="font-weight: 700; font-size: 16px">{{t.label}}</span>
+                <span style="font-size: 13px; color: #B9B7AE">{{t.hint}}</span>
+              </span>
+              <sc-if value="{{t.isNext}}" hint-placeholder-val="{{false}}">
+                <span style="font-size: 12px; font-weight: 800; color: #133423; background: #D7EA4A; border-radius: 999px; padding: 4px 10px; text-transform: uppercase">Siguiente</span>
+              </sc-if>
+              <sc-if value="{{t.isDone}}" hint-placeholder-val="{{false}}">
+                <span style="font-size: 12px; font-weight: 700; color: #B9B7AE">✓ hecho</span>
+              </sc-if>
+            </button>
+          </sc-for>
+        </div>
+        <details style="background: #20221F; border: 1.5px solid #3A3D37; border-radius: 16px; padding: 0 16px">
+          <summary style="min-height: 52px; display: flex; align-items: center; font-weight: 700; font-size: 15px; color: #E4E2DA; cursor: pointer">Más eventos y casos sorpresa ({{extraCount}})</summary>
+          <div style="display: flex; flex-direction: column; gap: 14px; padding-bottom: 16px">
+        <sc-for list="{{groups}}" as="g" hint-placeholder-count="3">
+          <div style="background: #2A2D28; border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 10px">
+            <h2 style="margin: 0; font-size: 13px; font-weight: 700; color: #B9B7AE; text-transform: uppercase; letter-spacing: 0.6px">{{g.title}}</h2>
+            <sc-for list="{{g.items}}" as="t" hint-placeholder-count="3">
+              <button type="button" onClick="{{t.fire}}" style="{{t.style}}">
+                <span style="width: 34px; height: 34px; border-radius: 10px; background: #133423; color: #D7EA4A; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px; flex-shrink: 0">{{t.code}}</span>
+                <span style="flex: 1; display: flex; flex-direction: column; text-align: left; gap: 2px">
+                  <span style="font-weight: 700; font-size: 16px">{{t.label}}</span>
+                  <span style="font-size: 13px; color: #B9B7AE">{{t.hint}}</span>
+                </span>
+                <span style="font-size: 12px; font-weight: 700; color: #1B1D1A; background: #D7EA4A; border-radius: 999px; padding: 4px 10px">{{t.channel}}</span>
+              </button>
+            </sc-for>
+          </div>
+        </sc-for>
+          </div>
+        </details>
+      </section>
+
+      <section style="flex: 0 0 340px; display: flex; flex-direction: column; gap: 14px">
+        <div style="width: 300px; align-self: center; background: #0E0F0D; border-radius: 40px; padding: 14px; box-shadow: 0 20px 40px rgba(0,0,0,0.5)">
+          <div style="background: #F4F3EE; color: #1B1D1A; border-radius: 28px; min-height: 520px; padding: 14px; display: flex; flex-direction: column; gap: 10px">
+            <div style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 700"><span>20:31</span><span>Teléfono del presentador</span></div>
+            <sc-if value="{{hasMsg}}" hint-placeholder-val="{{true}}">
+              <div style="background: #FFFFFF; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 14px rgba(0,0,0,0.12)">
+                <sc-if value="{{msg.hasImg}}" hint-placeholder-val="{{true}}">
+                  <img src="{{msg.img}}" alt="" style="width: 100%; height: 130px; object-fit: cover; display: block">
+                </sc-if>
+                <div style="padding: 12px; display: flex; flex-direction: column; gap: 6px">
+                  <span style="font-size: 11px; font-weight: 700; color: #5A5F57; text-transform: uppercase; letter-spacing: 0.4px">{{msg.channel}} · Papa Johns</span>
+                  <span style="font-weight: 800; font-size: 16px; line-height: 1.25">{{msg.title}}</span>
+                  <span style="font-size: 14px; line-height: 1.35; color: #3E423C">{{msg.body}}</span>
+                  <a href="{{msg.href}}" style="align-self: flex-start; margin-top: 4px; min-height: 40px; padding: 0 14px; border-radius: 999px; background: #1E4D33; color: #FFFFFF; font-weight: 700; font-size: 14px; display: flex; align-items: center; text-decoration: none">{{msg.cta}}</a>
+                </div>
+              </div>
+            </sc-if>
+            <sc-if value="{{noMsg}}" hint-placeholder-val="{{false}}">
+              <div style="flex: 1; display: flex; align-items: center; justify-content: center; text-align: center; color: #5A5F57; font-size: 14px; padding: 20px">Toca un evento: el mensaje aparece aquí y llega al celular real si Marketing Cloud está conectado.</div>
+            </sc-if>
+          </div>
+        </div>
+
+        <div style="background: #2A2D28; border-radius: 16px; padding: 14px; display: flex; flex-direction: column; gap: 8px">
+          <h2 style="margin: 0; font-size: 13px; font-weight: 700; color: #B9B7AE; text-transform: uppercase; letter-spacing: 0.6px">Registro de eventos</h2>
+          <sc-for list="{{log}}" as="l" hint-placeholder-count="3">
+            <div style="font-family: ui-monospace, Menlo, monospace; font-size: 12px; line-height: 1.4; color: #D7EA4A">{{l}}</div>
+          </sc-for>
+          <sc-if value="{{noLog}}" hint-placeholder-val="{{false}}">
+            <div style="font-size: 13px; color: #A3A69E">Sin eventos todavía.</div>
+          </sc-if>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1320}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { perfil: 'valentina', msg: null, log: [], fired: {} };
+  }
+  renderVals() {
+    const st = this.state;
+    const P = { valentina: 'Valentina', diego: 'Diego', sofia: 'Sofía' };
+    const name = P[st.perfil];
+    const T = [
+      { group: 'Antes de comprar', code: 'M3', label: 'Correo de reactivación', hint: 'Segmento: sin compras en 18 meses', channel: 'Correo', only: 'valentina',
+        event: 'segment.lapsed → Journey Builder M3',
+        msg: { channel: 'Correo', title: 'Valentina, queremos que vuelvas', body: 'Tu próximo pedido suma Papa Puntos dobles. Retíralo en El Bosque en 15 minutos.', cta: 'Volver a pedir', href: 'Home.dc.html', img: '/_blob/0a53fb431aa7046682bce23861e01c1c' } },
+      { group: 'Antes de comprar', code: 'T2', label: 'Anuncio de campaña (Super Dúo)', hint: 'Abre la landing con source code y la promesa del anuncio', channel: 'Paid', only: 'diego',
+        event: 'campaign.click utm=superduo source_code=PJSD26 → Home Diego',
+        msg: { channel: 'Instagram', title: '2 pizzas familiares por $22.590', body: 'Super Dúo: elige tus dos favoritas, recién salidas del horno. Alcanza para 6 (antes $27.800).', cta: 'Pedir ahora', href: 'Home-Diego.dc.html', img: '/_blob/b19ee9f500b6cc3eae024bb333c50ab1' } },
+      { group: 'Antes de comprar', code: 'M2', label: 'Carrito abandonado (otro canal)', hint: 'Llega al celular y abre el mismo carrito: el momento omnicanal', channel: 'WhatsApp + SMS',
+        event: 'cart.abandoned (30 min) → Journey Builder M2 · deep link /cart?id=… (mismo carrito en cualquier dispositivo)',
+        msg: { channel: 'WhatsApp', title: name + ', tu pedido te espera', body: 'Dejaste tu Super Dúo en el carrito. Lo guardamos tal cual: ábrelo aquí en tu celular y termínalo en un toque.', cta: 'Volver a mi carrito', href: 'Pedido.dc.html', img: '' } },
+      { group: 'Hora del día', code: '12h', label: 'Almuerzo', hint: 'Home de Diego con el bloque de almuerzo', channel: 'Tienda', only: 'diego',
+        event: 'storefront ?hora=almuerzo → Page Designer: bloque Almuerzo',
+        msg: { channel: 'Tienda', title: 'Almuerzo en 15 minutos', body: 'La Home de Diego muestra Papa Flash a $5.490. Ábrela y elige «Almuerzo».', cta: 'Abrir Home de Diego', href: 'Home-Diego.dc.html', img: '/_blob/c456af5e152ed3e42fa02102b3818639' } },
+      { group: 'Hora del día', code: '21h', label: 'Partido', hint: 'Hay partido en el calendario de ejemplo', channel: 'Tienda', only: 'diego',
+        event: 'storefront ?hora=partido → Page Designer: bloque Partido',
+        msg: { channel: 'Tienda', title: 'Para ver el partido', body: 'La Home de Diego propone el Super Trío para el grupo.', cta: 'Abrir Home de Diego', href: 'Home-Diego.dc.html', img: '/_blob/d32e60050648b1737f0e791d07477ae2' } },
+      { group: 'Hora del día', code: '23h', label: 'Bajón', hint: 'Después de las 22 h', channel: 'Tienda', only: 'diego',
+        event: 'storefront ?hora=bajon → Page Designer: bloque Bajón',
+        msg: { channel: 'Tienda', title: 'Antojo de noche', body: 'La Home de Diego propone el Papa Combo Palitos con delivery hasta las 23:30.', cta: 'Abrir Home de Diego', href: 'Home-Diego.dc.html', img: '/_blob/7fdbaf1dcc74125ff04d0a3659676441' } },
+      { group: 'Durante el pedido', code: 'M1', label: 'Avanzar estado: en preparación', hint: 'Simula el evento de la tienda (KDS)', channel: 'SMS',
+        event: 'order.status_changed PJ-48213 → in_preparation → M1',
+        msg: { channel: 'SMS', title: 'Tu pedido PJ-48213 está en el horno', body: 'Listo a las 20:45 en El Bosque. Síguelo en vivo.', cta: 'Ver seguimiento', href: 'Home-Sofia-EnCurso.dc.html', img: '' } },
+      { group: 'Durante el pedido', code: 'M1', label: 'Avanzar estado: listo para retirar', hint: 'O «en camino» si es delivery', channel: 'SMS + WhatsApp',
+        event: 'order.status_changed PJ-48213 → ready_for_pickup → M1',
+        msg: { channel: 'WhatsApp', title: '¡Tu pedido está listo!', body: 'Te espera en Papa Johns El Bosque, Tobalaba 201. Muestra el número PJ-48213.', cta: 'Cómo llegar', href: 'Confirmacion-Sofia.dc.html', img: '/_blob/a0f8034a00f2ee7f9ac16bae53dbf532' } },
+      { group: 'Durante el pedido', code: 'ETA', label: 'Cambiar la hora estimada', hint: 'Escenario 15 del kit: la tienda se atrasa', channel: 'SMS',
+        event: 'order.eta_changed 20:45 → 20:55 → M1',
+        msg: { channel: 'SMS', title: 'Tu pedido sale 10 minutos más tarde', body: 'Hay mucha demanda en El Bosque. Nueva hora: 20:55. Disculpa la espera.', cta: 'Ver seguimiento', href: 'Home-Sofia-EnCurso.dc.html', img: '' } },
+      { group: 'Order Management (real)', code: 'OMS', label: 'Abrir el pedido en la consola de OMS', hint: 'Mostrar que el pedido tiene un solo registro', channel: 'Consola',
+        event: 'OMS OrderSummary PJ-48213 abierto (Fulfillment Order: Allocated)',
+        msg: { channel: 'Consola OMS', title: 'Pedido PJ-48213', body: 'Promoción aplicada, pago aprobado, 2 productos, retiro en El Bosque. Desde aquí avanza el estado.', cta: 'Ver guion 13', href: '#', img: '' } },
+      { group: 'Order Management (real)', code: 'OMS', label: 'Cancelar un producto (falta la bebida)', hint: 'Reembolso parcial $2.490 + 50 puntos de regalo', channel: 'SMS',
+        event: 'OMS cancel item Coca-Cola 1,5 L → refund $2.490 · loyalty +50 (simulado) → M1',
+        msg: { channel: 'SMS', title: 'Cambiamos tu pedido PJ-48213', body: 'La tienda no tenía Coca-Cola Sin azúcar. Te devolvimos $2.490 y te regalamos 50 Papa Puntos.', cta: 'Ver mi pedido', href: 'Seguimiento-Cancelacion.dc.html', img: '' } },
+      { group: 'Casos sorpresa', code: '1', label: 'Tienda cerrada', hint: 'Providencia cerrada: proponer otra o programar', channel: 'Tienda',
+        event: 'store.status Providencia=closed → panel de tienda con alternativas',
+        msg: { channel: 'Tienda', title: 'Tienda cerrada', body: 'Elige Providencia en el panel de tienda: aparece El Bosque o programar para mañana.', cta: 'Abrir panel de tienda', href: 'Tienda.dc.html', img: '' } },
+      { group: 'Casos sorpresa', code: '2', label: 'Promoción no disponible', hint: 'Super Dúo solo para retiro y el cliente pidió delivery', channel: 'Tienda',
+        event: 'promotion.qualifier shipping=pickup ≠ delivery → aviso en el constructor',
+        msg: { channel: 'Tienda', title: 'Oferta solo para retiro', body: 'El constructor avisa y ofrece retirar en El Bosque o ver ofertas con delivery.', cta: 'Abrir constructor', href: 'Combo-NoDisponible.dc.html', img: '' } },
+      { group: 'Casos sorpresa', code: '13', label: 'No llega el código', hint: 'Reenviar, correo o pagar como invitada', channel: 'Tienda',
+        event: 'slas.passwordless timeout → alternativas sin perder el carrito',
+        msg: { channel: 'Tienda', title: '¿No te llega el código?', body: 'En el ingreso, toca «¿No te llega el código?»: el pedido sigue guardado.', cta: 'Abrir ingreso', href: 'Login.dc.html', img: '' } },
+      { group: 'Casos sorpresa', code: '14', label: 'Oferta vencida desde un enlace', hint: 'Anuncio viejo que apunta a una promoción terminada', channel: 'Tienda',
+        event: 'GET /promos/box-halloween (vencida) → página con alternativas, utm conservado',
+        msg: { channel: 'Tienda', title: 'Esta oferta terminó', body: 'El enlace no da error: muestra tres ofertas vigentes.', cta: 'Abrir página', href: 'Oferta-Vencida.dc.html', img: '' } },
+      { group: 'Después del pedido', code: 'M5', label: 'Acreditar Papa Puntos', hint: 'Loyalty (simulado): +23 puntos', channel: 'Correo',
+        event: 'loyalty.points_credited +23 → M5',
+        msg: { channel: 'Correo', title: 'Sumaste 23 Papa Puntos', body: 'Ahora tienes 363: tu próxima Super Pepperoni mediana ya es gratis.', cta: 'Canjear', href: 'Puntos-Canje.dc.html', img: '/_blob/31b1c48b16e1c46ab38ec585868503d0' } },
+      { group: 'Después del pedido', code: 'M4', label: 'Encuesta de opinión', hint: '1 hora después; nota baja abre un caso en SAC', channel: 'WhatsApp',
+        event: 'order.delivered +1h → M4 (≤2 → Service Cloud case)',
+        msg: { channel: 'WhatsApp', title: '¿Qué tal tu Pollo BBQ?', body: 'Respóndenos del 1 al 5. Si algo salió mal, lo resolvemos hoy.', cta: 'Calificar', href: 'Home-Sofia-Despues.dc.html', img: '' } },
+      { group: 'Después del pedido', code: 'M6', label: 'Recordatorio del viernes', hint: 'El que el cliente pidió en la confirmación', channel: 'SMS', only: 'sofia',
+        event: 'reminder.scheduled vie 20:00 → M6',
+        msg: { channel: 'SMS', title: 'Sofía, ¿lo de siempre?', body: 'Pollo BBQ sin cebolla y Combo Palitos: $23.890, listo en 15 min en El Bosque.', cta: 'Repetir pedido', href: 'Checkout-Sofia.dc.html', img: '/_blob/a0f8034a00f2ee7f9ac16bae53dbf532' } }
+    ];
+    const visible = T.filter((t) => !t.only || t.only === st.perfil);
+    // Orden del guion de 12 y 13 por perfil; el resto queda en «Más eventos y casos sorpresa».
+    const GUION = {
+      valentina: ['Correo de reactivación', 'Avanzar estado: en preparación', 'Abrir el pedido en la consola de OMS', 'Cancelar un producto (falta la bebida)', 'Avanzar estado: listo para retirar', 'Acreditar Papa Puntos', 'Encuesta de opinión'],
+      diego: ['Anuncio de campaña (Super Dúo)', 'Partido', 'Carrito abandonado (otro canal)', 'Avanzar estado: en preparación', 'Avanzar estado: listo para retirar', 'Acreditar Papa Puntos', 'Encuesta de opinión'],
+      sofia: ['Avanzar estado: en preparación', 'Cambiar la hora estimada', 'Avanzar estado: listo para retirar', 'Acreditar Papa Puntos', 'Encuesta de opinión', 'Recordatorio del viernes']
+    };
+    const fired = st.fired[st.perfil] || {};
+    const fire = (t) => () => this.setState({ msg: t.msg,
+      fired: { ...st.fired, [st.perfil]: { ...fired, [t.label]: true } },
+      log: [new Date(2026, 9, 17, 20, 31).toTimeString().slice(0, 5) + '  ' + t.event].concat(st.log).slice(0, 6) });
+    const guion = GUION[st.perfil].map((l) => visible.find((t) => t.label === l)).filter(Boolean);
+    const nextIdx = guion.findIndex((t) => !fired[t.label]);
+    const steps = guion.map((t, i) => {
+      const isNext = i === nextIdx, isDone = !!fired[t.label];
+      return { ...t, n: i + 1, isNext, isDone, currentAttr: isNext ? 'step' : 'false', fire: fire(t),
+        style: 'display: flex; align-items: center; gap: 12px; width: 100%; min-height: 60px; padding: 10px 12px; border-radius: 12px; cursor: pointer; font-family: \'Barlow\', sans-serif; color: #F4F3EE; ' +
+          (isNext ? 'border: 2px solid #D7EA4A; background: #20221F' : 'border: 1.5px solid #3A3D37; background: #20221F') + (isDone ? '; opacity: 0.7' : ''),
+        numStyle: 'width: 34px; height: 34px; border-radius: 999px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 15px; ' +
+          (isNext ? 'background: #D7EA4A; color: #133423' : 'background: #133423; color: #D7EA4A') };
+    });
+    const inGuion = new Set(GUION[st.perfil]);
+    const extras = visible.filter((t) => !inGuion.has(t.label));
+    const groups = ['Antes de comprar', 'Hora del día', 'Durante el pedido', 'Order Management (real)', 'Después del pedido', 'Casos sorpresa'].map((g) => ({
+      title: g,
+      items: extras.filter((t) => t.group === g).map((t) => ({ ...t,
+        fire: fire(t),
+        style: 'display: flex; align-items: center; gap: 12px; width: 100%; min-height: 60px; padding: 10px 12px; border-radius: 12px; border: 1.5px solid #3A3D37; background: #20221F; color: #F4F3EE; cursor: pointer; font-family: \'Barlow\', sans-serif' }))
+    })).filter((g) => g.items.length);
+    const msg = st.msg || { channel: '', title: '', body: '', cta: '', href: '#', img: '' };
+    return {
+      profiles: Object.keys(P).map((k) => ({ label: P[k], on: k === st.perfil, pick: () => this.setState({ perfil: k, msg: null }),
+        style: 'min-height: 40px; padding: 0 16px; border-radius: 9px; border: 0; cursor: pointer; font-family: \'Barlow\', sans-serif; font-size: 15px; font-weight: 700; ' +
+          (k === st.perfil ? 'background: #D7EA4A; color: #133423' : 'background: transparent; color: #B9B7AE') })),
+      groups, steps,
+      perfilName: P[st.perfil],
+      progress: (nextIdx < 0 ? guion.length : nextIdx) + ' de ' + guion.length,
+      extraCount: extras.length,
+      resetGuion: () => this.setState({ fired: { ...st.fired, [st.perfil]: {} }, msg: null }),
+      hasMsg: !!st.msg, noMsg: !st.msg,
+      msg: { ...msg, hasImg: !!msg.img },
+      log: st.log, noLog: st.log.length === 0
+    };
+  }
+}
+</script>
+</body>
+</html>

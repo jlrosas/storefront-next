@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Canje en el carrito</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=Barlow:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; overflow: hidden; background: #FFFBF5; font-family: 'Barlow', sans-serif; color: #1B1D1A">
+
+  <header style="height: 60px; flex-shrink: 0; background: #FFFFFF; border-bottom: 1px solid #E4E2DA; display: flex; align-items: center; gap: 8px; padding: 0 8px">
+    <a href="Home-Sofia.dc.html" aria-label="Volver" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #1B1D1A">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg>
+    </a>
+    <h1 style="margin: 0; flex: 1; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 24px; text-transform: uppercase">Mi pedido</h1>
+    <span style="background: #EEF6C8; color: #133423; font-weight: 700; font-size: 13px; padding: 6px 10px; border-radius: 999px; margin-right: 8px">{{balance}} puntos</span>
+  </header>
+
+  <main style="flex: 1; overflow-y: auto; padding: 12px 16px; display: flex; flex-direction: column; gap: 12px">
+    <div style="background: #FFFFFF; border-radius: 14px; padding: 2px 14px">
+      <sc-for list="{{lines}}" as="l" hint-placeholder-count="3">
+        <div style="display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid #EFE6DA; align-items: center">
+          <img src="{{l.img}}" alt="{{l.name}}" style="width: 64px; height: 64px; border-radius: 10px; object-fit: cover; flex-shrink: 0">
+          <div style="flex: 1; min-width: 0">
+            <div style="font-weight: 700; font-size: 15px">{{l.name}}</div>
+            <div style="font-size: 13px; color: #5A5F57">{{l.detail}}</div>
+          </div>
+          <div style="text-align: right">
+            <div style="{{l.priceStyle}}">{{l.price}}</div>
+            <div style="font-size: 12px; color: #5A5F57; text-decoration: line-through">{{l.before}}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+
+    <sc-if value="{{offer}}" hint-placeholder-val="{{true}}">
+      <section style="background: #133423; color: #FFFFFF; border-radius: 16px; overflow: hidden; display: flex">
+        <img src="/_blob/31b1c48b16e1c46ab38ec585868503d0" alt="" style="width: 110px; object-fit: cover">
+        <div style="flex: 1; padding: 12px; display: flex; flex-direction: column; gap: 6px">
+          <div style="font-size: 12px; font-weight: 700; color: #D7EA4A; text-transform: uppercase; letter-spacing: 0.4px">Con tus Papa Puntos</div>
+          <div style="font-size: 15px; font-weight: 700; line-height: 1.25">Suma una Super Pepperoni mediana gratis por 260 puntos</div>
+          <button type="button" onClick="{{redeem}}" style="align-self: flex-start; min-height: 42px; padding: 0 16px; border-radius: 999px; background: #D7EA4A; color: #133423; border: 0; font-family: 'Barlow', sans-serif; font-weight: 700; font-size: 15px; cursor: pointer">Canjear</button>
+        </div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{redeemed}}" hint-placeholder-val="{{false}}">
+      <div style="background: #EEF6C8; color: #133423; border-radius: 14px; padding: 12px 14px; display: flex; align-items: center; gap: 10px">
+        <span style="flex: 1; font-size: 14px; font-weight: 600">Canjeaste 260 puntos. Te quedan 80.</span>
+        <button type="button" onClick="{{undo}}" style="min-height: 40px; padding: 0 12px; background: none; border: 0; color: #1E4D33; font-family: 'Barlow', sans-serif; font-weight: 700; font-size: 14px; cursor: pointer">Deshacer</button>
+      </div>
+    </sc-if>
+
+    <div style="font-size: 14px; color: #3E423C; padding: 0 2px">Con este pedido ganas <strong>{{earn}} Papa Puntos</strong> más.</div>
+  </main>
+
+  <footer style="flex-shrink: 0; padding: 12px 16px 16px; background: #FFFFFF; border-top: 1px solid #E4E2DA">
+    <a href="Checkout-Sofia.dc.html" style="height: 52px; border-radius: 999px; background: #1E4D33; color: #FFFFFF; text-decoration: none; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; font-weight: 700; font-size: 16px">
+      <span>Ir a pagar</span>
+      <span>$23.890</span>
+    </a>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { redeemed: false };
+  }
+  renderVals() {
+    const r = this.state.redeemed;
+    const normal = 'font-weight: 700; font-size: 15px';
+    const lines = [
+      { name: 'Pollo BBQ', detail: 'Familiar · Tradicional · sin cebolla', price: '$16.900', before: '', priceStyle: normal, img: '/_blob/a0f8034a00f2ee7f9ac16bae53dbf532' },
+      { name: 'Combo Palitos y bebida', detail: 'Palitos de Ajo + Coca-Cola Sin azúcar 1,5 L', price: '$6.990', before: '', priceStyle: normal, img: '/_blob/7fdbaf1dcc74125ff04d0a3659676441' }
+    ];
+    if (r) lines.push({ name: 'Super Pepperoni mediana', detail: 'Canjeada con 260 Papa Puntos', price: '$0', before: '$13.000', priceStyle: 'font-weight: 800; font-size: 15px; color: #1E6B3A', img: '/_blob/31b1c48b16e1c46ab38ec585868503d0' });
+    return {
+      lines,
+      offer: !r,
+      redeemed: r,
+      redeem: () => this.setState({ redeemed: true }),
+      undo: () => this.setState({ redeemed: false }),
+      balance: r ? 80 : 340,
+      earn: 23
+    };
+  }
+}
+</script>
+</body>
+</html>

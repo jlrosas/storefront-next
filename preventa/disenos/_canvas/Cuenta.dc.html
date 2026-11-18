@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Mi cuenta</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=Barlow:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 390px; height: 1180px; box-sizing: border-box; position: relative; overflow: hidden; background: #F7F6F1; font-family: 'Barlow', sans-serif; color: #1B1D1A">
+
+  <header style="background: #1E4D33; color: #FFFFFF; padding: 12px 16px 20px; display: flex; flex-direction: column; gap: 14px">
+    <div style="display: flex; align-items: center; justify-content: space-between">
+      <a href="Home-Sofia.dc.html" style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 19px; line-height: 0.9; color: #FFFFFF; text-decoration: none">PAPA<br>JOHNS</a>
+      <span style="font-size: 13px; opacity: 0.85">Sesión iniciada con +56 9 7654 3210</span>
+    </div>
+    <h1 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 36px; text-transform: uppercase; line-height: 1">Hola, Sofía</h1>
+    <a href="Puntos-Cuenta.dc.html" style="background: #133423; color: #FFFFFF; border-radius: 14px; padding: 12px 14px; display: flex; align-items: center; gap: 12px; text-decoration: none">
+      <span style="flex: 1; display: flex; flex-direction: column">
+        <span style="font-size: 12px; font-weight: 700; color: #D7EA4A; text-transform: uppercase; letter-spacing: 0.5px">Papa Puntos</span>
+        <span style="font-size: 20px; font-weight: 800">340 puntos · $17.000</span>
+        <span style="font-size: 13px; opacity: 0.85">Ya alcanzan para una Super Pepperoni mediana</span>
+      </span>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg>
+    </a>
+  </header>
+
+  <main style="padding: 16px 16px 100px; display: flex; flex-direction: column; gap: 14px">
+    <a href="Confirmacion.dc.html" style="background: #FFFFFF; border: 2px solid #1E4D33; border-radius: 16px; padding: 14px; display: flex; flex-direction: column; gap: 10px; text-decoration: none; color: #1B1D1A">
+      <div style="display: flex; justify-content: space-between; align-items: center">
+        <span style="font-size: 12px; font-weight: 700; color: #1E6B3A; text-transform: uppercase; letter-spacing: 0.5px">Pedido en curso · PJ-48213</span>
+        <span style="font-size: 14px; font-weight: 700; color: #1E4D33">Seguir</span>
+      </div>
+      <span style="font-size: 18px; font-weight: 800">En preparación · listo a las 20:45</span>
+      <div aria-hidden="true" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px">
+        <span style="height: 6px; border-radius: 999px; background: #1E4D33"></span>
+        <span style="height: 6px; border-radius: 999px; background: #D7EA4A"></span>
+        <span style="height: 6px; border-radius: 999px; background: #E4E2DA"></span>
+      </div>
+      <span style="font-size: 13px; color: #5A5F57">Retiro en El Bosque · Tobalaba 201</span>
+    </a>
+
+    <section style="background: #FFFFFF; border-radius: 16px; padding: 4px 14px">
+      <h2 style="margin: 12px 0 4px; font-size: 18px; font-weight: 700">Tus pedidos</h2>
+      <sc-for list="{{orders}}" as="o" hint-placeholder-count="3">
+        <div style="display: flex; gap: 12px; align-items: center; padding: 12px 0; border-bottom: 1px solid #EFEEE7">
+          <img src="{{o.img}}" alt="" style="width: 56px; height: 56px; border-radius: 10px; object-fit: cover">
+          <span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px">
+            <span style="font-size: 13px; color: #5A5F57">{{o.when}} · {{o.total}}</span>
+            <span style="font-size: 14px; font-weight: 600; line-height: 1.3">{{o.what}}</span>
+          </span>
+          <a href="Checkout-Sofia.dc.html" style="min-height: 40px; padding: 0 14px; border-radius: 999px; border: 1.5px solid #1E4D33; color: #1E4D33; font-weight: 700; font-size: 14px; display: flex; align-items: center; text-decoration: none">Repetir</a>
+        </div>
+      </sc-for>
+      <a href="#" style="min-height: 48px; display: flex; align-items: center; font-weight: 700; font-size: 14px; color: #1E4D33">Ver todos</a>
+    </section>
+
+    <section style="background: #FFFFFF; border-radius: 16px; padding: 4px 14px">
+      <sc-for list="{{rows}}" as="r" hint-placeholder-count="5">
+        <a href="#" style="min-height: 60px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #EFEEE7; text-decoration: none; color: #1B1D1A">
+          <span style="flex: 1; display: flex; flex-direction: column">
+            <span style="font-weight: 700; font-size: 15px">{{r.title}}</span>
+            <span style="font-size: 13px; color: #5A5F57">{{r.sub}}</span>
+          </span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5A5F57" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg>
+        </a>
+      </sc-for>
+    </section>
+
+    <button type="button" style="min-height: 48px; border: 0; background: none; font-family: 'Barlow', sans-serif; font-weight: 700; font-size: 15px; color: #8A3B12; cursor: pointer">Cerrar sesión</button>
+  </main>
+
+  <nav aria-label="Navegación principal" style="position: absolute; left: 0; right: 0; bottom: 0; height: 64px; background: #FFFFFF; border-top: 1px solid #E4E2DA; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); font-size: 11px">
+    <a href="Home-Sofia.dc.html" style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #5A5F57; font-weight: 600; text-decoration: none"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11 12 4l9 7"></path><path d="M5 10v10h14V10"></path><path d="M10 20v-5h4v5"></path></svg><span>Inicio</span></a>
+    <a href="Menu.dc.html" style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #5A5F57; font-weight: 600; text-decoration: none"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 3.5 19.5c5.5 2 11.5 2 17 0L12 3z"></path><circle cx="10.5" cy="13" r="1.2"></circle><circle cx="13.8" cy="16.2" r="1.2"></circle><circle cx="12.2" cy="9.4" r="1"></circle></svg><span>Menú</span></a>
+    <a href="Ofertas.dc.html" style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #5A5F57; font-weight: 600; text-decoration: none"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 12.5 12.5 20.5a1.5 1.5 0 0 1-2.1 0L3.5 13.6V3.5h10.1l6.9 6.9a1.5 1.5 0 0 1 0 2.1z"></path><circle cx="8" cy="8" r="1.4"></circle></svg><span>Promos</span></a>
+    <a href="Pedido.dc.html" style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #5A5F57; font-weight: 600; text-decoration: none"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1.2 12.2H6.2z"></path><path d="M9 10V6.5a3 3 0 0 1 6 0V10"></path></svg><span>Pedido</span></a>
+    <a href="Cuenta.dc.html" aria-current="page" style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #1E4D33; font-weight: 700; text-decoration: none"><span aria-hidden="true" style="position: absolute; top: 0; left: 25%; right: 25%; height: 3px; border-radius: 0 0 3px 3px; background: #1E4D33"></span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.6-4 4.6-6 8-6s6.4 2 8 6"></path></svg><span>Cuenta</span></a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1180}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      orders: [
+        { when: '2 oct', total: '$23.890', what: 'Pollo BBQ Familiar sin cebolla y Combo Palitos con Coca-Cola Sin azúcar', img: '/_blob/a0f8034a00f2ee7f9ac16bae53dbf532' },
+        { when: '18 sep', total: '$31.480', what: 'Super Dúo: Pollo BBQ y Todas las Carnes, Cheesyqueños', img: '/_blob/b19ee9f500b6cc3eae024bb333c50ab1' },
+        { when: '4 sep', total: '$17.900', what: 'Pizza mitad y mitad (½ Pollo BBQ · ½ Todas las Carnes) y Boom de Jamón mediana con puntos', img: '/_blob/c5a122356aef0a8af1efae4ed408fac8' }
+      ],
+      rows: [
+        { title: 'Favoritos', sub: 'Pollo BBQ sin cebolla · Todas las Carnes · Hawaiana' },
+        { title: 'Tiendas y direcciones', sub: 'Retiro en El Bosque · Casa: Av. Providencia 1234, depto 504' },
+        { title: 'Medios de pago', sub: 'Visa ····4521 guardada en Mercado Pago' },
+        { title: 'Datos de factura', sub: 'Comercial Andes SpA · RUT 76.123.456-7' },
+        { title: 'Tus datos y avisos', sub: 'Celular, correo, recordatorios y ofertas' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

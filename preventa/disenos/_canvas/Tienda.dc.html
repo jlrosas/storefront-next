@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Tienda y modalidad</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=Barlow:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; position: relative; overflow: hidden; background: #F7F6F1; font-family: 'Barlow', sans-serif; color: #1B1D1A">
+  <div aria-hidden="true" style="position: absolute; inset: 0">
+    <div style="height: 60px; background: #1E4D33"></div>
+    <img src="/_blob/0c1660aef6babff9584b79b9f49f7c97" alt="" style="width: 100%; height: 300px; object-fit: cover">
+  </div>
+  <div aria-hidden="true" style="position: absolute; inset: 0; background: rgba(12,26,18,0.55)"></div>
+
+  <section role="dialog" aria-label="Cómo quieres tu pedido" style="position: absolute; left: 0; right: 0; top: 56px; bottom: 0; background: #FFFFFF; border-radius: 20px 20px 0 0; display: flex; flex-direction: column; overflow: hidden">
+    <div style="padding: 16px 16px 12px; display: flex; gap: 12px; align-items: flex-start">
+      <div style="flex: 1">
+        <h2 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 28px; text-transform: uppercase; line-height: 1">¿Cómo lo quieres?</h2>
+        <p style="margin: 4px 0 0; font-size: 14px; color: #5A5F57">Para agregar tu Pollo BBQ Familiar. Lo recordamos para la próxima.</p>
+      </div>
+      <a href="Sheet-Pizza.dc.html" aria-label="Cerrar" style="width: 44px; height: 44px; border-radius: 999px; background: #F4F3EE; color: #1B1D1A; display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+      </a>
+    </div>
+
+    <div role="group" aria-label="Modalidad" style="margin: 0 16px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); background: #F4F3EE; border-radius: 12px; padding: 4px">
+      <button type="button" aria-pressed="{{isPickup}}" onClick="{{toPickup}}" style="{{pickupStyle}}">Retiro</button>
+      <button type="button" aria-pressed="{{isDelivery}}" onClick="{{toDelivery}}" style="{{deliveryStyle}}">Delivery</button>
+      <button type="button" aria-pressed="{{isDineIn}}" onClick="{{toDineIn}}" style="{{dineInStyle}}">Comer aquí</button>
+    </div>
+
+    <div style="flex: 1; overflow-y: auto; padding: 14px 16px; display: flex; flex-direction: column; gap: 14px">
+
+      <sc-if value="{{isPickup}}" hint-placeholder-val="{{true}}">
+        <div style="display: flex; flex-direction: column; gap: 10px">
+          <button type="button" style="min-height: 48px; border-radius: 12px; border: 1.5px solid #1E4D33; background: #FFFFFF; color: #1E4D33; font-family: 'Barlow', sans-serif; font-weight: 700; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v3M12 19v3M2 12h3M19 12h3"></path><circle cx="12" cy="12" r="6"></circle></svg>
+            Usar mi ubicación
+          </button>
+          <label for="buscar-tienda" style="font-size: 13px; font-weight: 600; color: #5A5F57">O busca por comuna</label>
+          <input id="buscar-tienda" type="search" value="Providencia" style="height: 46px; border-radius: 12px; border: 1.5px solid #D5D3CA; padding: 0 14px; font-family: 'Barlow', sans-serif; font-size: 16px">
+          <sc-for list="{{stores}}" as="s" hint-placeholder-count="3">
+            <button type="button" aria-pressed="{{s.on}}" onClick="{{s.pick}}" style="{{s.style}}">
+              <span style="{{s.radio}}"><span style="{{s.dot}}"></span></span>
+              <span style="flex: 1; display: flex; flex-direction: column; gap: 2px; text-align: left">
+                <span style="font-weight: 700; font-size: 16px">{{s.name}}</span>
+                <span style="font-size: 13px; color: #5A5F57">{{s.address}} · {{s.km}}</span>
+                <span style="{{s.statusStyle}}">{{s.status}}</span>
+              </span>
+              <span style="font-size: 13px; font-weight: 700; color: #1E4D33; text-align: right">{{s.ready}}</span>
+            </button>
+          </sc-for>
+          <sc-if value="{{closedPicked}}" hint-placeholder-val="{{false}}">
+            <div role="alert" style="background: #FFF3E6; border: 1.5px solid #E9C9A6; border-radius: 14px; padding: 12px 14px; display: flex; flex-direction: column; gap: 10px">
+              <span style="font-size: 14px; line-height: 1.4; color: #3E423C"><strong style="color: #5C2408">Providencia está cerrada ahora</strong> (abre mañana a las 12:00). Tu pedido no se pierde: elige otra opción.</span>
+              <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+                <button type="button" onClick="{{toBosque}}" style="min-height: 48px; border-radius: 12px; border: 0; background: #1E4D33; color: #FFFFFF; font-family: 'Barlow', sans-serif; font-weight: 700; font-size: 14px; cursor: pointer; line-height: 1.2">El Bosque<br><span style="font-weight: 500; font-size: 12px">listo en 15 min</span></button>
+                <button type="button" onClick="{{toLater}}" style="min-height: 48px; border-radius: 12px; border: 1.5px solid #1E4D33; background: #FFFFFF; color: #1E4D33; font-family: 'Barlow', sans-serif; font-weight: 700; font-size: 14px; cursor: pointer; line-height: 1.2">Programar<br><span style="font-weight: 500; font-size: 12px">mañana desde 12:00</span></button>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{isDineIn}}" hint-placeholder-val="{{false}}">
+        <div style="display: flex; flex-direction: column; gap: 10px">
+          <p style="margin: 0; font-size: 14px; color: #3E423C">Pide desde aquí y te lo llevamos a la mesa. Solo locales con comedor.</p>
+          <sc-for list="{{dineStores}}" as="s" hint-placeholder-count="3">
+            <button type="button" aria-pressed="{{s.on}}" aria-disabled="{{s.off}}" onClick="{{s.pick}}" style="{{s.style}}">
+              <span style="{{s.radio}}"><span style="{{s.dot}}"></span></span>
+              <span style="flex: 1; display: flex; flex-direction: column; gap: 2px; text-align: left">
+                <span style="font-weight: 700; font-size: 16px">{{s.name}}</span>
+                <span style="font-size: 13px; color: #5A5F57">{{s.address}} · {{s.km}}</span>
+                <span style="{{s.statusStyle}}">{{s.status}}</span>
+              </span>
+            </button>
+          </sc-for>
+          <label style="display: flex; flex-direction: column; gap: 4px; font-size: 13px; font-weight: 600; color: #5A5F57">¿Cuántos son?
+            <select style="height: 46px; border-radius: 12px; border: 1.5px solid #D5D3CA; padding: 0 10px; font-family: 'Barlow', sans-serif; font-size: 16px; background: #FFFFFF"><option>2 personas</option><option>3 a 4 personas</option><option>5 o más</option></select>
+          </label>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{isDelivery}}" hint-placeholder-val="{{false}}">
+        <div style="display: flex; flex-direction: column; gap: 10px">
+          <label for="direccion" style="font-size: 13px; font-weight: 600; color: #5A5F57">Dirección de entrega</label>
+          <div style="position: relative">
+            <input id="direccion" type="text" autocomplete="street-address" value="{{addressValue}}" style="width: 100%; box-sizing: border-box; height: 48px; border-radius: 12px; border: 2px solid #1E4D33; padding: 0 14px; font-family: 'Barlow', sans-serif; font-size: 16px">
+          </div>
+          <sc-if value="{{showSuggestions}}" hint-placeholder-val="{{true}}">
+            <div role="listbox" aria-label="Sugerencias de dirección" style="border: 1px solid #E4E2DA; border-radius: 12px; overflow: hidden; box-shadow: 0 6px 16px rgba(0,0,0,0.08)">
+              <sc-for list="{{suggestions}}" as="g" hint-placeholder-count="3">
+                <button type="button" role="option" onClick="{{g.pick}}" style="width: 100%; min-height: 56px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 6px 14px; background: #FFFFFF; border: 0; border-bottom: 1px solid #EFEEE7; font-family: 'Barlow', sans-serif; cursor: pointer; color: #1B1D1A">
+                  <span style="font-weight: 700; font-size: 15px">{{g.main}}</span>
+                  <span style="font-size: 13px; color: #5A5F57">{{g.sub}}</span>
+                </button>
+              </sc-for>
+              <div style="padding: 6px 14px; font-size: 11px; color: #5A5F57; text-align: right; background: #FAFAF7">Con tecnología de Google</div>
+            </div>
+          </sc-if>
+          <sc-if value="{{addressPicked}}" hint-placeholder-val="{{false}}">
+            <div style="display: flex; flex-direction: column; gap: 10px">
+              <label for="depto" style="font-size: 13px; font-weight: 600; color: #5A5F57">Depto, casa u oficina (opcional)</label>
+              <input id="depto" type="text" autocomplete="address-line2" placeholder="Ej.: depto 504" style="height: 46px; border-radius: 12px; border: 1.5px solid #D5D3CA; padding: 0 14px; font-family: 'Barlow', sans-serif; font-size: 16px">
+              <div style="background: #EEF6C8; color: #133423; border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 4px">
+                <div style="font-weight: 700; font-size: 15px">Te lo lleva Papa Johns Salvador</div>
+                <div style="font-size: 14px">Llega en 35–45 min · Despacho $1.990</div>
+                <div style="font-size: 13px">Pedido mínimo $12.000</div>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+      </sc-if>
+
+      <div style="display: flex; flex-direction: column; gap: 8px; border-top: 1px solid #EFEEE7; padding-top: 14px">
+        <h3 style="margin: 0; font-size: 16px; font-weight: 700">¿Cuándo?</h3>
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+          <button type="button" aria-pressed="{{asap}}" onClick="{{toAsap}}" style="{{asapStyle}}">Lo antes posible</button>
+          <button type="button" aria-pressed="{{later}}" onClick="{{toLater}}" style="{{laterStyle}}">Programar</button>
+        </div>
+        <sc-if value="{{later}}" hint-placeholder-val="{{false}}">
+          <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+            <label style="display: flex; flex-direction: column; gap: 4px; font-size: 13px; font-weight: 600; color: #5A5F57">Día
+              <select style="height: 46px; border-radius: 12px; border: 1.5px solid #D5D3CA; padding: 0 10px; font-family: 'Barlow', sans-serif; font-size: 16px; background: #FFFFFF"><option>Hoy</option><option>Mañana</option></select>
+            </label>
+            <label style="display: flex; flex-direction: column; gap: 4px; font-size: 13px; font-weight: 600; color: #5A5F57">Hora
+              <select style="height: 46px; border-radius: 12px; border: 1.5px solid #D5D3CA; padding: 0 10px; font-family: 'Barlow', sans-serif; font-size: 16px; background: #FFFFFF"><option>20:30</option><option>20:45</option><option>21:00</option></select>
+            </label>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+
+    <footer style="flex-shrink: 0; padding: 12px 16px 16px; border-top: 1px solid #E4E2DA">
+      <a href="Complementa.dc.html" style="height: 52px; border-radius: 999px; background: #1E4D33; color: #FFFFFF; text-decoration: none; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; font-weight: 700; font-size: 16px">
+        <span>Confirmar y agregar</span>
+        <span>$16.900</span>
+      </a>
+    </footer>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"modo":{"editor":"enum","options":["retiro","delivery","comedor"],"default":"retiro"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { mode: null, store: 'bosque', when: 'asap', picked: null };
+  }
+  renderVals() {
+    const st = this.state;
+    const mode = st.mode || this.props.modo || 'retiro';
+    const seg = (on) => 'min-height: 44px; border-radius: 9px; border: 0; cursor: pointer; font-family: \'Barlow\', sans-serif; font-size: 15px; ' +
+      (on ? 'background: #FFFFFF; color: #133423; font-weight: 700; box-shadow: 0 1px 3px rgba(0,0,0,0.12)' : 'background: transparent; color: #5A5F57; font-weight: 600');
+    const chip = (on) => 'min-height: 46px; border-radius: 12px; cursor: pointer; font-family: \'Barlow\', sans-serif; font-size: 15px; font-weight: 600; ' +
+      (on ? 'background: #EEF6C8; color: #133423; border: 2px solid #1E4D33' : 'background: #FFFFFF; color: #1B1D1A; border: 2px solid #E4E2DA');
+    const STORES = [
+      { id: 'bosque', name: 'El Bosque', address: 'Tobalaba 201', km: '0,8 km', status: 'Abierta · cierra 23:30', ready: 'Listo en\n15 min', closed: false },
+      { id: 'salv', name: 'Salvador', address: 'Av. Salvador 1822', km: '2,1 km', status: 'Abierta · cierra 23:00', ready: 'Listo en\n35 min', closed: false },
+      { id: 'prov', name: 'Providencia', address: 'Av. Providencia 1349', km: '1,9 km', status: 'Cerrada · abre mañana 12:00', ready: 'Solo\nprogramado', closed: true }
+    ];
+    const stores = STORES.map((s) => {
+      const on = s.id === st.store;
+      return { ...s, on,
+        pick: () => this.setState({ store: s.id }),
+        style: 'display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 14px; cursor: pointer; font-family: \'Barlow\', sans-serif; color: #1B1D1A; white-space: pre-line; ' +
+          (on ? 'background: #FFFFFF; border: 2px solid #1E4D33' : 'background: #FFFFFF; border: 2px solid #E4E2DA') + (s.closed ? '; opacity: 0.6' : ''),
+        radio: 'width: 22px; height: 22px; border-radius: 999px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border: 2px solid ' + (on ? '#1E4D33' : '#B9B7AE'),
+        dot: 'width: 12px; height: 12px; border-radius: 999px; background: ' + (on ? '#1E4D33' : 'transparent'),
+        statusStyle: 'font-size: 13px; font-weight: 600; color: ' + (s.closed ? '#8A3B12' : '#1E6B3A') };
+    });
+    const SUG = [
+      { main: 'Av. Providencia 1208', sub: 'Providencia, Región Metropolitana' },
+      { main: 'Av. Providencia 1234', sub: 'Providencia, Región Metropolitana' },
+      { main: 'Av. Nueva Providencia 1881', sub: 'Providencia, Región Metropolitana' }
+    ];
+    return {
+      isPickup: mode === 'retiro',
+      isDelivery: mode === 'delivery',
+      pickupStyle: seg(mode === 'retiro'),
+      deliveryStyle: seg(mode === 'delivery'),
+      isDineIn: mode === 'comedor',
+      dineInStyle: seg(mode === 'comedor'),
+      toDineIn: () => this.setState({ mode: 'comedor' }),
+      closedPicked: st.store === 'prov' && st.when === 'asap',
+      toBosque: () => this.setState({ store: 'bosque' }),
+      dineStores: [
+        { id: 'bosque', name: 'El Bosque', address: 'Tobalaba 201', km: '0,8 km', status: 'Comedor abierto · hay mesas libres', ok: true },
+        { id: 'salv', name: 'Salvador', address: 'Av. Salvador 1822', km: '2,1 km', status: 'Comedor lleno · espera de 20 min', ok: true },
+        { id: 'prov', name: 'Providencia', address: 'Av. Providencia 1349', km: '1,9 km', status: 'Sin comedor', ok: false }
+      ].map((s) => {
+        const on = s.ok && s.id === (st.dine || 'bosque');
+        return { ...s, on, off: !s.ok,
+          pick: () => { if (s.ok) this.setState({ dine: s.id }); },
+          style: 'display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 14px; font-family: \'Barlow\', sans-serif; color: #1B1D1A; ' +
+            (on ? 'background: #FFFFFF; border: 2px solid #1E4D33; cursor: pointer' : s.ok ? 'background: #FFFFFF; border: 2px solid #E4E2DA; cursor: pointer' : 'background: #F4F3EE; border: 2px dashed #D5D3CA; opacity: 0.65; cursor: not-allowed'),
+          radio: 'width: 22px; height: 22px; border-radius: 999px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border: 2px solid ' + (on ? '#1E4D33' : '#B9B7AE'),
+          dot: 'width: 12px; height: 12px; border-radius: 999px; background: ' + (on ? '#1E4D33' : 'transparent'),
+          statusStyle: 'font-size: 13px; font-weight: 600; color: ' + (s.ok ? (s.id === 'salv' ? '#8A3B12' : '#1E6B3A') : '#6B6E68') };
+      }),
+      toPickup: () => this.setState({ mode: 'retiro' }),
+      toDelivery: () => this.setState({ mode: 'delivery' }),
+      stores,
+      addressValue: st.picked || 'Av. Providencia 12',
+      showSuggestions: !st.picked,
+      addressPicked: !!st.picked,
+      suggestions: SUG.map((g) => ({ ...g, pick: () => this.setState({ picked: g.main + ', Providencia' }) })),
+      asap: st.when === 'asap',
+      later: st.when === 'later',
+      asapStyle: chip(st.when === 'asap'),
+      laterStyle: chip(st.when === 'later'),
+      toAsap: () => this.setState({ when: 'asap' }),
+      toLater: () => this.setState({ when: 'later' })
+    };
+  }
+}
+</script>
+</body>
+</html>

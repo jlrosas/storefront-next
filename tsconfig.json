@@ -26,6 +26,7 @@
         }
     },
     "exclude": [
+        "preventa/**/*",
         "dist",
         "node_modules",
         "**/*-snapshot.tsx",

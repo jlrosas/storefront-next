@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Pedido recibido</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=Barlow:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#1E4D33}a:hover{color:#133423}
+</style>
+</helmet>
+<div style="width: 390px; height: 1560px; box-sizing: border-box; overflow: hidden; background: #F7F6F1; font-family: 'Barlow', sans-serif; color: #1B1D1A">
+
+  <header style="background: #1E4D33; color: #FFFFFF; height: 60px; padding: 0 16px; display: flex; align-items: center">
+    <a href="Home.dc.html" style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 19px; line-height: 0.9; color: #FFFFFF; text-decoration: none">PAPA<br>JOHNS</a>
+  </header>
+
+  <main style="padding: 20px 16px 24px; display: flex; flex-direction: column; gap: 14px">
+    <section style="background: #133423; color: #FFFFFF; border-radius: 18px; padding: 20px; display: flex; flex-direction: column; gap: 6px" aria-live="polite">
+      <span style="width: 44px; height: 44px; border-radius: 999px; background: #D7EA4A; color: #133423; display: flex; align-items: center; justify-content: center">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"></path></svg>
+      </span>
+      <h1 style="margin: 6px 0 0; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 32px; text-transform: uppercase; line-height: 1">{{headline}}</h1>
+      <div style="font-size: 15px; opacity: 0.9">{{orderLine}}</div>
+      <div style="font-size: 22px; font-weight: 700; color: #D7EA4A; margin-top: 4px">{{eta}}</div>
+      <div style="font-size: 13px; opacity: 0.8">{{updated}}</div>
+    </section>
+
+    <sc-if value="{{cancel}}" hint-placeholder-val="{{false}}">
+      <section role="status" style="background: #FFF3E6; border: 1.5px solid #E9C9A6; border-radius: 16px; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px">
+        <div style="display: flex; gap: 10px; align-items: flex-start">
+          <span style="width: 26px; height: 26px; border-radius: 999px; background: #8A3B12; color: #FFFFFF; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-weight: 800">!</span>
+          <div style="display: flex; flex-direction: column; gap: 4px">
+            <strong style="font-size: 16px; color: #5C2408">Cambiamos tu pedido</strong>
+            <span style="font-size: 14px; line-height: 1.4; color: #3E423C">La tienda no tenía <strong>Coca-Cola Sin azúcar 1,5 L</strong>. La quitamos del pedido y el resto sigue igual.</span>
+          </div>
+        </div>
+        <div style="background: #FFFFFF; border-radius: 12px; padding: 10px 12px; display: flex; flex-direction: column; gap: 4px; font-size: 14px">
+          <div style="display: flex; justify-content: space-between"><span>Devolución a tu tarjeta</span><strong>$2.490</strong></div>
+          <div style="display: flex; justify-content: space-between; color: #133423"><span>Te regalamos por la molestia</span><strong>+50 Papa Puntos</strong></div>
+        </div>
+        <span style="font-size: 12px; color: #5A5F57">La devolución aparece en tu tarjeta en 1 a 5 días hábiles. Te lo confirmamos por SMS y correo.</span>
+      </section>
+    </sc-if>
+
+    <section style="background: #FFFFFF; border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 0">
+      <h2 style="margin: 0 0 10px; font-size: 18px; font-weight: 700">Estado de tu pedido</h2>
+      <sc-for list="{{steps}}" as="s" hint-placeholder-count="3">
+        <div style="display: flex; gap: 12px; min-height: 56px">
+          <div style="display: flex; flex-direction: column; align-items: center">
+            <span style="{{s.dot}}"></span>
+            <span style="{{s.line}}"></span>
+          </div>
+          <div style="padding-bottom: 12px">
+            <div style="{{s.labelStyle}}">{{s.label}}</div>
+            <div style="font-size: 13px; color: #5A5F57">{{s.time}}</div>
+          </div>
+        </div>
+      </sc-for>
+    </section>
+
+    <sc-if value="{{isPickup}}" hint-placeholder-val="{{true}}">
+      <section style="background: #FFFFFF; border-radius: 16px; padding: 16px; display: flex; align-items: center; gap: 12px">
+        <div style="flex: 1">
+          <div style="font-weight: 700; font-size: 15px">Papa Johns El Bosque</div>
+          <div style="font-size: 13px; color: #5A5F57">Tobalaba 201 · Abierta hasta 23:30</div>
+        </div>
+        <a href="#" style="min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1.5px solid #1E4D33; font-weight: 700; font-size: 14px; display: flex; align-items: center; text-decoration: none">Cómo llegar</a>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{isDelivery}}" hint-placeholder-val="{{false}}">
+      <section style="background: #FFFFFF; border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 6px">
+        <div style="font-weight: 700; font-size: 15px">Av. Providencia 1234, depto 504</div>
+        <div style="font-size: 13px; color: #5A5F57">Te lo lleva Papa Johns Salvador · Av. Salvador 1822</div>
+        <div style="background: #F4F3EE; border-radius: 12px; padding: 10px 12px; font-size: 14px; font-weight: 600; color: #133423">{{cashNote}}</div>
+      </section>
+    </sc-if>
+
+    <div style="background: #FFFFFF; border-radius: 16px; padding: 14px 16px; font-size: 14px; color: #3E423C; display: flex; gap: 10px; align-items: flex-start">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1E4D33" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"></rect><path d="M11 18h2"></path></svg>
+      <span>{{smsText}}</span>
+    </div>
+
+    <section style="background: #EEF6C8; color: #133423; border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 8px">
+      <div style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 24px; text-transform: uppercase">Ganaste {{points}} Papa Puntos</div>
+      <div style="font-size: 14px">{{pointsText}}</div>
+      <a href="Cuenta.dc.html" style="align-self: flex-start; min-height: 44px; padding: 0 18px; border-radius: 999px; background: #1E4D33; color: #FFFFFF; font-weight: 700; display: flex; align-items: center; text-decoration: none">Ver en Mi cuenta</a>
+    </section>
+
+    <sc-if value="{{ready}}" hint-placeholder-val="{{false}}">
+      <section style="background: #FFFFFF; border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 10px">
+        <h2 style="margin: 0; font-size: 17px; font-weight: 700">¿Qué tal tu pedido?</h2>
+        <div role="radiogroup" aria-label="Califica tu pedido de 1 a 5" style="display: flex; gap: 8px">
+          <sc-for list="{{stars}}" as="s" hint-placeholder-count="5">
+            <button type="button" role="radio" aria-checked="{{s.on}}" aria-label="{{s.label}}" onClick="{{s.pick}}" style="{{s.style}}">{{s.n}}</button>
+          </sc-for>
+        </div>
+        <div style="font-size: 13px; color: #5A5F57">{{ratingNote}}</div>
+      </section>
+    </sc-if>
+
+    <section style="background: #FFFFFF; border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 10px">
+      <h2 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 22px; text-transform: uppercase">Para la próxima</h2>
+      <div style="display: flex; gap: 12px; align-items: center">
+        <img src="/_blob/a0f8034a00f2ee7f9ac16bae53dbf532" alt="" style="width: 64px; height: 64px; border-radius: 12px; object-fit: cover">
+        <div style="flex: 1; font-size: 14px; line-height: 1.35">Pollo BBQ Familiar sin cebolla y Combo Palitos de Ajo con Coca-Cola Sin azúcar</div>
+      </div>
+      <button type="button" aria-pressed="{{fav}}" onClick="{{toggleFav}}" style="{{favStyle}}">{{favLabel}}</button>
+      <button type="button" aria-pressed="{{remind}}" onClick="{{toggleRemind}}" style="{{remindStyle}}">{{remindLabel}}</button>
+      <div style="font-size: 12px; color: #5A5F57">Te enviamos el recordatorio por SMS o correo. Puedes cancelarlo cuando quieras.</div>
+    </section>
+
+    <details style="background: #FFFFFF; border-radius: 16px; padding: 0 16px">
+      <summary style="min-height: 52px; display: flex; align-items: center; font-weight: 700; cursor: pointer">Ver detalle del pedido · {{total}}</summary>
+      <div style="padding-bottom: 14px; font-size: 14px; color: #3E423C; display: flex; flex-direction: column; gap: 4px">
+        <span>{{pizzaLine}}</span>
+        <span>{{comboLine}}</span>
+        <sc-if value="{{cancel}}" hint-placeholder-val="{{false}}"><span style="text-decoration: line-through; color: #8A3B12">1× Coca-Cola Sin azúcar 1,5 L (devuelta: $2.490)</span></sc-if>
+        <sc-if value="{{isDelivery}}" hint-placeholder-val="{{false}}"><span>Despacho $1.990</span></sc-if>
+        <span>{{payLine}}</span>
+      </div>
+    </details>
+
+    <a href="Home.dc.html" style="min-height: 48px; display: flex; align-items: center; justify-content: center; font-weight: 700">Volver al inicio</a>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"modalidad":{"editor":"enum","options":["retiro","delivery"],"default":"retiro"},"mitades":{"editor":"boolean","default":false},"cliente":{"editor":"enum","options":["valentina","sofia"],"default":"valentina"},"cancelacion":{"editor":"boolean","default":false},"paso":{"editor":"enum","options":["recibido","preparacion","camino-o-listo","entregado"],"default":"preparacion"},"$preview":{"width":390,"height":1560}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { fav: false, remind: false, rating: 0 };
+  }
+  renderVals() {
+    const fmt = (n) => '$' + String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    const delivery = (this.props.modalidad ?? 'retiro') === 'delivery';
+    const half = !!this.props.mitades;
+    const isSofia = this.props.cliente === 'sofia';
+    const cancel = !!this.props.cancelacion;
+    const products = (half ? 24890 : 23890) - (cancel ? 2490 : 0);
+    const total = products + (delivery ? 1990 : 0);
+    const earned = Math.floor(products / 1000) * (this.props.cliente === 'sofia' ? 1 : 2) + (cancel ? 50 : 0);
+    const PASOS = { recibido: 0, preparacion: 1, 'camino-o-listo': 2, entregado: 3 };
+    const cur = Math.min(PASOS[this.props.paso ?? 'preparacion'] ?? 1, delivery ? 3 : 2);
+    const STEPS = delivery ? [
+      { label: 'Pedido recibido', time: '20:27' },
+      { label: 'En preparación', time: 'Lo estamos horneando' },
+      { label: 'En camino', time: 'Llega en 18 min · tu repartidor lleva el vuelto' },
+      { label: 'Entregado', time: 'Entre 21:05 y 21:15' }
+    ] : [
+      { label: 'Pedido recibido', time: '20:27' },
+      { label: 'En preparación', time: 'Lo estamos horneando' },
+      { label: 'Listo para retirar', time: '20:45 aprox.' }
+    ];
+    const lastStep = STEPS.length - 1;
+    const steps = STEPS.map((s, i) => {
+      const done = i < cur;
+      const now = i === cur;
+      const last = i === STEPS.length - 1;
+      return { ...s,
+        dot: 'width: 20px; height: 20px; border-radius: 999px; flex-shrink: 0; box-sizing: border-box; ' +
+          (done ? 'background: #1E4D33' : now ? 'background: #D7EA4A; border: 4px solid #1E4D33' : 'background: #FFFFFF; border: 2px solid #B9B7AE'),
+        line: 'width: 2px; flex: 1; background: ' + (last ? 'transparent' : done ? '#1E4D33' : '#E4E2DA'),
+        labelStyle: 'font-size: 15px; ' + (now ? 'font-weight: 800; color: #133423' : done ? 'font-weight: 600; color: #1B1D1A' : 'font-weight: 500; color: #5A5F57') };
+    });
+    const ready = cur >= lastStep;
+    const st = this.state;
+    const pill = (on) => 'min-height: 48px; border-radius: 999px; cursor: pointer; font-family: \'Barlow\', sans-serif; font-size: 15px; font-weight: 700; ' +
+      (on ? 'background: #EEF6C8; color: #133423; border: 2px solid #1E4D33' : 'background: #FFFFFF; color: #1E4D33; border: 1.5px solid #1E4D33');
+    const stars = [1, 2, 3, 4, 5].map((n) => ({
+      n, on: n === st.rating, label: n + ' de 5',
+      pick: () => this.setState({ rating: n }),
+      style: 'flex: 1; min-height: 48px; border-radius: 12px; cursor: pointer; font-family: \'Barlow\', sans-serif; font-size: 18px; font-weight: 700; ' +
+        (n <= st.rating ? 'background: #1E4D33; color: #FFFFFF; border: 0' : 'background: #FFFFFF; color: #1B1D1A; border: 1.5px solid #D5D3CA')
+    }));
+    return {
+      ready,
+      stars,
+      ratingNote: st.rating === 0 ? '1 es muy malo, 5 es excelente.' : st.rating <= 2 ? 'Lo sentimos. Un ejecutivo te contactará hoy para resolverlo.' : '¡Gracias! Nos ayuda a mejorar.',
+      fav: st.fav,
+      toggleFav: () => this.setState({ fav: !st.fav }),
+      favLabel: st.fav ? '✓ Guardado en tus favoritos' : 'Guardar como favorito',
+      favStyle: pill(st.fav),
+      remind: st.remind,
+      toggleRemind: () => this.setState({ remind: !st.remind }),
+      remindLabel: st.remind ? '✓ Te lo recordamos el viernes 20:00' : '¿Te lo recordamos el viernes a las 20:00?',
+      remindStyle: pill(st.remind),
+      steps,
+      headline: ready ? (delivery ? '¡Pedido entregado!' : '¡Tu pedido está listo!') : cur === 2 && delivery ? '¡Va en camino!' : cur === 1 ? 'Lo estamos preparando' : '¡Pedido recibido!',
+      cancel,
+      comboLine: cancel ? '1× Palitos de Ajo (del combo)' : '1× Combo Palitos de Ajo y Coca-Cola Sin azúcar 1,5 L',
+      updated: ready ? 'Actualizado a las ' + (delivery ? '21:09' : '20:44') : 'Actualizado hace 1 min',
+      eta: ready ? (delivery ? '¡Que lo disfrutes!' : 'Te espera en la tienda') : delivery ? (cur === 2 ? 'Llega en 18 min' : 'Llega entre 21:05 y 21:15') : 'Listo a las 20:45 aprox.',
+      pizzaLine: half ? '1× Pizza mitad y mitad · Familiar · Tradicional · ½ Pollo BBQ · ½ Todas las Carnes' : '1× Pollo BBQ · Familiar · Tradicional · sin cebolla',
+      orderLine: 'Pedido N.º PJ-48213 · ' + (delivery ? 'Delivery' : 'Retiro en El Bosque'),
+      isPickup: !delivery, isDelivery: delivery,
+      cashNote: 'Pagas ' + fmt(total) + ' en efectivo al recibir · el repartidor lleva vuelto de $30.000',
+      smsText: delivery ? 'Te avisamos por SMS al +56 9 8765 4321 cuando salga de la tienda. El enlace para seguirlo también llegó a tu correo.' : 'Te avisamos por SMS al +56 9 8765 4321 cuando esté listo. El enlace para seguirlo también llegó a tu correo.',
+      points: earned,
+      pointsText: (cancel ? 'Incluye 50 de regalo por el cambio. ' : '') + (isSofia ? 'Se acreditan al retirar: quedarás con ' + (340 + earned) + '.' : 'Dobles por volver. Se acreditan al recibirlo: quedarás con ' + (40 + earned) + '.'),
+      total: fmt(total),
+      payLine: delivery ? 'Pago en efectivo al recibir' : isSofia ? 'Pagado con Mercado Pago · Visa ····4521' : 'Pagado con Mercado Pago · tarjeta guardada para la próxima',
+      advance: () => this.setState({ step: cur >= lastStep ? 0 : cur + 1 })
+    };
+  }
+}
+</script>
+</body>
+</html>

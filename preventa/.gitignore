@@ -1,0 +1,20 @@
+# Originales pesados: se documentan en FUENTES.md con su URL de origen
+*.pdf
+*.PDF
+*.mp4
+*.mov
+*.webm
+*.m4a
+*.zip
+
+# Capturas de validación (446 MB): fuera del repo, ver FUENTES.md
+demo/evidencia/
+
+# Secretos (por si alguien los copia aquí)
+dw.json
+.env
+.env.*
+
+.DS_Store
+__pycache__/
+*.pyc

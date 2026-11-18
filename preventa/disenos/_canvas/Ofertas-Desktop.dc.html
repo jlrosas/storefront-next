@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Ofertas escritorio</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=Barlow:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 100%; min-height: 1300px; box-sizing: border-box; background: #FFFBF5; font-family: 'Barlow', sans-serif; color: #1B1D1A">
+
+  <header style="background: #1E4D33; color: #FFFFFF">
+    <div style="max-width: 1240px; margin: 0 auto; padding: 0 24px; min-height: 72px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px">
+      <a href="Home-Desktop.dc.html" style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 22px; line-height: 0.9; letter-spacing: 0.5px; color: #FFFFFF; text-decoration: none">PAPA<br>JOHNS</a>
+      <nav aria-label="Principal" style="display: flex; flex-wrap: wrap; gap: 4px 22px; font-weight: 600; font-size: 15px">
+        <a href="Menu-Desktop.dc.html" style="color: #FFFFFF; text-decoration: none; padding: 10px 0">Menú</a>
+        <a href="#" style="color: #FFFFFF; text-decoration: none; padding: 10px 0; border-bottom: 3px solid #D7EA4A">Promos</a>
+        <a href="Puntos.dc.html" style="color: #FFFFFF; text-decoration: none; padding: 10px 0">Papa Puntos</a>
+        <a href="#" style="color: #FFFFFF; text-decoration: none; padding: 10px 0">Locales</a>
+      </nav>
+      <div style="flex: 1"></div>
+      <a href="Tienda.dc.html" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: #FFFFFF; border-radius: 10px; min-height: 44px; padding: 4px 14px; text-decoration: none; display: flex; flex-direction: column; justify-content: center">
+        <span style="font-size: 12px; opacity: 0.85">Retiro o delivery</span>
+        <span style="font-size: 14px; font-weight: 700">Elige cómo lo quieres</span>
+      </a>
+      <a href="Menu-Desktop.dc.html" style="min-height: 44px; padding: 0 16px; border-radius: 10px; background: #D7EA4A; color: #133423; display: flex; align-items: center; font-weight: 700; text-decoration: none">Mi pedido</a>
+    </div>
+  </header>
+
+  <main style="max-width: 1240px; margin: 0 auto; padding: 28px 24px 56px; display: flex; flex-direction: column; gap: 28px">
+    <section aria-label="Oferta destacada" style="display: flex; flex-wrap: wrap; border-radius: 24px; overflow: hidden; background: #2E1A3B; color: #FFFFFF">
+      <div style="flex: 1 1 360px; min-width: 0; padding: 40px; display: flex; flex-direction: column; gap: 12px; justify-content: center">
+        <div style="display: flex; gap: 8px">
+          <span style="background: #F2B33D; color: #2E1A3B; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; text-transform: uppercase">Hasta el 2 de noviembre</span>
+          <span style="background: #B3261E; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px">-16%</span>
+        </div>
+        <h1 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 52px; text-transform: uppercase; line-height: 0.95">Box Halloween de Miedo</h1>
+        <p style="margin: 0; font-size: 17px; opacity: 0.92">Elige tu pizza mediana (Super Pepperoni, Boom de Jamón, Napolitana o The Works), Coca-Cola 1,5 L y la box Dulce y Truco.</p>
+        <div><span style="font-size: 40px; font-weight: 800; color: #FFD27A">$19.990</span> <span style="font-size: 18px; opacity: 0.75; text-decoration: line-through">$23.880</span></div>
+        <a href="Combo-Halloween.dc.html" style="align-self: flex-start; min-height: 54px; padding: 0 30px; border-radius: 999px; background: #D7EA4A; color: #133423; font-weight: 700; font-size: 17px; display: flex; align-items: center; text-decoration: none">Armar mi box</a>
+      </div>
+      <img src="/_blob/0a53fb431aa7046682bce23861e01c1c" alt="Box Halloween con pizza, bebida y acompañamientos" style="flex: 1.3 1 480px; min-width: 0; height: 420px; object-fit: cover; display: block">
+    </section>
+
+    <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap">
+      <h2 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 34px; text-transform: uppercase">¿Para cuántos?</h2>
+      <div role="radiogroup" aria-label="Filtrar por ocasión" style="display: flex; gap: 8px; flex-wrap: wrap">
+        <sc-for list="{{filters}}" as="f" hint-placeholder-count="5">
+          <button type="button" role="radio" aria-checked="{{f.on}}" onClick="{{f.pick}}" style="{{f.style}}">{{f.label}}</button>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px">
+      <sc-for list="{{deals}}" as="d" hint-placeholder-count="4">
+        <article style="background: #FFFFFF; border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 4px 16px rgba(60,30,10,0.08)">
+          <div style="position: relative">
+            <img src="{{d.img}}" alt="{{d.name}}" style="width: 100%; height: 210px; object-fit: cover; display: block">
+            <span style="position: absolute; top: 12px; left: 12px; background: #B3261E; color: #FFFFFF; font-size: 13px; font-weight: 700; padding: 3px 10px; border-radius: 999px">{{d.off}}</span>
+            <span style="position: absolute; top: 12px; right: 12px; background: #FFFFFF; color: #133423; font-size: 13px; font-weight: 700; padding: 3px 10px; border-radius: 999px">{{d.who}}</span>
+          </div>
+          <div style="padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 6px; flex: 1">
+            <h3 style="margin: 0; font-size: 21px; font-weight: 700">{{d.name}}</h3>
+            <p style="margin: 0; font-size: 15px; color: #3E423C; flex: 1">{{d.desc}}</p>
+            <div style="font-size: 13px; color: #5A5F57">{{d.mode}}</div>
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 6px">
+              <div>
+                <span style="font-size: 26px; font-weight: 800; color: #B3261E">{{d.price}}</span> <span style="font-size: 15px; color: #5A5F57; text-decoration: line-through">{{d.before}}</span>
+                <div style="font-size: 13px; font-weight: 700; color: #1E6B3A">Ahorras {{d.save}}</div>
+              </div>
+              <a href="{{d.href}}" style="min-height: 48px; padding: 0 22px; border-radius: 999px; background: #1E4D33; color: #FFFFFF; font-weight: 700; display: flex; align-items: center; text-decoration: none">Armar</a>
+            </div>
+          </div>
+        </article>
+      </sc-for>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1300}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { f: 'all' };
+  }
+  renderVals() {
+    const fmt = (n) => '$' + String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    const DEALS = [
+      { occ: 'p4', who: 'Para 4', name: 'Super Dúo', desc: 'Dos pizzas familiares a elección.', p: 22590, b: 27800, mode: 'Retiro y delivery', img: '/_blob/b19ee9f500b6cc3eae024bb333c50ab1', href: 'Combo.dc.html' },
+      { occ: 'p6', who: 'Para 6+', name: 'Super Trío', desc: 'Tres pizzas familiares a elección.', p: 33900, b: 41700, mode: 'Retiro y delivery', img: '/_blob/16a721124c50a8e185c8b55664ae6e2a', href: 'Combo-Trio.dc.html' },
+      { occ: 'p2', who: 'Para 2', name: 'Papa Combo Palitos', desc: 'Pizza de 3 ingredientes, acompañamiento y bebida 1,5 L.', p: 16490, b: 17880, mode: 'Retiro y delivery', img: '/_blob/7fdbaf1dcc74125ff04d0a3659676441', href: '#' },
+      { occ: 'p4', who: 'Para 4', name: 'Pizza del mes: Boom de Jamón', desc: 'Familiar con doble jamón y mozzarella que se estira.', p: 10990, b: 13900, mode: 'Retiro y delivery', img: '/_blob/c5a122356aef0a8af1efae4ed408fac8', href: 'Sheet-Pizza.dc.html' },
+      { occ: 'p1', who: 'Para 1', name: 'Papa Flash', desc: 'Pizza individual, mini palitos y bebida.', p: 5490, b: 9030, mode: 'Retiro y delivery', img: '/_blob/c456af5e152ed3e42fa02102b3818639', href: '#' }
+    ];
+    const FILTERS = [{ id: 'all', label: 'Todas' }, { id: 'p1', label: 'Para 1' }, { id: 'p2', label: 'Para 2' }, { id: 'p4', label: 'Para 4' }, { id: 'p6', label: 'Para 6+' }];
+    const f = this.state.f;
+    return {
+      filters: FILTERS.map((x) => {
+        const on = x.id === f;
+        return { ...x, on, pick: () => this.setState({ f: x.id }),
+          style: 'min-height: 44px; padding: 0 18px; border-radius: 999px; cursor: pointer; font-family: \'Barlow\', sans-serif; font-size: 15px; font-weight: 700; border: 0; ' +
+            (on ? 'background: #1E4D33; color: #FFFFFF' : 'background: #FBE9D7; color: #7A3A12') };
+      }),
+      deals: DEALS.filter((d) => f === 'all' || d.occ === f).map((d) => ({ ...d,
+        price: fmt(d.p), before: fmt(d.b), save: fmt(d.b - d.p), off: '-' + Math.round((1 - d.p / d.b) * 100) + '%' }))
+    };
+  }
+}
+</script>
+</body>
+</html>

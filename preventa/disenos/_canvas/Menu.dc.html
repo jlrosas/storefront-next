@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Menú móvil</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=Barlow:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 390px; height: 2900px; box-sizing: border-box; position: relative; overflow: hidden; background: #FFFBF5; font-family: 'Barlow', sans-serif; color: #1B1D1A">
+
+  <header style="background: #1E4D33; color: #FFFFFF; height: 60px; padding: 0 16px; display: flex; align-items: center; gap: 12px">
+    <a href="Home.dc.html" style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 19px; line-height: 0.9; letter-spacing: 0.5px; color: #FFFFFF; text-decoration: none">PAPA<br>JOHNS</a>
+    <a href="Tienda.dc.html" style="flex: 1; min-width: 0; color: #FFFFFF; text-decoration: none">
+      <div style="font-size: 12px; opacity: 0.85">Retiro o delivery</div>
+      <div style="font-size: 15px; font-weight: 700">Elige cómo lo quieres</div>
+    </a>
+    <a href="Pedido.dc.html" aria-label="{{cartLabel}}" style="position: relative; width: 44px; height: 44px; border-radius: 10px; background: #D7EA4A; color: #133423; display: flex; align-items: center; justify-content: center">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.5"></circle><circle cx="18" cy="20" r="1.5"></circle><path d="M2 3h3l2.7 12.4a2 2 0 0 0 2 1.6h7.6a2 2 0 0 0 2-1.5L21 8H6"></path></svg>
+      <sc-if value="{{hasCart}}" hint-placeholder-val="{{false}}"><span style="position: absolute; top: -6px; right: -6px; min-width: 20px; height: 20px; border-radius: 999px; background: #B3261E; color: #FFFFFF; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center">{{count}}</span></sc-if>
+    </a>
+  </header>
+
+  <div style="background: #FFFFFF; padding: 10px 16px 0; border-bottom: 1px solid #EFE6DA">
+    <label for="buscar" style="position: absolute; left: -9999px">Buscar en el menú</label>
+    <div style="display: flex; align-items: center; gap: 8px; background: #F6F0E8; border-radius: 12px; padding: 0 12px; height: 44px">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5A5F57" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+      <input id="buscar" type="search" placeholder="Busca entre 74 productos" style="flex: 1; border: 0; background: transparent; font-family: 'Barlow', sans-serif; font-size: 16px; outline: none">
+    </div>
+    <nav aria-label="Categorías" style="display: flex; gap: 2px; overflow-x: auto; margin-top: 6px">
+      <sc-for list="{{cats}}" as="c" hint-placeholder-count="6">
+        <a href="{{c.href}}" style="{{c.style}}">{{c.label}} <span style="font-size: 12px; opacity: 0.7">{{c.n}}</span></a>
+      </sc-for>
+    </nav>
+  </div>
+
+  <main style="padding: 16px 0 96px; display: flex; flex-direction: column; gap: 22px">
+    <section id="ofertas" style="display: flex; flex-direction: column; gap: 10px">
+      <div style="display: flex; align-items: baseline; justify-content: space-between; padding: 0 16px">
+        <h2 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 26px; text-transform: uppercase">Ofertas</h2>
+        <a href="Ofertas.dc.html" style="font-weight: 700; font-size: 14px; color: #1E4D33">Ver las 16</a>
+      </div>
+      <div style="display: flex; gap: 10px; overflow-x: auto; padding: 0 16px 4px">
+        <sc-for list="{{deals}}" as="d" hint-placeholder-count="3">
+          <a href="{{d.href}}" style="flex-shrink: 0; width: 240px; background: #FFFFFF; border-radius: 16px; overflow: hidden; text-decoration: none; color: #1B1D1A; box-shadow: 0 2px 8px rgba(60,30,10,0.08)">
+            <img src="{{d.img}}" alt="{{d.name}}" style="width: 100%; height: 120px; object-fit: cover; display: block">
+            <div style="padding: 8px 12px 12px">
+              <div style="font-weight: 700; font-size: 15px">{{d.name}}</div>
+              <div><strong style="color: #B3261E; font-size: 17px">{{d.price}}</strong> <span style="font-size: 12px; color: #5A5F57; text-decoration: line-through">{{d.before}}</span></div>
+            </div>
+          </a>
+        </sc-for>
+      </div>
+    </section>
+
+    <section id="pizzas" style="padding: 0 16px; display: flex; flex-direction: column; gap: 12px">
+      <h2 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 30px; text-transform: uppercase">Pizzas <span style="font-size: 18px; color: #7A6A58">24</span></h2>
+      <div role="radiogroup" aria-label="Ver precios en tamaño" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); background: #F3EBE0; border-radius: 12px; padding: 4px">
+        <sc-for list="{{sizes}}" as="s" hint-placeholder-count="3">
+          <button type="button" role="radio" aria-checked="{{s.on}}" onClick="{{s.pick}}" style="{{s.style}}">{{s.label}}</button>
+        </sc-for>
+      </div>
+      <div role="radiogroup" aria-label="Filtrar pizzas" style="display: flex; gap: 6px; overflow-x: auto">
+        <sc-for list="{{filters}}" as="f" hint-placeholder-count="4">
+          <button type="button" role="radio" aria-checked="{{f.on}}" onClick="{{f.pick}}" style="{{f.style}}">{{f.label}}</button>
+        </sc-for>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+        <a href="Mitades.dc.html" style="background: #133423; color: #FFFFFF; border-radius: 16px; padding: 12px; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center">
+          <span aria-hidden="true" style="position: relative; width: 84px; height: 84px; border-radius: 999px; overflow: hidden; border: 3px solid #D7EA4A">
+            <img src="/_blob/a0f8034a00f2ee7f9ac16bae53dbf532" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; clip-path: inset(0 50% 0 0)">
+            <img src="/_blob/31b1c48b16e1c46ab38ec585868503d0" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; clip-path: inset(0 0 0 50%)">
+            <span style="position: absolute; left: 50%; top: 0; bottom: 0; width: 3px; margin-left: -1.5px; background: #D7EA4A"></span>
+          </span>
+          <span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 20px; text-transform: uppercase; color: #D7EA4A; line-height: 1">Mitad y mitad</span>
+          <span style="font-size: 12px; line-height: 1.25">Dos sabores, pagas el promedio</span>
+        </a>
+        <a href="Sheet-Pizza.dc.html" style="background: #FFF3E6; border: 1.5px solid #E9C9A6; color: #1B1D1A; border-radius: 16px; padding: 12px; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center">
+          <img src="/_blob/04d6fbb537837ed66408af59b8fd1e5c" alt="" style="width: 84px; height: 84px; border-radius: 999px; object-fit: cover">
+          <span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 20px; text-transform: uppercase; color: #7A3A12; line-height: 1">Arma tu pizza</span>
+          <span style="font-size: 12px; line-height: 1.25">{{byop}}</span>
+        </a>
+      </div>
+
+      <sc-for list="{{groups}}" as="g" hint-placeholder-count="3">
+        <div style="display: flex; flex-direction: column; gap: 8px">
+          <div style="display: flex; align-items: baseline; justify-content: space-between; border-bottom: 2px solid #EFE6DA; padding-bottom: 4px; margin-top: 4px">
+            <h3 style="margin: 0; font-size: 19px; font-weight: 800">{{g.title}}</h3>
+            <span style="font-size: 12px; color: #5A5F57">{{g.note}}</span>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+            <sc-for list="{{g.items}}" as="p" hint-placeholder-count="4">
+              <article style="background: #FFFFFF; border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 2px 8px rgba(60,30,10,0.07)">
+                <a href="PDP-Mobile.dc.html" style="position: relative; display: block">
+                  <img src="{{p.img}}" alt="{{p.name}}" style="width: 100%; height: 118px; object-fit: cover; display: block">
+                  <sc-if value="{{p.hasTag}}" hint-placeholder-val="{{false}}"><span style="{{p.tagStyle}}">{{p.tag}}</span></sc-if>
+                </a>
+                <div style="padding: 8px 8px 10px; display: flex; flex-direction: column; gap: 3px; flex: 1">
+                  <a href="PDP-Mobile.dc.html" style="font-weight: 700; font-size: 14px; color: #1B1D1A; text-decoration: none; line-height: 1.15; flex: 1">{{p.name}}</a>
+                  <span style="font-size: 12px; color: #5A5F57">{{p.sizeLabel}} <strong style="font-size: 15px; color: #1B1D1A">{{p.price}}</strong></span>
+                  <div style="display: flex; gap: 4px; margin-top: 2px">
+                    <a href="Sheet-Pizza.dc.html" style="flex: 1; min-height: 40px; border-radius: 999px; background: #1E4D33; color: #FFFFFF; border: 0; text-decoration: none; display: flex; align-items: center; justify-content: center; font-family: 'Barlow', sans-serif; font-weight: 700; font-size: 13px">Agregar</a>
+                    <sc-if value="{{p.halves}}" hint-placeholder-val="{{true}}">
+                      <a href="Mitades.dc.html" aria-label="{{p.halfLabel}}" style="min-width: 44px; min-height: 40px; border-radius: 999px; border: 1.5px solid #1E4D33; color: #1E4D33; font-weight: 800; font-size: 14px; display: flex; align-items: center; justify-content: center; text-decoration: none">½</a>
+                    </sc-if>
+                  </div>
+                </div>
+              </article>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </section>
+
+    <sc-for list="{{others}}" as="o" hint-placeholder-count="4">
+      <section id="{{o.id}}" style="padding: 0 16px; display: flex; flex-direction: column; gap: 8px">
+        <div style="display: flex; align-items: baseline; justify-content: space-between">
+          <h2 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 24px; text-transform: uppercase">{{o.title}} <span style="font-size: 16px; color: #7A6A58">{{o.n}}</span></h2>
+          <sc-if value="{{o.more}}" hint-placeholder-val="{{true}}"><a href="#" style="font-weight: 700; font-size: 14px; color: #1E4D33">{{o.moreLabel}}</a></sc-if>
+        </div>
+        <sc-for list="{{o.items}}" as="i" hint-placeholder-count="2">
+          <div style="background: #FFFFFF; border-radius: 12px; padding: 6px 8px; display: flex; align-items: center; gap: 10px">
+            <sc-if value="{{i.hasImg}}" hint-placeholder-val="{{true}}"><img src="{{i.img}}" alt="{{i.name}}" style="width: 52px; height: 52px; border-radius: 10px; object-fit: cover"></sc-if>
+            <div style="flex: 1; min-width: 0">
+              <div style="font-weight: 700; font-size: 14px">{{i.name}}</div>
+              <div style="font-size: 13px; color: #5A5F57">{{i.price}}</div>
+            </div>
+            <button type="button" aria-label="{{i.aria}}" onClick="{{i.add}}" style="width: 44px; height: 44px; border-radius: 999px; background: #1E4D33; color: #FFFFFF; border: 0; cursor: pointer; display: flex; align-items: center; justify-content: center">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+            </button>
+          </div>
+        </sc-for>
+      </section>
+    </sc-for>
+  </main>
+
+  <sc-if value="{{hasCart}}" hint-placeholder-val="{{false}}">
+    <a href="Pedido.dc.html" style="position: absolute; left: 12px; right: 12px; bottom: {{cartBottom}}; height: 52px; border-radius: 999px; background: #1E4D33; color: #FFFFFF; text-decoration: none; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; font-weight: 700; box-shadow: 0 8px 20px rgba(0,0,0,0.25)"><span>Ver pedido ({{count}})</span><span>{{total}}</span></a>
+  </sc-if>
+
+  <sc-if value="{{enCurso}}" hint-placeholder-val="{{false}}">
+    <a href="Confirmacion-Sofia.dc.html" aria-label="Pedido en curso: en preparación, listo a las 20:45. Ver seguimiento" style="position: absolute; left: 8px; right: 8px; bottom: 70px; min-height: 54px; border-radius: 14px; background: #133423; color: #FFFFFF; text-decoration: none; display: flex; align-items: center; gap: 10px; padding: 8px 12px; box-shadow: 0 6px 18px rgba(19,52,35,0.35)">
+      <span style="position: relative; width: 36px; height: 36px; border-radius: 999px; background: #D7EA4A; color: #133423; display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 3.5 19.5c5.5 2 11.5 2 17 0L12 3z"></path><circle cx="10.5" cy="13" r="1.2"></circle><circle cx="13.8" cy="16.2" r="1.2"></circle></svg>
+      </span>
+      <span style="flex: 1; display: flex; flex-direction: column; gap: 4px">
+        <span style="display: flex; justify-content: space-between; font-size: 14px"><strong>En preparación</strong><span style="color: #D7EA4A; font-weight: 700">Listo 20:45</span></span>
+        <span aria-hidden="true" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px"><span style="height: 4px; border-radius: 999px; background: #D7EA4A"></span><span style="height: 4px; border-radius: 999px; background: #FFFFFF"></span><span style="height: 4px; border-radius: 999px; background: rgba(255,255,255,0.25)"></span></span>
+      </span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg>
+    </a>
+  </sc-if>
+  <nav aria-label="Principal" style="position: absolute; left: 0; right: 0; bottom: 0; height: 64px; background: #FFFFFF; border-top: 1px solid #E4E2DA; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); font-size: 11px">
+    <a href="Home.dc.html" style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #5A5F57; font-weight: 600; text-decoration: none"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11 12 4l9 7"></path><path d="M5 10v10h14V10"></path><path d="M10 20v-5h4v5"></path></svg><span>Inicio</span></a>
+    <a href="#" aria-current="page" style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #1E4D33; font-weight: 700; text-decoration: none"><span aria-hidden="true" style="position: absolute; top: 0; left: 25%; right: 25%; height: 3px; border-radius: 0 0 3px 3px; background: #1E4D33"></span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 3.5 19.5c5.5 2 11.5 2 17 0L12 3z"></path><circle cx="10.5" cy="13" r="1.2"></circle><circle cx="13.8" cy="16.2" r="1.2"></circle><circle cx="12.2" cy="9.4" r="1"></circle></svg><span>Menú</span></a>
+    <a href="Ofertas.dc.html" style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #5A5F57; font-weight: 600; text-decoration: none"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 12.5 12.5 20.5a1.5 1.5 0 0 1-2.1 0L3.5 13.6V3.5h10.1l6.9 6.9a1.5 1.5 0 0 1 0 2.1z"></path><circle cx="8" cy="8" r="1.4"></circle></svg><span>Promos</span></a>
+    <a href="Pedido.dc.html" style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #5A5F57; font-weight: 600; text-decoration: none"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1.2 12.2H6.2z"></path><path d="M9 10V6.5a3 3 0 0 1 6 0V10"></path></svg><span>Pedido</span></a>
+    <a href="Puntos.dc.html" style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #5A5F57; font-weight: 600; text-decoration: none"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.6-4 4.6-6 8-6s6.4 2 8 6"></path></svg><span>Cuenta</span></a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"pedidoEnCurso":{"editor":"boolean","default":false},"$preview":{"width":390,"height":2900}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { size: 'f', filter: 'top', cart: {} };
+  }
+  renderVals() {
+    const fmt = (n) => '$' + String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    const st = this.state;
+    const T1 = { m: 10900, f: 13900, x: 17900 }, T2 = { m: 13000, f: 16900, x: 21900 }, T3 = { m: 14400, f: 18900, x: 24000 };
+    const P = (name, prices, img, extra) => ({ name, prices, img, halves: true, tag: '', veg: false, spicy: false, top: false, ...(extra || {}) });
+    const GROUPS = [
+      { title: 'Clásicas', note: 'Familiar $13.900', items: [
+        P('Napolitana', T1, '/_blob/00e4d6865a8049d57f3b37333c1170a5', { veg: true }),
+        P('Napolitana Cherry', T1, '/_blob/df99851d90a7dc5d52c81e6502a4ae68', { veg: true }),
+        P('Napolitana Caprese', T1, '/_blob/0c80c9ce8fac846ed48260d572444089', { veg: true }),
+        P('Hawaiana', T1, '/_blob/c456af5e152ed3e42fa02102b3818639'),
+        P('Boom de Jamón', T1, '/_blob/c5a122356aef0a8af1efae4ed408fac8', { top: true, tag: 'Más vendida' })
+      ] },
+      { title: 'Favoritas', note: 'Familiar $16.900', items: [
+        P('Pollo BBQ', T2, '/_blob/a0f8034a00f2ee7f9ac16bae53dbf532', { top: true }),
+        P('Super Pepperoni', T2, '/_blob/31b1c48b16e1c46ab38ec585868503d0', { top: true, tag: 'Más vendida' }),
+        P('Vegetariana', T2, '/_blob/04d6fbb537837ed66408af59b8fd1e5c', { veg: true }),
+        P('La Cordillerana', T2, '/_blob/a89868ad52702a83177fa4c09b0a7b71'),
+        P('Pollo Caprese', T2, '/_blob/68d64a3235eeb21463e2613d7cb1cb6f'),
+        P('Canadian Bacon', T2, '/_blob/a994a7239d832701f081552da7ae4113')
+      ] },
+      { title: 'Premium', note: 'Familiar desde $18.900', items: [
+        P('Todas las Carnes', T3, '/_blob/16a721124c50a8e185c8b55664ae6e2a', { top: true, tag: 'Más vendida' }),
+        P('Italiana', T3, '/_blob/2a7a491cad030bc066f143fc6fd398ad', { spicy: true, tag: 'Picante' }),
+        P('Espinacas a la Crema', T3, '/_blob/60644e316491ca10c2673696514aa607'),
+        P('Meat & Great', T3, '/_blob/33fb892cc8e420b2a26224a357a6c94a'),
+        P('The Works', { m: 18900, f: 21900, x: 26900 }, '/_blob/df537eb374b8f3756f86a4fbd32e8ac0', { spicy: true, tag: 'Picante' })
+      ] },
+      { title: 'Pan Pizza', note: 'Solo mediana · sin mitades', items: [
+        P('Pan Pizza Pepperoni', { only: 12900, label: 'Mediana' }, '/_blob/72916d192a0615b9e6dee2bb0a8e5bfe', { halves: false }),
+        P('Pan Pizza The Works', { only: 12900, label: 'Mediana' }, '/_blob/5c0510294da2251a8ea28893be149bcc', { halves: false, spicy: true }),
+        P('Pan Pizza Boom de Jamón', { only: 12900, label: 'Mediana' }, '/_blob/ec2646fb5ed04c5d1a1f9d3919a52d00', { halves: false }),
+        P('Pan Pizza Napolitana', { only: 12900, label: 'Mediana' }, '/_blob/899a809a06716c64d474a71e501aa276', { halves: false })
+      ] },
+      { title: 'Croissant', note: 'Un tamaño · sin mitades', items: [
+        P('Croissant de Pepperoni', { only: 13990, label: 'Única' }, '/_blob/0df8587978b2028652006f4eaaacb05d', { halves: false }),
+        P('Croissant de Aceituna', { only: 13990, label: 'Única' }, '/_blob/2308525df2fa9f1bb5180f6d3e116441', { halves: false, veg: true }),
+        P('Croissant de Choclo', { only: 13990, label: 'Única' }, '/_blob/884182ad581380eae26bc790a7ced85a', { halves: false }),
+        P('Croissant de Pimentón', { only: 13990, label: 'Única' }, '/_blob/a8e4bbb2659d3f6294ecee67d45c5087', { halves: false, veg: true })
+      ] }
+    ];
+    const SIZE = { m: 'Mediana', f: 'Familiar', x: 'Extra grande' };
+    const cart = st.cart;
+    const add = (name, price) => () => {
+      const cur = cart[name] || { qty: 0, price };
+      this.setState({ cart: { ...cart, [name]: { qty: cur.qty + 1, price } } });
+    };
+    const pass = (p) => st.filter === 'all' || (st.filter === 'top' && p.top) || (st.filter === 'veg' && p.veg) || (st.filter === 'spicy' && p.spicy);
+    const TAGC = { 'Más vendida': 'background: #D7EA4A; color: #133423', 'Picante': 'background: #B3261E; color: #FFFFFF' };
+    const groups = GROUPS.map((g) => ({ ...g, items: g.items.filter(pass).map((p) => {
+      const price = p.prices.only || p.prices[st.size];
+      const sizeLabel = p.prices.only ? p.prices.label : SIZE[st.size];
+      return { ...p, price: fmt(price), sizeLabel, hasTag: !!p.tag, halfLabel: 'Usar ' + p.name + ' en una pizza mitad y mitad',
+        tagStyle: 'position: absolute; top: 6px; left: 6px; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 999px; ' + (TAGC[p.tag] || ''),
+        add: add(p.name + ' ' + sizeLabel, price) };
+    }) })).filter((g) => g.items.length > 0);
+    const FLABEL = { top: 'Más vendidas', veg: 'Vegetarianas', spicy: 'Picantes' };
+    const shown = st.filter === 'all' ? groups : [{ title: FLABEL[st.filter], note: groups.reduce((a, g) => a + g.items.length, 0) + ' pizzas', items: groups.reduce((a, g) => a.concat(g.items), []) }];
+    const item = (name, price, img) => ({ name, price: fmt(price), img: img || '', hasImg: !!img, aria: 'Agregar ' + name, add: add(name, price) });
+    const keys = Object.keys(cart);
+    const count = keys.reduce((a, k) => a + cart[k].qty, 0);
+    const total = keys.reduce((a, k) => a + cart[k].qty * cart[k].price, 0);
+    const pill = (on) => 'flex-shrink: 0; min-height: 38px; padding: 0 14px; border-radius: 999px; cursor: pointer; font-family: \'Barlow\', sans-serif; font-size: 14px; font-weight: 700; border: 0; ' +
+      (on ? 'background: #1E4D33; color: #FFFFFF' : 'background: #FBE9D7; color: #7A3A12');
+    return {
+      cats: [['Ofertas', 16, '#ofertas'], ['Pizzas', 24, '#pizzas'], ['Acompañamientos', 11, '#acompanamientos'], ['Bebidas', 10, '#bebidas'], ['Postres', 9, '#postres'], ['Extras', 2, '#extras']].map((c, i) => ({
+        label: c[0], n: c[1], href: c[2],
+        style: 'flex-shrink: 0; padding: 12px 10px; font-size: 15px; text-decoration: none; border-bottom: 3px solid ' + (i === 1 ? '#1E4D33; color: #1E4D33; font-weight: 700' : 'transparent; color: #5A5F57; font-weight: 600')
+      })),
+      deals: [
+        { name: 'Box Halloween de Miedo', price: '$19.990', before: '$23.880', img: '/_blob/0a53fb431aa7046682bce23861e01c1c', href: 'Ofertas.dc.html' },
+        { name: 'Super Dúo', price: '$22.590', before: '$27.800', img: '/_blob/b19ee9f500b6cc3eae024bb333c50ab1', href: 'Combo.dc.html' },
+        { name: 'Papa Combo Palitos', price: '$16.490', before: '$17.880', img: '/_blob/7fdbaf1dcc74125ff04d0a3659676441', href: 'Ofertas.dc.html' }
+      ],
+      sizes: ['m', 'f', 'x'].map((s) => ({ label: SIZE[s], on: s === st.size, pick: () => this.setState({ size: s }),
+        style: 'min-height: 40px; border-radius: 9px; border: 0; cursor: pointer; font-family: \'Barlow\', sans-serif; font-size: 14px; font-weight: 700; ' +
+          (s === st.size ? 'background: #FFFFFF; color: #133423; box-shadow: 0 1px 3px rgba(0,0,0,0.12)' : 'background: transparent; color: #5A5F57') })),
+      filters: [['top', 'Más vendidas'], ['all', 'Todas (24)'], ['veg', 'Vegetarianas'], ['spicy', 'Picantes']].map((f) => ({ label: f[1], on: f[0] === st.filter, pick: () => this.setState({ filter: f[0] }), style: pill(f[0] === st.filter) })),
+      byop: 'Desde ' + fmt({ m: 9490, f: 12400, x: 15400 }[st.size]) + ' en ' + SIZE[st.size],
+      groups: shown,
+      others: [
+        { id: 'acompanamientos', title: 'Acompañamientos', n: 11, more: true, moreLabel: 'Ver los 11', items: [item('Palitos de Ajo', 5990, '/_blob/578bc1143fbd8e8e0748be683c760f73'), item('Cheesyqueños', 4990, '/_blob/a723849e225ee5ee6428b8b0311a4bf6'), item('Chicken Poppers', 6990, '/_blob/fa5176c58dab2dea4fcd4627b5bd0f09')] },
+        { id: 'bebidas', title: 'Bebidas', n: 10, more: true, moreLabel: 'Ver las 10', items: [item('Coca-Cola 1,5 L', 3490, '/_blob/aca97767706b08547001c896a30662fd'), item('Coca-Cola 350 ml', 1790, '/_blob/aca97767706b08547001c896a30662fd')] },
+        { id: 'postres', title: 'Postres', n: 9, more: true, moreLabel: 'Ver los 9', items: [item('Brownie', 7990, '/_blob/a2a3411dcdb2d7f1bd5fac0ebc2be67f'), item('Cookie', 7990, '/_blob/0415e9d15fcaae9d668d71d07e12921f')] },
+        { id: 'extras', title: 'Extras', n: 2, more: false, moreLabel: '', items: [item('Pepperoncini', 790, ''), item('El Último Slice', 4990, '')] }
+      ],
+      enCurso: !!this.props.pedidoEnCurso, cartBottom: this.props.pedidoEnCurso ? '134px' : '76px',
+      hasCart: count > 0, count, total: fmt(total), cartLabel: 'Ver pedido, ' + count + ' productos'
+    };
+  }
+}
+</script>
+</body>
+</html>

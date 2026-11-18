@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Bebidas y acompañamientos</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=Barlow:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#1E4D33}a:hover{color:#133423}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: #F7F6F1; font-family: 'Barlow', sans-serif; color: #1B1D1A; overflow: hidden; position: relative">
+
+  <header style="background: #1E4D33; color: #FFFFFF; height: 60px; padding: 0 16px; display: flex; align-items: center; gap: 12px; flex-shrink: 0">
+    <div style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 19px; line-height: 0.9; letter-spacing: 0.5px">PAPA<br>JOHNS</div>
+    <div style="flex: 1; min-width: 0">
+      <div style="font-size: 12px; opacity: 0.85">Retiro · listo en 15 min</div>
+      <div style="font-size: 15px; font-weight: 700">El Bosque</div>
+    </div>
+    <a href="Pedido.dc.html" aria-label="Ver pedido" style="width: 44px; height: 44px; border-radius: 10px; background: #D7EA4A; color: #133423; display: flex; align-items: center; justify-content: center; text-decoration: none; position: relative">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.5"></circle><circle cx="18" cy="20" r="1.5"></circle><path d="M2 3h3l2.7 12.4a2 2 0 0 0 2 1.6h7.6a2 2 0 0 0 2-1.5L21 8H6"></path></svg>
+      <span style="position: absolute; top: -6px; right: -6px; min-width: 20px; height: 20px; border-radius: 999px; background: #FFFFFF; color: #133423; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center">{{count}}</span>
+    </a>
+  </header>
+
+  <nav aria-label="Categorías" style="display: flex; gap: 8px; padding: 12px 16px; background: #FFFFFF; border-bottom: 1px solid #E4E2DA; overflow-x: auto; flex-shrink: 0">
+    <a href="Menu.dc.html" style="flex-shrink: 0; padding: 10px 16px; border-radius: 999px; background: #EFEEE7; color: #1B1D1A; font-weight: 600; font-size: 14px; text-decoration: none">Pizzas</a>
+    <a href="#" style="flex-shrink: 0; padding: 10px 16px; border-radius: 999px; background: #EFEEE7; color: #1B1D1A; font-weight: 600; font-size: 14px; text-decoration: none">Acompañamientos</a>
+    <a href="#" style="flex-shrink: 0; padding: 10px 16px; border-radius: 999px; background: #1E4D33; color: #FFFFFF; font-weight: 700; font-size: 14px; text-decoration: none">Bebidas</a>
+    <a href="#" style="flex-shrink: 0; padding: 10px 16px; border-radius: 999px; background: #EFEEE7; color: #1B1D1A; font-weight: 600; font-size: 14px; text-decoration: none">Postres</a>
+  </nav>
+
+  <main style="flex: 1; overflow-y: auto; padding: 16px 16px 96px; display: flex; flex-direction: column; gap: 12px">
+    <h1 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 28px; text-transform: uppercase">Bebidas</h1>
+
+    <sc-for list="{{drinks}}" as="d" hint-placeholder-count="2">
+      <article style="background: #FFFFFF; border-radius: 14px; padding: 12px; display: flex; flex-direction: column; gap: 10px">
+        <div style="display: flex; gap: 12px; align-items: center">
+          <img src="/_blob/aca97767706b08547001c896a30662fd" alt="{{d.name}}" style="width: 72px; height: 72px; border-radius: 10px; object-fit: cover; background: #EFEEE7; flex-shrink: 0">
+          <div style="flex: 1; min-width: 0">
+            <div style="font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 20px">{{d.name}}</div>
+            <div style="font-weight: 700; font-size: 16px">{{d.price}}</div>
+          </div>
+          <sc-if value="{{d.none}}" hint-placeholder-val="{{true}}">
+            <button type="button" aria-label="{{d.addLabel}}" onClick="{{d.inc}}" style="width: 44px; height: 44px; border-radius: 999px; background: #1E4D33; color: #FFFFFF; border: 0; cursor: pointer; display: flex; align-items: center; justify-content: center">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+            </button>
+          </sc-if>
+          <sc-if value="{{d.some}}" hint-placeholder-val="{{false}}">
+            <div style="display: flex; align-items: center; background: #1E4D33; color: #FFFFFF; border-radius: 999px; height: 44px">
+              <button type="button" aria-label="{{d.subLabel}}" onClick="{{d.dec}}" style="width: 40px; height: 44px; background: none; border: 0; color: #FFFFFF; cursor: pointer; display: flex; align-items: center; justify-content: center">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"></path></svg>
+              </button>
+              <span style="min-width: 16px; text-align: center; font-weight: 700">{{d.qty}}</span>
+              <button type="button" aria-label="{{d.addLabel}}" onClick="{{d.inc}}" style="width: 40px; height: 44px; background: none; border: 0; color: #FFFFFF; cursor: pointer; display: flex; align-items: center; justify-content: center">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+              </button>
+            </div>
+          </sc-if>
+        </div>
+        <div role="group" aria-label="Tamaño" style="display: flex; gap: 6px">
+          <sc-for list="{{d.sizes}}" as="s" hint-placeholder-count="3">
+            <button type="button" aria-pressed="{{s.on}}" onClick="{{s.pick}}" style="{{s.style}}">{{s.label}}</button>
+          </sc-for>
+        </div>
+      </article>
+    </sc-for>
+  </main>
+
+  <sc-if value="{{showToast}}" hint-placeholder-val="{{true}}">
+    <div role="status" style="position: absolute; left: 12px; right: 12px; bottom: 76px; background: #133423; color: #FFFFFF; border-radius: 14px; padding: 10px 10px 10px 16px; display: flex; align-items: center; gap: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.25)">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D7EA4A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"></path></svg>
+      <div style="flex: 1; min-width: 0; font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{toast}}</div>
+      <a href="Pedido.dc.html" style="min-height: 44px; padding: 0 14px; border-radius: 999px; background: #D7EA4A; color: #133423; font-weight: 700; font-size: 14px; display: flex; align-items: center; text-decoration: none; white-space: nowrap">Ver pedido</a>
+    </div>
+  </sc-if>
+
+  <nav aria-label="Principal" style="height: 64px; flex-shrink: 0; background: #FFFFFF; border-top: 1px solid #E4E2DA; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); font-size: 11px">
+    <a href="Home.dc.html" style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #5A5F57; font-weight: 600; text-decoration: none"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11 12 4l9 7"></path><path d="M5 10v10h14V10"></path><path d="M10 20v-5h4v5"></path></svg><span>Inicio</span></a>
+    <a href="Menu.dc.html" aria-current="page" style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #1E4D33; font-weight: 700; text-decoration: none"><span aria-hidden="true" style="position: absolute; top: 0; left: 25%; right: 25%; height: 3px; border-radius: 0 0 3px 3px; background: #1E4D33"></span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 3.5 19.5c5.5 2 11.5 2 17 0L12 3z"></path><circle cx="10.5" cy="13" r="1.2"></circle><circle cx="13.8" cy="16.2" r="1.2"></circle><circle cx="12.2" cy="9.4" r="1"></circle></svg><span>Menú</span></a>
+    <a href="Ofertas.dc.html" style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #5A5F57; font-weight: 600; text-decoration: none"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 12.5 12.5 20.5a1.5 1.5 0 0 1-2.1 0L3.5 13.6V3.5h10.1l6.9 6.9a1.5 1.5 0 0 1 0 2.1z"></path><circle cx="8" cy="8" r="1.4"></circle></svg><span>Promos</span></a>
+    <a href="Pedido.dc.html" style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #5A5F57; font-weight: 600; text-decoration: none"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1.2 12.2H6.2z"></path><path d="M9 10V6.5a3 3 0 0 1 6 0V10"></path></svg><span>Pedido</span></a>
+    <a href="Puntos.dc.html" style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #5A5F57; font-weight: 600; text-decoration: none"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.6-4 4.6-6 8-6s6.4 2 8 6"></path></svg><span>Cuenta</span></a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { size: { coca: '1.5', zero: '1.5' }, q: { coca: 1 }, last: 'Coca-Cola 1,5 L' };
+  }
+  renderVals() {
+    const fmt = (n) => '$' + String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    const st = this.state;
+    const SIZES = [
+      { id: '350', label: '350 ml', price: 1790 },
+      { id: '1.5', label: '1,5 L', price: 3490 },
+      { id: '3', label: '3 L', price: 4490 }
+    ];
+    const DRINKS = [
+      { id: 'coca', name: 'Coca-Cola' },
+      { id: 'zero', name: 'Coca-Cola Sin azúcar' }
+    ];
+    let count = 3;
+    let total = 16900 + 5990;
+    const drinks = DRINKS.map((d) => {
+      const sz = SIZES.find((s) => s.id === st.size[d.id]);
+      const n = st.q[d.id] || 0;
+      count += n;
+      total += n * sz.price;
+      const label = d.name + ' ' + sz.label;
+      const setQ = (v) => this.setState({ q: { ...st.q, [d.id]: Math.max(0, Math.min(v, 9)) }, last: v > n ? label : st.last });
+      return {
+        name: d.name, price: fmt(sz.price), qty: n, none: n === 0, some: n > 0,
+        addLabel: 'Agregar ' + label, subLabel: 'Quitar ' + label,
+        inc: () => setQ(n + 1), dec: () => setQ(n - 1),
+        sizes: SIZES.map((s) => {
+          const on = s.id === sz.id;
+          return { label: s.label, on, pick: () => this.setState({ size: { ...st.size, [d.id]: s.id } }),
+            style: 'flex: 1; min-height: 40px; border-radius: 10px; cursor: pointer; font-family: \'Barlow\', sans-serif; font-size: 14px; font-weight: 600; ' +
+              (on ? 'background: #EEF6C8; color: #133423; border: 2px solid #1E4D33' : 'background: #FFFFFF; color: #1B1D1A; border: 2px solid #E4E2DA') };
+        })
+      };
+    });
+    return {
+      drinks,
+      count: count - 1,
+      showToast: count > 2,
+      toast: st.last + ' agregada · ' + fmt(total)
+    };
+  }
+}
+</script>
+</body>
+</html>

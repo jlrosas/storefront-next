@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Menú escritorio</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=Barlow:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 100%; min-height: 3400px; box-sizing: border-box; background: #FFFBF5; font-family: 'Barlow', sans-serif; color: #1B1D1A">
+
+  <header style="background: #1E4D33; color: #FFFFFF">
+    <div style="max-width: 1360px; margin: 0 auto; padding: 0 24px; min-height: 68px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px">
+      <a href="Home-Desktop.dc.html" style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 22px; line-height: 0.9; letter-spacing: 0.5px; color: #FFFFFF; text-decoration: none">PAPA<br>JOHNS</a>
+      <nav aria-label="Principal" style="display: flex; flex-wrap: wrap; gap: 4px 22px; font-weight: 600; font-size: 15px">
+        <a href="#" style="color: #FFFFFF; text-decoration: none; padding: 10px 0; border-bottom: 3px solid #D7EA4A">Menú</a>
+        <a href="Ofertas-Desktop.dc.html" style="color: #FFFFFF; text-decoration: none; padding: 10px 0">Promos</a>
+        <a href="Puntos.dc.html" style="color: #FFFFFF; text-decoration: none; padding: 10px 0">Papa Puntos</a>
+        <a href="#" style="color: #FFFFFF; text-decoration: none; padding: 10px 0">Locales</a>
+      </nav>
+      <div style="flex: 1"></div>
+      <a href="Tienda.dc.html" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: #FFFFFF; border-radius: 10px; min-height: 44px; padding: 4px 14px; text-decoration: none; display: flex; flex-direction: column; justify-content: center">
+        <span style="font-size: 12px; opacity: 0.85">Retiro o delivery</span>
+        <span style="font-size: 14px; font-weight: 700">Elige cómo lo quieres</span>
+      </a>
+    </div>
+  </header>
+
+  <div style="background: #FFFFFF; border-bottom: 1px solid #EFE6DA">
+    <div style="max-width: 1360px; margin: 0 auto; padding: 8px 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 4px">
+      <nav aria-label="Categorías" style="display: flex; flex-wrap: wrap; gap: 4px; flex: 1">
+        <sc-for list="{{cats}}" as="c" hint-placeholder-count="6">
+          <a href="{{c.href}}" style="{{c.style}}">{{c.label}} <span style="font-size: 13px; opacity: 0.7">{{c.n}}</span></a>
+        </sc-for>
+      </nav>
+      <label for="buscar-d" style="position: absolute; left: -9999px">Buscar en el menú</label>
+      <input id="buscar-d" type="search" placeholder="Buscar pizza, palitos, bebida…" style="width: 280px; height: 44px; border-radius: 12px; border: 1.5px solid #E2D6C6; background: #FFFBF5; padding: 0 14px; font-family: 'Barlow', sans-serif; font-size: 15px">
+    </div>
+  </div>
+
+  <div style="max-width: 1360px; margin: 0 auto; padding: 24px 24px 56px; display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start">
+    <main style="flex: 999 1 760px; min-width: 0; display: flex; flex-direction: column; gap: 36px">
+
+      <section id="ofertas" style="display: flex; flex-direction: column; gap: 12px">
+        <div style="display: flex; align-items: baseline; justify-content: space-between">
+          <h2 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 32px; text-transform: uppercase">Ofertas de hoy</h2>
+          <a href="Ofertas-Desktop.dc.html" style="font-weight: 700; color: #1E4D33">Ver las 16 ofertas</a>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px">
+          <sc-for list="{{deals}}" as="d" hint-placeholder-count="4">
+            <a href="{{d.href}}" style="background: #FFFFFF; border-radius: 16px; overflow: hidden; text-decoration: none; color: #1B1D1A; box-shadow: 0 2px 10px rgba(60,30,10,0.08); display: flex; flex-direction: column">
+              <div style="position: relative">
+                <img src="{{d.img}}" alt="{{d.name}}" style="width: 100%; height: 130px; object-fit: cover; display: block">
+                <span style="position: absolute; top: 8px; left: 8px; background: #B3261E; color: #FFFFFF; font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 999px">{{d.off}}</span>
+              </div>
+              <div style="padding: 10px 12px 12px">
+                <div style="font-weight: 700; font-size: 16px">{{d.name}}</div>
+                <div><strong style="color: #B3261E; font-size: 18px">{{d.price}}</strong> <span style="font-size: 13px; color: #5A5F57; text-decoration: line-through">{{d.before}}</span></div>
+              </div>
+            </a>
+          </sc-for>
+        </div>
+      </section>
+
+      <section id="pizzas" style="display: flex; flex-direction: column; gap: 16px">
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px">
+          <h2 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 40px; text-transform: uppercase">Pizzas <span style="font-size: 22px; color: #7A6A58">24</span></h2>
+          <div role="radiogroup" aria-label="Ver precios en tamaño" style="display: flex; align-items: center; gap: 4px; background: #F3EBE0; border-radius: 12px; padding: 4px">
+            <span style="font-size: 13px; color: #5A5F57; padding: 0 8px">Precios en</span>
+            <sc-for list="{{sizes}}" as="s" hint-placeholder-count="3">
+              <button type="button" role="radio" aria-checked="{{s.on}}" onClick="{{s.pick}}" style="{{s.style}}">{{s.label}}</button>
+            </sc-for>
+          </div>
+          <div role="radiogroup" aria-label="Filtrar pizzas" style="display: flex; gap: 6px; flex-wrap: wrap">
+            <sc-for list="{{filters}}" as="f" hint-placeholder-count="4">
+              <button type="button" role="radio" aria-checked="{{f.on}}" onClick="{{f.pick}}" style="{{f.style}}">{{f.label}}</button>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 14px">
+          <a href="Mitades.dc.html" style="display: flex; align-items: center; gap: 18px; background: #133423; color: #FFFFFF; border-radius: 18px; padding: 16px 20px; text-decoration: none">
+            <span aria-hidden="true" style="position: relative; width: 110px; height: 110px; border-radius: 999px; overflow: hidden; flex-shrink: 0; border: 3px solid #D7EA4A">
+              <img src="/_blob/a0f8034a00f2ee7f9ac16bae53dbf532" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; clip-path: inset(0 50% 0 0)">
+              <img src="/_blob/31b1c48b16e1c46ab38ec585868503d0" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; clip-path: inset(0 0 0 50%)">
+              <span style="position: absolute; left: 50%; top: 0; bottom: 0; width: 3px; margin-left: -1.5px; background: #D7EA4A"></span>
+            </span>
+            <span style="display: flex; flex-direction: column; gap: 4px">
+              <span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 28px; text-transform: uppercase; color: #D7EA4A; line-height: 1">Mitad y mitad</span>
+              <span style="font-size: 15px">Dos sabores en una pizza. Pagas el promedio de las dos mitades.</span>
+              <span style="font-size: 14px; font-weight: 700">Armar mi pizza por mitades →</span>
+            </span>
+          </a>
+          <a href="Sheet-Pizza.dc.html" style="display: flex; align-items: center; gap: 18px; background: #FFF3E6; color: #1B1D1A; border: 1.5px solid #E9C9A6; border-radius: 18px; padding: 16px 20px; text-decoration: none">
+            <img src="/_blob/04d6fbb537837ed66408af59b8fd1e5c" alt="" style="width: 110px; height: 110px; border-radius: 999px; object-fit: cover; flex-shrink: 0">
+            <span style="display: flex; flex-direction: column; gap: 4px">
+              <span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 28px; text-transform: uppercase; color: #7A3A12; line-height: 1">Arma tu pizza</span>
+              <span style="font-size: 15px">Elige salsa, queso y hasta 10 ingredientes.</span>
+              <span style="font-size: 14px; font-weight: 700">{{byop}}</span>
+            </span>
+          </a>
+        </div>
+
+        <sc-for list="{{groups}}" as="g" hint-placeholder-count="5">
+          <div style="display: flex; flex-direction: column; gap: 12px">
+            <div style="display: flex; align-items: baseline; gap: 12px; border-bottom: 2px solid #EFE6DA; padding-bottom: 6px">
+              <h3 style="margin: 0; font-size: 22px; font-weight: 800">{{g.title}}</h3>
+              <span style="font-size: 14px; color: #5A5F57">{{g.note}}</span>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 14px">
+              <sc-for list="{{g.items}}" as="p" hint-placeholder-count="4">
+                <article style="background: #FFFFFF; border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 2px 10px rgba(60,30,10,0.07)">
+                  <a href="PDP-Desktop.dc.html" style="position: relative; display: block">
+                    <img src="{{p.img}}" alt="{{p.name}}" style="width: 100%; height: 150px; object-fit: cover; display: block">
+                    <sc-if value="{{p.hasTag}}" hint-placeholder-val="{{false}}">
+                      <span style="{{p.tagStyle}}">{{p.tag}}</span>
+                    </sc-if>
+                  </a>
+                  <div style="padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 4px; flex: 1">
+                    <a href="PDP-Desktop.dc.html" style="font-weight: 700; font-size: 16px; color: #1B1D1A; text-decoration: none">{{p.name}}</a>
+                    <span style="font-size: 13px; color: #3E423C; line-height: 1.3; flex: 1">{{p.taste}}</span>
+                    <span style="font-size: 13px; color: #5A5F57">{{p.sizeLabel}} <strong style="font-size: 17px; color: #1B1D1A">{{p.price}}</strong></span>
+                    <div style="display: flex; gap: 6px; margin-top: 4px">
+                      <a href="Sheet-Pizza.dc.html" style="flex: 1; min-height: 40px; border-radius: 999px; background: #1E4D33; color: #FFFFFF; border: 0; text-decoration: none; display: flex; align-items: center; justify-content: center; font-family: 'Barlow', sans-serif; font-weight: 700; font-size: 14px">Agregar</a>
+                      <sc-if value="{{p.halves}}" hint-placeholder-val="{{true}}">
+                        <a href="Mitades.dc.html" aria-label="{{p.halfLabel}}" style="min-height: 40px; padding: 0 12px; border-radius: 999px; border: 1.5px solid #1E4D33; color: #1E4D33; font-weight: 700; font-size: 14px; display: flex; align-items: center; text-decoration: none">½ Mitad</a>
+                      </sc-if>
+                    </div>
+                  </div>
+                </article>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </section>
+
+      <sc-for list="{{others}}" as="o" hint-placeholder-count="4">
+        <section id="{{o.id}}" style="display: flex; flex-direction: column; gap: 12px">
+          <div style="display: flex; align-items: baseline; justify-content: space-between">
+            <h2 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 32px; text-transform: uppercase">{{o.title}} <span style="font-size: 20px; color: #7A6A58">{{o.n}}</span></h2>
+            <sc-if value="{{o.more}}" hint-placeholder-val="{{true}}"><a href="#" style="font-weight: 700; color: #1E4D33">{{o.moreLabel}}</a></sc-if>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px">
+            <sc-for list="{{o.items}}" as="i" hint-placeholder-count="3">
+              <div style="background: #FFFFFF; border-radius: 14px; padding: 8px; display: flex; align-items: center; gap: 12px">
+                <sc-if value="{{i.hasImg}}" hint-placeholder-val="{{true}}">
+                  <img src="{{i.img}}" alt="{{i.name}}" style="width: 64px; height: 64px; border-radius: 10px; object-fit: cover; flex-shrink: 0">
+                </sc-if>
+                <div style="flex: 1; min-width: 0">
+                  <div style="font-weight: 700; font-size: 15px">{{i.name}}</div>
+                  <div style="font-size: 13px; color: #5A5F57">{{i.desc}}</div>
+                  <div style="font-weight: 700; font-size: 15px">{{i.price}}</div>
+                </div>
+                <button type="button" aria-label="{{i.aria}}" onClick="{{i.add}}" style="width: 44px; height: 44px; border-radius: 999px; background: #1E4D33; color: #FFFFFF; border: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+                </button>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+      </sc-for>
+    </main>
+
+    <aside aria-label="Tu pedido" style="flex: 1 1 280px; max-width: 340px; background: #FFFFFF; border-radius: 18px; padding: 18px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 4px 16px rgba(60,30,10,0.08)">
+      <h2 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 26px; text-transform: uppercase">Tu pedido</h2>
+      <sc-if value="{{empty}}" hint-placeholder-val="{{true}}">
+        <p style="margin: 0; font-size: 15px; color: #5A5F57">Todavía no agregas nada. Empieza con una pizza o arma una mitad y mitad.</p>
+      </sc-if>
+      <sc-for list="{{cart}}" as="l" hint-placeholder-count="2">
+        <div style="display: flex; justify-content: space-between; gap: 8px; font-size: 14px; border-bottom: 1px solid #EFE6DA; padding-bottom: 8px">
+          <span><strong>{{l.qty}}×</strong> {{l.name}}</span><span style="font-weight: 700">{{l.price}}</span>
+        </div>
+      </sc-for>
+      <sc-if value="{{filled}}" hint-placeholder-val="{{false}}">
+        <div style="display: flex; flex-direction: column; gap: 10px">
+          <div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: 800"><span>Total</span><span>{{total}}</span></div>
+          <a href="Login-Desktop.dc.html" style="min-height: 52px; border-radius: 999px; background: #1E4D33; color: #FFFFFF; font-weight: 700; font-size: 16px; display: flex; align-items: center; justify-content: center; text-decoration: none">Ir a pagar</a>
+          <span style="font-size: 13px; color: #1E4D33; font-weight: 600">Ganas {{points}} Papa Puntos</span>
+        </div>
+      </sc-if>
+    </aside>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":3400}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { size: 'f', filter: 'all', cart: {} };
+  }
+  renderVals() {
+    const fmt = (n) => '$' + String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    const st = this.state;
+    const T1 = { m: 10900, f: 13900, x: 17900 }, T2 = { m: 13000, f: 16900, x: 21900 }, T3 = { m: 14400, f: 18900, x: 24000 };
+    const P = (name, taste, prices, img, extra) => ({ name, taste, prices, img, halves: true, tag: '', veg: false, spicy: false, top: false, ...(extra || {}) });
+    const GROUPS = [
+      { title: 'Clásicas', note: 'Familiar $13.900', items: [
+        P('Napolitana', 'Tomate, orégano y mozzarella.', T1, '/_blob/00e4d6865a8049d57f3b37333c1170a5', { veg: true }),
+        P('Napolitana Cherry', 'Tomate cherry y orégano sobre mozzarella.', T1, '/_blob/df99851d90a7dc5d52c81e6502a4ae68', { veg: true }),
+        P('Napolitana Caprese', 'Tomate cherry, mozzarella y shot de pesto.', T1, '/_blob/0c80c9ce8fac846ed48260d572444089', { veg: true }),
+        P('Hawaiana', 'Piña dulce, jamón y extra queso.', T1, '/_blob/c456af5e152ed3e42fa02102b3818639'),
+        P('Boom de Jamón', 'Doble jamón y mozzarella que se estira.', T1, '/_blob/c5a122356aef0a8af1efae4ed408fac8', { top: true, tag: 'Más vendida' })
+      ] },
+      { title: 'Favoritas', note: 'Familiar $16.900', items: [
+        P('Pollo BBQ', 'Pollo jugoso y tocino sobre BBQ ahumada.', T2, '/_blob/a0f8034a00f2ee7f9ac16bae53dbf532'),
+        P('Super Pepperoni', 'Doble pepperoni dorado en los bordes.', T2, '/_blob/31b1c48b16e1c46ab38ec585868503d0', { top: true, tag: 'Más vendida' }),
+        P('Vegetariana', 'Champiñón, pimiento, cebolla y aceitunas.', T2, '/_blob/04d6fbb537837ed66408af59b8fd1e5c', { veg: true }),
+        P('La Cordillerana', 'Chorizo, beef, pimentón y cebolla.', T2, '/_blob/a89868ad52702a83177fa4c09b0a7b71'),
+        P('Pollo Caprese', 'Pollo, tomate cherry y shot de pesto.', T2, '/_blob/68d64a3235eeb21463e2613d7cb1cb6f'),
+        P('Canadian Bacon', 'Lomito canadiense, tocino y parmesano.', T2, '/_blob/a994a7239d832701f081552da7ae4113')
+      ] },
+      { title: 'Premium', note: 'Familiar desde $18.900', items: [
+        P('Todas las Carnes', 'Pepperoni, jamón, tocino y salchicha.', T3, '/_blob/16a721124c50a8e185c8b55664ae6e2a', { top: true, tag: 'Más vendida' }),
+        P('Italiana', 'Pepperoni, salchicha, aceitunas y orégano.', T3, '/_blob/2a7a491cad030bc066f143fc6fd398ad', { spicy: true, tag: 'Picante' }),
+        P('Espinacas a la Crema', 'Salsa alfredo, jamón, tocino y champiñón.', T3, '/_blob/60644e316491ca10c2673696514aa607'),
+        P('Meat & Great', 'Carne, jamón, tocino, pepperoni y BBQ.', T3, '/_blob/33fb892cc8e420b2a26224a357a6c94a'),
+        P('The Works', 'Ocho ingredientes entre carnes y vegetales.', { m: 18900, f: 21900, x: 26900 }, '/_blob/df537eb374b8f3756f86a4fbd32e8ac0', { spicy: true, tag: 'Picante' })
+      ] },
+      { title: 'Pan Pizza', note: 'Solo mediana · masa gruesa al sartén · sin mitades', items: [
+        P('Pan Pizza Pepperoni', 'Masa gruesa y esponjosa, sabor a mantequilla.', { only: 12900, label: 'Mediana' }, '/_blob/72916d192a0615b9e6dee2bb0a8e5bfe', { halves: false }),
+        P('Pan Pizza The Works', 'Masa gruesa con carnes y vegetales.', { only: 12900, label: 'Mediana' }, '/_blob/5c0510294da2251a8ea28893be149bcc', { halves: false, spicy: true }),
+        P('Pan Pizza Boom de Jamón', 'Masa gruesa con doble jamón.', { only: 12900, label: 'Mediana' }, '/_blob/ec2646fb5ed04c5d1a1f9d3919a52d00', { halves: false }),
+        P('Pan Pizza Napolitana', 'Masa gruesa con tomate y orégano.', { only: 12900, label: 'Mediana' }, '/_blob/899a809a06716c64d474a71e501aa276', { halves: false })
+      ] },
+      { title: 'Croissant', note: 'Borde croissant crujiente · un tamaño · sin mitades', items: [
+        P('Croissant de Pepperoni', 'Borde hojaldrado con pepperoni.', { only: 13990, label: 'Única' }, '/_blob/0df8587978b2028652006f4eaaacb05d', { halves: false }),
+        P('Croissant de Aceituna', 'Borde hojaldrado con aceitunas.', { only: 13990, label: 'Única' }, '/_blob/2308525df2fa9f1bb5180f6d3e116441', { halves: false, veg: true }),
+        P('Croissant de Choclo', 'Borde hojaldrado con choclo.', { only: 13990, label: 'Única' }, '/_blob/884182ad581380eae26bc790a7ced85a', { halves: false }),
+        P('Croissant de Pimentón', 'Borde hojaldrado con pimentón.', { only: 13990, label: 'Única' }, '/_blob/a8e4bbb2659d3f6294ecee67d45c5087', { halves: false, veg: true })
+      ] }
+    ];
+    const SIZE_LABEL = { m: 'Mediana', f: 'Familiar', x: 'Extra grande' };
+    const cart = st.cart;
+    const add = (name, price) => () => {
+      const cur = cart[name] || { qty: 0, price };
+      this.setState({ cart: { ...cart, [name]: { qty: cur.qty + 1, price } } });
+    };
+    const pass = (p) => st.filter === 'all' || (st.filter === 'top' && p.top) || (st.filter === 'veg' && p.veg) || (st.filter === 'spicy' && p.spicy);
+    const TAGC = { 'Más vendida': 'background: #D7EA4A; color: #133423', 'Picante': 'background: #B3261E; color: #FFFFFF' };
+    const groups = GROUPS.map((g) => ({
+      ...g,
+      items: g.items.filter(pass).map((p) => {
+        const price = p.prices.only || p.prices[st.size];
+        const sizeLabel = p.prices.only ? p.prices.label : SIZE_LABEL[st.size];
+        return { ...p, price: fmt(price), sizeLabel, hasTag: !!p.tag, halfLabel: 'Usar ' + p.name + ' en una pizza por mitades',
+          tagStyle: 'position: absolute; top: 8px; left: 8px; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 999px; ' + (TAGC[p.tag] || ''),
+          add: add(p.name + ' ' + sizeLabel, price) };
+      })
+    })).filter((g) => g.items.length > 0);
+    const FLABEL = { top: 'Más vendidas', veg: 'Vegetarianas', spicy: 'Picantes' };
+    const shown = st.filter === 'all' ? groups : [{ title: FLABEL[st.filter], note: groups.reduce((a, g) => a + g.items.length, 0) + ' pizzas', items: groups.reduce((a, g) => a.concat(g.items), []) }];
+    const item = (name, desc, price, img) => ({ name, desc, price: fmt(price), img: img || '', hasImg: !!img, aria: 'Agregar ' + name, add: add(name, price) });
+    const others = [
+      { id: 'acompanamientos', title: 'Acompañamientos', n: 11, more: true, moreLabel: 'Ver los 11', items: [
+        item('Palitos de Ajo', 'Recién horneados, con salsa de ajo', 5990, '/_blob/578bc1143fbd8e8e0748be683c760f73'),
+        item('Cheesyqueños', 'Mozzarella fundida en masa de pizza', 4990, '/_blob/a723849e225ee5ee6428b8b0311a4bf6'),
+        item('Pesto Rolls', 'Rolls de pesto y mozzarella', 5990, '/_blob/cee5b96eb3bf513bf841a5d224433d7d'),
+        item('Palitos de Queso', 'Masa fresca, ajo y mozzarella', 6990, '/_blob/2ae73234c653ba6dec3d9e9eaaab42ca'),
+        item('Chicken Poppers', '12 trozos de pechuga apanada', 6990, '/_blob/fa5176c58dab2dea4fcd4627b5bd0f09'),
+        item('Alitas de Pollo', '6 alitas', 6490, '')
+      ] },
+      { id: 'bebidas', title: 'Bebidas', n: 10, more: true, moreLabel: 'Ver las 10', items: [
+        item('Coca-Cola 1,5 L', 'Original, sin azúcar o light', 3490, '/_blob/aca97767706b08547001c896a30662fd'),
+        item('Coca-Cola 350 ml', 'Original, sin azúcar o light', 1790, '/_blob/aca97767706b08547001c896a30662fd'),
+        item('Sprite, Fanta y más', 'Elige sabor y tamaño', 1790, '')
+      ] },
+      { id: 'postres', title: 'Postres', n: 9, more: true, moreLabel: 'Ver los 9', items: [
+        item('Brownie', 'Tibio, con chips de chocolate', 7990, '/_blob/a2a3411dcdb2d7f1bd5fac0ebc2be67f'),
+        item('Cookie', 'Recién horneada, con chips de chocolate', 7990, '/_blob/0415e9d15fcaae9d668d71d07e12921f'),
+        item('Palitos de Canela', 'Horneados, con salsa de canela', 5990, '')
+      ] },
+      { id: 'extras', title: 'Extras', n: 2, more: false, moreLabel: '', items: [
+        item('Pepperoncini', 'Para acompañar tu pizza', 790, ''),
+        item('El Último Slice', 'Juego de cartas para compartir', 4990, '')
+      ] }
+    ];
+    const lines = Object.keys(cart).map((k) => ({ name: k, qty: cart[k].qty, price: fmt(cart[k].qty * cart[k].price) }));
+    const total = Object.keys(cart).reduce((a, k) => a + cart[k].qty * cart[k].price, 0);
+    const pill = (on) => 'min-height: 38px; padding: 0 14px; border-radius: 999px; cursor: pointer; font-family: \'Barlow\', sans-serif; font-size: 14px; font-weight: 700; border: 0; ' +
+      (on ? 'background: #1E4D33; color: #FFFFFF' : 'background: #FBE9D7; color: #7A3A12');
+    return {
+      cats: [['Ofertas', 16, '#ofertas'], ['Pizzas', 24, '#pizzas'], ['Acompañamientos', 11, '#acompanamientos'], ['Bebidas', 10, '#bebidas'], ['Postres', 9, '#postres'], ['Extras', 2, '#extras']].map((c, i) => ({
+        label: c[0], n: c[1], href: c[2],
+        style: 'min-height: 44px; padding: 0 14px; border-radius: 10px; display: flex; align-items: center; gap: 6px; text-decoration: none; font-weight: 700; font-size: 15px; ' +
+          (i === 1 ? 'background: #1E4D33; color: #FFFFFF' : 'color: #1B1D1A')
+      })),
+      deals: [
+        { name: 'Box Halloween de Miedo', price: '$19.990', before: '$23.880', off: '-16%', img: '/_blob/0a53fb431aa7046682bce23861e01c1c', href: 'Ofertas-Desktop.dc.html' },
+        { name: 'Super Dúo', price: '$22.590', before: '$27.800', off: '-19%', img: '/_blob/b19ee9f500b6cc3eae024bb333c50ab1', href: 'Combo.dc.html' },
+        { name: 'Pizza del mes: Boom de Jamón', price: '$10.990', before: '$13.900', off: '-21%', img: '/_blob/c5a122356aef0a8af1efae4ed408fac8', href: 'Sheet-Pizza.dc.html' },
+        { name: 'Papa Combo Palitos', price: '$16.490', before: '$17.880', off: '-8%', img: '/_blob/7fdbaf1dcc74125ff04d0a3659676441', href: 'Ofertas-Desktop.dc.html' }
+      ],
+      sizes: ['m', 'f', 'x'].map((s) => ({ label: SIZE_LABEL[s], on: s === st.size, pick: () => this.setState({ size: s }),
+        style: 'min-height: 38px; padding: 0 14px; border-radius: 9px; border: 0; cursor: pointer; font-family: \'Barlow\', sans-serif; font-size: 14px; font-weight: 700; ' +
+          (s === st.size ? 'background: #FFFFFF; color: #133423; box-shadow: 0 1px 3px rgba(0,0,0,0.12)' : 'background: transparent; color: #5A5F57') })),
+      filters: [['all', 'Todas'], ['top', 'Más vendidas'], ['veg', 'Vegetarianas'], ['spicy', 'Picantes']].map((f) => ({ label: f[1], on: f[0] === st.filter, pick: () => this.setState({ filter: f[0] }), style: pill(f[0] === st.filter) })),
+      byop: 'Desde ' + fmt({ m: 9490, f: 12400, x: 15400 }[st.size]) + ' en ' + SIZE_LABEL[st.size] + ' →',
+      groups: shown, others,
+      cart: lines, empty: lines.length === 0, filled: lines.length > 0,
+      total: fmt(total), points: Math.floor(total / 1000)
+    };
+  }
+}
+</script>
+</body>
+</html>

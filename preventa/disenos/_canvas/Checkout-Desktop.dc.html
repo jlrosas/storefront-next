@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Checkout escritorio</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=Barlow:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 100%; min-height: 1480px; box-sizing: border-box; background: #F7F6F1; font-family: 'Barlow', sans-serif; color: #1B1D1A">
+
+  <header style="background: #FFFFFF; border-bottom: 1px solid #E4E2DA">
+    <div style="max-width: 1100px; margin: 0 auto; padding: 0 24px; min-height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 12px">
+      <span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 22px; line-height: 0.9; color: #1E4D33">PAPA<br>JOHNS</span>
+      <a href="Menu-Desktop.dc.html" style="min-height: 44px; display: flex; align-items: center; font-weight: 700; color: #1E4D33">Volver al pedido</a>
+    </div>
+  </header>
+
+  <main style="max-width: 1100px; margin: 0 auto; padding: 28px 24px 56px; display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start">
+    <div style="flex: 999 1 540px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+      <h1 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 44px; text-transform: uppercase">Finaliza tu pedido</h1>
+
+      <section style="background: #FFFFFF; border-radius: 16px; padding: 16px 20px; display: flex; align-items: center; gap: 14px">
+        <div style="flex: 1">
+          <div style="font-size: 12px; font-weight: 700; color: #5A5F57; text-transform: uppercase; letter-spacing: 0.4px">Retiro</div>
+          <div style="font-weight: 700; font-size: 17px">Papa Johns El Bosque</div>
+          <div style="font-size: 14px; color: #5A5F57">Lo antes posible · listo a las 20:45</div>
+        </div>
+        <a href="Tienda.dc.html" style="font-weight: 700; color: #1E4D33; min-height: 44px; display: flex; align-items: center">Cambiar</a>
+      </section>
+
+      <section style="background: #FFFFFF; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 14px">
+        <div style="display: flex; align-items: center; gap: 10px">
+          <span style="width: 28px; height: 28px; border-radius: 999px; background: #1E4D33; color: #FFFFFF; font-weight: 700; display: flex; align-items: center; justify-content: center">1</span>
+          <h2 style="margin: 0; flex: 1; font-size: 20px; font-weight: 700">Tus datos</h2>
+          <a href="#" style="font-size: 15px; font-weight: 700; color: #1E4D33">Cambiar</a>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 2px; font-size: 16px">
+          <span style="font-weight: 700">{{who.name}}</span>
+          <span style="color: #5A5F57">{{who.contact}}</span>
+        </div>
+      </section>
+
+      <section style="background: #FFFFFF; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 14px">
+        <div style="display: flex; align-items: center; gap: 10px">
+          <span style="width: 28px; height: 28px; border-radius: 999px; background: #1E4D33; color: #FFFFFF; font-weight: 700; display: flex; align-items: center; justify-content: center">2</span>
+          <h2 style="margin: 0; font-size: 20px; font-weight: 700">¿Cómo pagas?</h2>
+        </div>
+        <div role="radiogroup" aria-label="Medio de pago" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+          <sc-for list="{{methods}}" as="m" hint-placeholder-count="2">
+            <button type="button" role="radio" aria-checked="{{m.on}}" onClick="{{m.pick}}" style="{{m.style}}">
+              <span style="{{m.check}}">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"></path></svg>
+              </span>
+              <span style="font-weight: 700; font-size: 18px">{{m.name}}</span>
+              <span style="font-size: 14px; color: #5A5F57">{{m.hint}}</span>
+            </button>
+          </sc-for>
+        </div>
+        <sc-if value="{{isMpSaved}}" hint-placeholder-val="{{false}}">
+          <div style="border: 1.5px solid #E4E2DA; border-radius: 14px; padding: 18px; display: flex; align-items: flex-end; gap: 16px; flex-wrap: wrap">
+            <div style="flex: 1 1 240px; display: flex; align-items: center; gap: 10px">
+              <span style="font-size: 12px; font-weight: 700; border: 1px solid #D5D3CA; border-radius: 4px; padding: 3px 6px">VISA</span>
+              <span style="display: flex; flex-direction: column"><span style="font-weight: 700; font-size: 16px">Tarjeta guardada ····4521</span><span style="font-size: 13px; color: #5A5F57">Mercado Pago guarda tu tarjeta; solo te pedimos el código</span></span>
+            </div>
+            <label style="display: flex; flex-direction: column; gap: 4px; font-size: 14px; font-weight: 600; color: #3E423C">Código de seguridad
+              <input type="text" inputmode="numeric" autocomplete="cc-csc" placeholder="123" style="width: 120px; height: 48px; border-radius: 12px; border: 1.5px solid #D5D3CA; padding: 0 14px; font-family: 'Barlow', sans-serif; font-size: 16px">
+            </label>
+            <a href="#" style="min-height: 48px; display: flex; align-items: center; font-weight: 700; color: #1E4D33">Usar otra</a>
+          </div>
+        </sc-if>
+        <sc-if value="{{isMpNew}}" hint-placeholder-val="{{true}}">
+          <div style="border: 1.5px solid #E4E2DA; border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 12px">
+            <div style="display: flex; align-items: center; justify-content: space-between">
+              <span style="font-weight: 700; font-size: 16px">Tarjeta de crédito o débito</span>
+              <span style="font-size: 13px; color: #5A5F57">Formulario seguro de Mercado Pago</span>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px">
+              <label style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 4px; font-size: 14px; font-weight: 600; color: #3E423C">Número de tarjeta
+                <input type="text" inputmode="numeric" autocomplete="cc-number" placeholder="1234 1234 1234 1234" style="height: 48px; border-radius: 12px; border: 1.5px solid #D5D3CA; padding: 0 14px; font-family: 'Barlow', sans-serif; font-size: 16px">
+              </label>
+              <label style="display: flex; flex-direction: column; gap: 4px; font-size: 14px; font-weight: 600; color: #3E423C">Vencimiento
+                <input type="text" inputmode="numeric" autocomplete="cc-exp" placeholder="MM/AA" style="height: 48px; border-radius: 12px; border: 1.5px solid #D5D3CA; padding: 0 14px; font-family: 'Barlow', sans-serif; font-size: 16px">
+              </label>
+              <label style="display: flex; flex-direction: column; gap: 4px; font-size: 14px; font-weight: 600; color: #3E423C">Código de seguridad
+                <input type="text" inputmode="numeric" autocomplete="cc-csc" placeholder="123" style="height: 48px; border-radius: 12px; border: 1.5px solid #D5D3CA; padding: 0 14px; font-family: 'Barlow', sans-serif; font-size: 16px">
+              </label>
+              <label style="display: flex; flex-direction: column; gap: 4px; font-size: 14px; font-weight: 600; color: #3E423C">Nombre del titular
+                <input type="text" autocomplete="cc-name" placeholder="Como aparece en la tarjeta" style="height: 48px; border-radius: 12px; border: 1.5px solid #D5D3CA; padding: 0 14px; font-family: 'Barlow', sans-serif; font-size: 16px">
+              </label>
+              <label style="display: flex; flex-direction: column; gap: 4px; font-size: 14px; font-weight: 600; color: #3E423C">RUT del titular
+                <input type="text" inputmode="numeric" placeholder="12.345.678-9" style="height: 48px; border-radius: 12px; border: 1.5px solid #D5D3CA; padding: 0 14px; font-family: 'Barlow', sans-serif; font-size: 16px">
+              </label>
+              <label style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 4px; font-size: 14px; font-weight: 600; color: #3E423C">Cuotas
+                <select style="height: 48px; border-radius: 12px; border: 1.5px solid #D5D3CA; padding: 0 10px; font-family: 'Barlow', sans-serif; font-size: 16px; background: #FFFFFF"><option>1 cuota de $23.890</option><option>Más cuotas según tu banco</option></select>
+              </label>
+            </div>
+            <label style="display: flex; gap: 10px; align-items: center; font-size: 15px; color: #3E423C; cursor: pointer">
+              <input type="checkbox" checked style="width: 22px; height: 22px; margin: 0; accent-color: #1E4D33">
+              Guardar esta tarjeta en Mercado Pago para la próxima
+            </label>
+            <button type="button" style="align-self: flex-start; min-height: 44px; padding: 0 16px; border-radius: 12px; border: 1.5px dashed #B9B7AE; background: #FFFFFF; color: #1E4D33; font-family: 'Barlow', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer">Prefiero pagar con mi cuenta de Mercado Pago</button>
+          </div>
+        </sc-if>
+        <sc-if value="{{isCash}}" hint-placeholder-val="{{false}}">
+          <div style="background: #F4F3EE; border-radius: 12px; padding: 14px 16px; font-size: 15px; line-height: 1.45">Pagas en la caja cuando retiras. Tu pedido queda reservado hasta 30 minutos después de la hora indicada.</div>
+        </sc-if>
+      </section>
+
+      <section style="background: #FFFFFF; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 14px">
+        <div style="display: flex; align-items: center; gap: 10px">
+          <span style="width: 28px; height: 28px; border-radius: 999px; background: #1E4D33; color: #FFFFFF; font-weight: 700; display: flex; align-items: center; justify-content: center">3</span>
+          <h2 style="margin: 0; flex: 1; font-size: 20px; font-weight: 700">Comprobante</h2>
+          <div role="radiogroup" aria-label="Tipo de comprobante" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); background: #F4F3EE; border-radius: 12px; padding: 4px; width: 260px">
+            <button type="button" role="radio" aria-checked="{{isBoleta}}" onClick="{{toBoleta}}" style="{{boletaStyle}}">Boleta</button>
+            <button type="button" role="radio" aria-checked="{{isFactura}}" onClick="{{toFactura}}" style="{{facturaStyle}}">Factura</button>
+          </div>
+        </div>
+        <sc-if value="{{isBoleta}}" hint-placeholder-val="{{false}}">
+          <div style="font-size: 15px; color: #3E423C">Te enviamos la boleta electrónica a tu correo.</div>
+        </sc-if>
+        <sc-if value="{{isFactura}}" hint-placeholder-val="{{true}}">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px">
+            <label style="display: flex; flex-direction: column; gap: 4px; font-size: 14px; font-weight: 600; color: #3E423C">RUT de la empresa
+              <input type="text" inputmode="numeric" value="76.123.456-7" style="height: 48px; border-radius: 12px; border: 1.5px solid #1E6B3A; padding: 0 14px; font-family: 'Barlow', sans-serif; font-size: 16px; color: #1B1D1A">
+              <span style="font-weight: 600; color: #1E6B3A">RUT válido</span>
+            </label>
+            <label style="display: flex; flex-direction: column; gap: 4px; font-size: 14px; font-weight: 600; color: #3E423C">Razón social
+              <input type="text" autocomplete="organization" placeholder="Ej.: Comercial Andes SpA" style="height: 48px; border-radius: 12px; border: 1.5px solid #D5D3CA; padding: 0 14px; font-family: 'Barlow', sans-serif; font-size: 16px">
+            </label>
+            <label style="display: flex; flex-direction: column; gap: 4px; font-size: 14px; font-weight: 600; color: #3E423C">Giro
+              <input type="text" placeholder="Ej.: Servicios de consultoría" style="height: 48px; border-radius: 12px; border: 1.5px solid #D5D3CA; padding: 0 14px; font-family: 'Barlow', sans-serif; font-size: 16px">
+            </label>
+            <label style="display: flex; flex-direction: column; gap: 4px; font-size: 14px; font-weight: 600; color: #3E423C">Dirección comercial
+              <input type="text" autocomplete="street-address" placeholder="Calle, número y comuna" style="height: 48px; border-radius: 12px; border: 1.5px solid #D5D3CA; padding: 0 14px; font-family: 'Barlow', sans-serif; font-size: 16px">
+            </label>
+          </div>
+        </sc-if>
+      </section>
+    </div>
+
+    <aside style="flex: 1 1 340px; min-width: 0; background: #FFFFFF; border-radius: 18px; padding: 20px; display: flex; flex-direction: column; gap: 12px">
+      <h2 style="margin: 0; font-size: 20px; font-weight: 700">Tu pedido</h2>
+      <sc-for list="{{lines}}" as="l" hint-placeholder-count="3">
+        <div style="display: flex; gap: 12px; align-items: center">
+          <img src="{{l.img}}" alt="{{l.name}}" style="width: 56px; height: 56px; border-radius: 10px; object-fit: cover">
+          <span style="flex: 1; display: flex; flex-direction: column">
+            <span style="font-weight: 600">{{l.name}}</span>
+            <span style="font-size: 13px; color: #5A5F57">{{l.detail}}</span>
+          </span>
+          <span style="font-weight: 600">{{l.price}}</span>
+        </div>
+      </sc-for>
+      <div style="border-top: 1px solid #EFEEE7; padding-top: 12px; display: flex; flex-direction: column; gap: 6px">
+        <div style="display: flex; justify-content: space-between; font-size: 15px; color: #5A5F57"><span>Subtotal</span><span>{{total}}</span></div>
+        <div style="display: flex; justify-content: space-between; font-size: 15px; color: #5A5F57"><span>Retiro en tienda</span><span>Gratis</span></div>
+        <div style="display: flex; justify-content: space-between; font-size: 22px; font-weight: 800"><span>Total</span><span>{{total}}</span></div>
+      </div>
+      <div style="background: #EEF6C8; color: #133423; border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 8px">
+        <div style="display: flex; justify-content: space-between; font-size: 14px"><strong>Tus Papa Puntos</strong><span>{{balance}} puntos</span></div>
+        <sc-if value="{{isSofia}}" hint-placeholder-val="{{false}}">
+          <div style="display: flex; gap: 10px; align-items: center">
+            <img src="/_blob/31b1c48b16e1c46ab38ec585868503d0" alt="" style="width: 44px; height: 44px; border-radius: 8px; object-fit: cover">
+            <span style="flex: 1; font-size: 14px">{{redeemText}}</span>
+            <button type="button" onClick="{{toggleRedeem}}" style="{{redeemBtn}}">{{redeemLabel}}</button>
+          </div>
+        </sc-if>
+        <span style="font-size: 14px">{{earnText}}</span>
+      </div>
+      <button type="button" onClick="{{toggleCoupon}}" style="min-height: 44px; background: none; border: 0; text-align: left; font-family: 'Barlow', sans-serif; font-size: 15px; font-weight: 700; color: #1E4D33; cursor: pointer; padding: 0">¿Tienes un cupón?</button>
+      <sc-if value="{{showCoupon}}" hint-placeholder-val="{{false}}">
+        <div style="display: flex; gap: 8px">
+          <label for="cupon-d" style="position: absolute; left: -9999px">Código del cupón</label>
+          <input id="cupon-d" type="text" placeholder="Código" style="flex: 1; min-width: 0; height: 46px; border-radius: 12px; border: 1.5px solid #D5D3CA; padding: 0 12px; font-family: 'Barlow', sans-serif; font-size: 16px">
+          <button type="button" style="height: 46px; padding: 0 16px; border-radius: 12px; border: 1.5px solid #1E4D33; background: #FFFFFF; color: #1E4D33; font-family: 'Barlow', sans-serif; font-weight: 700; cursor: pointer">Aplicar</button>
+        </div>
+      </sc-if>
+      <a href="{{confirmHref}}" style="height: 56px; border-radius: 999px; background: #1E4D33; color: #FFFFFF; text-decoration: none; display: flex; align-items: center; justify-content: space-between; padding: 0 22px; font-weight: 700; font-size: 17px">
+        <span>{{cta}}</span><span>{{total}}</span>
+      </a>
+      <p style="margin: 0; font-size: 12px; color: #5A5F57">Al continuar aceptas los términos y la política de privacidad.</p>
+    </aside>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"cliente":{"editor":"enum","options":["valentina","sofia"],"default":"valentina"},"$preview":{"width":1280,"height":1480}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { method: 'mp', doc: 'factura', join: true, coupon: false, redeemed: false };
+  }
+  renderVals() {
+    const st = this.state;
+    const isSofia = (this.props.cliente ?? 'valentina') === 'sofia';
+    const redeemed = isSofia && st.redeemed;
+    const WHO = isSofia
+      ? { name: 'Sofía Muñoz', contact: '+56 9 7654 3210 · sofia.munoz@correo.cl' }
+      : { name: 'Valentina Rojas', contact: '+56 9 8765 4321 · valentina.rojas@correo.cl' };
+    const METHODS = [
+      { id: 'mp', name: 'Mercado Pago', hint: 'Tarjeta de crédito o débito' },
+      { id: 'cash', name: 'Efectivo al retirar', hint: 'Pagas en la caja de la tienda' }
+    ];
+    const seg = (on) => 'min-height: 40px; border-radius: 9px; border: 0; cursor: pointer; font-family: \'Barlow\', sans-serif; font-size: 15px; ' +
+      (on ? 'background: #FFFFFF; color: #133423; font-weight: 700; box-shadow: 0 1px 3px rgba(0,0,0,0.12)' : 'background: transparent; color: #5A5F57; font-weight: 600');
+    return {
+      methods: METHODS.map((m) => {
+        const on = m.id === st.method;
+        return { ...m, on, pick: () => this.setState({ method: m.id }),
+          style: 'position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; min-height: 92px; padding: 16px; border-radius: 14px; cursor: pointer; text-align: left; font-family: \'Barlow\', sans-serif; color: #1B1D1A; ' +
+            (on ? 'background: #EEF6C8; border: 2px solid #1E4D33' : 'background: #FFFFFF; border: 2px solid #E4E2DA'),
+          check: 'position: absolute; top: 10px; right: 10px; width: 22px; height: 22px; border-radius: 999px; display: flex; align-items: center; justify-content: center; box-sizing: border-box; ' +
+            (on ? 'background: #1E4D33; color: #FFFFFF' : 'background: transparent; color: transparent; border: 2px solid #D5D3CA') };
+      }),
+      isMpSaved: st.method === 'mp' && isSofia,
+      isMpNew: st.method === 'mp' && !isSofia,
+      who: WHO, isSofia,
+      confirmHref: isSofia ? 'Confirmacion-Desktop-Sofia.dc.html' : 'Confirmacion-Desktop.dc.html',
+      total: '$23.890',
+      balance: isSofia ? (redeemed ? 80 : 340) : 40,
+      earnText: isSofia ? 'Con este pedido ganas 23 puntos más.' : 'Este pedido suma 46 puntos: dobles por volver. Quedas con 86.',
+      redeemText: redeemed ? 'Super Pepperoni mediana gratis. Te quedan 80.' : 'Super Pepperoni mediana gratis por 260 puntos',
+      redeemLabel: redeemed ? 'Quitar' : 'Canjear',
+      toggleRedeem: () => this.setState({ redeemed: !st.redeemed }),
+      redeemBtn: 'min-height: 40px; padding: 0 14px; border-radius: 999px; cursor: pointer; font-family: \'Barlow\', sans-serif; font-size: 14px; font-weight: 700; ' +
+        (redeemed ? 'background: #FFFFFF; color: #1E4D33; border: 1.5px solid #1E4D33' : 'background: #1E4D33; color: #FFFFFF; border: 0'),
+      isCash: st.method === 'cash',
+      cta: st.method === 'mp' ? 'Pagar' : 'Confirmar pedido',
+      isBoleta: st.doc === 'boleta', isFactura: st.doc === 'factura',
+      boletaStyle: seg(st.doc === 'boleta'), facturaStyle: seg(st.doc === 'factura'),
+      toBoleta: () => this.setState({ doc: 'boleta' }), toFactura: () => this.setState({ doc: 'factura' }),
+      join: st.join, toggleJoin: () => this.setState({ join: !st.join }),
+      showCoupon: st.coupon, toggleCoupon: () => this.setState({ coupon: !st.coupon }),
+      lines: [
+        { name: 'Pollo BBQ', detail: 'Familiar · Tradicional · sin cebolla', price: '$16.900', img: '/_blob/f14a3785dacd216a7a3dfcc2bfeb7f7f' },
+        { name: 'Combo Palitos y bebida', detail: 'Palitos de Ajo + Coca-Cola Sin azúcar 1,5 L · ahorras $2.490', price: '$6.990', img: '/_blob/7fdbaf1dcc74125ff04d0a3659676441' }
+      ].concat(redeemed ? [{ name: 'Super Pepperoni mediana', detail: 'Canje con 260 Papa Puntos', price: '$0', img: '/_blob/31b1c48b16e1c46ab38ec585868503d0' }] : [])
+    };
+  }
+}
+</script>
+</body>
+</html>

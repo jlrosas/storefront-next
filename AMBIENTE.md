@@ -42,7 +42,7 @@ Valores públicos o identificadores, sin secretos. Con el sandbox nuevo **todos 
 | Librería | `PapaJohnsCLLibrary` (compartida) | `build_site.py` (`LIBRARY`) |
 | Cartridge path | `int_papajohns_demo:app_storefrontnext_base:app_storefront_base` | `build_site.py` (`CARTRIDGES`, va en `site.xml`) |
 | Proyecto / ambiente MRT | `sfnext-pizza-6ba5ff` / `sfnext-piz-1af0959c` (arm64, Node 24, eCDN) | `.env` (`MRT_PROJECT`, `MRT_TARGET`) |
-| URL pública (eCDN) | `https://sfnextpiz1af0959c456da71a.zyfj-001.my.commercecloud.salesforce.com/cl/es-CL/` | README, `demo/PLAN.md` |
+| URL pública (eCDN) | `https://sfnextpiz1af0959c456da71a.zyfj-001.my.commercecloud.salesforce.com/cl/es-CL/` | `preventa/README.md`, `preventa/demo/PLAN.md` |
 | Origen MRT (no se usa directo) | `sfnext-pizza-6ba5ff-sfnext-piz-1af0959c.sfdc-8tgtt5-ecom1.exp-delivery.com`, que responde 403 por diseño: solo acepta tráfico de eCDN | — |
 | Último bundle | 6 (commit `e4da058`, 07-nov) | — |
 

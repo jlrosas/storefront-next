@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Carrito de escritorio</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=Barlow:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 100%; height: 900px; box-sizing: border-box; position: relative; overflow: hidden; background: #FFFBF5; font-family: 'Barlow', sans-serif; color: #1B1D1A">
+
+  <header style="background: #1E4D33; color: #FFFFFF">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px; height: 68px; display: flex; align-items: center; gap: 28px">
+      <a href="Home-Desktop.dc.html" style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 22px; line-height: 0.9; color: #FFFFFF; text-decoration: none">PAPA<br>JOHNS</a>
+      <nav style="display: flex; gap: 22px; font-weight: 600"><a href="Menu-Desktop.dc.html" style="color: #FFFFFF; text-decoration: none">Menú</a><a href="Ofertas-Desktop.dc.html" style="color: #FFFFFF; text-decoration: none">Promos</a><a href="Puntos.dc.html" style="color: #FFFFFF; text-decoration: none">Papa Puntos</a></nav>
+      <span style="flex: 1"></span>
+      <span style="font-weight: 600">Hola, Sofía · 340 puntos</span>
+      <span style="background: #D7EA4A; color: #133423; border-radius: 999px; padding: 8px 16px; font-weight: 700">Mi pedido · 3</span>
+    </div>
+  </header>
+  <div aria-hidden="true" style="max-width: 1200px; margin: 0 auto; padding: 28px 24px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px">
+    <div style="grid-column: 1 / -1; height: 260px; border-radius: 20px; background: #E9E4DA"></div>
+    <div style="height: 260px; border-radius: 16px; background: #FFFFFF"></div>
+    <div style="height: 260px; border-radius: 16px; background: #FFFFFF"></div>
+    <div style="height: 260px; border-radius: 16px; background: #FFFFFF"></div>
+    <div style="height: 260px; border-radius: 16px; background: #FFFFFF"></div>
+  </div>
+  <div aria-hidden="true" style="position: absolute; inset: 0; background: rgba(19,52,35,0.5)"></div>
+
+  <aside role="dialog" aria-modal="true" aria-labelledby="cart-title" style="position: absolute; top: 0; right: 0; bottom: 0; width: 440px; background: #FFFBF5; box-shadow: -12px 0 32px rgba(0,0,0,0.2); display: flex; flex-direction: column">
+    <div style="height: 68px; flex-shrink: 0; padding: 0 16px 0 24px; display: flex; align-items: center; border-bottom: 1px solid #E4E2DA; background: #FFFFFF">
+      <h1 id="cart-title" style="margin: 0; flex: 1; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 28px; text-transform: uppercase">Mi pedido</h1>
+      <a href="Home-Desktop-Sofia.dc.html" aria-label="Cerrar" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #1B1D1A">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+      </a>
+    </div>
+    <div style="flex: 1; overflow-y: auto; padding: 16px 24px; display: flex; flex-direction: column; gap: 14px">
+      <div style="background: #FFFFFF; border-radius: 14px; padding: 12px 14px; display: flex; align-items: center; gap: 12px">
+        <span style="flex: 1; display: flex; flex-direction: column"><strong>Retiro en El Bosque</strong><span style="font-size: 14px; color: #5A5F57">Listo en 15 min · abierta hasta 23:30</span></span>
+        <a href="Tienda.dc.html" style="font-weight: 700; color: #1E4D33">Cambiar</a>
+      </div>
+      <div style="background: #FFFFFF; border-radius: 14px; padding: 2px 14px">
+        <sc-for list="{{lines}}" as="l" hint-placeholder-count="3">
+          <div style="display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid #EFEEE7">
+            <img src="{{l.img}}" alt="{{l.name}}" style="width: 64px; height: 64px; border-radius: 10px; object-fit: cover">
+            <span style="flex: 1; display: flex; flex-direction: column; gap: 2px">
+              <span style="display: flex; justify-content: space-between; gap: 8px; font-weight: 700"><span>{{l.name}}</span><span>{{l.price}}</span></span>
+              <span style="font-size: 13px; color: #5A5F57">{{l.detail}}</span>
+            </span>
+          </div>
+        </sc-for>
+      </div>
+      <sc-if value="{{offerCombo}}" hint-placeholder-val="{{true}}">
+        <div style="background: #FFFFFF; border: 2px solid #B3261E; border-radius: 14px; padding: 14px; display: flex; gap: 12px; align-items: center">
+          <img src="/_blob/7fdbaf1dcc74125ff04d0a3659676441" alt="" style="width: 72px; height: 72px; border-radius: 10px; object-fit: cover">
+          <span style="flex: 1; display: flex; flex-direction: column; gap: 4px">
+            <span style="font-size: 12px; font-weight: 700; color: #B3261E; text-transform: uppercase">Ahorras $2.490</span>
+            <span style="font-weight: 700">Tus Palitos y tu Coca-Cola salen más baratos en combo</span>
+          </span>
+          <button type="button" onClick="{{toCombo}}" style="min-height: 44px; padding: 0 14px; border-radius: 999px; border: 0; background: #B3261E; color: #FFFFFF; font-family: 'Barlow', sans-serif; font-weight: 700; cursor: pointer">Convertir</button>
+        </div>
+      </sc-if>
+      <div style="background: #EEF6C8; color: #133423; border-radius: 14px; padding: 12px 14px; display: flex; gap: 12px; align-items: center">
+        <span style="flex: 1; font-size: 14px"><strong>340 Papa Puntos.</strong> Canjea una Super Pepperoni mediana gratis al pagar.</span>
+      </div>
+    </div>
+    <div style="flex-shrink: 0; padding: 16px 24px 24px; background: #FFFFFF; border-top: 1px solid #E4E2DA; display: flex; flex-direction: column; gap: 10px">
+      <div style="display: flex; justify-content: space-between; font-size: 20px; font-weight: 800"><span>Total</span><span>{{total}}</span></div>
+      <a href="Checkout-Desktop-Sofia.dc.html" style="height: 56px; border-radius: 999px; background: #1E4D33; color: #FFFFFF; text-decoration: none; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 17px">Ir a pagar</a>
+      <a href="Menu-Desktop.dc.html" style="min-height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #1E4D33">Seguir viendo el menú</a>
+    </div>
+  </aside>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { combo: false };
+  }
+  renderVals() {
+    const fmt = (n) => '$' + String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    const c = this.state.combo;
+    const L = [{ name: 'Pollo BBQ', detail: 'Familiar · Tradicional · sin cebolla', p: 16900, img: '/_blob/a0f8034a00f2ee7f9ac16bae53dbf532' }].concat(c
+      ? [{ name: 'Combo Palitos y bebida', detail: 'Palitos de Ajo + Coca-Cola Sin azúcar 1,5 L', p: 6990, img: '/_blob/7fdbaf1dcc74125ff04d0a3659676441' }]
+      : [{ name: 'Palitos de Ajo', detail: 'Recién horneados', p: 5990, img: '/_blob/578bc1143fbd8e8e0748be683c760f73' },
+         { name: 'Coca-Cola Sin azúcar 1,5 L', detail: 'Bien helada', p: 3490, img: '/_blob/aca97767706b08547001c896a30662fd' }]);
+    return {
+      lines: L.map((l) => ({ ...l, price: fmt(l.p) })),
+      total: fmt(L.reduce((a, l) => a + l.p, 0)),
+      offerCombo: !c,
+      toCombo: () => this.setState({ combo: true })
+    };
+  }
+}
+</script>
+</body>
+</html>

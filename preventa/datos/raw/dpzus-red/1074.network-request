@@ -1,0 +1,1 @@
+{"operationName":"CheckIntent","variables":{"checksIntent":{"intent":"CHECKOUT","cartId":"a2f1e505-9ae9-47eb-b7a8-1dfb21165565","storeId":"3681","context":{"paymentMethod":{"amount":0,"paymentType":"CASH"}}}},"query":"query CheckIntent($checksIntent: ChecksInput!) {\n  checksForIntent(checksIntent: $checksIntent)\n}"}

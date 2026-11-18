@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Papa Johns Ecommerce Experience Kit" />
+    <title>Papa Johns | Ecommerce Experience Kit</title>
+    <link rel="stylesheet" href="styles.css?v=20261007-ux" />
+  </head>
+  <body>
+    <div
+      class="intro-screen"
+      id="introScreen"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Introducción Papa Johns Ecommerce Experience Kit">
+      <div class="intro-screen-content">
+        <img class="intro-screen-logo" src="assets/papa-johns-logo-new-green.svg" alt="Papa Johns" />
+        <button class="intro-screen-sound" id="introScreenSound" type="button">Activar sonido</button>
+        <video
+          class="intro-screen-video"
+          id="introVideo"
+          playsinline
+          preload="auto"
+          aria-label="Video de introducción Papa Johns">
+          <source src="assets/intro%20video.mp4" type="video/mp4" />
+        </video>
+        <span class="intro-screen-kicker">ECOMMERCE EXPERIENCE KIT · 2026</span>
+      </div>
+      <button class="intro-screen-skip" id="introScreenSkip" type="button">Omitir introducción</button>
+    </div>
+    <header class="hero">
+      <nav class="nav container">
+        <div class="brand">
+          <img class="brand-logo" src="assets/papa-johns-logo-new-green.svg" alt="Papa Johns Chile" />
+        </div>
+        <a class="nav-link" href="#kit">Kit para partners &rarr;</a>
+      </nav>
+      <div class="hero-content container">
+        <div class="eyebrow">ECOMMERCE EXPERIENCE KIT · 2026</div>
+        <h1>El customer journey en el ecosistema Ecommerce Papa Johns</h1>
+        <p class="hero-lead">
+          Desde la creación de una campaña hasta la recompra: una experiencia omnicanal, personalizada y
+          conectada.
+        </p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#flujo">Explorar el viaje &darr;</a
+          ><a class="button button-ghost" href="#desafio">Ver el desafío</a>
+        </div>
+      </div>
+      <div class="hero-glow glow-one"></div>
+      <div class="hero-glow glow-two"></div>
+    </header>
+    <nav class="section-nav" aria-label="Secciones del kit">
+      <div class="container section-nav-inner">
+        <button
+          class="section-nav-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="sectionNavLinks">
+          <span><small>EXPLORAR EL KIT</small><strong id="sectionNavCurrent">El desafío</strong></span>
+          <span class="section-nav-chevron" aria-hidden="true">⌄</span>
+        </button>
+        <div class="section-nav-links" id="sectionNavLinks">
+          <a href="#desafio">Desafío</a>
+          <a href="#flujo">Journey</a>
+          <a href="#perfiles">Perfiles</a>
+          <a href="#expectativas-propuesta">Expectativas</a>
+          <a href="#datos-maestros">Back office</a>
+          <a href="#ecosistema">Ecosistema</a>
+          <a href="#digital-flow">Flujo digital</a>
+          <a href="#diseno">Diseño</a>
+          <a href="#casos">Casos</a>
+          <a href="#impacto-negocio">KPIs</a>
+        </div>
+        <a class="section-nav-kit" href="#kit">Ver kit <span aria-hidden="true">↓</span></a>
+      </div>
+    </nav>
+    <main>
+      <section class="intro container" id="desafio">
+        <div>
+          <div class="eyebrow green">00 · EL DESAFÍO</div>
+          <h2>No queremos un sitio que muestre pizzas.<br /><i>Queremos uno que provoque hambre.</i></h2>
+        </div>
+        <p>
+          La nueva experiencia de Papa Johns debe lograr que el cliente sienta el producto antes de probarlo,
+          encuentre rápidamente algo relevante para su momento y pueda comprar sin pensar demasiado. Queremos
+          pasar de un ecommerce funcional a una experiencia digital emocional, inteligente y reconocible,
+          donde imágenes, movimiento, contenido, personalización, prueba social y conveniencia trabajen juntos
+          para provocar deseo y convertirlo en una orden.<br /><br />
+          La referencia no es solamente otra pizzería. Esperamos una experiencia comparable con los mejores
+          ecommerce: producto protagonista, contenido visual rico, información que ayuda a decidir,
+          recomendaciones relevantes, confianza y una interfaz que se adapte al cliente y a su contexto.
+          Target, por ejemplo, incorpora ratings, highlights, disponibilidad, alternativas de fulfillment,
+          Q&amp;A y recomendaciones directamente alrededor del producto para reducir incertidumbre y facilitar
+          la decisión.
+        </p>
+        <div class="challenge-principles">
+          <article>
+            <span>01</span>
+            <strong>Hacer que entre por los ojos</strong>
+            <p>
+              Fotografía hero, video, zoom, textura, ingredientes, preparación y movimiento. Que la pizza se
+              vea caliente, abundante y recién hecha. La PDP debe generar antojo antes de hablar de precio.
+            </p>
+          </article>
+          <article>
+            <span>02</span>
+            <strong>Que el sitio entienda el momento</strong>
+            <p>
+              No todos entran por lo mismo. La experiencia debe adaptarse al Heavy, Switcher y Non Buyer, pero
+              también a la ocasión: almuerzo, partido, celebración, familia, bajón o recompra. Banner,
+              módulos, menú y recomendaciones deben cambiar con intención.
+            </p>
+          </article>
+          <article>
+            <span>03</span>
+            <strong>Hacer tremendamente fácil decidir</strong>
+            <p>
+              “Para 2”, “para 4”, “más pedido”, “tu favorito”, “mejor combinación”, precio final claro,
+              personalización simple y disponibilidad real. Menos esfuerzo mental, menos dudas y menos pasos
+              hasta el carrito.
+            </p>
+          </article>
+          <article>
+            <span>04</span>
+            <strong>Crear una experiencia que se recuerde</strong>
+            <p>
+              Reviews, señales de popularidad, contenido editorial, recomendaciones inteligentes,
+              cross-selling atractivo, microinteracciones, loyalty, recompra y postventa. No buscamos solo
+              conversión: buscamos que el cliente recuerde la experiencia Papa Johns y quiera volver.
+            </p>
+          </article>
+        </div>
+        <div class="challenge-mandate">
+          <strong>No queremos que nos demuestren que pueden construir una PDP.</strong>
+          <span
+            >Queremos que nos muestren cómo transformarían una pizza en deseo, el deseo en una decisión y esa
+            decisión en una relación recurrente con Papa Johns. La POC debe sorprendernos. Debe demostrar una
+            experiencia visual, emocional, personalizada, rápida y comercialmente inteligente, con estándar de
+            ecommerce referente, no simplemente una evolución de lo que tenemos hoy.</span
+          >
+        </div>
+      </section>
+      <section class="journey-section" id="flujo">
+        <div class="container section-heading">
+          <div>
+            <div class="eyebrow green">01 · CUSTOMER JOURNEY</div>
+            <h2>El viaje de nuestros clientes</h2>
+          </div>
+          <div class="journey-controls">
+            <button class="control active" data-filter="all">Todo</button
+            ><button class="control" data-filter="customer">Cliente</button
+            ><button class="control" data-filter="operation">Operación</button>
+          </div>
+        </div>
+        <div class="container journey-track" id="journeyTrack"></div>
+        <dialog
+          class="journey-dialog animated-dialog"
+          id="journeyDetailDialog"
+          aria-labelledby="journeyDialogTitle"
+          aria-describedby="journeyDialogStory">
+          <div class="journey-dialog-content animated-dialog-content">
+            <div class="journey-dialog-eyebrow">CUSTOMER JOURNEY · DETALLE</div>
+            <button class="journey-dialog-close" type="button" aria-label="Cerrar detalle">×</button>
+            <span class="journey-dialog-tag" id="journeyDialogTag"></span>
+            <h3 id="journeyDialogTitle"></h3>
+            <p class="journey-dialog-story" id="journeyDialogStory"></p>
+            <div class="journey-dialog-expectation">
+              <strong>Qué esperamos</strong>
+              <p id="journeyDialogExpectation"></p>
+            </div>
+            <div class="journey-dialog-footer">Presiona Escape o el botón × para cerrar</div>
+          </div>
+        </dialog>
+        <aside class="container partner-expectations">
+          <div class="eyebrow green">PARA LA PROPUESTA</div>
+          <h3>Qué esperamos de nuestro partner</h3>
+          <p>
+            Que recorra el journey completo con una demostración concreta y omnicanal: cómo se ve para
+            nuestros clientes en Web, App, agregadores, Call Center, Tótem y WhatsApp; qué ocurre detrás de
+            cada paso y cómo se resuelven los casos que interrumpen el flujo. La propuesta debe distinguir qué
+            está disponible, qué requiere configuración o integración y qué debe desarrollarse, siempre
+            preservando una experiencia consistente entre canales.
+          </p>
+          <ul>
+            <li>
+              Explicar la arquitectura, los sistemas involucrados, los datos intercambiados y sus
+              dependencias.
+            </li>
+            <li>Mostrar cómo se administran catálogo, precios, campañas, promociones y reglas de compra.</li>
+            <li>
+              Demostrar continuidad entre canales, Delivery, Pick Up y comedor, incluidos errores, reintentos
+              y atención de SAC.
+            </li>
+            <li>
+              Mostrar cómo se conserva identidad, carrito, promociones, disponibilidad y contexto al pasar de
+              un canal a otro.
+            </li>
+            <li>
+              Presentar alcance, supuestos, responsabilidades, esfuerzo, inversión y etapas de implementación.
+            </li>
+          </ul>
+        </aside>
+      </section>
+      <section class="profile-section container" id="perfiles">
+        <div class="section-heading compact">
+          <div>
+            <div class="eyebrow green">02 · PERSONAJES Y PERFILES</div>
+            <h2>La misma marca, experiencias diferentes</h2>
+          </div>
+          <p>
+            <strong
+              >La pregunta para el oferente: ¿Puede entender quién es el cliente, qué está intentando resolver
+              hoy y cambiar de forma visible la experiencia para hacerlo sentir reconocido, relevante y
+              acompañado?</strong
+            ><br /><br />
+            Una misma marca. Una misma plataforma. Experiencias diferentes porque las personas llegan con
+            necesidades diferentes. Sofía, Diego y Valentina son personajes de referencia para que la POC
+            demuestre cómo se adapta la experiencia sin fragmentar la operación. Selecciona un perfil para ver
+            su journey y cambia entre perfiles desde las pestañas superiores.
+          </p>
+        </div>
+        <div class="profile-grid">
+          <article class="profile-card heavy-user">
+            <button
+              class="profile-card-trigger"
+              type="button"
+              aria-expanded="false"
+              aria-controls="profileDetailSofia">
+              <b class="profile-icon" aria-hidden="true">👩🏻</b>
+              <span class="profile-card-copy">
+                <small class="profile-label">HEAVY USER · SOFÍA</small>
+                <strong class="profile-card-title">Sofía ya nos conoce</strong>
+                <span class="profile-card-summary">
+                  Facilitar la recompra, mostrar favoritos, utilizar sus direcciones y activar sus beneficios.
+                </span>
+              </span>
+            </button>
+            <div class="profile-detail" id="profileDetailSofia" hidden>
+              <div class="profile-detail-intro">
+                <div>
+                  <strong>Su realidad</strong>
+                  <p>
+                    Sofía compra frecuentemente. Ya conoce el menú, probablemente sabe qué pizza quiere, tiene
+                    una dirección habitual, una tienda preferida, pedidos anteriores y relación con Papa
+                    Puntos. Su problema no es descubrir Papa Johns: su problema es perder tiempo. Cada
+                    pantalla genérica, promoción irrelevante o dato que debe ingresar de nuevo es una señal de
+                    que la marca no está aprovechando lo que ya sabe de ella.
+                  </p>
+                  <strong>Su dolor</strong>
+                  <p>“Compro siempre acá. ¿Por qué tengo que empezar de cero cada vez?”</p>
+                </div>
+                <div>
+                  <strong>Lo que necesita</strong>
+                  <p>
+                    Reconocimiento, velocidad y relevancia. No necesita que Papa Johns la convenza de comprar;
+                    necesita que la marca le demuestre: “Te conozco. Sé lo que te gusta. Hagámoslo fácil.”
+                  </p>
+                </div>
+              </div>
+              <h4 class="profile-journey-heading">Customer Journey esperado</h4>
+              <div class="profile-journey">
+                <section>
+                  <h5>01 · Entrada</h5>
+                  <p>
+                    Si entra desde App, Web, CRM o una campaña, identificarla y conservar el contexto. La
+                    experiencia debería partir con “Hola Sofía” y no como si fuera una visitante desconocida.
+                  </p>
+                </section>
+                <section>
+                  <h5>02 · Home / Landing</h5>
+                  <p>
+                    Priorizar, en este orden: Repetir último pedido → Favoritos → Papa Puntos → Beneficios →
+                    Recomendaciones personales. No queremos que la primera pantalla esté dominada por un 50%
+                    de descuento genérico: para ella, el valor está más en conveniencia y reconocimiento que
+                    en precio.
+                  </p>
+                </section>
+                <section>
+                  <h5>03 · Exploración</h5>
+                  <p>
+                    Ordenar productos según historial, afinidad, horario, modalidad y probabilidad de compra.
+                    Las promociones deben existir, pero quedar en segundo plano.
+                  </p>
+                </section>
+                <section>
+                  <h5>04 · Carrito / Checkout</h5>
+                  <p>
+                    Tener disponibles dirección habitual, tienda, preferencias y datos utilizados previamente.
+                    Mostrar Papa Puntos, beneficios aplicables, cross-selling relevante y medio de pago
+                    preferido cuando corresponda.
+                  </p>
+                </section>
+                <section>
+                  <h5>05 · Post compra</h5>
+                  <p>
+                    Actualizar automáticamente historial → preferencias → puntos → frecuencia → próxima mejor
+                    acción, y facilitar una próxima recompra todavía más rápida.
+                  </p>
+                </section>
+              </div>
+              <div class="profile-experience-quote">
+                <strong>Experiencia que esperamos</strong>
+                <p>“Papa Johns me conoce. No me hace perder tiempo y siempre parece saber qué quiero.”</p>
+                <span
+                  >Banner: loyalty / beneficios / novedad relevante · Home: repetir pedido, favoritos, puntos
+                  y saldo · Menú: productos afines primero · Promos: menos agresivas · PDP: producto
+                  protagonista · CTA: recompra y conveniencia</span
+                >
+              </div>
+            </div>
+          </article>
+          <article class="profile-card switcher">
+            <button
+              class="profile-card-trigger"
+              type="button"
+              aria-expanded="false"
+              aria-controls="profileDetailDiego">
+              <b class="profile-icon" aria-hidden="true">🧑🏻</b>
+              <span class="profile-card-copy">
+                <small class="profile-label">SWITCHER · DIEGO</small>
+                <strong class="profile-card-title">Diego está scrolleando y decidiendo</strong>
+                <span class="profile-card-summary">
+                  Una experiencia rápida, visual y relevante, con ofertas, recomendaciones y beneficios que le
+                  den una razón para elegirnos ahora.
+                </span>
+              </span>
+            </button>
+            <div class="profile-detail" id="profileDetailDiego" hidden>
+              <div class="profile-detail-intro">
+                <div>
+                  <strong>Perfil</strong>
+                  <p>
+                    Diego conoce Papa Johns, pero también considera otras marcas, agregadores y alternativas.
+                    No tiene una relación consolidada con nosotros: está haciendo scroll, comparando y
+                    decidiendo. Tenemos pocos segundos para ser relevantes.
+                  </p>
+                </div>
+                <div>
+                  <strong>Su dolor y lo que necesita</strong>
+                  <p>
+                    “Tengo muchas opciones. ¿Por qué debería pedir Papa Johns?” Necesita relevancia inmediata,
+                    conveniencia y valor percibido. La plataforma debe ayudarlo a decidir, no simplemente
+                    mostrarle un catálogo.
+                  </p>
+                </div>
+              </div>
+              <h4 class="profile-journey-heading">Customer Journey esperado</h4>
+              <div class="profile-journey">
+                <section>
+                  <h5>01 · Entrada</h5>
+                  <p>
+                    Mantener la promesa si viene de Meta, Google, CRM, Deep Link o campaña. Si hizo clic en “2
+                    pizzas por $X”, no debe caer en un Home genérico.
+                  </p>
+                </section>
+                <section>
+                  <h5>02 · Home / Landing</h5>
+                  <p>
+                    Presentar ocasiones y tamaño de grupo: Para 2 → Para 3 → Para 4 → Almuerzo → Partido →
+                    Celebración → Bajón. La experiencia debe contestar “¿Qué necesitas resolver ahora?” más
+                    que “¿Qué producto quieres?”.
+                  </p>
+                </section>
+                <section>
+                  <h5>03 · Exploración</h5>
+                  <p>
+                    Mostrar promociones arriba; después, Más vendidos, Recomendados para ti, buena relación
+                    precio/cantidad y productos según afinidad o historial. No obligarlo a recorrer todo el
+                    menú.
+                  </p>
+                </section>
+                <section>
+                  <h5>04 · Carrito / Checkout</h5>
+                  <p>
+                    Convertir antojo en decisión con producto visualmente irresistible, precio, beneficio,
+                    confianza y personalización simple. En el carrito: “Por $1.500 más agrega bebida”, “Te
+                    faltan $X para…” o “Completa tu combo”, sin bombardearlo con descuentos sin lógica.
+                  </p>
+                </section>
+                <section>
+                  <h5>05 · Post compra</h5>
+                  <p>
+                    Empezar a fidelizarlo mediante CRM → Papa Puntos → recompra → beneficios → frecuencia. Una
+                    compra no significa que Diego dejó de ser Switcher: el objetivo es moverlo hacia Heavy.
+                  </p>
+                </section>
+              </div>
+              <div class="profile-experience-quote">
+                <strong>Experiencia que esperamos</strong>
+                <p>“Papa Johns entendió exactamente lo que necesitaba y me hizo fácil decidir.”</p>
+                <span
+                  >Banner: promoción relevante y potente · Home: ocasiones y tamaño de grupo · Menú: promos
+                  arriba · Promos: más agresivas · PDP: precio + producto + conveniencia · CTA: esto te
+                  conviene ahora</span
+                ><small
+                  >No se trata de mostrar más promociones, sino de seleccionar cuál mostrar según contexto,
+                  propensión y comportamiento.</small
+                >
+              </div>
+            </div>
+          </article>
+          <article class="profile-card nonbuyer">
+            <button
+              class="profile-card-trigger"
+              type="button"
+              aria-expanded="false"
+              aria-controls="profileDetailValentina">
+              <b class="profile-icon" aria-hidden="true">👩🏽</b>
+              <span class="profile-card-copy">
+                <small class="profile-label">NON BUYER · VALENTINA</small>
+                <strong class="profile-card-title">Valentina necesita volver a confiar</strong>
+                <span class="profile-card-summary">
+                  Entender qué falló, mostrar mejoras y hacer que regresar a Papa Johns sea fácil y valga la
+                  pena.
+                </span>
+              </span>
+            </button>
+            <div class="profile-detail" id="profileDetailValentina" hidden>
+              <div class="profile-detail-intro">
+                <div>
+                  <strong>Perfil</strong>
+                  <p>
+                    Si Valentina lleva dos años sin comprar, no la llamaría Non Buyer: la llamaría LAPSED /
+                    DORMIDA. Tuvo relación con Papa Johns, pero dejó de comprar. Quizás tuvo una mala
+                    experiencia, encontró otra alternativa, percibe poco valor o la marca dejó de ser
+                    relevante. La peor estrategia sería tratarla como si nada hubiera pasado.
+                  </p>
+                </div>
+
+                <div>
+                  <strong>Su dolor y lo que necesita</strong>
+                  <p>
+                    “¿Por qué debería volver si antes dejé de elegirlos?” Necesita confianza, claridad y bajo
+                    riesgo para volver. Debemos mostrar: “Papa Johns hoy es fácil, atractivo y vale la pena
+                    volver a probar.” Sin inventar cuál fue su problema, podemos demostrar que la experiencia
+                    actual es mejor.
+                  </p>
+                </div>
+              </div>
+              <h4 class="profile-journey-heading">Customer Journey esperado</h4>
+              <div class="profile-journey">
+                <section>
+                  <h5>01 · Entrada</h5>
+                  <p>
+                    Recuperar la promesa si vuelve por campaña, CRM o búsqueda, con una comunicación como
+                    “Queremos que vuelvas a disfrutar Papa Johns”, sin caer en mensajes invasivos.
+                  </p>
+                </section>
+                <section>
+                  <h5>02 · Home / Landing</h5>
+                  <p>
+                    Demostrar valor con promociones, best sellers, novedades, beneficios del canal propio,
+                    Delivery / Pick Up y ventajas actuales. Aquí sí puede utilizarse una promoción más
+                    agresiva como estímulo de reactivación.
+                  </p>
+                </section>
+                <section>
+                  <h5>03 · Exploración</h5>
+                  <p>
+                    Reducir incertidumbre: tamaño → cantidad → ingredientes → precio → para cuántas personas →
+                    beneficio. Usar “Más pedido”, “Favorito”, “Recomendado”, “Ideal para 2” y “Novedad”.
+                  </p>
+                </section>
+                <section>
+                  <h5>04 · Selección de entrega</h5>
+                  <p>
+                    Ofrecer Delivery, Pick Up o comer en el comedor según disponibilidad, explicando con
+                    anticipación costos, tiempos, ubicación y condiciones. La elección debe ser clara y no
+                    borrar el contexto del pedido.
+                  </p>
+                </section>
+                <section>
+                  <h5>05 · Carrito / Checkout</h5>
+                  <p>
+                    Evitar barreras: permitir comprar como invitada, explicar costos y tiempos con
+                    anticipación, evitar sorpresas al final y solicitar solo los datos indispensables.
+                  </p>
+                </section>
+                <section>
+                  <h5>06 · Post compra</h5>
+                  <p>
+                    Cumplir la promesa: entregar correctamente, comunicar estado, resolver rápido cualquier
+                    incidencia, recoger feedback y activar loyalty y recompra. Este punto es incluso más
+                    importante para Valentina que para Sofía.
+                  </p>
+                </section>
+              </div>
+              <div class="profile-experience-quote">
+                <strong>Experiencia que esperamos</strong>
+                <p>“Volver fue mucho mejor de lo que recordaba. Fue fácil, claro y valió la pena.”</p>
+                <span
+                  >Banner: propuesta potente de reactivación · Home: promoción + best sellers + razones para
+                  volver · Menú: simple y guiado · Promos: agresivas pero fáciles de comprender · PDP: precio
+                  + conveniencia + confianza + producto · Checkout: máxima transparencia</span
+                ><small
+                  >Una experiencia de descubrimiento, confianza y conversión; no una home excesivamente
+                  personalizada.</small
+                >
+              </div>
+            </div>
+          </article>
+        </div>
+        <div class="profile-mindset">
+          <div class="eyebrow green">EL NUEVO MINDSET PAPA JOHNS</div>
+          <h3>De segmentar clientes a diseñar experiencias relevantes</h3>
+          <p>
+            No queremos simplemente colocar a Sofía, Diego y Valentina en tres audiencias dentro de Papa
+            Johns. Queremos que el ecommerce se comporte distinto porque entiende que sus necesidades son
+            distintas.
+          </p>
+          <p>
+            Eso debe sentirse en lo que ven, el orden en que lo ven, lo que no necesitan ver, cómo les
+            hablamos, qué producto recomendamos, qué beneficio mostramos y cuántos pasos necesitan para
+            comprar.
+          </p>
+          <p class="profile-mindset-shift">
+            <strong>De:</strong> “Aquí está nuestro menú. Elige.”<br />
+            <strong>A:</strong> “Entiendo qué necesitas. Déjame ayudarte a resolverlo.”
+          </p>
+          <strong class="profile-mindset-close"
+            >El cliente no debe adaptarse a nuestro ecommerce. Nuestro ecommerce debe adaptarse al
+            cliente.</strong
+          >
+        </div>
+      </section>
+      <section class="proposal-expectations-section" id="expectativas-propuesta">
+        <div class="container">
+          <div class="section-heading compact proposal-expectations-heading">
+            <div>
+              <div class="eyebrow green">03 · EXPECTATIVAS DE PROPUESTA</div>
+              <h2>Qué esperamos de nuestros partners</h2>
+            </div>
+            <p>
+              Una propuesta que conecte marketing, venta, administración y tecnología con nuestro customer
+              journey real. Cada capacidad debe distinguirse como estándar, configuración, integración,
+              desarrollo o roadmap, y demostrarse con evidencia y métricas.
+            </p>
+          </div>
+          <div class="proposal-expectation-grid">
+            <article class="proposal-expectation-card">
+              <span class="proposal-expectation-number">01</span>
+              <span class="proposal-expectation-area">MARKETING DIGITAL</span>
+              <h3>Atraer tráfico que convierta</h3>
+              <p>
+                Explicar cómo la inversión digital conduce desde el anuncio hasta una orden pagada, sin perder
+                el origen ni la intención de compra.
+              </p>
+              <ul>
+                <li>
+                  SEO, Google Ads, redes sociales, email, push, WhatsApp, QR, landing pages, deep links y
+                  continuidad entre Web y App.
+                </li>
+                <li>
+                  Plan de atribución por fuente: impresiones, sesiones, CTR, landing view, add to cart,
+                  checkout, compra, CAC, ROAS y recompra.
+                </li>
+                <li>
+                  Segmentación por campaña, dispositivo, geografía, perfil, canal y modalidad: Delivery, Pick
+                  Up o comedor.
+                </li>
+                <li>Línea base, fórmula, fuente, período y meta para cada indicador.</li>
+              </ul>
+              <span class="proposal-expectation-proof">Esperamos: plan de medición y atribución</span>
+            </article>
+            <article class="proposal-expectation-card">
+              <span class="proposal-expectation-number">02</span>
+              <span class="proposal-expectation-area">GESTIÓN COMERCIAL</span>
+              <h3>Convertir la propuesta en venta</h3>
+              <p>
+                Demostrar que Comercial puede gestionar catálogo y promociones con reglas claras para canal,
+                tienda y modalidad de compra.
+              </p>
+              <ul>
+                <li>
+                  Administrar “Arma tu Combo”, productos, variantes, precios, cupones, BIN, Gift Cards y Papa
+                  Puntos.
+                </li>
+                <li>
+                  Aplicar disponibilidad y reglas comerciales sin mostrar ofertas que no se puedan cumplir.
+                </li>
+                <li>
+                  Medir ventas, órdenes pagadas, ticket promedio y aporte de promociones y recomendaciones.
+                </li>
+              </ul>
+              <span class="proposal-expectation-proof">Esperamos: caso comercial configurable y medible</span>
+            </article>
+            <article class="proposal-expectation-card">
+              <span class="proposal-expectation-number">03</span>
+              <span class="proposal-expectation-area">ADMINISTRACIÓN Y OPERACIÓN</span>
+              <h3>Dar autonomía con control</h3>
+              <p>
+                Mostrar cómo los equipos de Marketing, Comercial y Operaciones mantienen la experiencia al día
+                desde las herramientas de administración.
+              </p>
+              <ul>
+                <li>Roles y permisos para contenidos, campañas, catálogo, precios y reglas.</li>
+                <li>Previsualización, aprobación, programación, historial de cambios y reversa.</li>
+                <li>
+                  Responsables, dependencias y reportes para operar sin cambios de código en tareas
+                  habituales.
+                </li>
+              </ul>
+              <span class="proposal-expectation-proof">Esperamos: demo del CMS y Backoffice</span>
+            </article>
+            <article class="proposal-expectation-card">
+              <span class="proposal-expectation-number">04</span>
+              <span class="proposal-expectation-area">CUSTOMER JOURNEY Y FAQ</span>
+              <h3>Resolver el viaje completo</h3>
+              <p>
+                Recorrer desde la campaña y la elección Delivery / Pick Up hasta el pago, la entrega, SAC y la
+                recompra, con una experiencia coherente para Heavy User, Switcher y Non Buyer.
+              </p>
+              <ul>
+                <li>Demostrar continuidad de datos, carro y contexto entre etapas y canales.</li>
+                <li>
+                  Resolver FAQs reales de Papa Puntos: elegibilidad (cuenta y compra online pagada), tiempos
+                  de acreditación, vigencia, canje y mínimos por modalidad, compatibilidad con promociones y
+                  devolución de puntos según el motivo de cancelación.
+                </li>
+                <li>
+                  Responder según las reglas vigentes y dar paso a SAC cuando la consulta o excepción lo
+                  requiera.
+                </li>
+              </ul>
+              <span class="proposal-expectation-proof">Esperamos: escenarios reales, no solo pantallas</span>
+            </article>
+            <article class="proposal-expectation-card">
+              <span class="proposal-expectation-number">05</span>
+              <span class="proposal-expectation-area">PROCESO TÉCNICO</span>
+              <h3>Integrar con confiabilidad</h3>
+              <p>
+                Presentar arquitectura, datos y responsabilidades de cada integración, diferenciando lo que ya
+                está implementado de lo que requiere validación o desarrollo.
+              </p>
+              <ul>
+                <li>
+                  Explicar el flujo de checkout y envío de la orden al backend, y la frontera posterior hacia
+                  Aloha / OMS.
+                </li>
+                <li>
+                  Mapear fuentes de verdad, APIs, estados, seguridad, reintentos, idempotencia, monitoreo y
+                  soporte.
+                </li>
+                <li>Considerar pagos, NCR Cloud Connect, tienda, DispatchTrack, Synerise y Zendesk.</li>
+              </ul>
+              <span class="proposal-expectation-proof"
+                >Esperamos: arquitectura, secuencias y plan de integración</span
+              >
+            </article>
+            <article class="proposal-expectation-card live-dashboard-card">
+              <span class="proposal-expectation-number">06</span>
+              <span class="proposal-expectation-area">OPERACIÓN EN TIEMPO REAL</span>
+              <h3>Un live dashboard para decidir antes de que duela</h3>
+              <p>
+                Necesitamos una visión clara del negocio en vivo, no solo reportes posteriores. El partner
+                debe demostrar cómo prioriza la información, detecta desvíos y adapta la vista según el perfil
+                de cada administrador.
+              </p>
+              <ul>
+                <li>Ventas y conversión: GMV, órdenes, ticket, CVR, funnel y mix por canal.</li>
+                <li>
+                  Operación y experiencia: SLA, ETA, capacidad, quiebres, NPS, cancelaciones e incidencias.
+                </li>
+                <li>Adquisición: fuentes de tráfico, CAC, ROAS, campañas y recompra.</li>
+                <li>Roles y permisos para dirección, negocio, marketing, operaciones, SAC y TI.</li>
+              </ul>
+              <span class="proposal-expectation-proof"
+                >Esperamos: dashboard live, alertas, umbrales y vistas por perfil</span
+              >
+            </article>
+          </div>
+          <div class="proposal-poc-panel">
+            <div class="proposal-poc-intro">
+              <span class="proposal-poc-kicker">PRUEBA DE CONCEPTO</span>
+              <h3>De la propuesta a una demo verificable</h3>
+              <p>
+                No buscamos una presentación genérica: queremos recorrer un caso, cambiar condiciones,
+                observar la operación y revisar cómo se medirá el resultado.
+              </p>
+            </div>
+            <ol class="proposal-poc-steps">
+              <li><b>01</b><span>Configurar una campaña y sus reglas comerciales.</span></li>
+              <li><b>02</b><span>Seguir una visita hasta el checkout y la orden.</span></li>
+              <li><b>03</b><span>Probar excepciones, recuperación y respuesta de SAC.</span></li>
+              <li><b>04</b><span>Presentar KPIs, alcance, fases, costos y dependencias.</span></li>
+              <li>
+                <b>05</b
+                ><span
+                  >Entregar propuesta económica: implementación, licencias, operación, soporte, evolutivos y
+                  costos variables.</span
+                >
+              </li>
+            </ol>
+          </div>
+          <p class="proposal-expectations-footnote">
+            En cada capacidad, indicar disponibilidad (estándar, configuración, integración, desarrollo o
+            roadmap), responsable, esfuerzo, supuestos y cómo se probará. Desglosar licencias, implementación,
+            integraciones, operación, soporte, evolutivos y costos variables, además de fases, plazos, SLA,
+            dependencias y exclusiones. Incluir inversión inicial, costo recurrente, supuestos de volumen,
+            impuestos, moneda, vigencia de la oferta y condiciones de pago. Para la integración backend →
+            Aloha / OMS, el proceso técnico del frontend marca una frontera que debe confirmarse con los
+            equipos y el partner.
+          </p>
+        </div>
+      </section>
+      <section class="backoffice-section" id="datos-maestros">
+        <div class="container">
+          <div class="section-heading compact backoffice-heading">
+            <div>
+              <div class="eyebrow green">04 · DATOS MAESTROS Y BACK OFFICE</div>
+              <h2>Lo que pasa detrás de cada orden</h2>
+            </div>
+            <p>
+              El nuevo Back Office debe simplificar la operación y dar autonomía a los equipos. No buscamos
+              replicar la herramienta actual: buscamos cubrir estas capacidades críticas con reglas claras,
+              trazabilidad y una sola fuente comercial para todo el ecosistema.
+            </p>
+          </div>
+          <div class="backoffice-intro-strip">
+            <span class="backoffice-live-dot"></span><strong>Una fuente de verdad comercial</strong
+            ><span>Catálogo → reglas → tiendas → canales → operación</span>
+          </div>
+          <div class="backoffice-sheets">
+            <article class="backoffice-sheet backoffice-sheet-commercial">
+              <div class="backoffice-sheet-header">
+                <strong>Back Office comercial</strong>
+                <small>Lo que se vende y bajo qué reglas</small>
+              </div>
+              <div class="backoffice-capability-grid">
+                <article class="backoffice-capability">
+                  <b>01</b>
+                  <h3>Productos y catálogo</h3>
+                  <p>
+                    Crear, editar, ordenar y relacionar pizzas, ingredientes, combos, variantes, mitades y
+                    promociones con sus identificadores Aloha.
+                  </p>
+                  <span>Catálogo · Aloha · Recetas</span>
+                </article>
+                <article class="backoffice-capability">
+                  <b>02</b>
+                  <h3>Menú, precios y disponibilidad</h3>
+                  <p>
+                    Definir oferta por tienda, canal y modalidad; aplicar cambios masivos, bloquear quiebres y
+                    mantener consistencia con POS y agregadores.
+                  </p>
+                  <span>Precio · Stock · Canal</span>
+                </article>
+                <article class="backoffice-capability">
+                  <b>03</b>
+                  <h3>Promociones y reglas</h3>
+                  <p>
+                    Configurar combos, bundles, descuentos, regalos, vigencias, horarios, tiendas,
+                    personalización y restricciones sin depender de desarrollo.
+                  </p>
+                  <span>Bundles · Vigencia · Condiciones</span>
+                </article>
+                <article class="backoffice-capability">
+                  <b>04</b>
+                  <h3>Cupones, Gift Cards y Loyalty</h3>
+                  <p>
+                    Administrar códigos, cargas masivas, valores, campañas y recompensas Papa Puntos, con
+                    validación de saldo y disponibilidad.
+                  </p>
+                  <span>Cupones · Gift Cards · Papa Puntos</span>
+                </article>
+              </div>
+            </article>
+            <article class="backoffice-sheet backoffice-sheet-operations">
+              <div class="backoffice-sheet-header">
+                <strong>Tiendas, canales y operación</strong>
+                <small>Cómo se publica, se vende y se cumple</small>
+              </div>
+              <div class="backoffice-capability-grid">
+                <article class="backoffice-capability">
+                  <b>05</b>
+                  <h3>Configuración de tiendas</h3>
+                  <p>
+                    Crear locales con dirección, coordenadas, horarios, menú, modalidad, cobertura, medios de
+                    pago, integraciones y estado operativo.
+                  </p>
+                  <span>Mapa · Horarios · Activación</span>
+                </article>
+                <article class="backoffice-capability">
+                  <b>06</b>
+                  <h3>Canales y omnicanalidad</h3>
+                  <p>
+                    Administrar desde una misma lógica la oferta que consumen Web, App, agregadores, Call
+                    Center, Tótem y WhatsApp.
+                  </p>
+                  <span>Web · App · Agregadores · WhatsApp</span>
+                </article>
+                <article class="backoffice-capability">
+                  <b>07</b>
+                  <h3>Pagos e integraciones</h3>
+                  <p>
+                    Asociar medios e identificadores por tienda y operar integraciones con Aloha/POS,
+                    Synerise, pagos, despacho, analytics y órdenes.
+                  </p>
+                  <span>APIs · Estados · Reintentos</span>
+                </article>
+                <article class="backoffice-capability">
+                  <b>08</b>
+                  <h3>Pedidos y última milla</h3>
+                  <p>
+                    Consultar Delivery, Pick Up y pedidos futuros; filtrar por tienda y canal, seguir estados
+                    y gestionar incidencias de despacho.
+                  </p>
+                  <span>Order management · ETA · Tracking</span>
+                </article>
+                <article class="backoffice-capability">
+                  <b>09</b>
+                  <h3>Roles y trazabilidad</h3>
+                  <p>
+                    Permisos por equipo, auditoría de cambios, usuario, fecha, historial y rollback para
+                    configuraciones comerciales críticas.
+                  </p>
+                  <span>Permisos · Auditoría · Rollback</span>
+                </article>
+                <article class="backoffice-capability">
+                  <b>10</b>
+                  <h3>Reportería y experiencia</h3>
+                  <p>
+                    Indicadores por tienda, canal, producto y promoción, conectados con NPS y SAC para
+                    conservar el contexto de cada caso.
+                  </p>
+                  <span>Dashboards · NPS · SAC</span>
+                </article>
+              </div>
+            </article>
+          </div>
+          <div class="backoffice-footer-note">
+            <strong>Qué debe demostrar el partner:</strong
+            ><span
+              >una modificación comercial → su aprobación → publicación por canal → impacto en una orden →
+              trazabilidad para Operaciones y SAC.</span
+            >
+          </div>
+        </div>
+      </section>
+      <section class="systems-section" id="ecosistema">
+        <div class="container section-heading compact">
+          <div>
+            <div class="eyebrow green">05 · ECOSISTEMA</div>
+            <h2>Una orden, múltiples sistemas</h2>
+          </div>
+          <p>
+            La experiencia de cliente debe mantenerse conectada desde el primer clic hasta la última milla.
+            Selecciona una caja para abrir su detalle en primer plano.
+          </p>
+        </div>
+        <div class="container system-map">
+          <div class="system-row system-channels" data-label="Canales de entrada">
+            <div class="system-node" data-system="web">Web Papa Johns</div>
+            <div class="system-node" data-system="app">App Papa Johns</div>
+            <div class="system-node" data-system="aggregators">Agregadores</div>
+            <div class="system-node" data-system="call-center">Call Center</div>
+            <div class="system-node" data-system="whatsapp">WhatsApp</div>
+          </div>
+          <div class="connector"></div>
+          <div class="system-node central" data-system="ecommerce">
+            <small>ECOMMERCE</small><b>Core · Users · Orders</b><em>Middleware · Tiempos dinámicos · ETA</em>
+          </div>
+          <div class="connector"></div>
+          <div class="system-row system-payments" data-label="Medios de pago">
+            <div class="system-node" data-system="webpay">Webpay</div>
+            <div class="system-node" data-system="mercado-pago">Mercado Pago</div>
+            <div class="system-node" data-system="fintoc">Fintoc</div>
+            <div class="system-node" data-system="food-cards">Tarjetas alimentarias</div>
+            <div class="system-node" data-system="digital-wallets">
+              Billeteras digitales (GPay y Apple Pay)
+            </div>
+          </div>
+          <div class="connector"></div>
+          <div class="system-node oms" data-system="pj-api">
+            <small>ORDEN Y OPERACIÓN</small><b>API Papa Johns</b><em>Pago · Orden · Despacho · Estados</em>
+          </div>
+          <div class="connector"></div>
+          <div class="system-row system-integrations" data-label="Integraciones">
+            <div class="system-node" data-system="ncr-cloud-connect">API NCR Cloud Connect</div>
+            <div class="system-node" data-system="aloha">Aloha / OMS</div>
+            <div class="system-node" data-system="dispatchtrack">API DispatchTrack</div>
+            <div class="system-node" data-system="synerise">CRM · Synerise</div>
+            <div class="system-node" data-system="zendesk">API Zendesk</div>
+          </div>
+          <div class="connector"></div>
+          <div class="system-row" data-label="Sistemas de tienda">
+            <div class="system-node" data-system="store-kiosk">Tienda Tótem</div>
+            <div class="system-node" data-system="ncr-pos">NCR POS</div>
+            <div class="system-node" data-system="kds">KDS</div>
+            <div class="system-node" data-system="store-server">Servidor tienda</div>
+          </div>
+          <div class="connector"></div>
+          <div class="system-row" data-label="Despacho y gestión">
+            <div class="system-node" data-system="quick-commerce">Quick Commerce</div>
+            <div class="system-node" data-system="own-fleet">Flota propia</div>
+            <div class="system-node" data-system="external-fleet">Flota externa</div>
+            <div class="system-node" data-system="backoffice">Backoffice</div>
+          </div>
+        </div>
+        <dialog
+          class="system-dialog animated-dialog"
+          id="systemDialog"
+          aria-labelledby="systemDialogTitle"
+          aria-describedby="systemDialogCopy">
+          <div class="system-dialog-content animated-dialog-content">
+            <div class="system-dialog-eyebrow">05 · ECOSISTEMA · DETALLE</div>
+            <button class="system-dialog-close" type="button" aria-label="Cerrar detalle">×</button>
+            <div class="system-dialog-icon" aria-hidden="true">↗</div>
+            <h3 id="systemDialogTitle"></h3>
+            <p id="systemDialogCopy"></p>
+            <div class="tracking-preview" id="trackingPreview" hidden>
+              <div class="tracking-preview-topline">
+                <span><i></i> Pedido en camino</span><strong>ETA 18 min</strong>
+              </div>
+              <div class="tracking-map" aria-label="Vista animada del seguimiento de una orden">
+                <span class="map-road map-road-one"></span>
+                <span class="map-road map-road-two"></span>
+                <span class="map-road map-road-three"></span>
+                <span class="tracking-route"></span>
+                <span class="tracking-pin tracking-pin-store">⌂</span>
+                <span class="tracking-pin tracking-pin-order">●</span>
+                <span class="tracking-pin tracking-pin-home">⌾</span>
+                <span class="tracking-scooter">▰</span>
+              </div>
+              <div class="tracking-preview-footer">
+                <span><b>Tu pedido</b><small>En reparto</small></span
+                ><span><b>Última actualización</b><small>Hace 1 min</small></span>
+              </div>
+            </div>
+            <div class="system-dialog-footer">Presiona Escape o el botón × para cerrar</div>
+          </div>
+        </dialog>
+      </section>
+      <section class="digital-flow-section container" id="digital-flow">
+        <div class="section-heading compact">
+          <div>
+            <div class="eyebrow green">06 · FLUJO DIGITAL</div>
+            <h2>El flujo digital de una orden</h2>
+          </div>
+          <p>
+            Desde que el cliente inicia su compra hasta la entrega y la postventa, la orden cruza canales,
+            pagos, Ecommerce, sistemas de tienda, despacho y fidelización. Cada etapa explica qué información
+            recibe, qué gestiona y qué entrega al siguiente sistema.
+          </p>
+        </div>
+        <div class="digital-flow-guide">
+          <span><i></i> RECORRIDO DE LA ORDEN</span
+          ><strong>Recorre las etapas y selecciona una tarjeta para centrarla en el flujo.</strong
+          ><em id="flowPosition">01 → 12 · desliza</em>
+        </div>
+        <div class="digital-flow-explorer">
+          <button class="flow-nav-button" id="flowPrev" type="button" aria-label="Ver etapa anterior">
+            ←
+          </button>
+          <div class="digital-flow-viewport">
+            <div class="digital-flow">
+              <article class="digital-flow-step">
+                <b>01</b><strong>Cliente y canales</strong>
+                <span
+                  >El cliente inicia su pedido desde Web Papa Johns, App, agregadores o Call Center. El canal
+                  recoge los productos, datos de compra y modalidad de entrega o retiro.</span
+                >
+                <em>inicia la orden</em>
+              </article>
+              <article class="digital-flow-step">
+                <b>02</b><strong>Ecommerce</strong>
+                <span
+                  >Core, Users, Orders y Middleware reúnen el contexto de compra, validan disponibilidad y
+                  preparan la orden. También calculan tiempos dinámicos y ETA para el canal.</span
+                >
+                <em>prepara compra y tiempos</em>
+              </article>
+              <article class="digital-flow-step">
+                <b>03</b><strong>Pasarelas de pago</strong>
+                <span
+                  >Webpay, Mercado Pago, Fintoc, Pluxee o las billeteras digitales procesan el medio
+                  seleccionado. La respuesta de autorización o rechazo vuelve al flujo antes de confirmar la
+                  orden.</span
+                >
+                <em>autoriza el pago</em>
+              </article>
+              <article class="digital-flow-step highlight">
+                <b>04</b><strong>API Papa Johns</strong>
+                <span
+                  >Con el resultado del pago, coordina la creación de la orden operacional y su despacho.
+                  Mantiene disponibles los identificadores y estados para las integraciones posteriores.</span
+                >
+                <em>crea y coordina la orden</em>
+              </article>
+              <article class="digital-flow-step highlight">
+                <b>05</b><strong>NCR Cloud Connect</strong>
+                <span
+                  >Orquesta el envío de la orden hacia la tienda y recibe eventos de avance. En la operación,
+                  la orden se gestiona con Aloha / OMS.</span
+                >
+                <em>deriva orden a tienda</em>
+              </article>
+              <article class="digital-flow-step">
+                <b>06</b><strong>Tienda física</strong>
+                <span
+                  >Aloha / OMS, NCR POS, KDS y los sistemas locales participan en la recepción y preparación.
+                  El equipo de tienda avanza el pedido según su proceso operativo.</span
+                >
+                <em>prepara el pedido</em>
+              </article>
+              <article class="digital-flow-step">
+                <b>07</b><strong>Eventos de tienda</strong>
+                <span
+                  >Los cambios de preparación se originan en tienda —por ejemplo, desde el KDS— y se comunican
+                  a NCR Cloud Connect para actualizar el estado de la orden.</span
+                >
+                <em>informa avances</em>
+              </article>
+              <article class="digital-flow-step">
+                <b>08</b><strong>DispatchTrack</strong>
+                <span
+                  >La integración recibe y sincroniza eventos del despacho. Permite ofrecer seguimiento en
+                  vivo mediante el enlace asociado a cada orden.</span
+                >
+                <em>actualiza tracking</em>
+              </article>
+              <article class="digital-flow-step">
+                <b>09</b><strong>Quick Commerce</strong>
+                <span
+                  >Coordina la asignación del pedido para la última milla, con flota propia o externa, y
+                  comunica el avance del despacho.</span
+                >
+                <em>asigna flota</em>
+              </article>
+              <article class="digital-flow-step">
+                <b>10</b><strong>Entrega al cliente</strong>
+                <span
+                  >El repartidor lleva la orden a la dirección indicada. El resultado de la entrega se
+                  registra para cerrar el despacho y notificar al cliente.</span
+                >
+                <em>completa la entrega</em>
+              </article>
+              <article class="digital-flow-step">
+                <b>11</b><strong>Postventa y seguimiento</strong>
+                <span
+                  >Los eventos de la orden y del despacho vuelven a la experiencia digital. Permiten informar
+                  al cliente y entregar contexto a SAC ante consultas o incidencias.</span
+                >
+                <em>actualiza al cliente y SAC</em>
+              </article>
+              <article class="digital-flow-step">
+                <b>12</b><strong>CRM y fidelización</strong>
+                <span
+                  >Synerise, nuestro CRM, se integra con los eventos definidos para personalización y
+                  fidelización. La información de compra permite gestionar beneficios y Papa Puntos.</span
+                >
+                <em>continúa la relación</em>
+              </article>
+            </div>
+          </div>
+          <button class="flow-nav-button" id="flowNext" type="button" aria-label="Ver etapa siguiente">
+            →
+          </button>
+        </div>
+        <div class="digital-flow-footnote">
+          <strong>Sistemas conectados:</strong> Synerise para CRM · API y Zendesk para SAC · Backoffice para
+          gestión · Peya Envíos, Uber Direct y Rappi como alternativas de despacho. El flujo debe hacer
+          explícitos los datos intercambiados, responsables y tratamiento de errores en cada integración.
+        </div>
+      </section>
+      <section class="events-section" id="diseno">
+        <div class="digital-design-panel">
+          <div class="section-heading compact">
+            <div>
+              <div class="eyebrow green">07 · EXPERIENCIA DIGITAL &amp; DISEÑO</div>
+              <h2>Crear un ecommerce que provoque hambre y se recuerde</h2>
+            </div>
+            <p>
+              No buscamos replicar el sitio actual ni una experiencia estándar de QSR. Esperamos una visión
+              digital world class, emocional, visualmente potente, simple y reconocible, capaz de convertir el
+              producto en deseo y el deseo en compra.
+            </p>
+          </div>
+          <div class="digital-design-brief">
+            <article>
+              <strong>Food first</strong>
+              <p>
+                Fotografía, video, zoom, textura, ingredientes y movimiento que hagan que la pizza “entre por
+                los ojos”.
+              </p>
+            </article>
+            <article>
+              <strong>Jerarquía inteligente</strong>
+              <p>
+                Menos ruido, mensajes claros, navegación simple y foco permanente en la siguiente mejor
+                acción.
+              </p>
+            </article>
+            <article>
+              <strong>Personalización visible</strong>
+              <p>
+                Banners, módulos, menú, promociones y tarjetas de producto adaptadas a Heavy, Switcher y Non
+                Buyer.
+              </p>
+            </article>
+            <article>
+              <strong>PDP enriquecida</strong>
+              <p>
+                Producto protagonista, personalización simple, información clara, señales de popularidad,
+                recomendaciones, reviews y contenido que ayude a decidir.
+              </p>
+            </article>
+            <article>
+              <strong>Diseño por ocasión</strong>
+              <p>
+                Experiencias para almuerzo, familia, partido, celebración, bajón, recompra u otros momentos
+                relevantes.
+              </p>
+            </article>
+            <article>
+              <strong>Microinteracciones con intención</strong>
+              <p>
+                Movimiento, feedback, transiciones y detalles que hagan la experiencia más premium sin afectar
+                velocidad.
+              </p>
+            </article>
+            <article>
+              <strong>Mobile first, rápido y accesible</strong>
+              <p>Una experiencia impecable en App y Web, con performance como parte del diseño.</p>
+            </article>
+          </div>
+          <div class="digital-design-mandate">
+            <strong>Esperamos:</strong>
+            <span
+              >propuesta visual y prototipo navegable que nos haga decir “esto se siente como el nuevo Papa
+              Johns”, no simplemente un rediseño de ecommerce.</span
+            >
+            <p>
+              No queremos un sitio que muestre pizzas. Queremos una experiencia que provoque hambre, entienda
+              al cliente y haga memorable comprar Papa Johns.
+            </p>
+          </div>
+        </div>
+      </section>
+      <section class="events-section faq-section" id="casos">
+        <div class="events-faq-panel">
+          <div class="section-heading compact events-subheading">
+            <div>
+              <div class="eyebrow green">08 · FAQ Y CASOS PARA VALIDAR</div>
+              <h2>¿Qué pasa si...?</h2>
+            </div>
+            <p>Selecciona un evento y revisa qué debe ser capaz de resolver el partner.</p>
+          </div>
+          <div class="event-layout">
+            <div class="event-list-shell">
+              <div class="event-list-meta">
+                <span>Casos para probar</span><strong id="eventCount">20 escenarios</strong>
+              </div>
+              <div class="event-list" id="eventList"></div>
+              <div class="event-scroll-more" id="eventScrollMore" aria-hidden="true">
+                <span>↓</span> Desliza para ver más casos
+              </div>
+            </div>
+            <div
+              class="event-detail"
+              id="eventDetail"
+              role="region"
+              aria-labelledby="eventDetailTitle"
+              aria-live="polite"></div>
+          </div>
+        </div>
+      </section>
+      <section class="business-impact-section supplier-kpis-section" id="impacto-negocio">
+        <div class="container">
+          <div class="section-heading compact">
+            <div>
+              <div class="eyebrow green">09 · INDICADORES DE ÉXITO</div>
+              <h2>Cómo mediremos el éxito del partner</h2>
+            </div>
+            <p>
+              Estos son los resultados que deben orientar la propuesta, la implementación y la operación. Los
+              cinco indicadores críticos concentran la expectativa de éxito; el resto permite diagnosticar y
+              gestionar cada etapa del negocio.
+            </p>
+          </div>
+          <div class="critical-kpi-panel">
+            <div class="critical-kpi-heading">
+              <div class="critical-kpi-title">
+                <span class="critical-kpi-label">KPI CRÍTICOS DE ÉXITO</span
+                ><span class="critical-kpi-pulse"><i></i> PULSO DE LA OPERACIÓN</span>
+              </div>
+              <p>La propuesta debe explicar cómo alcanzar, monitorear y mejorar estos umbrales.</p>
+            </div>
+            <div class="critical-kpi-grid">
+              <article class="critical-kpi-card">
+                <span>CVR total</span><strong>25%</strong><small>Conversión total App + Web</small>
+              </article>
+              <article class="critical-kpi-card critical-kpi-alert">
+                <span>Bounce rate</span><strong>&lt; 30%</strong><small>Sesiones que no avanzan</small>
+              </article>
+              <article class="critical-kpi-card">
+                <span>Pago aprobado</span><strong>&gt; 97%</strong><small>Órdenes con pago exitoso</small>
+              </article>
+              <article class="critical-kpi-card">
+                <span>Uptime</span><strong>&gt; 99,9%</strong
+                ><small>Disponibilidad objetivo de plataforma</small>
+              </article>
+              <article class="critical-kpi-card">
+                <span>Cross-selling</span><strong>35%</strong><small>Pedidos con recomendación</small>
+              </article>
+            </div>
+          </div>
+          <div class="secondary-kpi-heading">
+            <div>
+              <span class="eyebrow green">INDICADORES DE GESTIÓN</span>
+              <h3>El tablero completo, en segundo plano</h3>
+            </div>
+            <p>
+              Metas para seguimiento por dominio. Cada partner debe indicar fuente, fórmula, periodicidad,
+              responsable y línea base.
+            </p>
+          </div>
+          <div class="secondary-kpi-grid">
+            <article class="secondary-kpi-card">
+              <h4>01 · Negocio y crecimiento</h4>
+              <ul>
+                <li>Ventas digitales YoY <b>+10%</b></li>
+                <li>Participación digital <b>+1 pp</b></li>
+                <li>Ticket promedio <b>+5%</b></li>
+                <li>Órdenes por canal <b>+8%</b></li>
+                <li>Mix Pick Up <b>50%</b></li>
+                <li>Margen / contribución <b>+1 pp</b></li>
+              </ul>
+            </article>
+            <article class="secondary-kpi-card">
+              <h4>02 · Adquisición y engagement</h4>
+              <ul>
+                <li>Sesiones App + Web <b>+15% YoY</b></li>
+                <li>Usuarios activos / MAU <b>+10%</b></li>
+                <li>Bounce rate <b>&lt; 30%</b></li>
+                <li>Engagement rate <b>&gt; 70%</b></li>
+                <li>CTR campañas <b>&gt; 2,5%</b></li>
+                <li>Recurrentes sobre total <b>&gt; 55%</b></li>
+              </ul>
+            </article>
+            <article class="secondary-kpi-card">
+              <h4>03 · Funnel y conversión</h4>
+              <ul>
+                <li>Conversión total App + Web <b>25%</b></li>
+                <li>Conversión App <b>30%</b></li>
+                <li>Conversión Web <b>18%</b></li>
+                <li>View item → Add to cart <b>&gt; 18%</b></li>
+                <li>Add to cart → Begin checkout <b>&gt; 60%</b></li>
+                <li>Begin checkout → Purchase <b>&gt; 70%</b></li>
+                <li>Abandono de carrito <b>&lt; 55%</b></li>
+                <li>Repeat order / recompra <b>&gt; 30%</b></li>
+              </ul>
+            </article>
+            <article class="secondary-kpi-card">
+              <h4>04 · Checkout y pagos</h4>
+              <ul>
+                <li>Aprobación de pago <b>&gt; 97%</b></li>
+                <li>Rechazo de pago <b>&lt; 3%</b></li>
+                <li>Éxito promos por BIN <b>&gt; 99%</b></li>
+                <li>Tiempo de checkout <b>&lt; 90 seg</b></li>
+                <li>Error en checkout <b>&lt; 1%</b></li>
+                <li>Conversión por medio de pago <b>Por canal</b></li>
+              </ul>
+            </article>
+            <article class="secondary-kpi-card">
+              <h4>05 · CRM, loyalty y personalización</h4>
+              <ul>
+                <li>Base identificada / logueada <b>&gt; 70%</b></li>
+                <li>Socios Papa Puntos activos <b>+20%</b></li>
+                <li>Revenue atribuido a CRM <b>&gt; 8%</b></li>
+                <li>Open rate Push <b>&gt; 8%</b></li>
+                <li>Open rate Email <b>&gt; 5%</b></li>
+                <li>CTR CRM <b>&gt; 2,5%</b></li>
+                <li>Cross-selling <b>35% pedidos</b></li>
+                <li>Uplift personalización / A-B test <b>+5%</b></li>
+              </ul>
+            </article>
+            <article class="secondary-kpi-card">
+              <h4>06 · Operación y experiencia</h4>
+              <ul>
+                <li>Uptime plataforma <b>&gt; 99,9%</b></li>
+                <li>Tiempo de carga App / Web <b>&lt; 2,5 seg</b></li>
+                <li>On-time delivery / promesa <b>&gt; 90%</b></li>
+                <li>Cancelaciones / voids <b>&lt; 1,5%</b></li>
+                <li>Contact rate SAC <b>&lt; 3%</b></li>
+                <li>NPS <b>&gt; 60</b></li>
+                <li>Incidencias críticas resueltas <b>&lt; 2 h</b></li>
+              </ul>
+            </article>
+            <article class="secondary-kpi-card">
+              <h4>07 · Omnicanalidad y escalabilidad</h4>
+              <ul>
+                <li>Canales integrados <b>App, Web, Agregadores, Call Center, Totem y WhatsApp</b></li>
+                <li>Nuevas funcionalidades <b>Feature flags</b></li>
+                <li>A/B testing <b>&gt; 2 tests / mes</b></li>
+                <li>Escalabilidad peak <b>Soportar 7x tráfico</b></li>
+                <li>Integraciones críticas <b>100% operativas</b></li>
+                <li>Time-to-market comercial <b>-50%</b></li>
+              </ul>
+            </article>
+            <article class="secondary-kpi-card">
+              <h4>08 · Gobierno y seguimiento</h4>
+              <ul>
+                <li>Línea base acordada <b>100%</b></li>
+                <li>Dashboard ejecutivo <b>Semanal + mensual</b></li>
+                <li>Comité de seguimiento <b>Mensual</b></li>
+                <li>Owner negocio + TI + partner <b>Definidos</b></li>
+                <li>Roadmap de mejora continua <b>Trimestral</b></li>
+                <li>Plan de acción por KPI <b>100%</b></li>
+              </ul>
+            </article>
+          </div>
+          <aside class="business-impact-note">
+            <strong>Regla de medición:</strong> cada indicador debe tener fórmula, fuente de datos, período,
+            segmentación, línea base, meta, periodicidad y responsable. Los KPI críticos son umbrales de
+            éxito; los indicadores de gestión explican cómo se llega a ellos.
+          </aside>
+        </div>
+      </section>
+      <section class="proposal-section" id="kit">
+        <div class="container proposal-grid">
+          <div>
+            <div class="eyebrow">10 · LA PROPUESTA</div>
+            <h2>El partner debe llegar preparado para demostrar.</h2>
+            <p>
+              Más que un catálogo de funcionalidades, buscamos una respuesta concreta sobre experiencia,
+              operación, integración, esfuerzo, evolución y viabilidad económica. La propuesta debe dejar
+              claro cuánto cuesta construir, operar y escalar la solución, y qué recibimos en cada fase.
+            </p>
+            <a class="button button-light" href="./assets/kit-pj-25-09-26.zip" download
+              >Descargar kit completo &rarr;</a
+            >
+          </div>
+          <div class="deliverables">
+            <div><b>01</b> Journey de nuestros clientes</div>
+            <div><b>02</b> Arquitectura e integraciones</div>
+            <div><b>03</b> Flujo técnico de la orden</div>
+            <div><b>04</b> Demo con eventos sorpresa</div>
+            <div><b>05</b> Plan de implementación</div>
+            <div><b>06</b> Propuesta económica desglosada</div>
+          </div>
+        </div>
+      </section>
+      <section class="reference container">
+        <div class="eyebrow green">REFERENCIA VISUAL</div>
+        <h2>El flujo completo</h2>
+        <p>Esta vista resume el journey utilizado como inspiración para el kit.</p>
+        <img
+          src="assets/Customer%20Journey%20PJ%2024-09-26.png"
+          alt="Flujo de cliente Ecommerce Papa Johns" />
+      </section>
+    </main>
+    <footer class="footer">
+      <div class="container">
+        <div class="brand">
+          <img class="brand-logo" src="assets/papa-johns-logo-new-green.svg" alt="Papa Johns Chile" />
+        </div>
+        <p>Ecommerce Experience Kit · Una experiencia real para una propuesta real.</p>
+      </div>
+    </footer>
+    <script src="app.js?v=20261007-ux"></script>
+    <script src="modal-transitions.js"></script>
+    <script src="journey-details.js"></script>
+    <script src="systems.js"></script>
+    <script src="proposal-expectations.js"></script>
+    <script src="profiles.js"></script>
+  </body>
+</html>

@@ -1,0 +1,761 @@
+[00:00] La responsabilidad que nosotros tenemos firmado en el MDA con Salesforce y que ustedes tienen con su partner, por lo tanto, es la responsabilidad de confidencialidad, tanto con el partner implementador como con ustedes.
+[00:19] Claro que sí, tranquilo.
+[00:24] Perfecto. Bueno, hoy día vamos a ver lo que es el back office.
+[00:28] el Back Copies permite configurar básicamente la operación
+[00:31] el Covers debe responder a estas feldas
+[00:33] y poder ayudar en su efecto a mejorar la experiencia
+[00:36] y extenderla a sí misma
+[00:39] hoy día vamos a ver
+[00:41] no el Back Copies entero
+[00:43] vamos a ver tres casos cotidianos
+[00:45] tres casos muy repetitivos
+[00:48] o que están relacionados con la operación
+[00:50] de manera muy, muy a diario
+[00:53] entonces, por ejemplo, vamos a ver
+[00:55] cómo activamos una FED
+[00:58] cómo opera una tienda, cómo gestionamos los cambios, las señales de la operación.
+[01:09] No, no quería hacer un cambio más que ayer estuvimos revisando con Basti esta demo.
+[01:16] Como bien dijo, hoy día lo que nosotros vamos a mostrar son como las acciones más recurrentes
+[01:23] y más frecuentes que hacemos desde el lado comercial o desde el lado digital
+[01:27] para que finalmente un producto se pueda comercializar en nuestro sitio web,
+[01:33] se pueda comercializar en los agregadores, se pueda comercializar en el call center y en el todo.
+[01:37] Por eso creemos que hoy día lo que vamos a mostrar es lo que necesitan ustedes saber
+[01:44] para el día de mañana poder presentar ahí una propuesta de cómo sería finalmente este dashboard,
+[01:50] este back office para monitoreo y control.
+[01:53] ¿ya?
+[01:54] ¿me da un segundito?
+[01:57] ¿ok?
+[02:00] un segundo
+[02:23] Así que eso, equipo. Ahora ahí entre Basti y yo vamos a ir como comentando, lo va a liderar igual Basti la presentación y yo voy a ir haciendo como pequeños otros comentarios, pero la idea es que después ustedes al final nos puedan hacer las preguntas y si hay alguna duda.
+[02:42] Bueno, antes de entrar en los casos, vamos a ver las decisiones que reúne el back office.
+[02:49] Las decisiones se pueden ordenar en tres grupos, las promociones, las configuraciones de tienda, un control operativo.
+[02:57] Vamos a tomar un caso de cada grupo para poder conversar sobre lo que es el nuevo e-commerce y lo que debe cubrir.
+[03:03] Vamos a empezar a editar lo que es una promoción, las promociones y las condiciones que las determinan.
+[03:09] Entonces, me voy a ir acá. Este es nuestro back office. Acá tenemos distintas secciones en base a las distintas operaciones que podemos tomar.
+[03:20] Pero, in situ, vamos a ver lo que son las ofertas, las promociones.
+[03:24] Las promociones están ligadas a un menú, que son, los menús responden a las tiendas.
+[03:31] Cada tienda puede tener un menú asignado o un menú distinto dependiendo de la tipología de la tienda.
+[03:38] Tenemos tiendas chiquititas, tenemos tiendas de tipo mall, que tienen un menú más agotado, con productos más enfocados en un comercio de tipo mall, o bien las tiendas regulares como las que conocemos más grandes, más in situ.
+[03:52] Esas tienen más productos, tienen productos que incluso un mall puede tener y estas no.
+[03:58] Entonces, está conformado claramente por productos y complementos.
+[04:03] Las pizzas, los postres, las bebidas, las salsas, etc.
+[04:09] Entonces, la sección de promociones, acá podemos ver cuáles son las que están activas y también por plataformas.
+[04:17] Porque también podemos tener canales de diferenciación, ya sea para específicamente el tótem o venta online, etc.
+[04:25] Sí, ahí incluso también, otro de nuestros diferenciadores es que también podemos hacer promociones exclusivas por canal de entrega.
+[04:33] Porque tenemos canal de venta y canal de entrega.
+[04:38] El canal de venta, por ejemplo, puede ser el e-commerce.
+[04:41] Voy a comprar por la aplicación y el canal de entrega.
+[04:44] Esa promoción se va a mostrar solo en Delivery o solo en Picab o en ambos.
+[04:49] Entonces tenemos que tener también esa capacidad de poder diferenciar ambas modalidades,
+[04:54] tanto para entrega como compra.
+[04:58] Las promociones pueden tener una disponibilidad también de tiempos.
+[05:02] Por ejemplo, la quiero acotar para una semana, una semana determinada,
+[05:07] y también puede tener un precio diferenciador por el tipo de despacho,
+[05:12] ya sea delivery o pickup.
+[05:16] Yo voy a entrar en una promoción.
+[05:20] Este es el ambiente de problemas,
+[05:22] así que posiblemente vamos a ver
+[05:24] cosas que no están en producción actualmente.
+[05:27] Un tema más de seguridad con nosotros.
+[05:30] Y para no estar metiendo mano en algo
+[05:34] que a lo mejor podamos cometer un error.
+[05:38] Sí, acá lo otro que también es importante mencionar
+[05:40] es que cualquier cambio que se haga en este backoffice
+[05:43] se ve de forma inmediata en el productivo, en el front.
+[05:48] ¿Ya?
+[05:48] Para nosotros igual eso es casi que mandatorio
+[05:51] porque estamos en constante actualizaciones,
+[05:55] cargando promociones de otro momento,
+[05:56] bajando, subiendo, etc.
+[05:58] Cambiando precios.
+[05:59] Y necesitamos que eso se vea de inmediato en el sitio
+[06:02] y no sea una actualización cada X tiempo.
+[06:05] Claro, no tiene una capa de caché,
+[06:07] no tiene una capa que va haciendo grons
+[06:10] y va recuperando la información como para poder exponerla,
+[06:14] no, esto es in situ, esto es real, debe estar en 100%.
+[06:17] Así es.
+[06:18] Veo que levantó las manos Marco,
+[06:21] se ha disculpado Lucas,
+[06:23] nos quiere hacer la contadora, la dejamos para el final.
+[06:28] Estás muteado.
+[06:31] Dale nomás a Lucas.
+[06:33] Es cortita, detrás de este sistema,
+[06:37] ustedes decían que no hay caché,
+[06:38] tiene que ser inmediata
+[06:40] el envío o la notificación
+[06:43] a diferentes lugares
+[06:44] ¿qué tecnología hay?
+[06:46] esto es lo que tienen en AWS montado
+[06:48] ¿cómo nos podemos conectar
+[06:50] a este back office nosotros?
+[06:52] o su back office conectarse a nuestra tecnología
+[06:54] ahí voy a hacer un comentario
+[06:59] y ahí va a hablarme Mauro
+[07:00] ¿cómo lo veo yo?
+[07:03] yo veo que ustedes nos presenten
+[07:05] un back office nuevo
+[07:06] Yo en lo personal creo que nos tienen que ocupar este mismo. En la licitación tienen que considerar incluso un panel de control, demanda, etc. Pero nuevo. Nosotros hoy día estamos mostrando cuáles son las capacidades básicas que nosotros tenemos, que necesitamos que al menos también ustedes las podamos migrar a su plataforma, a sus servicios.
+[07:27] básicamente también dentro de la propuesta
+[07:29] que les mandamos es que toda
+[07:31] la información que actualmente tenemos
+[07:33] sea de la base de datos completa de clientes
+[07:36] las promociones activas, las órdenes
+[07:38] los usuarios, todo eso
+[07:39] tiene que pasar de nuestro sistema al suyo
+[07:41] tiene que haber una
+[07:43] una migración integral
+[07:45] frente a todos los
+[07:47] freches que tenemos en e-commerce
+[07:48] Ahí, Lucas
+[07:51] Lucas
+[07:53] es que igual me dejaste
+[07:55] con la duda de por qué levantaste
+[07:57] esa pregunta
+[07:58] no, no, es por mi rol
+[08:02] estoy en integraciones, por eso
+[08:05] quería saber si llegaba el caso
+[08:07] ah, ya
+[08:08] ahí Benja o Lucas
+[08:11] bueno, no sé, responda
+[08:13] ustedes tienen considerado también
+[08:15] un módulo como este, ¿cierto?
+[08:16] o pensaban que tenían que ocupar
+[08:19] nuestro back office
+[08:20] la verdad es que
+[08:23] no
+[08:24] no teníamos dentro del
+[08:27] dentro de
+[08:31] la visión
+[08:33] un back office de estas características
+[08:35] no sé, ahí Lucho si me puede
+[08:37] complementar
+[08:40] por la parte de commerce
+[08:41] no es que sea un back office
+[08:46] como este, la verdad
+[08:47] es que no, le estamos pidiendo que
+[08:49] copiemos el back office que tenemos acá
+[08:51] y lo llevemos con ustedes
+[08:53] en un desarrollo justo.
+[08:56] Para nada.
+[08:57] Lo que se está tratando de interpretar acá
+[08:58] es cómo funciona la operación hoy
+[09:00] y cómo no tienen que ustedes presentar
+[09:03] la forma en que administran este tipo de cosas.
+[09:05] Porque estos son los escenarios actuales.
+[09:07] Estos son la operación de la...
+[09:09] en in situ, es lo que está en vivo
+[09:12] y cómo tenemos que seguir funcionando aquí adelante.
+[09:14] Si ustedes proponen el back office de Salesforce
+[09:16] actual como viene con toda la administración,
+[09:19] perfecto.
+[09:20] Si van a hacer una aplicación,
+[09:21] ya sea en cualquier framework,
+[09:23] Real, Vue, cualquiera sea
+[09:25] Para armar este back office
+[09:26] También está bien
+[09:27] Pero esto es para que ustedes conozcan
+[09:30] Unos aspectos de cómo funciona nuestro back office
+[09:33] Cómo funciona la operación
+[09:35] Ok, perfecto
+[09:37] Ahí es importante hacer esta aclaración
+[09:40] Efectivamente
+[09:41] Cada solución viene con su vista
+[09:45] La mayor virtud que tiene Salesforce
+[09:49] Cuando se mira como un all-in-one platform
+[09:52] es que todas las vistas son unificadas en una sola, ya dependiendo de la necesidad que uno tiene.
+[09:59] Si quiere hacer alguna actividad dentro de marketing, se va a la vista de marketing dentro de la organización.
+[10:04] Si quiere ver la vista, por ejemplo, de e-commerce y las ventas, se va dentro de la misma vista a la organización de e-commerce
+[10:13] y así sucesivamente, dependiendo del tipo de actividad, rol o permiso que tenga el usuario.
+[10:19] dentro de cada organización por supuesto que hay muchas acciones y actividades que se pueden ejecutar
+[10:25] y ciertamente también se pueden parametrizar o desarrollar vistas sobre la organización
+[10:34] con el objetivo de que ustedes puedan ir interpretando o teniendo visibilidad de determinados tipos de datos
+[10:40] información o KPIs que quieran ir midiendo
+[10:43] Y lo mismo para realizar actividades o bien ejecutar actividades, como puede ser desde las campañas de marketing, desde el envío de flujo de marketing automation, etc.
+[10:58] Ahora, claro, si necesitamos meter toda la vista de, por ejemplo, yo lo que estoy viendo ahí, ustedes tienen la gestión de tienda.
+[11:06] ya, por lo que yo entiendo
+[11:08] Lucho, anda corrigiéndome
+[11:10] cuando tenemos gestión de tiendas
+[11:12] todas las tiendas tienen sus órdenes
+[11:14] ya si operamos también con
+[11:16] y complementamos la operación de
+[11:18] Papayons con nuestro orden management
+[11:20] podríamos tener la visibilidad de todas
+[11:22] las tiendas con todos los flujos de órdenes
+[11:24] que están entrando, por lo tanto
+[11:25] lo que yo estoy viendo aquí
+[11:28] podría caer bien en la operación
+[11:30] de commerce más orden management
+[11:32] ¿correcto? anda confirmándome Lucho
+[11:34] si es posible
+[11:36] Sí, porque orden...
+[11:37] Igual ahí, Benja y Luis, la idea es que desde el punto de vista de,
+[11:43] no tanto de la solución, pero sí de la necesidad,
+[11:46] es que tengamos la capacidad de gestionar contenido relacionado a promociones,
+[11:52] que tiene ciertas especificaciones, como por ejemplo, el canal de venta y el de entrega.
+[11:56] Está más alineado con eso y todo, por ejemplo, todo lo que sea relacionado a campañas y promociones,
+[12:04] si bien también hay partes que se pueden activar desde Commerce Cloud
+[12:07] también gran parte de eso se pueden activar los flujos dentro de Marketing Cloud
+[12:12] que eso es como la solución de Marketing Automation
+[12:14] donde nosotros vamos a orquestar todas las campañas y todos los canales
+[12:17] junto con la generación de contenido para que se vayan activando
+[12:20] en las propiedades digitales o canales que ustedes vayan indicando
+[12:24] no sé, equipo de Marketing, e-commerce y core
+[12:28] si quieren indicar algo o si estoy en lo incorrecto
+[12:32] pero entiendo que estamos bien alineados con eso
+[12:34] luego todo lo que es la
+[12:36] activación de cupos
+[12:37] estamos bien alineados Benja
+[12:40] ahí
+[12:40] como dijiste esto
+[12:44] y ahí también lo decía el equipo de Papa Jones
+[12:46] es entender como es la operatoria
+[12:48] que tienen ahora
+[12:50] así nosotros podamos presentar
+[12:53] las cosas
+[12:54] el 29, así que sin drama
+[12:56] y tu perfecto lo que dijiste
+[12:58] así que si quieren podemos continuar
+[13:00] Sí, démosle, estamos bien
+[13:03] Perfecto, entonces continúo
+[13:08] Esta es la edición de una oferta
+[13:11] Vemos información básica
+[13:13] Y por ejemplo, que son nombres
+[13:15] Cuál va a ser el nombre para el domicilio
+[13:17] Porque de repente podemos tener promociones
+[13:19] Que están enfocadas en domicilio
+[13:21] O enfocadas en PICA
+[13:24] En retiros
+[13:25] Y van a tener distintos nombres
+[13:28] Distinta apreciación
+[13:29] acá en el módulo de arriba estamos haciendo un experimento
+[13:33] de esa vez, así que no lo tomen muy en cuenta
+[13:35] solo un experimento por ahora
+[13:37] podemos aplicar por ejemplo
+[13:41] poder vernos la página de promociones
+[13:44] que tenemos ahora
+[13:46] definir la plataforma
+[13:48] definir los precios
+[13:49] diferidos que son para delivery o retiro
+[13:53] cuánto ingrediente gratis va a tener, etc.
+[13:56] Y ocultar o mostrar la promoción, porque a veces queremos hacer una pausa, ¿no?
+[14:05] El temporizador tenemos, dos días que va a estar disponible, desde qué horario hasta qué horario va a estar la promoción disponible.
+[14:11] Por ejemplo, pensemos una promoción de, no sé, a la hora de 11, de 7 a 9 de la tarde, cierta promoción.
+[14:20] o incluso para poder complementar horarios que tenemos como valle, por así decirlo, que no tenemos tanta venta,
+[14:29] a lo mejor queremos potenciar con una promoción.
+[14:32] Bueno, los ingredientes gratis y aquí cuáles van a ser los productos que vamos a ofrecer en la promoción.
+[14:38] Entonces podemos ir viendo por distintos grupos, una promoción puede tener, por ejemplo,
+[14:44] Propuesta es conformada por dos pizzas y un complemento y una bebida.
+[14:48] Entonces podemos ir haciendo distintos grupos en donde el usuario va a tener que ir decidiendo qué cosa va a agregar a su promoción.
+[14:57] Entonces, acá por ejemplo podemos editar uno de los productos y decidir si es de tipo pizza, si es de tipo complemento.
+[15:04] Y aquí vamos viendo ya, ok, este es un amateur pizza, puede ser también la pepperoni, puede ser la de works.
+[15:10] y yo también puedo decidir a partir del producto la variante de ese producto,
+[15:15] porque ese producto puede tener una masa delgada, puede tener la masa tradicional
+[15:19] o también la masa maestra, etc.
+[15:21] Pueden ser la grande, puede ser la mediana,
+[15:24] hay varias cosas que van integrándose dentro del cuadro de una promoción.
+[15:30] ¿Vale?
+[15:31] Sí, incluso en el producto de Arma Turbiza,
+[15:36] que la vez pasada también Mario se nos comentó,
+[15:39] A nosotros nos gustaría que la demo incluyera ese producto porque es nuestro producto diferenciador,
+[15:45] es el producto más vendido, etc.
+[15:47] En este paso que está mostrando Asti, podemos también limitar qué cárnicos,
+[15:52] o, disculpa, qué ingredientes queremos que se muestren o no se muestren de cara a nuestros clientes.
+[15:57] Entonces, también es una funcionalidad que necesitamos que también ustedes la puedan incorporar.
+[16:02] también por ejemplo podemos ofrecer esta pizza como una pizza de reemplazo cuando no hay alguno
+[16:12] de los productos dentro de la promoción que esté activo por ejemplo se desactivó un ingrediente y
+[16:17] ya el producto no está disponible entonces puede servir como pizza de reemplazo también
+[16:24] bueno las promociones también están afectadas a las menú o sea a los menú a su vez a las tiendas
+[16:31] Entonces, yo puedo decir, por ejemplo, mostrar esta promoción en cierta tienda o en cierto grupo de tienda.
+[16:38] Entonces, me da mucha libertad para poder generar la promoción y tener una definición comercial adecuada para ella misma.
+[16:49] Acá están las imágenes, obviamente, para todos los canales, si es responsa, si es aplicación, si es canal de totem, si es canal de agregadores.
+[16:58] entonces puedo ir jugando
+[17:00] dentro de la promoción
+[17:02] armar una promoción no es trivial
+[17:04] tiene varios pasos
+[17:06] pero claramente
+[17:08] es uno de nuestras
+[17:10] columnas como en términos
+[17:12] de estrategia de comercio
+[17:13] si, ahí incluso cuando se arma la promoción
+[17:16] podemos
+[17:18] tomar como la decisión de
+[17:20] el primer paso sea pizza
+[17:22] el segundo paso sea acompañamiento
+[17:23] un tercer paso
+[17:25] pueden ser líquidos o postres
+[17:28] etcétera, y además incluso podemos dejar que esos sean obligatorios y podemos dejar uno que sea
+[17:34] opcional tipo cross-selling, ¿ya? Y en ese cross-selling, además, que va a estar en el mismo
+[17:40] flujo de compra del armado de esa promoción, podemos dejar que ese cross-selling sea un precio
+[17:46] diferenciado, exclusivo, al llevar esa promoción, ¿ya? Porque fuera del catálogo, esos productos
+[17:53] van a estar a un precio diferente.
+[17:58] Eso nos ha ayudado, incluso eso nos ha ayudado bastante
+[18:00] al incorporar ese botón en ese proceso de compra,
+[18:04] nos ha ayudado bastante a aumentar la incidencia
+[18:08] de productos adicionales, de cross-selling,
+[18:11] y por eso nosotros en los KPIs que les mandamos en el formulario,
+[18:15] viene un apartado de KPIs de éxito,
+[18:18] llegamos a una tasa a un cross-selling,
+[18:20] no me equivoco, cercano al 30%.
+[18:22] Hoy día actualmente ya estamos en torno al 25-30, entonces ustedes tienen que igualarlo e incluso superarlo.
+[18:32] Bueno, la operación define la regla. El e-commerce tiene que interpretarla y presentarla de forma consistente.
+[18:40] ¿Tienen alguna duda con respecto a esta sección?
+[18:44] Por ahora no, continuemos.
+[18:46] perfecto, bueno
+[18:50] pasamos a lo que es
+[18:52] el caso 2
+[18:53] que sería la configuración de una tienda
+[18:56] cada local tiene
+[18:58] condiciones propias, horario, modalidad
+[19:00] de despacho, tiempos estimados
+[19:02] bueno, ahora estamos
+[19:04] incorporando los tiempos dinámicos
+[19:06] así que va a ir
+[19:08] cambiando
+[19:09] y todo tiene que ver con lo que el cliente
+[19:12] también pueda elegir
+[19:14] Así es. Solamente un punto anterior, Basti, de la parte de las promociones, también importante que nosotros damos el orden de las promociones,
+[19:20] se muestra primero, segundo, tercero, etc. En un tiempo establecido, tenemos cronómetros, se cambia, se apaga, etc. Eso. Dale, Juan.
+[19:27] Sí.
+[19:31] Bueno, acá tenemos nuestro listado de tiendas y básicamente como para poder tener una mejor visualización de la operación en el día a día, podemos ver también los estados de cada tienda.
+[19:44] Por ejemplo, tenemos acá que en este ambiente de pruebas no hay producción, así que Algarrobar tiene el modo delivery y el modo de pick-up está pagado.
+[19:54] O alguna tienda puede estar funcionando solo con delivery o solo con retiro, va dependiendo de cómo está su operación en el día a día.
+[20:04] También, por ejemplo, podemos encontrarnos con incidencias en alguna de sus promociones.
+[20:08] esto es algo nuevo y fue como súper valorado como cuando se presentó.
+[20:16] Yo puedo ir viendo, por ejemplo, las promociones que tienen problemas con los distintos canales,
+[20:21] cuando no se pueda vender una promoción.
+[20:22] Por ejemplo, hoy en día estamos funcionando con Totems
+[20:25] y acá, por ejemplo, si de repente nos dicen
+[20:28] oye, el Totem no está vendiendo tal promoción o no está vendiendo tal producto,
+[20:33] fácilmente nosotros podemos ir a las tiendas y revisar cuáles son los problemas asociados a la tienda.
+[20:38] cuáles son los productos que están disponibles y cuáles son los no disponibles y por qué no está disponible.
+[20:44] Entonces puede ser que acá dice el grupo requerido no está en el menú o de repente hay un ingrediente bloqueado.
+[20:51] Entonces son cosas que nos ayudan durante el día a día de la operación.
+[20:57] Sí, ahí, ¿puedo ir una cosa atrás por favor?
+[20:59] Acá también otro dato importante es lo que sale en la columna de ID.
+[21:04] Y ese ID de la tienda me sirve para poder también hacer ahí alguna gestión.
+[21:11] Entre ellas, por ejemplo, es asignarle a una tienda un perfil a un gerente de mercado.
+[21:16] Ya recuerden que el back office tiene, hay gente de la operación,
+[21:22] que por el final son los gerentes de mercado, de las tiendas,
+[21:27] tenemos del área comercial, del área digital, de la tecnología.
+[21:30] Hay mucha gente que tiene acceso a este back office, cada uno con diferentes roles.
+[21:34] y esa ID
+[21:36] nos sirve incluso para poder
+[21:38] decir que la tienda 5D
+[21:40] que es el ID
+[21:43] 155, se lo cargo
+[21:44] al perfil de X persona
+[21:46] para que solamente pueda ver esa tienda
+[21:48] ¿ya?
+[21:51] Podemos también ordenar
+[21:52] por tiempo de entrega
+[21:54] de mayor a menor
+[21:55] podemos hacer un filtro rápido de cuáles son las
+[21:58] tiendas cerradas
+[21:59] cuál es la tienda cerrada total, cuál es la tienda
+[22:02] que viene cerrado el delivery, cuál es la tienda que viene cerrado
+[22:05] el pick-up, etc.
+[22:21] Y ahora vamos a entrar a lo que es la configuración,
+[22:24] qué es lo que hay dentro de esta
+[22:26] tienda, la configuración.
+[22:29] Entonces,
+[22:30] las tiendas tienen
+[22:32] distintas configuraciones, claramente
+[22:34] el nombre, el teléfono, la dirección
+[22:36] información básica
+[22:37] pero también están asociados los menús
+[22:40] como les comentábamos
+[22:41] las tiendas tienen un menú para poder
+[22:44] escoger, entonces también tienen
+[22:46] un menú de cómo van a funcionar para
+[22:48] los agregadores, caso de Pella
+[22:50] caso Totem
+[22:51] podemos acá por ejemplo decidir el modo de pedido
+[22:58] si va a estar funcionando solo domicilio
+[23:00] solo tienda o cerrar la tienda, pero no todos los operadores de este back office pueden
+[23:06] realizar este tipo de acciones, están relacionados con tipos de perfiles. Entonces hay ciertos
+[23:12] perfiles que pueden cerrar las tiendas que otros no, otros no van a poder. Podemos activar
+[23:19] la última milla, tenemos proveedor actualmente con pedido ya, entonces podemos...
+[23:26] Y verdad, a través de Miss Patch Track.
+[23:33] ¿Qué más? ¿Espacios públicos? Esto no lo estamos usando.
+[23:36] Creo que no lo estamos usando en espacios públicos.
+[23:38] No, eso nos permite para en una zona que sea pública, un strip center, un parque, un mall, etc.,
+[23:50] poder también darle protagonismo para que se vea la tienda en esa zona.
+[23:56] integraciones y dinas de naciones como los de periodo ya al ojo que es como el
+[24:03] oms de hoy en cn básicamente información relacionada a si tenemos la capacidad también
+[24:14] tenemos la capacidad de vender o pagar algún método de pago en esa tienda específica e incluso
+[24:20] también a través de ella se puede hacer masivo pero también dentro de la tienda tú puedes decir
+[24:24] quiero que solamente se me vea efectivo
+[24:27] quiero que solamente se me vea mercado pago
+[24:29] o todo, etc.
+[24:33] Estos tiempos de entrega
+[24:34] van a desaparecer
+[24:37] porque después van a ser tiempos dinámicos
+[24:38] pero acá la tienda podía escoger
+[24:40] por ejemplo, ¿cuánto se podía demorar
+[24:42] en entregar un delivery o un pita?
+[24:45] Sí, ese
+[24:46] dato igual es importante porque
+[24:48] el dato que se configura ahí
+[24:51] es la promesa de entrega que va a ver
+[24:53] el cliente cuando ingrese
+[24:54] al sitio a comprar.
+[25:02] La localización,
+[25:03] cómo está situada la tienda,
+[25:06] y también acá dibujamos
+[25:07] el mapa y podemos dibujar
+[25:10] un polígono donde la tienda puede
+[25:12] repartir, donde va a estar disponible,
+[25:15] y también zonas de exclusión.
+[25:17] Por ejemplo, si hay una
+[25:18] zona, o sea, una tienda
+[25:20] en una comuna donde tiene zonas
+[25:22] un poco peligrosas, para los deliveries
+[25:24] básicamente es una zona de exclusión dentro del polígono de su ratio de entregas.
+[25:32] Hoy día ese polígono, esa zona de cobertura, se arma dibujando ahí mismo en el mapa ese que es el de Google Maps.
+[25:43] Tenemos al equipo de servicios clientes que ahí nos ayudan como pintando, dibujando el mapa
+[25:50] y queda automáticamente el mapa para la cobertura del delivery
+[25:53] e incluso de la tienda total.
+[25:55] Y además, como decía Basti, podemos incorporar esta zona como de exclusión.
+[26:02] ¿Tenemos también la capacidad de poder ver si esa tienda se solapa
+[26:11] su radio de cobertura con otra tienda cercana?
+[26:16] Creo que es igual una capacidad importante de traerse personas de reparto
+[26:20] con el Dante, si uno lo aprieta,
+[26:24] demuestra, en caso de que haya
+[26:26] una tienda cercana, demuestra en cuántos están
+[26:28] ahí como topando esos radios.
+[26:35] Bueno, continuamos.
+[26:38] Ahora le dice tienda.
+[26:40] Perdón, tengo una consulta.
+[26:42] Estaban hablando de la parte, digamos, de polígonos,
+[26:44] de hacer el mapeo
+[26:46] del radio.
+[26:47] ¿eso lo consume de esta información?
+[26:50] ¿lo termina consumiendo la app nativa que tiene en el e-commerce actual?
+[26:55] Cuando uno coloca su dirección en Papayones
+[26:59] esa dirección va a la API de Papayones
+[27:02] y después igual va a buscar a través de la API de Google Maps
+[27:06] cuáles son las tiendas que están dentro de ese radio
+[27:08] dentro de ese polígono
+[27:09] entonces yo le pongo a la API el polígono que quiero consultar
+[27:12] en base a mi dirección
+[27:13] Si estoy dentro del polígono, me va a dar las miendas o me va a dar varias tiendas.
+[27:21] Perfecto. Y ahí el usuario, cuando te devuelve varias tiendas, le mostrás al usuario las tiendas que tiene disponible y él le dije, ¿verdad?
+[27:30] Así es.
+[27:31] Con una predeterminación, la más cercana o idónea para él.
+[27:36] Sí. Y mostrando las promesas de entrega, entonces el cliente ahí escoge de acuerdo a su conveniencia.
+[27:41] perfecto, perfecto
+[27:44] gracias, gracias
+[27:47] ahí como se está mostrando
+[27:49] también se pueden configurar los horarios de las tiendas
+[27:52] para que se prenda, para que se apague
+[27:55] tanto para el FICAP como para el delivery
+[27:58] puede dejar vacío o bien completar esa información
+[28:02] Acá vamos a mostrarle igual
+[28:12] cuando nosotros configuramos la tienda
+[28:15] con una
+[28:16] con la cobertura en una zona
+[28:18] como se muestra acá en el front
+[28:20] Claro, aquí es donde
+[28:23] se ve cuando tú pones tu dirección
+[28:25] Benja, no sé si está
+[28:26] preguntando el Benja
+[28:27] No, Luciano
+[28:29] somos lo mismo
+[28:31] Hay que mostrar un listado de las tiendas que se encuentran cerca de esa dirección.
+[28:40] Entonces, finalmente, el cliente, el que elige una, cualquiera.
+[28:47] Perfecto.
+[28:48] Y te dice ahí cuánto tiempo tiene esa tienda, más o menos, para la promesa de entrega.
+[28:53] 30 minutos aproximados puede salir tu delivery.
+[28:57] Para retirar el punto también te dicen cuánto tiempo más o menos va a estar listo el producto.
+[29:02] Entonces, yo la aplicación me ayuda a autocompletar mi dirección y yo consulto efectivamente las tiendas que están cercanas a mí
+[29:12] para hacer un pick up o las que tienen disponible delivery y en este caso me selecciono la de Providencia en la tienda de Providencia.
+[29:19] Si yo me voy a retirar un punto, me muestran las cercanas a mí.
+[29:27] basado en la longitud
+[29:28] y longitud
+[29:29] perfecto, super
+[29:32] bueno
+[29:36] para terminar la sección de la edición
+[29:39] de tiendas, acá están los horarios de tienda
+[29:41] puedo tener varios horarios, puedo abrir
+[29:43] en la mañana a la tarde y volver a abrir en la noche
+[29:45] entonces
+[29:46] ahí lo otro es que
+[29:48] en la creación de la tienda
+[29:51] incluso nos permite poner descripciones
+[29:52] para SEO
+[29:53] poder también publicar
+[29:56] la tienda
+[29:59] que la pueda publicar en nuestro
+[30:01] buscador de tiendas del sitio web
+[30:03] ¿Puede subir un poquito más?
+[30:06] Sí.
+[30:08] Y, ¿qué más
+[30:10] importante?
+[30:11] Arriba, arriba.
+[30:13] Eso, el número de teléfono y todos
+[30:15] esos datos se ven también
+[30:17] reflejados en el sitio web, en el e-commerce,
+[30:20] en la aplicación, etc.
+[30:22] Ahí, finalmente, cuando completamos
+[30:24] toda esa información, le damos
+[30:25] guardar y ahí ya podemos poner
+[30:27] publicar la tienda
+[30:29] y ya va a estar disponible para
+[30:31] que el cliente pueda comprar en ella
+[30:33] vamos al siguiente punto
+[30:41] bueno, avanzamos entonces
+[30:43] bueno, vamos a lo que es
+[30:51] el control y el seguimiento
+[30:52] varios aspectos de
+[30:54] de nuestro e-commerce.
+[30:57] Durante el día de hoy, por ejemplo,
+[30:58] van cambiando la disponibilidad
+[30:59] y los parámetros de la compra.
+[31:01] El back office se tiene que poder permitir
+[31:03] administrar los bloqueos, montos,
+[31:06] los grupos de tiendas,
+[31:08] los métodos de pago que van a estar disponibles,
+[31:10] cuál va a ser más prioritario que otro,
+[31:13] cuál va a funcionar a lo mejor solamente para retiro,
+[31:16] otro solamente para delivery.
+[31:18] Podemos ir viendo también cómo lo está yendo en el NPS.
+[31:22] Podemos ver un bloqueo de ingredientes,
+[31:24] Hay varias cosas, varios aspectos del día a día, eso lo que vamos a revisar.
+[31:30] Entonces, vamos a resolver ahora lo que sería el bloqueo de productos.
+[31:36] Entonces, yo puedo bloquear un producto o puedo bloquear un ingrediente.
+[31:41] Entonces, por ejemplo, me gustaría bloquearle un ingrediente a todas las tiendas o solo a una tienda.
+[31:47] Podría bloquear una pizza y puedo decir, por ejemplo, que el azúcar pepperoni,
+[31:52] en su variante
+[31:53] familiar tradicional, va a estar bloqueado.
+[31:58] O bien, puedo hacerlo
+[31:59] con un complemento.
+[32:01] Incluso, este como
+[32:03] es state, no tiene las últimas
+[32:05] liberaciones, pero incluso podríamos
+[32:07] por tamaño, es decir,
+[32:11] se me acabaron la XL
+[32:12] y como en vez de ir especialidad por especialidad
+[32:15] yo voy bloqueando
+[32:16] la variante XL
+[32:18] y automáticamente se me bloquea
+[32:20] en todas las especialidades que tienen tamaño XL.
+[32:24] Acá un dato súper importante que se los comentamos la vez pasada como diferenciador,
+[32:28] nosotros evitamos que las tiendas bloqueen alguna especialidad,
+[32:32] porque nosotros tenemos la capacidad de ofrecer un producto sustituto,
+[32:37] disculpa, un producto e incluso un ingrediente sustituto.
+[32:41] Entonces también eso necesitamos que ustedes puedan también resolverlo.
+[32:44] Vamos a ver ahora los métodos de pago.
+[32:55] Yo acá tenemos una sección donde, por ejemplo, podemos ordenar los métodos de pago, como les mencionaba,
+[33:01] y ya puede ser algo con cuánto puede haber disponibles en primera instancia.
+[33:07] ¿Por qué hay acuerdos comerciales con los distintos actores de los métodos de pago?
+[33:11] Entonces, por ejemplo, hoy en día tenemos cierta preferencia con Cintor, mañana vamos a tener cierta preferencia con WebPay.
+[33:20] Entonces, puedo mostrarlo y organizarlo en base a alguna prioridad.
+[33:27] Puedo decir, voy a mostrar tres en primera instancia y puedo poner después un botón de ver más métodos de pago y me muestra los siguientes.
+[33:36] Entonces, la verdad es que hoy en día tenemos acuerdos comerciales con todo esto.
+[33:39] Entonces, no es bueno mostrar todos los métodos de pago, sino que tener a lo mejor alguna preferencia.
+[33:45] Y yo puedo ir ordenándolos y puedo ir cambiándolos según lo que yo estime conveniente.
+[33:51] Así sea para domicilio o retirar tienda.
+[33:57] Vamos a ver también ahora lo que es el NPS.
+[34:01] Esto es súper importante para nosotros, súper importante para la operación,
+[34:04] porque define cómo está funcionando cada tienda.
+[34:06] ¿Puedo hacer más lo que tenés?
+[34:36] esta torre de control, donde ya sea que el negocio o algún gerente de mercado que tiene
+[34:46] grupos específicos de tienda pueda ver los indicadores rápidamente de cómo va la evaluación.
+[34:57] En la parte de los métodos de pago también lo comenté en la creación de tienda, acá
+[35:02] ya lo podemos ver de forma masiva, aparte de ordenar incluso podemos quitar, apagar o prender alguno.
+[35:12] Bueno, avanzamos un poco en las configuraciones generales, podemos desactivar ciertos servicios,
+[35:19] podemos también por ejemplo ver un precio mínimo para entrega, precio máximo para entrega, cuánto
+[35:26] va a costar o sea cuánto puedo comprar o sea desde qué monto para que sea para que la agenda
+[35:33] me entregue delivery cuál es el precio mínimo para poder tener puntos con temas lo ya aquí
+[35:44] eso sí estas son configuraciones generales la verdad para que un cliente pueda terminar
+[35:51] comprando, se ven
+[35:52] los montos máximos permitidos,
+[35:55] pueden dejar algún otro tipo de regla,
+[35:57] etc. Finalmente es para
+[35:58] que el e-commerce promocione.
+[36:01] Y además también tenemos
+[36:02] lo relacionado al grupo de tienda,
+[36:05] que este nos ayuda para
+[36:06] varias cosas. Hoy día lo estamos
+[36:08] jugando principalmente para dos.
+[36:11] Una de ellas es poder también
+[36:12] definir el cobro de envío.
+[36:14] En el cobro de envío nosotros tenemos capacidades
+[36:17] de dejar un cobro único
+[36:18] o bien
+[36:20] hacer cobros por tramos.
+[36:23] Y eso, que además aplique
+[36:25] a un cierto pool de tiendas
+[36:27] o a la totalidad o al totalizado.
+[36:29] ¿Ya?
+[36:30] Algo súper importante,
+[36:32] que nosotros tenemos que tener siempre la capacidad
+[36:34] de poder hacer que algo sea para una tienda,
+[36:37] para un grupo de tiendas,
+[36:38] para un menú completo,
+[36:39] o para todas, o para ninguna.
+[36:41] ¿Ya?
+[36:44] Esto es súper interesante,
+[36:46] el cobro de líderes por tramos.
+[36:47] Por ejemplo,
+[36:48] vamos a decidir que
+[36:51] vamos a cobrar delivery siempre
+[36:53] pero a lo mejor queremos dar un incentivo
+[36:55] al usuario para que por ejemplo
+[36:57] pueda decir
+[36:58] ok, estoy llevando 5 mil pesos
+[37:01] mi ticket pero me está
+[37:03] invitando a la tienda, me dice
+[37:05] agrega un poco más y tu delivery
+[37:07] en vez de costar 2 mil pesos va a costar
+[37:09] mil pesos porque desde el monto
+[37:11] desde 10 mil hasta 14 mil 990
+[37:13] el delivery es un poco
+[37:15] más barato, entonces ahí
+[37:17] jugando y viendo
+[37:20] con
+[37:20] temas de estrategia
+[37:22] si esto da bueno fruto o no.
+[37:28] Y obviamente también puedo definir
+[37:29] si tiene un delivery gratis.
+[37:32] Ah, sí, sí.
+[37:35] Eso.
+[37:37] Perfecto.
+[37:37] Bueno, estos son casos...
+[37:40] Perdón, tengo una consulta.
+[37:42] Ah, perdón, Mateo, también tiene una consulta.
+[37:43] Tranqui, tranqui.
+[37:43] No, no, no.
+[37:44] Quiero contarles una experiencia
+[37:47] Que tuve el día de ayer
+[37:49] Vieron que se paralizaba
+[37:51] Toda la ciudad por la alerta rosa
+[37:53] No me permitía
+[37:56] Comprar por Uber Eats
+[37:58] El checkout estaba caído
+[37:59] En la hora del mediodía
+[38:02] Y yo tenía ganas
+[38:04] De comer, yo siempre como pizza
+[38:06] A la noche
+[38:06] Y decidí hacer la compra
+[38:09] Con ustedes al mediodía
+[38:11] Y una de las cosas que me preguntaba
+[38:14] que justo veo que bajaron, scrollearon y se ve ahí el proveedor de última milla que queremos deshabilitar.
+[38:21] Está ahí Uber Direct.
+[38:23] Entonces yo compré desde la app y me llegó Uber.
+[38:26] Y el canal de comunicación fue el de Uber que me decía ya estoy abajo del DEPA para ir a retirar la pizza.
+[38:35] En este caso, ¿qué configuraciones tienen de Uber?
+[38:39] O sea, directamente queremos habilitar, queremos deshabilitar, y luego Uber se encarga de traer el pool de que toma el pedido.
+[38:46] Yo desconozco mucho cómo se maneja el tema de Uber.
+[38:50] Quería preguntarles a ustedes si no nos pueden contar un poquitito de eso.
+[38:55] Tal cual, Luciano. Es la integración vía su API y el back office lo que hace es si usa la integración o no usa la integración.
+[39:05] ahora, esa es una manera de utilizarlo
+[39:08] por así decirlo, directamente
+[39:10] contra Uber Direct
+[39:12] la otra manera que tenemos es cuando
+[39:14] el delivery
+[39:17] es gestionado por
+[39:18] nuestro proveedor de última milla
+[39:21] que es Disfast Track
+[39:22] y ahí ellos son los
+[39:24] encargados de, a través de su integración
+[39:26] con Uber Direct
+[39:28] los parámetros que obviamente nosotros le pasamos
+[39:30] a ellos como ciertos
+[39:32] key values que necesita la integración
+[39:35] ellos son capaces de recuperar toda la data desde la API de WordDire.
+[39:44] No así es cuando, por ejemplo, la orden está creada desde WordEats o desde aplicaciones que llamamos agregadores,
+[39:54] que ahí ya tengo cero visibilidad del dato del cliente y tengo solamente los datos de la orden,
+[40:00] dirección, qué sé yo
+[40:02] el número de orden
+[40:05] y después
+[40:06] Uber como que me avisa
+[40:08] cuando la entrega, no hay ningún otro
+[40:11] tipo de interacción
+[40:12] que yo pueda ver
+[40:15] o guía desde la configuración
+[40:19] actual que tenemos, podría ser
+[40:20] polling a su app y estar consultando todo el rato
+[40:22] y en qué está este medio, pero lo que recibo
+[40:25] finalmente de manera
+[40:26] automatizada la integración
+[40:29] es que ya cuando se ocupa ocurre la entrega.
+[40:33] Perfecto. Muchas gracias.
+[40:36] Ahí mate si querés.
+[40:38] Sí, una consulta.
+[40:41] Esto de los tramos que van definiendo por atrás,
+[40:46] ¿le pega alguna solución de loyalty que tienen
+[40:50] o es más un custom que hicieron sobre el back office?
+[40:53] que lo veo como un beneficio con tiers
+[41:01] este trabajo en específico
+[41:05] tiene que ver con el delivery
+[41:07] es decir, con el monto
+[41:09] de tu orden
+[41:11] dependiendo de cuánto
+[41:13] sea el valor total de tu orden
+[41:15] va a ser el delivery que se va a cobrar finalmente
+[41:17] esto se lo informamos
+[41:19] al cliente
+[41:21] como parte del costo
+[41:23] total del pedido.
+[41:26] No es algo que
+[41:27] le traspasemos, por ejemplo, a Verdaire
+[41:29] con un tercero o un agregador
+[41:31] en el caso
+[41:33] de PIA, perdón, de pedido
+[41:35] ya y de Verdaire. Pero esto es
+[41:37] dependiendo solamente del
+[41:39] total de la orden
+[41:41] o del pedido que está haciendo el cliente.
+[41:44] Sí, o sea,
+[41:45] en el checkout al final
+[41:46] depende el valor, define si cobra
+[41:49] el servicio de libre o no de su parte
+[41:51] en su app.
+[41:53] Me imagino. Es más un cálculo al final del checkout.
+[41:57] Claro. Exacto.
+[41:59] Perfecto. Perfecto. Clarísimo. Muchas gracias.
+[42:02] Gracias.
+[42:06] Bueno, continuamos con la presentación.
+[42:12] Bueno, con estos ejemplos que les mostramos, la pregunta para el nuevo e-commerce es cómo vamos a representar el alcance global o por tienda
+[42:19] y cómo ahorrar la oferta, la disponibilidad y las condiciones de compra.
+[42:23] ¿qué necesita recibir en e-commerce
+[42:26] con estas configuraciones para que cada cliente
+[42:28] vea una opción válida en su tienda, canal
+[42:30] y momento?
+[42:33] Bueno
+[42:34] vamos cerrando ya
+[42:38] vimos los tres momentos del trabajo diario
+[42:40] vimos tres escenarios
+[42:41] con distintas aristas
+[42:43] configuramos las promociones
+[42:45] adaptamos una tienda
+[42:47] vimos o menos cuál es la operación
+[42:50] al día a día, cuáles son los puntos importantes
+[42:52] el tema del NPS
+[42:54] que agrega una señal para entender
+[42:55] cómo se está viviendo la experiencia
+[42:57] y bueno, la idea es que estos casos
+[43:00] le sirvan a ustedes como referencia
+[43:02] para poder definir lo que va a ser el nuevo e-commerce
+[43:05] para poder definir cómo va a ser el nuevo centro de comando
+[43:07] cómo van a resolver nuestra operación del día a día
+[43:11] nuestra operación real
+[43:12] ¿Tiene alguna otra consulta?
+[43:22] ¿Hay equipo? Me parece que no. Realmente está muy lindo lo que tienen armado. Gracias por esta presentación, por cómo lo llevaron a cabo. Muy interesante el back office que tienen.
+[43:39] Ahora entiendo por qué Rodrigo, cuando estuvieron acá en las oficinas, junto con Mauricio y el equipo extendido, estaba orgulloso un poco de las capacidades que habían hecho.
+[43:51] Así que nada, lo tomamos, entendemos perfectamente el alcance de esto y bueno, nos lo llevamos como equipo.
+[44:02] Perfecto, muchas gracias.
+[44:03] Muchas gracias.
+[44:05] Que tengan una excelente jornada.
+[44:07] Igualmente para ustedes.
+[44:08] Vamos hablando.
+[44:09] Gracias.
+[44:39] Gracias.
+[45:09] Gracias.
+[45:39] Gracias.
+[46:09] Gracias.
+[46:39] Gracias.
+[47:09] Gracias.
+[47:39] Gracias.

@@ -1,5 +1,7 @@
 # Storefront Next Template
 
+> **Demo Papa Johns Chile.** Traspaso técnico y documentación de la preventa en [preventa/README.md](preventa/README.md) (no se compila ni se despliega). Reconstruir el ambiente (sandbox, SLAS, BM, MRT): [AMBIENTE.md](AMBIENTE.md).
+
 A production-ready React storefront template for Salesforce B2C Commerce, built with React Router 7 and React 19.
 
 ## Prerequisites

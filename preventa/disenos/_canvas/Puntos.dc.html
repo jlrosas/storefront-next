@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Papa Puntos</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=Barlow:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 390px; height: 1900px; box-sizing: border-box; position: relative; overflow: hidden; background: #FFFBF5; font-family: 'Barlow', sans-serif; color: #1B1D1A">
+
+  <header style="background: #1E4D33; color: #FFFFFF; height: 60px; padding: 0 16px; display: flex; align-items: center; gap: 12px">
+    <a href="Home.dc.html" style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 19px; line-height: 0.9; letter-spacing: 0.5px; color: #FFFFFF; text-decoration: none">PAPA<br>JOHNS</a>
+    <span style="flex: 1"></span>
+    <a href="#" style="min-height: 44px; padding: 0 12px; color: #FFFFFF; font-weight: 600; display: flex; align-items: center; text-decoration: none">Ingresar</a>
+  </header>
+
+  <main style="display: flex; flex-direction: column; gap: 26px; padding-bottom: 96px">
+    <section style="background: #133423; color: #FFFFFF">
+      <img src="/_blob/c5a122356aef0a8af1efae4ed408fac8" alt="Porción de pizza con el queso estirándose" style="width: 100%; height: 220px; object-fit: cover; display: block">
+      <div style="padding: 18px 16px 22px; display: flex; flex-direction: column; gap: 10px">
+        <span style="align-self: flex-start; background: #D7EA4A; color: #133423; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 999px; text-transform: uppercase">Papa Puntos</span>
+        <h1 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 36px; text-transform: uppercase; line-height: 0.95">Cada pedido te devuelve puntos para pizza gratis</h1>
+        <p style="margin: 0; font-size: 16px; opacity: 0.9">Sin tarjetas ni trámites: los puntos se suman solos y los usas en tu carrito.</p>
+        <a href="#" style="min-height: 52px; border-radius: 999px; background: #D7EA4A; color: #133423; font-weight: 700; font-size: 17px; display: flex; align-items: center; justify-content: center; text-decoration: none; margin-top: 4px">Crear mi cuenta</a>
+      </div>
+    </section>
+
+    <section style="padding: 0 16px; display: flex; flex-direction: column; gap: 10px">
+      <h2 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 26px; text-transform: uppercase">Así funciona</h2>
+      <sc-for list="{{rules}}" as="r" hint-placeholder-count="3">
+        <div style="background: #FFFFFF; border-radius: 16px; padding: 14px 16px; display: flex; gap: 14px; align-items: center; box-shadow: 0 2px 8px rgba(60,30,10,0.06)">
+          <span style="width: 44px; height: 44px; border-radius: 999px; background: #EEF6C8; color: #133423; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 22px; display: flex; align-items: center; justify-content: center; flex-shrink: 0">{{r.n}}</span>
+          <div>
+            <div style="font-weight: 700; font-size: 17px">{{r.title}}</div>
+            <div style="font-size: 14px; color: #3E423C">{{r.text}}</div>
+          </div>
+        </div>
+      </sc-for>
+    </section>
+
+    <section style="margin: 0 16px; background: #FFFFFF; border-radius: 18px; padding: 18px 16px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 2px 10px rgba(60,30,10,0.08)">
+      <h2 style="margin: 0; font-size: 19px; font-weight: 700">¿Cuánto pides al mes?</h2>
+      <div role="radiogroup" aria-label="Gasto mensual" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
+        <sc-for list="{{spends}}" as="s" hint-placeholder-count="3">
+          <button type="button" role="radio" aria-checked="{{s.on}}" onClick="{{s.pick}}" style="{{s.style}}">{{s.label}}</button>
+        </sc-for>
+      </div>
+      <div style="background: #FFF3E6; border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 4px">
+        <div style="font-size: 14px; color: #7A3A12; font-weight: 700">Al mes ganas</div>
+        <div style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 34px; color: #133423; line-height: 1">{{monthPoints}} puntos <span style="font-size: 20px; color: #3E423C">= {{monthValue}}</span></div>
+        <div style="font-size: 15px; margin-top: 4px">{{monthsText}}</div>
+      </div>
+    </section>
+
+    <section style="display: flex; flex-direction: column; gap: 10px">
+      <h2 style="margin: 0 16px; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 26px; text-transform: uppercase">Canjéalos por</h2>
+      <div style="display: flex; gap: 12px; overflow-x: auto; padding: 0 16px 4px">
+        <sc-for list="{{rewards}}" as="w" hint-placeholder-count="3">
+          <div style="flex-shrink: 0; width: 200px; background: #FFFFFF; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 8px rgba(60,30,10,0.08)">
+            <img src="{{w.img}}" alt="{{w.name}}" style="width: 100%; height: 130px; object-fit: cover; display: block">
+            <div style="padding: 10px 12px 12px">
+              <div style="font-weight: 700; font-size: 15px">{{w.name}}</div>
+              <div style="font-size: 13px; color: #3E423C">{{w.size}}</div>
+              <div style="margin-top: 6px; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 24px; color: #1E4D33">{{w.points}} puntos</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin: 0 16px; display: flex; flex-direction: column; gap: 8px">
+      <h2 style="margin: 0; font-size: 18px; font-weight: 700">Preguntas frecuentes</h2>
+      <details style="background: #FFFFFF; border-radius: 12px; padding: 0 14px"><summary style="min-height: 48px; display: flex; align-items: center; font-weight: 600; cursor: pointer">¿Gano puntos si pido como invitado?</summary><p style="margin: 0 0 12px; font-size: 14px; color: #3E423C">Sí: al pagar marcas «Guarda tus Papa Puntos» y creamos tu cuenta con tu correo y celular.</p></details>
+      <details style="background: #FFFFFF; border-radius: 12px; padding: 0 14px"><summary style="min-height: 48px; display: flex; align-items: center; font-weight: 600; cursor: pointer">¿Puedo usarlos en delivery?</summary><p style="margin: 0 0 12px; font-size: 14px; color: #3E423C">Sí, en retiro y en delivery, en cualquier tienda.</p></details>
+    </section>
+  </main>
+
+  <nav aria-label="Principal" style="position: absolute; left: 0; right: 0; bottom: 0; height: 64px; background: #FFFFFF; border-top: 1px solid #E4E2DA; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); font-size: 11px">
+    <a href="Home.dc.html" style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #5A5F57; font-weight: 600; text-decoration: none"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11 12 4l9 7"></path><path d="M5 10v10h14V10"></path><path d="M10 20v-5h4v5"></path></svg><span>Inicio</span></a>
+    <a href="Menu.dc.html" style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #5A5F57; font-weight: 600; text-decoration: none"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 3.5 19.5c5.5 2 11.5 2 17 0L12 3z"></path><circle cx="10.5" cy="13" r="1.2"></circle><circle cx="13.8" cy="16.2" r="1.2"></circle><circle cx="12.2" cy="9.4" r="1"></circle></svg><span>Menú</span></a>
+    <a href="Ofertas.dc.html" style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #5A5F57; font-weight: 600; text-decoration: none"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 12.5 12.5 20.5a1.5 1.5 0 0 1-2.1 0L3.5 13.6V3.5h10.1l6.9 6.9a1.5 1.5 0 0 1 0 2.1z"></path><circle cx="8" cy="8" r="1.4"></circle></svg><span>Promos</span></a>
+    <a href="Pedido.dc.html" style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #5A5F57; font-weight: 600; text-decoration: none"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1.2 12.2H6.2z"></path><path d="M9 10V6.5a3 3 0 0 1 6 0V10"></path></svg><span>Pedido</span></a>
+    <a href="Puntos-Cuenta.dc.html" aria-current="page" style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #1E4D33; font-weight: 700; text-decoration: none"><span aria-hidden="true" style="position: absolute; top: 0; left: 25%; right: 25%; height: 3px; border-radius: 0 0 3px 3px; background: #1E4D33"></span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.6-4 4.6-6 8-6s6.4 2 8 6"></path></svg><span>Cuenta</span></a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1900}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { spend: 60000 };
+  }
+  renderVals() {
+    const fmt = (n) => '$' + String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    const spend = this.state.spend;
+    const pts = Math.floor(spend / 1000);
+    const months = Math.ceil(260 / pts);
+    return {
+      rules: [
+        { n: '1', title: 'Gana', text: '1 punto por cada $1.000 de compra, en retiro o delivery.' },
+        { n: '2', title: 'Acumula', text: 'Cada punto vale $50 cuando lo canjeas.' },
+        { n: '3', title: 'Canjea', text: 'Directo en tu carrito: la pizza queda en $0.' }
+      ],
+      spends: [30000, 60000, 100000].map((v) => {
+        const on = v === spend;
+        return { label: fmt(v), on, pick: () => this.setState({ spend: v }),
+          style: 'min-height: 46px; border-radius: 12px; cursor: pointer; font-family: \'Barlow\', sans-serif; font-size: 16px; font-weight: 700; ' +
+            (on ? 'background: #EEF6C8; color: #133423; border: 2px solid #1E4D33' : 'background: #FFFFFF; color: #1B1D1A; border: 2px solid #E4E2DA') };
+      }),
+      monthPoints: pts,
+      monthValue: fmt(pts * 50),
+      monthsText: months <= 1 ? 'Cada mes te alcanza para una Super Pepperoni mediana gratis.' : 'En ' + months + ' meses tienes una Super Pepperoni mediana gratis (260 puntos).',
+      rewards: [
+        { name: 'Super Pepperoni', size: 'Mediana', points: 260, img: '/_blob/31b1c48b16e1c46ab38ec585868503d0' },
+        { name: 'Boom de Jamón', size: 'Mediana', points: 218, img: '/_blob/c5a122356aef0a8af1efae4ed408fac8' },
+        { name: 'Napolitana Caprese', size: 'Mediana', points: 218, img: '/_blob/0c80c9ce8fac846ed48260d572444089' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

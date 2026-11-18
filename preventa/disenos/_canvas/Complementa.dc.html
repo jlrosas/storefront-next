@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Hazlo combo</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=Barlow:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; position: relative; overflow: hidden; background: #F7F6F1; font-family: 'Barlow', sans-serif; color: #1B1D1A">
+
+  <div aria-hidden="true" style="position: absolute; inset: 0; display: flex; flex-direction: column">
+    <div style="height: 60px; background: #1E4D33"></div>
+    <div style="padding: 16px"><div style="height: 128px; border-radius: 14px; background: #FFFFFF"></div></div>
+  </div>
+  <div aria-hidden="true" style="position: absolute; inset: 0; background: rgba(12,26,18,0.55)"></div>
+
+  <section role="dialog" aria-label="Hazlo combo" style="position: absolute; left: 0; right: 0; top: 40px; bottom: 0; background: #FFFBF5; border-radius: 20px 20px 0 0; display: flex; flex-direction: column; overflow: hidden">
+
+    <div style="padding: 12px 16px; display: flex; align-items: center; gap: 12px; background: #EEF6C8; border-bottom: 1px solid #DCE6A8" aria-live="polite">
+      <span style="width: 32px; height: 32px; border-radius: 999px; background: #1E4D33; color: #D7EA4A; display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"></path></svg>
+      </span>
+      <div style="flex: 1; min-width: 0">
+        <div style="font-weight: 700; font-size: 15px; color: #133423">Pollo BBQ agregada</div>
+        <div style="font-size: 13px; color: #3C4A33">Familiar · Tradicional · sin cebolla</div>
+      </div>
+      <a href="Sheet-Pizza.dc.html" style="font-size: 14px; font-weight: 700; color: #1E4D33; min-height: 44px; display: flex; align-items: center">Editar</a>
+    </div>
+
+    <div style="flex: 1; overflow-y: auto; padding: 14px 16px 8px; display: flex; flex-direction: column; gap: 16px">
+      <article style="{{comboCard}}">
+        <div style="position: relative">
+          <img src="/_blob/7fdbaf1dcc74125ff04d0a3659676441" alt="Pizza con Palitos de Ajo y Coca-Cola 1,5 L" style="width: 100%; height: 170px; object-fit: cover; display: block">
+          <span style="position: absolute; top: 10px; left: 10px; background: #B3261E; color: #FFFFFF; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px">Ahorras $2.490</span>
+        </div>
+        <div style="padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 8px">
+          <div style="font-size: 12px; font-weight: 700; color: #B3261E; text-transform: uppercase; letter-spacing: 0.5px">Hazlo combo</div>
+          <h2 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 26px; text-transform: uppercase; line-height: 1">Suma Palitos de Ajo y Coca-Cola 1,5 L</h2>
+          <div><span style="font-size: 24px; font-weight: 800; color: #B3261E">+$6.990</span> <span style="font-size: 14px; color: #5A5F57; text-decoration: line-through">$9.480 por separado</span></div>
+          <sc-if value="{{combo}}" hint-placeholder-val="{{false}}">
+            <div role="radiogroup" aria-label="Sabor de la bebida" style="display: flex; gap: 6px; flex-wrap: wrap">
+              <sc-for list="{{flavors}}" as="f" hint-placeholder-count="3">
+                <button type="button" role="radio" aria-checked="{{f.on}}" onClick="{{f.pick}}" style="{{f.style}}">{{f.label}}</button>
+              </sc-for>
+            </div>
+          </sc-if>
+          <button type="button" aria-pressed="{{combo}}" onClick="{{toggleCombo}}" style="{{comboBtn}}">{{comboLabel}}</button>
+        </div>
+      </article>
+
+      <div style="display: flex; flex-direction: column; gap: 2px">
+        <h3 style="margin: 0 0 4px; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: #5A5F57">O agrega por separado</h3>
+        <sc-for list="{{extras}}" as="it" hint-placeholder-count="3">
+          <div style="display: flex; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 1px solid #EFE6DA">
+            <img src="{{it.img}}" alt="{{it.name}}" style="width: 60px; height: 60px; border-radius: 10px; object-fit: cover; flex-shrink: 0">
+            <div style="flex: 1; min-width: 0">
+              <div style="font-weight: 700; font-size: 15px">{{it.name}}</div>
+              <div style="font-size: 12px; color: #3E423C">{{it.desc}}</div>
+              <div style="font-weight: 700; font-size: 14px">{{it.price}}</div>
+            </div>
+            <button type="button" aria-label="{{it.aria}}" aria-pressed="{{it.on}}" onClick="{{it.pick}}" style="{{it.btn}}">
+              <sc-if value="{{it.on}}" hint-placeholder-val="{{false}}">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"></path></svg>
+              </sc-if>
+              <sc-if value="{{it.off}}" hint-placeholder-val="{{true}}">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+              </sc-if>
+            </button>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <footer style="flex-shrink: 0; padding: 12px 16px 16px; border-top: 1px solid #E4E2DA; background: #FFFFFF; display: flex; flex-direction: column; gap: 6px">
+      <a href="Pedido.dc.html" style="height: 52px; border-radius: 999px; background: #1E4D33; color: #FFFFFF; text-decoration: none; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; font-weight: 700; font-size: 16px">
+        <span>{{cta}}</span>
+        <span>{{total}}</span>
+      </a>
+      <a href="Menu.dc.html" style="height: 44px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px; color: #1E4D33; text-decoration: none">No, gracias. Seguir viendo el menú</a>
+    </footer>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { combo: false, flavor: 'zero', picked: {} };
+  }
+  renderVals() {
+    const fmt = (n) => '$' + String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    const st = this.state;
+    const EXTRAS = [
+      { id: 'cheesy', name: 'Cheesyqueños', desc: 'Mozzarella fundida en masa de pizza', price: 4990, img: '/_blob/a723849e225ee5ee6428b8b0311a4bf6' },
+      { id: 'poppers', name: 'Chicken Poppers', desc: '12 trozos de pechuga apanada', price: 6990, img: '/_blob/fa5176c58dab2dea4fcd4627b5bd0f09' },
+      { id: 'brownie', name: 'Brownie', desc: 'Tibio, con chips de chocolate', price: 7990, img: '/_blob/a2a3411dcdb2d7f1bd5fac0ebc2be67f' }
+    ];
+    let total = 16900 + (st.combo ? 6990 : 0);
+    let count = 1 + (st.combo ? 2 : 0);
+    const extras = EXTRAS.map((e) => {
+      const on = !!st.picked[e.id];
+      if (on) { total += e.price; count += 1; }
+      return { ...e, on, off: !on, price: fmt(e.price), aria: (on ? 'Quitar ' : 'Agregar ') + e.name,
+        pick: () => this.setState({ picked: { ...st.picked, [e.id]: !on } }),
+        btn: 'width: 44px; height: 44px; border-radius: 999px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; ' +
+          (on ? 'background: #1E4D33; color: #FFFFFF; border: 0' : 'background: #FFFFFF; color: #1E4D33; border: 1.5px solid #1E4D33') };
+    });
+    const FLAVORS = [{ id: 'orig', label: 'Original' }, { id: 'zero', label: 'Sin azúcar' }, { id: 'light', label: 'Light' }];
+    return {
+      combo: st.combo,
+      toggleCombo: () => this.setState({ combo: !st.combo }),
+      comboLabel: st.combo ? 'Combo agregado · quitar' : 'Sí, hazlo combo',
+      comboBtn: 'min-height: 50px; border-radius: 999px; cursor: pointer; font-family: \'Barlow\', sans-serif; font-size: 16px; font-weight: 700; ' +
+        (st.combo ? 'background: #FFFFFF; color: #1E4D33; border: 1.5px solid #1E4D33' : 'background: #B3261E; color: #FFFFFF; border: 0'),
+      comboCard: 'background: #FFFFFF; border-radius: 18px; overflow: hidden; box-shadow: 0 2px 12px rgba(60,30,10,0.12); border: 2px solid ' + (st.combo ? '#1E4D33' : 'transparent'),
+      flavors: FLAVORS.map((f) => {
+        const on = f.id === st.flavor;
+        return { ...f, on, pick: () => this.setState({ flavor: f.id }),
+          style: 'min-height: 40px; padding: 0 14px; border-radius: 999px; cursor: pointer; font-family: \'Barlow\', sans-serif; font-size: 14px; font-weight: 600; ' +
+            (on ? 'background: #EEF6C8; color: #133423; border: 2px solid #1E4D33' : 'background: #FFFFFF; color: #1B1D1A; border: 2px solid #E4E2DA') };
+      }),
+      extras,
+      total: fmt(total),
+      cta: count > 1 ? 'Ver pedido (' + count + ')' : 'Ver pedido'
+    };
+  }
+}
+</script>
+</body>
+</html>

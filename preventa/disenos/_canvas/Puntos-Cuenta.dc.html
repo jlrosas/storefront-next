@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Mis Papa Puntos</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=Barlow:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 390px; height: 1300px; box-sizing: border-box; position: relative; overflow: hidden; background: #FFFBF5; font-family: 'Barlow', sans-serif; color: #1B1D1A">
+
+  <header style="height: 60px; background: #FFFFFF; border-bottom: 1px solid #E4E2DA; display: flex; align-items: center; gap: 8px; padding: 0 8px">
+    <a href="Home-Sofia.dc.html" aria-label="Volver" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #1B1D1A">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg>
+    </a>
+    <h1 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 24px; text-transform: uppercase">Mis Papa Puntos</h1>
+  </header>
+
+  <main style="padding: 16px 16px 96px; display: flex; flex-direction: column; gap: 16px">
+    <section style="background: #133423; color: #FFFFFF; border-radius: 20px; padding: 20px; display: flex; flex-direction: column; gap: 6px">
+      <div style="font-size: 14px; opacity: 0.85">Hola, Sofía. Tienes</div>
+      <div style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 56px; line-height: 1; color: #D7EA4A">{{balance}} puntos</div>
+      <div style="font-size: 17px; font-weight: 600">= {{balanceValue}} para canjear</div>
+      <div style="font-size: 13px; opacity: 0.8; margin-top: 4px">Ganas 1 punto por cada $1.000 · cada punto vale $50</div>
+    </section>
+
+    <section style="display: flex; flex-direction: column; gap: 10px">
+      <h2 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 26px; text-transform: uppercase">Ya puedes canjear</h2>
+      <sc-for list="{{rewards}}" as="w" hint-placeholder-count="3">
+        <div style="background: #FFFFFF; border-radius: 16px; overflow: hidden; display: flex; box-shadow: 0 2px 8px rgba(60,30,10,0.08)">
+          <img src="{{w.img}}" alt="{{w.name}}" style="width: 110px; object-fit: cover">
+          <div style="flex: 1; padding: 12px; display: flex; flex-direction: column; gap: 4px">
+            <div style="font-weight: 700; font-size: 16px">{{w.name}} mediana</div>
+            <div style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 22px; color: #1E4D33">{{w.points}} puntos</div>
+            <button type="button" aria-pressed="{{w.on}}" onClick="{{w.pick}}" style="{{w.btn}}">{{w.label}}</button>
+          </div>
+        </div>
+      </sc-for>
+      <p style="margin: 0; font-size: 13px; color: #5A5F57">Al canjear, la pizza aparece en tu próximo pedido a $0.</p>
+    </section>
+
+    <section style="background: #FFFFFF; border-radius: 16px; padding: 14px 16px; display: flex; flex-direction: column">
+      <h2 style="margin: 0 0 6px; font-size: 17px; font-weight: 700">Movimientos</h2>
+      <sc-for list="{{moves}}" as="m" hint-placeholder-count="4">
+        <div style="display: flex; align-items: center; gap: 10px; min-height: 52px; border-bottom: 1px solid #EFE6DA">
+          <div style="flex: 1">
+            <div style="font-size: 15px; font-weight: 600">{{m.what}}</div>
+            <div style="font-size: 13px; color: #5A5F57">{{m.when}}</div>
+          </div>
+          <div style="{{m.style}}">{{m.amount}}</div>
+        </div>
+      </sc-for>
+      <a href="Puntos.dc.html" style="min-height: 48px; display: flex; align-items: center; font-weight: 700; color: #1E4D33">Cómo funciona Papa Puntos</a>
+    </section>
+  </main>
+
+  <nav aria-label="Principal" style="position: absolute; left: 0; right: 0; bottom: 0; height: 64px; background: #FFFFFF; border-top: 1px solid #E4E2DA; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); font-size: 11px">
+    <a href="Home-Sofia.dc.html" style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #5A5F57; font-weight: 600; text-decoration: none"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11 12 4l9 7"></path><path d="M5 10v10h14V10"></path><path d="M10 20v-5h4v5"></path></svg><span>Inicio</span></a>
+    <a href="Menu.dc.html" style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #5A5F57; font-weight: 600; text-decoration: none"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 3.5 19.5c5.5 2 11.5 2 17 0L12 3z"></path><circle cx="10.5" cy="13" r="1.2"></circle><circle cx="13.8" cy="16.2" r="1.2"></circle><circle cx="12.2" cy="9.4" r="1"></circle></svg><span>Menú</span></a>
+    <a href="Ofertas.dc.html" style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #5A5F57; font-weight: 600; text-decoration: none"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 12.5 12.5 20.5a1.5 1.5 0 0 1-2.1 0L3.5 13.6V3.5h10.1l6.9 6.9a1.5 1.5 0 0 1 0 2.1z"></path><circle cx="8" cy="8" r="1.4"></circle></svg><span>Promos</span></a>
+    <a href="Puntos-Canje.dc.html" style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #5A5F57; font-weight: 600; text-decoration: none"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1.2 12.2H6.2z"></path><path d="M9 10V6.5a3 3 0 0 1 6 0V10"></path></svg><span>Pedido</span></a>
+    <a href="#" aria-current="page" style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #1E4D33; font-weight: 700; text-decoration: none"><span aria-hidden="true" style="position: absolute; top: 0; left: 25%; right: 25%; height: 3px; border-radius: 0 0 3px 3px; background: #1E4D33"></span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.6-4 4.6-6 8-6s6.4 2 8 6"></path></svg><span>Cuenta</span></a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1300}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { picked: null };
+  }
+  renderVals() {
+    const fmt = (n) => '$' + String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    const REW = [
+      { id: 'sp', name: 'Super Pepperoni', points: 260, img: '/_blob/31b1c48b16e1c46ab38ec585868503d0' },
+      { id: 'bj', name: 'Boom de Jamón', points: 218, img: '/_blob/c5a122356aef0a8af1efae4ed408fac8' },
+      { id: 'nc', name: 'Napolitana Caprese', points: 218, img: '/_blob/0c80c9ce8fac846ed48260d572444089' }
+    ];
+    const pickedItem = REW.find((r) => r.id === this.state.picked);
+    const balance = 340 - (pickedItem ? pickedItem.points : 0);
+    return {
+      balance,
+      balanceValue: fmt(balance * 50),
+      rewards: REW.map((r) => {
+        const on = r.id === this.state.picked;
+        return { ...r, on,
+          label: on ? '✓ En tu próximo pedido' : 'Canjear en mi próximo pedido',
+          pick: () => this.setState({ picked: on ? null : r.id }),
+          btn: 'align-self: flex-start; min-height: 42px; padding: 0 14px; border-radius: 999px; cursor: pointer; font-family: \'Barlow\', sans-serif; font-size: 14px; font-weight: 700; ' +
+            (on ? 'background: #EEF6C8; color: #133423; border: 2px solid #1E4D33' : 'background: #1E4D33; color: #FFFFFF; border: 0') };
+      }),
+      moves: [
+        { what: 'Pedido PJ-47110', when: '2 de octubre', amount: '+23', style: 'font-weight: 700; color: #1E6B3A' },
+        { what: 'Pedido PJ-46205', when: '18 de septiembre', amount: '+31', style: 'font-weight: 700; color: #1E6B3A' },
+        { what: 'Canje: Boom de Jamón mediana', when: '4 de septiembre', amount: '−218', style: 'font-weight: 700; color: #8A3B12' },
+        { what: 'Pedido PJ-45188', when: '28 de agosto', amount: '+24', style: 'font-weight: 700; color: #1E6B3A' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

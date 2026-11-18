@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Dashboard en vivo</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=Barlow:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#1E4D33}a:hover{color:#133423}
+</style>
+</helmet>
+<div style="width: 100%; min-height: 1000px; box-sizing: border-box; background: #F7F6F1; font-family: 'Barlow', sans-serif; color: #1B1D1A; padding: 24px">
+  <div style="max-width: 1240px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px">
+
+    <header style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px">
+      <div style="flex: 1; min-width: 280px">
+        <div style="font-size: 12px; font-weight: 700; color: #5A5F57; text-transform: uppercase; letter-spacing: 0.6px">Hoy · actualizado hace 30 s · datos de ejemplo + pedidos de la demo</div>
+        <h1 style="margin: 2px 0 0; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 40px; text-transform: uppercase; line-height: 1">Papa Johns en vivo</h1>
+      </div>
+      <div role="radiogroup" aria-label="Vista" style="display: flex; flex-wrap: wrap; gap: 4px; background: #E9E7DF; padding: 4px; border-radius: 12px">
+        <sc-for list="{{views}}" as="v" hint-placeholder-count="4">
+          <button type="button" role="radio" aria-checked="{{v.on}}" onClick="{{v.pick}}" style="{{v.style}}">{{v.label}}</button>
+        </sc-for>
+      </div>
+      <button type="button" onClick="{{addOrder}}" style="min-height: 44px; padding: 0 16px; border-radius: 10px; border: 1.5px dashed #5A5F57; background: #FFFFFF; color: #1B1D1A; font-family: 'Barlow', sans-serif; font-weight: 700; font-size: 14px; cursor: pointer">+ Pedido de la demo</button>
+    </header>
+
+    <section aria-label="Indicadores" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px">
+      <sc-for list="{{tiles}}" as="t" hint-placeholder-count="4">
+        <div style="background: #FFFFFF; border-radius: 16px; padding: 16px 18px; display: flex; flex-direction: column; gap: 4px">
+          <span style="font-size: 14px; font-weight: 600; color: #5A5F57">{{t.label}}</span>
+          <span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 40px; line-height: 1">{{t.value}}</span>
+          <span style="font-size: 13px; color: #3E423C">{{t.note}}</span>
+        </div>
+      </sc-for>
+    </section>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 14px; align-items: stretch">
+      <section aria-label="Pedidos por hora" style="flex: 1.6 1 520px; min-width: 0; background: #FFFFFF; border-radius: 16px; padding: 16px 18px; display: flex; flex-direction: column; gap: 10px">
+        <div style="display: flex; justify-content: space-between; align-items: baseline">
+          <h2 style="margin: 0; font-size: 17px; font-weight: 700">Pedidos por hora (web)</h2>
+          <span style="font-size: 13px; color: #3E423C">{{hoverText}}</span>
+        </div>
+        <div style="display: flex; gap: 10px">
+          <div aria-hidden="true" style="display: flex; flex-direction: column; justify-content: space-between; height: 200px; font-size: 12px; color: #5A5F57; text-align: right; width: 28px"><span>200</span><span>100</span><span>0</span></div>
+          <div style="flex: 1; display: flex; flex-direction: column; gap: 6px">
+            <div style="position: relative; height: 200px; display: flex; align-items: flex-end; gap: 2px; border-bottom: 1px solid #D5D3CA; background: linear-gradient(#EFEEE7, #EFEEE7) 0 50% / 100% 1px no-repeat">
+              <sc-for list="{{hours}}" as="h" hint-placeholder-count="12">
+                <button type="button" aria-label="{{h.aria}}" onMouseEnter="{{h.enter}}" onFocus="{{h.enter}}" onClick="{{h.enter}}" style="{{h.hit}}"><span style="{{h.bar}}"></span></button>
+              </sc-for>
+            </div>
+            <div aria-hidden="true" style="display: flex; gap: 2px; font-size: 12px; color: #5A5F57">
+              <sc-for list="{{hours}}" as="h" hint-placeholder-count="12"><span style="flex: 1; text-align: center">{{h.label}}</span></sc-for>
+            </div>
+          </div>
+        </div>
+        <span style="font-size: 12px; color: #5A5F57">La franja de las 20 y 21 h concentra la venta (peak). La barra marcada es la hora actual.</span>
+      </section>
+
+      <section aria-label="Alertas" style="flex: 1 1 340px; min-width: 0; background: #FFFFFF; border-radius: 16px; padding: 16px 18px; display: flex; flex-direction: column; gap: 10px">
+        <h2 style="margin: 0; font-size: 17px; font-weight: 700">Alertas para {{viewName}}</h2>
+        <sc-for list="{{alerts}}" as="a" hint-placeholder-count="3">
+          <div style="{{a.box}}">
+            <span style="{{a.badge}}">{{a.level}}</span>
+            <div style="display: flex; flex-direction: column; gap: 2px">
+              <strong style="font-size: 15px">{{a.title}}</strong>
+              <span style="font-size: 13px; color: #3E423C">{{a.body}}</span>
+            </div>
+          </div>
+        </sc-for>
+      </section>
+    </div>
+
+    <section aria-label="Embudo de hoy" style="background: #FFFFFF; border-radius: 16px; padding: 16px 18px; display: flex; flex-direction: column; gap: 10px">
+      <h2 style="margin: 0; font-size: 17px; font-weight: 700">Embudo de hoy (web)</h2>
+      <sc-for list="{{funnel}}" as="f" hint-placeholder-count="4">
+        <div style="display: grid; grid-template-columns: 180px 1fr 120px; gap: 12px; align-items: center; font-size: 14px">
+          <span style="font-weight: 600">{{f.label}}</span>
+          <span aria-hidden="true" style="height: 18px; background: #EFEEE7; border-radius: 0 4px 4px 0"><span style="{{f.bar}}"></span></span>
+          <span style="text-align: right"><strong>{{f.value}}</strong> <span style="color: #5A5F57">{{f.rate}}</span></span>
+        </div>
+      </sc-for>
+    </section>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1000}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { view: 'negocio', extra: 0, hover: null };
+  }
+  renderVals() {
+    const fmt = (n) => '$' + String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    const num = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    const st = this.state;
+    const orders = 1184 + st.extra;
+    const sales = 1184 * 15690 + st.extra * 23890;
+    const VIEWS = { negocio: 'Dirección y negocio', marketing: 'Marketing', operacion: 'Operaciones', sac: 'SAC' };
+    const TILES = {
+      negocio: [
+        { label: 'Ventas web de hoy', value: '$' + (sales / 1000000).toFixed(1).replace('.', ',') + ' M', note: 'Meta del día: $20 M' },
+        { label: 'Pedidos', value: num(orders), note: '+' + st.extra + ' de la demo' },
+        { label: 'Ticket promedio', value: fmt(sales / orders), note: 'Base del kit: $15.690' },
+        { label: 'Conversión web', value: '15,2%', note: 'Hoy ~14% · meta 18%' }
+      ],
+      marketing: [
+        { label: 'Sesiones de hoy', value: '7.790', note: 'Directo 40% · Paid 35% · Orgánico 15% · CRM 10%' },
+        { label: 'Pedidos desde CRM', value: '96', note: '8,1% de la venta · meta > 8%' },
+        { label: 'Carritos recuperados', value: '41', note: 'Mensaje M2 · WhatsApp y SMS' },
+        { label: 'Cross-selling', value: '29%', note: 'Hoy ~25% · meta 35%' }
+      ],
+      operacion: [
+        { label: 'Pedidos en curso', value: String(37 + st.extra), note: '22 retiro · 15 delivery' },
+        { label: 'A tiempo', value: '91%', note: 'Meta > 90%' },
+        { label: 'Tiendas cerradas', value: '1', note: 'Providencia (abre 12:00)' },
+        { label: 'Cancelaciones', value: '0,9%', note: 'Meta < 1,5%' }
+      ],
+      sac: [
+        { label: 'Casos abiertos', value: '6', note: '4 por opinión baja · 2 por demora' },
+        { label: 'Contacto SAC', value: '2,4%', note: 'Meta < 3%' },
+        { label: 'NPS de hoy', value: '62', note: 'Meta > 60' },
+        { label: 'Productos cancelados', value: '3', note: 'Con devolución y puntos' }
+      ]
+    };
+    const ALERTS = {
+      negocio: [['warn', 'Advertencia', 'El Bosque se atrasa 10 min', 'Alta demanda. El ETA ya se actualizó a los clientes.'], ['info', 'Info', 'Super Trío: 18% de los pedidos', 'La ocasión «Partido» empuja el ticket.']],
+      marketing: [['info', 'Info', 'M2 recuperó 41 carritos', 'Tasa de clic 6,3% en WhatsApp.'], ['warn', 'Advertencia', 'Box Halloween vence el 2 de noviembre', 'Programar el hero de reemplazo en Page Designer.']],
+      operacion: [['crit', 'Crítico', 'Providencia cerrada', 'Los pedidos de su zona se ofrecen en El Bosque o programados.'], ['warn', 'Advertencia', 'El Bosque +10 min', 'Revisar dotación en cocina.']],
+      sac: [['crit', 'Crítico', 'Opinión de 1 estrella · PJ-48190', 'Caso abierto automáticamente con el pedido adjunto.'], ['info', 'Info', 'Bebida cancelada · PJ-48213', 'Devolución $2.490 y 50 puntos ya aplicados.']]
+    };
+    const LV = {
+      crit: { bg: '#FBE3E1', bd: '#B3261E', fg: '#FFFFFF', bbg: '#B3261E' },
+      warn: { bg: '#FFF3E6', bd: '#C9906F', fg: '#3B1D06', bbg: '#E8A33D' },
+      info: { bg: '#EEF6C8', bd: '#B9CF6A', fg: '#FFFFFF', bbg: '#1E4D33' }
+    };
+    const HOURS = [[12, 62], [13, 70], [14, 41], [15, 28], [16, 30], [17, 44], [18, 88], [19, 150], [20, 196], [21, 182], [22, 96], [23, 40]];
+    const now = 20;
+    return {
+      viewName: VIEWS[st.view],
+      views: Object.keys(VIEWS).map((k) => ({ label: VIEWS[k], on: k === st.view, pick: () => this.setState({ view: k }),
+        style: 'min-height: 40px; padding: 0 14px; border-radius: 9px; border: 0; cursor: pointer; font-family: \'Barlow\', sans-serif; font-size: 14px; font-weight: 700; ' +
+          (k === st.view ? 'background: #1E4D33; color: #FFFFFF' : 'background: transparent; color: #3E423C') })),
+      addOrder: () => this.setState({ extra: st.extra + 1 }),
+      tiles: TILES[st.view],
+      alerts: ALERTS[st.view].map(([lv, level, title, body]) => ({ level, title, body,
+        box: 'display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border-radius: 12px; background: ' + LV[lv].bg + '; border: 1px solid ' + LV[lv].bd,
+        badge: 'flex-shrink: 0; font-size: 11px; font-weight: 800; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; background: ' + LV[lv].bbg + '; color: ' + LV[lv].fg })),
+      hoverText: st.hover ? st.hover : 'Pasa el cursor por una barra',
+      hours: HOURS.map(([h, v]) => {
+        const val = v + (h === now ? st.extra : 0);
+        return { label: h + ' h', aria: h + ':00, ' + val + ' pedidos',
+          enter: () => this.setState({ hover: h + ':00 · ' + val + ' pedidos' }),
+          hit: 'flex: 1; height: 100%; display: flex; align-items: flex-end; padding: 0; border: 0; background: transparent; cursor: pointer',
+          bar: 'display: block; width: 100%; height: ' + Math.min(100, val / 2) + '%; border-radius: 4px 4px 0 0; background: ' + (h === now ? '#1E4D33' : '#8DB59B') };
+      }),
+      funnel: [
+        ['Sesiones', 7790, ''], ['Vieron un producto', 4120, '53%'], ['Agregaron al carro', 2010, '49%'], ['Iniciaron el pago', 1310, '65%'], ['Pagaron', orders, Math.round(orders / 1310 * 100) + '%']
+      ].map(([label, v, rate]) => ({ label, value: num(v), rate, bar: 'display: block; height: 100%; border-radius: 0 4px 4px 0; background: #1E4D33; width: ' + (v / 7790 * 100).toFixed(1) + '%' }))
+    };
+  }
+}
+</script>
+</body>
+</html>

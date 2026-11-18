@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Ingresar con código · escritorio</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=Barlow:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 100%; height: 820px; box-sizing: border-box; position: relative; overflow: hidden; background: #FFFBF5; font-family: 'Barlow', sans-serif; color: #1B1D1A">
+
+  <header aria-hidden="true" style="background: #1E4D33; color: #FFFFFF">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px; height: 68px; display: flex; align-items: center; gap: 28px">
+      <span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 22px; line-height: 0.9">PAPA<br>JOHNS</span>
+      <span style="font-weight: 600">Menú</span><span style="font-weight: 600">Promos</span><span style="font-weight: 600">Papa Puntos</span>
+      <span style="flex: 1"></span>
+      <span style="font-weight: 600">Ingresar</span>
+    </div>
+  </header>
+  <div aria-hidden="true" style="max-width: 1200px; margin: 0 auto; padding: 28px 24px; display: flex; gap: 24px">
+    <div style="flex: 1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px">
+      <div style="height: 300px; border-radius: 16px; background: #FFFFFF"></div>
+      <div style="height: 300px; border-radius: 16px; background: #FFFFFF"></div>
+      <div style="height: 300px; border-radius: 16px; background: #FFFFFF"></div>
+      <div style="height: 300px; border-radius: 16px; background: #FFFFFF"></div>
+      <div style="height: 300px; border-radius: 16px; background: #FFFFFF"></div>
+      <div style="height: 300px; border-radius: 16px; background: #FFFFFF"></div>
+    </div>
+    <div style="width: 320px; height: 520px; border-radius: 18px; background: #FFFFFF"></div>
+  </div>
+  <div aria-hidden="true" style="position: absolute; inset: 0; background: rgba(19,52,35,0.55)"></div>
+
+  <section role="dialog" aria-modal="true" aria-labelledby="login-d-title" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 820px; max-width: calc(100% - 48px); background: #FFFFFF; border-radius: 22px; overflow: hidden; display: flex; box-shadow: 0 24px 60px rgba(0,0,0,0.3)">
+    <aside style="flex: 0 0 320px; background: #133423; color: #FFFFFF; padding: 28px; display: flex; flex-direction: column; gap: 14px">
+      <span style="font-size: 12px; font-weight: 700; color: #D7EA4A; text-transform: uppercase; letter-spacing: 0.5px">Tu pedido queda guardado</span>
+      <sc-for list="{{lines}}" as="l" hint-placeholder-count="2">
+        <div style="display: flex; gap: 12px; align-items: center">
+          <img src="{{l.img}}" alt="" style="width: 56px; height: 56px; border-radius: 10px; object-fit: cover">
+          <span style="flex: 1; display: flex; flex-direction: column">
+            <span style="font-weight: 700; font-size: 15px">{{l.name}}</span>
+            <span style="font-size: 13px; opacity: 0.8">{{l.detail}}</span>
+          </span>
+        </div>
+      </sc-for>
+      <span style="flex: 1"></span>
+      <div style="border-top: 1px solid rgba(255,255,255,0.2); padding-top: 14px; display: flex; flex-direction: column; gap: 4px">
+        <span style="display: flex; justify-content: space-between; font-size: 20px; font-weight: 800"><span>Total</span><span>$23.890</span></span>
+        <span style="font-size: 14px; opacity: 0.85">Retiro en El Bosque · listo en 15 min</span>
+      </div>
+    </aside>
+
+    <div style="flex: 1; min-width: 0; padding: 28px 32px 32px; display: flex; flex-direction: column; gap: 18px">
+      <div style="display: flex; align-items: center; gap: 8px">
+        <sc-if value="{{canBack}}" hint-placeholder-val="{{false}}">
+          <button type="button" onClick="{{back}}" aria-label="Volver" style="width: 40px; height: 40px; border: 0; background: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #1B1D1A">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg>
+          </button>
+        </sc-if>
+        <h1 id="login-d-title" style="margin: 0; flex: 1; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 34px; text-transform: uppercase; line-height: 1">{{title}}</h1>
+        <a href="Menu-Desktop.dc.html" aria-label="Cerrar" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; color: #5A5F57">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+        </a>
+      </div>
+      <div aria-hidden="true" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px">
+        <sc-for list="{{progress}}" as="p" hint-placeholder-count="3">
+          <span style="{{p}}"></span>
+        </sc-for>
+      </div>
+
+      <sc-if value="{{isPhone}}" hint-placeholder-val="{{true}}">
+        <div style="display: flex; flex-direction: column; gap: 16px">
+          <p style="margin: 0; font-size: 17px; line-height: 1.4; color: #3E423C">Ingresa con tu celular. Te enviamos un código: <strong>sin contraseña</strong>.</p>
+          <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600; color: #3E423C">Celular
+            <span style="display: flex; align-items: center; height: 56px; border-radius: 12px; border: 2px solid #1E4D33; overflow: hidden">
+              <span style="padding: 0 14px; height: 100%; display: flex; align-items: center; background: #F4F3EE; font-size: 18px; color: #1B1D1A">+56</span>
+              <input type="tel" inputmode="tel" autocomplete="tel-national" value="9 8765 4321" style="flex: 1; min-width: 0; height: 100%; border: 0; padding: 0 14px; font-family: 'Barlow', sans-serif; font-size: 18px; color: #1B1D1A; outline: none">
+            </span>
+          </label>
+          <div style="display: flex; gap: 12px; align-items: center">
+            <button type="button" onClick="{{send}}" style="flex: 1; height: 56px; border-radius: 999px; border: 0; background: #1E4D33; color: #FFFFFF; font-family: 'Barlow', sans-serif; font-weight: 700; font-size: 17px; cursor: pointer">Enviarme el código</button>
+            <button type="button" style="min-height: 48px; padding: 0 12px; border: 0; background: none; font-family: 'Barlow', sans-serif; font-weight: 700; font-size: 15px; color: #1E4D33; cursor: pointer">Usar mi correo</button>
+          </div>
+          <div style="border-top: 1px solid #EFEEE7; padding-top: 12px; display: flex; justify-content: space-between; gap: 8px; font-size: 13px; color: #5A5F57">
+            <span>¿Prefieres no crear cuenta?</span>
+            <a href="Checkout-Invitado.dc.html" style="font-weight: 700; color: #5A5F57">Seguir sin cuenta</a>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{isCode}}" hint-placeholder-val="{{false}}">
+        <div style="display: flex; flex-direction: column; gap: 16px">
+          <p style="margin: 0; font-size: 17px; line-height: 1.4; color: #3E423C">Te lo enviamos por SMS al <strong>+56 9 8765 4321</strong>.</p>
+          <div role="group" aria-label="Código de 6 dígitos" style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px">
+            <sc-for list="{{digits}}" as="d" hint-placeholder-count="6">
+              <span style="{{d.style}}">{{d.v}}</span>
+            </sc-for>
+          </div>
+          <button type="button" onClick="{{verify}}" style="height: 56px; border-radius: 999px; border: 0; background: #1E4D33; color: #FFFFFF; font-family: 'Barlow', sans-serif; font-weight: 700; font-size: 17px; cursor: pointer">Confirmar</button>
+          <div style="display: flex; justify-content: space-between; font-size: 14px; color: #5A5F57">
+            <span>¿No te llegó? Reenviar en 0:24</span>
+            <button type="button" onClick="{{back}}" style="border: 0; background: none; padding: 0; font-family: 'Barlow', sans-serif; font-weight: 700; font-size: 14px; color: #1E4D33; cursor: pointer">Cambiar número</button>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{isDone}}" hint-placeholder-val="{{false}}">
+        <div style="display: flex; flex-direction: column; gap: 16px">
+          <div style="background: #EEF6C8; color: #133423; border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 6px">
+            <span style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px">Tienes 40 Papa Puntos</span>
+            <span style="font-size: 20px; font-weight: 700; line-height: 1.3">Este pedido suma 46 puntos: dobles por volver.</span>
+            <span style="font-size: 14px">Con 218 puntos canjeas una pizza mediana.</span>
+          </div>
+          <p style="margin: 0; font-size: 15px; color: #3E423C">Tus datos ya están en el pago.</p>
+          <a href="Checkout-Desktop.dc.html" style="height: 56px; border-radius: 999px; background: #1E4D33; color: #FFFFFF; text-decoration: none; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; font-weight: 700; font-size: 17px"><span>Seguir al pago</span><span>$23.890</span></a>
+        </div>
+      </sc-if>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":820}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { step: 'phone' };
+  }
+  renderVals() {
+    const step = this.state.step;
+    const idx = step === 'phone' ? 0 : step === 'code' ? 1 : 2;
+    const CODE = ['4', '8', '2', '9', '1', '3'];
+    return {
+      isPhone: step === 'phone', isCode: step === 'code', isDone: step === 'done',
+      canBack: step === 'code',
+      title: step === 'phone' ? 'Ingresa para pagar' : step === 'code' ? 'Escribe el código' : '¡Hola de nuevo, Valentina!',
+      progress: [0, 1, 2].map((i) => 'height: 6px; border-radius: 999px; background: ' + (i < idx ? '#1E4D33' : i === idx ? '#D7EA4A' : '#E4E2DA')),
+      send: () => this.setState({ step: 'code' }),
+      verify: () => this.setState({ step: 'done' }),
+      back: () => this.setState({ step: 'phone' }),
+      lines: [
+        { name: 'Pollo BBQ', detail: 'Familiar · Tradicional · sin cebolla', img: '/_blob/a0f8034a00f2ee7f9ac16bae53dbf532' },
+        { name: 'Combo Palitos y bebida', detail: 'Palitos de Ajo + Coca-Cola Sin azúcar 1,5 L', img: '/_blob/7fdbaf1dcc74125ff04d0a3659676441' }
+      ],
+      digits: CODE.map((v) => ({ v, style: 'height: 64px; border-radius: 12px; border: 2px solid #1E4D33; background: #FFFFFF; display: flex; align-items: center; justify-content: center; font-family: \'Barlow Condensed\', sans-serif; font-weight: 800; font-size: 32px; color: #133423' }))
+    };
+  }
+}
+</script>
+</body>
+</html>

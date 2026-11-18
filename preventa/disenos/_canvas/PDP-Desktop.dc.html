@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Pollo BBQ · ficha escritorio</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=Barlow:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#1E4D33}a:hover{color:#133423}
+@keyframes pjKenBurns{from{transform:scale(1) translate(0,0)}to{transform:scale(1.1) translate(-2%,-2%)}}
+@keyframes pjPop{0%{transform:scale(1)}40%{transform:scale(1.45)}100%{transform:scale(1)}}
+@keyframes pjIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@media (prefers-reduced-motion: reduce){.pj-anim{animation:none!important}}
+</style>
+</helmet>
+<div style="width: 100%; min-height: 1980px; box-sizing: border-box; position: relative; background: #FFFBF5; font-family: 'Barlow', sans-serif; color: #1B1D1A">
+
+  <header style="background: #1E4D33; color: #FFFFFF">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px; min-height: 72px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px">
+      <div style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 22px; line-height: 0.9; letter-spacing: 0.5px">PAPA<br>JOHNS</div>
+      <nav aria-label="Principal" style="display: flex; flex-wrap: wrap; gap: 4px 22px; font-weight: 600; font-size: 15px">
+        <a href="Menu-Desktop.dc.html" style="color: #FFFFFF; text-decoration: none; padding: 10px 0; border-bottom: 3px solid #D7EA4A">Menú</a>
+        <a href="#" style="color: #FFFFFF; text-decoration: none; padding: 10px 0">Promos</a>
+        <a href="#" style="color: #FFFFFF; text-decoration: none; padding: 10px 0">Papa Puntos</a>
+        <a href="#" style="color: #FFFFFF; text-decoration: none; padding: 10px 0">Locales</a>
+      </nav>
+      <div style="flex: 1"></div>
+      <button type="button" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: #FFFFFF; border-radius: 10px; min-height: 44px; padding: 4px 14px; text-align: left; cursor: pointer; font-family: 'Barlow', sans-serif">
+        <div style="font-size: 12px; opacity: 0.85">Retiro · listo en 15 min</div>
+        <div style="font-size: 14px; font-weight: 700">El Bosque</div>
+      </button>
+      <a href="Carrito-Desktop.dc.html" style="position: relative; min-height: 44px; padding: 0 16px; border-radius: 10px; background: #D7EA4A; color: #133423; display: flex; align-items: center; gap: 8px; font-weight: 700; text-decoration: none">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.5"></circle><circle cx="18" cy="20" r="1.5"></circle><path d="M2 3h3l2.7 12.4a2 2 0 0 0 2 1.6h7.6a2 2 0 0 0 2-1.5L21 8H6"></path></svg>
+        Mi pedido
+        <sc-if value="{{added}}" hint-placeholder-val="{{false}}">
+          <span class="pj-anim" style="min-width: 22px; height: 22px; padding: 0 6px; box-sizing: border-box; border-radius: 999px; background: #B3261E; color: #FFFFFF; font-size: 12px; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; animation: pjPop 0.5s ease-out 0.2s both">1</span>
+        </sc-if>
+      </a>
+    </div>
+  </header>
+
+  <sc-if value="{{added}}" hint-placeholder-val="{{false}}">
+    <div class="pj-anim" role="status" style="position: fixed; right: 24px; top: 84px; z-index: 2; width: 360px; background: #133423; color: #FFFFFF; border-radius: 16px; padding: 14px; display: flex; gap: 12px; align-items: center; box-shadow: 0 10px 28px rgba(0,0,0,0.25); animation: pjIn 0.35s ease-out both">
+      <img src="/_blob/a0f8034a00f2ee7f9ac16bae53dbf532" alt="" style="width: 56px; height: 56px; border-radius: 12px; object-fit: cover">
+      <div style="flex: 1; display: flex; flex-direction: column; gap: 2px">
+        <strong style="font-size: 16px">¡Agregada a tu pedido!</strong>
+        <span style="font-size: 14px; color: #D7EA4A">+{{points}} Papa Puntos por acreditar</span>
+        <a href="Carrito-Desktop.dc.html" style="color: #FFFFFF; font-weight: 700; font-size: 14px">Ver mi pedido</a>
+      </div>
+      <button type="button" onClick="{{undo}}" style="min-height: 40px; padding: 0 12px; border-radius: 999px; border: 1.5px solid rgba(255,255,255,0.5); background: transparent; color: #FFFFFF; font-family: 'Barlow', sans-serif; font-weight: 700; cursor: pointer">Deshacer</button>
+    </div>
+  </sc-if>
+
+  <main style="max-width: 1200px; margin: 0 auto; padding: 16px 24px 48px; display: flex; flex-direction: column; gap: 32px">
+    <nav aria-label="Ruta" style="font-size: 14px; color: #5A5F57; display: flex; gap: 6px">
+      <a href="Menu-Desktop.dc.html">Menú</a><span aria-hidden="true">/</span><a href="Menu-Desktop.dc.html">Pizzas</a><span aria-hidden="true">/</span><span>Pollo BBQ</span>
+    </nav>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start">
+      <div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+        <div style="position: relative; width: 100%; aspect-ratio: 5 / 4; border-radius: 18px; overflow: hidden; background: #2A1A10">
+          <img class="pj-anim" src="/_blob/a0f8034a00f2ee7f9ac16bae53dbf532" alt="Porción de Pollo BBQ con el queso estirándose" style="{{heroStyle}}">
+          <span style="position: absolute; left: 14px; top: 14px; display: inline-flex; align-items: center; gap: 6px; background: rgba(12,26,18,0.72); color: #FFFFFF; font-size: 13px; font-weight: 700; padding: 6px 12px; border-radius: 999px">
+            Recién salida del horno
+          </span>
+          <div style="position: absolute; right: 14px; bottom: 14px; display: flex; gap: 8px">
+            <button type="button" aria-label="{{playAria}}" onClick="{{togglePlay}}" style="width: 48px; height: 48px; border-radius: 999px; border: 0; background: rgba(255,255,255,0.92); color: #1B1D1A; cursor: pointer; display: flex; align-items: center; justify-content: center">
+              <sc-if value="{{playing}}" hint-placeholder-val="{{true}}">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"></path></svg>
+              </sc-if>
+              <sc-if value="{{paused}}" hint-placeholder-val="{{false}}">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg>
+              </sc-if>
+            </button>
+            <button type="button" aria-label="{{zoomAria}}" aria-pressed="{{zoom}}" onClick="{{toggleZoom}}" style="width: 48px; height: 48px; border-radius: 999px; border: 0; background: rgba(255,255,255,0.92); color: #1B1D1A; cursor: pointer; display: flex; align-items: center; justify-content: center">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5M8 11h6"></path><path d="{{zoomPlus}}"></path></svg>
+            </button>
+          </div>
+        </div>
+        <div style="background: #FFFFFF; border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 6px">
+          <h2 style="margin: 0; font-size: 16px; font-weight: 700">Lleva</h2>
+          <p style="margin: 0; font-size: 15px; color: #3E423C; line-height: 1.5">Queso mozzarella, pollo, tocino, cebolla y salsa BBQ.</p>
+        </div>
+      </div>
+
+      <div style="flex: 1 1 440px; min-width: 0; background: #FFFFFF; border-radius: 18px; padding: 24px; display: flex; flex-direction: column; gap: 20px">
+        <div style="display: flex; flex-direction: column; gap: 8px">
+          <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center">
+            <span style="background: #D7EA4A; color: #133423; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 999px; text-transform: uppercase">Más vendida</span>
+            <span style="display: inline-flex; align-items: center; gap: 4px; background: #FBE9D7; color: #7A3A12; font-size: 13px; font-weight: 700; padding: 3px 10px; border-radius: 999px">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"></path><path d="M14 7h7v7"></path></svg>
+              Pedida 320 veces esta semana
+            </span>
+          </div>
+          <h1 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 48px; text-transform: uppercase; line-height: 1">Pollo BBQ</h1>
+          <a href="#opiniones" style="align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; min-height: 32px; color: #1B1D1A; text-decoration: none; font-size: 15px">
+            <span role="img" aria-label="4,7 de 5 estrellas" style="color: #8F5400; font-weight: 700; letter-spacing: 1px">★★★★★</span>
+            <strong>4,7</strong><span style="color: #3E423C; text-decoration: underline">1.240 opiniones</span>
+          </a>
+          <p style="margin: 0; font-size: 16px; color: #3E423C; line-height: 1.45">Pollo jugoso y tocino crujiente sobre salsa BBQ ahumada, con cebolla y mozzarella que se estira en cada porción.</p>
+          <ul aria-label="Destacados" style="margin: 4px 0 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+            <li style="background: #FFFBF5; border: 1px solid #EFE6DA; border-radius: 12px; padding: 9px 12px; font-size: 14px; font-weight: 600">{{people}}</li>
+            <li style="background: #FFFBF5; border: 1px solid #EFE6DA; border-radius: 12px; padding: 9px 12px; font-size: 14px; font-weight: 600">Lista en 15 min en El Bosque</li>
+            <li style="background: #FFFBF5; border: 1px solid #EFE6DA; border-radius: 12px; padding: 9px 12px; font-size: 14px; font-weight: 600; color: #1E6B3A">✓ Disponible hoy en El Bosque</li>
+            <li style="background: #EEF6C8; border: 1px solid #D9E7A0; border-radius: 12px; padding: 9px 12px; font-size: 14px; font-weight: 700; color: #133423">Ganas {{points}} Papa Puntos</li>
+          </ul>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 10px">
+          <h2 style="margin: 0; font-size: 17px; font-weight: 700">Tamaño</h2>
+          <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px">
+            <sc-for list="{{sizes}}" as="s" hint-placeholder-count="3">
+              <button type="button" aria-pressed="{{s.on}}" onClick="{{s.pick}}" style="{{s.style}}">
+                <span style="font-weight: 700; font-size: 16px">{{s.label}}</span>
+                <span style="font-size: 13px; color: #5A5F57">{{s.slices}}</span>
+                <span style="font-weight: 700; font-size: 15px">{{s.price}}</span>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 10px">
+          <h2 style="margin: 0; font-size: 17px; font-weight: 700">Masa</h2>
+          <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+            <sc-for list="{{crusts}}" as="c" hint-placeholder-count="4">
+              <button type="button" aria-pressed="{{c.on}}" onClick="{{c.pick}}" style="{{c.style}}">
+                <span style="font-size: 15px; font-weight: 700">{{c.label}}</span>
+                <span style="{{c.priceStyle}}">{{c.price}}</span>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 10px">
+          <div style="display: flex; justify-content: space-between; align-items: baseline">
+            <h2 style="margin: 0; font-size: 17px; font-weight: 700">Ingredientes</h2>
+            <span style="font-size: 13px; color: #5A5F57">Toca para quitar · agrega a {{extraPrice}} c/u</span>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px">
+            <sc-for list="{{base}}" as="b" hint-placeholder-count="5">
+              <button type="button" aria-pressed="{{b.on}}" onClick="{{b.pick}}" style="{{b.style}}"><img src="{{b.img}}" alt="" style="{{b.imgStyle}}">{{b.label}}</button>
+            </sc-for>
+            <sc-for list="{{extras}}" as="e" hint-placeholder-count="6">
+              <button type="button" aria-pressed="{{e.on}}" aria-disabled="{{e.out}}" onClick="{{e.pick}}" style="{{e.style}}"><img src="{{e.img}}" alt="" style="{{e.imgStyle}}">{{e.label}}</button>
+            </sc-for>
+          </div>
+          <p style="margin: 0; font-size: 13px; color: #8A3B12; background: #FFF3E6; border-radius: 10px; padding: 8px 10px">El champiñón se agotó hoy en El Bosque. Si lo buscabas, el <strong>choclo</strong> es el más pedido como reemplazo.</p>
+        </div>
+
+        <div style="border-top: 1px solid #E4E2DA; padding-top: 16px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px">
+          <div style="flex: 1 1 200px; min-width: 0; font-size: 14px; color: #5A5F57">{{summary}}</div>
+          <sc-if value="{{notAdded}}" hint-placeholder-val="{{true}}">
+            <button type="button" onClick="{{add}}" style="flex: 1 1 260px; height: 56px; border: 0; border-radius: 999px; background: #1E4D33; color: #FFFFFF; cursor: pointer; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; font-family: 'Barlow', sans-serif; font-weight: 700; font-size: 17px">
+              <span>{{cta}}</span>
+              <span>{{total}}</span>
+            </button>
+          </sc-if>
+          <sc-if value="{{added}}" hint-placeholder-val="{{false}}">
+            <a href="Carrito-Desktop.dc.html" style="flex: 1 1 260px; height: 56px; border-radius: 999px; background: #D7EA4A; color: #133423; text-decoration: none; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; font-weight: 700; font-size: 17px">
+              <span>Ver mi pedido</span>
+              <span>{{total}}</span>
+            </a>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+
+    <section style="display: flex; flex-direction: column; gap: 14px">
+      <div>
+        <h2 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 32px; text-transform: uppercase">Completa tu pedido</h2>
+        <p style="margin: 2px 0 0; font-size: 15px; color: #5A5F57">Márcalos y se agregan junto con tu pizza.</p>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px">
+        <sc-for list="{{sides}}" as="it" hint-placeholder-count="5">
+          <div style="{{it.card}}">
+            <img src="{{it.img}}" alt="{{it.name}}" style="width: 100%; height: 140px; object-fit: cover; border-radius: 10px; background: #EFEEE7">
+            <div style="font-weight: 700; font-size: 16px">{{it.name}}</div>
+            <div style="display: flex; align-items: center; justify-content: space-between">
+              <span style="font-weight: 700; font-size: 15px">{{it.price}}</span>
+              <button type="button" aria-pressed="{{it.on}}" onClick="{{it.pick}}" style="{{it.btn}}">{{it.btnLabel}}</button>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start">
+      <section id="opiniones" aria-label="Opiniones" style="flex: 1.4 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+        <div style="display: flex; justify-content: space-between; align-items: baseline">
+          <h2 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 32px; text-transform: uppercase">Lo que dicen</h2>
+        </div>
+        <div style="display: flex; gap: 20px; align-items: center; background: #FFFFFF; border-radius: 16px; padding: 16px 20px">
+          <div style="display: flex; flex-direction: column; align-items: center">
+            <div style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 60px; line-height: 1">4,7</div>
+            <div style="font-size: 13px; color: #5A5F57">1.240 opiniones</div>
+          </div>
+          <div style="flex: 1; display: flex; flex-direction: column; gap: 5px">
+            <sc-for list="{{dist}}" as="d" hint-placeholder-count="5">
+              <div style="display: flex; align-items: center; gap: 10px; font-size: 13px; color: #3E423C">
+                <span style="width: 12px">{{d.n}}</span>
+                <span aria-hidden="true" style="flex: 1; height: 8px; border-radius: 999px; background: #EFEEE7; overflow: hidden"><span style="{{d.bar}}"></span></span>
+                <span style="width: 34px; text-align: right">{{d.pct}}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px">
+          <sc-for list="{{reviews}}" as="r" hint-placeholder-count="2">
+            <article style="background: #FFFFFF; border-radius: 14px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px">
+              <div style="display: flex; justify-content: space-between; font-size: 14px"><strong>{{r.who}}</strong><span style="color: #5A5F57">{{r.when}}</span></div>
+              <div style="font-size: 14px; font-weight: 700; color: #8F5400">{{r.stars}}</div>
+              <p style="margin: 0; font-size: 15px; line-height: 1.45; color: #3E423C">{{r.text}}</p>
+              <span style="font-size: 13px; color: #1E6B3A; font-weight: 600">Compra verificada · {{r.order}}</span>
+            </article>
+          </sc-for>
+        </div>
+      </section>
+
+      <section style="flex: 1 1 340px; min-width: 0; display: flex; flex-direction: column; gap: 4px">
+        <h2 style="margin: 0 0 8px; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 32px; text-transform: uppercase">Preguntas frecuentes</h2>
+        <details style="border-bottom: 1px solid #E4E2DA">
+          <summary style="min-height: 52px; display: flex; align-items: center; font-weight: 700; font-size: 16px; cursor: pointer">¿Para cuántas personas alcanza?</summary>
+          <p style="margin: 0 0 12px; font-size: 15px; color: #3E423C">Mediana: 8 trozos, para 2–3. Familiar: 8 trozos grandes, para 3–4. Extra grande: 10 trozos, para 4–5.</p>
+        </details>
+        <details style="border-bottom: 1px solid #E4E2DA">
+          <summary style="min-height: 52px; display: flex; align-items: center; font-weight: 700; font-size: 16px; cursor: pointer">¿Es picante?</summary>
+          <p style="margin: 0 0 12px; font-size: 15px; color: #3E423C">No. La salsa BBQ es ahumada y un poco dulce.</p>
+        </details>
+        <details style="border-bottom: 1px solid #E4E2DA">
+          <summary style="min-height: 52px; display: flex; align-items: center; font-weight: 700; font-size: 16px; cursor: pointer">¿La puedo pedir por mitades?</summary>
+          <p style="margin: 0 0 12px; font-size: 15px; color: #3E423C">Sí: elige otra especialidad para la segunda mitad y pagas el promedio. <a href="Mitades.dc.html">Armar por mitades</a></p>
+        </details>
+      </section>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1980}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { size: 'family', crust: 'trad', removed: {}, extras: {}, sides: {}, playing: true, zoom: false, added: false };
+  }
+  renderVals() {
+    const fmt = (n) => '$' + String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    const st = this.state;
+    const SIZES = [
+      { id: 'medium', label: 'Mediana', slices: '8 trozos · 2–3 personas', people: 'Para 2–3 personas', price: 13000, extra: 1450 },
+      { id: 'family', label: 'Familiar', slices: '8 trozos · 3–4 personas', people: 'Para 3–4 personas', price: 16900, extra: 1940 },
+      { id: 'xl', label: 'Extra grande', slices: '10 trozos · 4–5 personas', people: 'Para 4–5 personas', price: 21900, extra: 2290 }
+    ];
+    const CRUSTS = [
+      { id: 'trad', label: 'Tradicional', add: 0 },
+      { id: 'thin', label: 'Delgada', add: 0 },
+      { id: 'master', label: 'Masa Maestra', add: 0 },
+      { id: 'stuffed', label: 'Borde de queso mozzarella', add: 3490 }
+    ];
+    const IMG = {
+      'Mozzarella': '/_blob/a1d82fc8d231870c014daca75c2d5874', 'Extra mozzarella': '/_blob/a1d82fc8d231870c014daca75c2d5874',
+      'Pollo': '/_blob/0ba70a4d91af24ff9b0b67e6d6b7aaca', 'Tocino': '/_blob/a47b4f154cf0a61bd5e2363a61fdf419',
+      'Cebolla': '/_blob/c5e7d253a00b888eea1bd49ec762993f', 'Salsa BBQ': '/_blob/a0f8034a00f2ee7f9ac16bae53dbf532',
+      'Pepperoni': '/_blob/ff915395f141b77396c943d896d8ad7f', 'Champiñón': '/_blob/d00b85dec57b5fb8005e248751b285c6',
+      'Choclo': '/_blob/000941c51a2d478854f1f22fbc8f1ae6', 'Tomate cherry': '/_blob/13b2b6b41b30334d3068ebdf961f807f',
+      'Piña': '/_blob/eb6b96fab48eba1f37bbd6e0fadaa2d1'
+    };
+    const BASE = ['Mozzarella', 'Pollo', 'Tocino', 'Cebolla', 'Salsa BBQ'];
+    const EXTRAS = ['Extra mozzarella', 'Pepperoni', 'Champiñón', 'Choclo', 'Tomate cherry', 'Piña'];
+    const OUT = { 'Champiñón': true };
+    const SIDES = [
+      { id: 'ajo', name: 'Palitos de Ajo', price: 5990, img: '/_blob/578bc1143fbd8e8e0748be683c760f73' },
+      { id: 'cheesy', name: 'Cheesyqueños', price: 4990, img: '/_blob/a723849e225ee5ee6428b8b0311a4bf6' },
+      { id: 'poppers', name: 'Chicken Poppers', price: 6990, img: '/_blob/fa5176c58dab2dea4fcd4627b5bd0f09' },
+      { id: 'coca', name: 'Coca-Cola 1,5 L', price: 3490, img: '/_blob/aca97767706b08547001c896a30662fd' },
+      { id: 'brownie', name: 'Brownie', price: 7990, img: '/_blob/a2a3411dcdb2d7f1bd5fac0ebc2be67f' }
+    ];
+    const size = SIZES.find((s) => s.id === st.size);
+    const crust = CRUSTS.find((c) => c.id === st.crust);
+    const nExtras = EXTRAS.filter((e) => st.extras[e]).length;
+    const pizza = size.price + crust.add + nExtras * size.extra;
+    const chosen = SIDES.filter((s) => st.sides[s.id]);
+    const total = pizza + chosen.reduce((a, s) => a + s.price, 0);
+    const chip = 'display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px 0 6px; border-radius: 999px; cursor: pointer; font-family: \'Barlow\', sans-serif; font-size: 14px; font-weight: 600; ';
+    const card = 'cursor: pointer; font-family: \'Barlow\', sans-serif; color: #1B1D1A; border-radius: 12px; ';
+
+    const parts = [size.label, crust.label];
+    BASE.forEach((b) => { if (st.removed[b]) parts.push('sin ' + b.toLowerCase()); });
+    EXTRAS.forEach((e) => { if (st.extras[e]) parts.push('+ ' + e.toLowerCase()); });
+    const DIST = [[5, 78], [4, 15], [3, 4], [2, 2], [1, 1]];
+
+    return {
+      people: size.people,
+      points: Math.floor(total / 1000),
+      extraPrice: '+' + fmt(size.extra),
+      summary: parts.join(' · ') + (chosen.length ? ' + ' + chosen.map((s) => s.name).join(', ') : ''),
+      total: fmt(total),
+      cta: chosen.length ? 'Agregar pizza + ' + chosen.length : 'Agregar al pedido',
+      heroStyle: 'width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; ' +
+        (st.zoom ? 'transform: scale(2); transform-origin: 45% 40%; animation: none' : 'transform-origin: 60% 45%; animation: pjKenBurns 7s ease-in-out infinite alternate; animation-play-state: ' + (st.playing ? 'running' : 'paused')),
+      playing: st.playing, paused: !st.playing,
+      playAria: st.playing ? 'Pausar movimiento' : 'Reanudar movimiento',
+      togglePlay: () => this.setState({ playing: !st.playing }),
+      zoom: st.zoom,
+      zoomAria: st.zoom ? 'Alejar foto' : 'Ampliar foto',
+      zoomPlus: st.zoom ? '' : 'M11 8v6',
+      toggleZoom: () => this.setState({ zoom: !st.zoom }),
+      added: st.added, notAdded: !st.added,
+      add: () => this.setState({ added: true }),
+      undo: () => this.setState({ added: false }),
+      dist: DIST.map(([n, p]) => ({ n, pct: p + '%', bar: 'display: block; height: 100%; width: ' + p + '%; background: #8F5400' })),
+      reviews: [
+        { who: 'Camila R.', when: 'hace 3 días', stars: '★★★★★ 5 de 5', text: 'Llegó caliente y con harto tocino. La pedimos por mitades con la de carnes y quedamos todos felices.', order: 'Delivery' },
+        { who: 'Matías G.', when: 'hace 1 semana', stars: '★★★★☆ 4 de 5', text: 'La salsa BBQ es lo mejor. Pedí sin cebolla y vino perfecta.', order: 'Retiro en El Bosque' }
+      ],
+      sizes: SIZES.map((s) => {
+        const on = s.id === st.size;
+        return { ...s, on, price: fmt(s.price), pick: () => this.setState({ size: s.id }),
+          style: card + 'display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 14px 6px; ' +
+            (on ? 'background: #EEF6C8; border: 2px solid #1E4D33' : 'background: #FFFFFF; border: 2px solid #E4E2DA') };
+      }),
+      crusts: CRUSTS.map((c) => {
+        const on = c.id === st.crust;
+        return { ...c, on, price: c.add ? '+' + fmt(c.add) : 'Incluida',
+          priceStyle: c.add ? 'font-size: 14px; font-weight: 700' : 'font-size: 13px; font-weight: 600; color: #1E4D33',
+          pick: () => this.setState({ crust: c.id }),
+          style: card + 'display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 52px; padding: 8px 14px; text-align: left; ' +
+            (on ? 'background: #EEF6C8; border: 2px solid #1E4D33' : 'background: #FFFFFF; border: 2px solid #E4E2DA') };
+      }),
+      base: BASE.map((b) => {
+        const off = !!st.removed[b];
+        return { label: off ? 'Sin ' + b.toLowerCase() : b, on: !off, img: IMG[b], imgStyle: 'width: 30px; height: 30px; border-radius: 999px; object-fit: cover; flex-shrink: 0; ' + (off ? 'opacity: 0.35; filter: grayscale(1)' : ''),
+          pick: () => this.setState({ removed: { ...st.removed, [b]: !off } }),
+          style: chip + (off ? 'background: #FFFFFF; color: #8A3B12; border: 1.5px dashed #C9906F; text-decoration: line-through' : 'background: #FFF3E6; color: #1B1D1A; border: 1.5px solid #E9C9A6') };
+      }),
+      extras: EXTRAS.map((e) => {
+        const out = !!OUT[e];
+        const on = !out && !!st.extras[e];
+        return { label: out ? e + ' · agotado' : (on ? '✓ ' : '+ ') + e, on, out, img: IMG[e],
+          imgStyle: 'width: 30px; height: 30px; border-radius: 999px; object-fit: cover; flex-shrink: 0; ' + (out ? 'opacity: 0.35; filter: grayscale(1)' : ''),
+          pick: () => { if (!out) this.setState({ extras: { ...st.extras, [e]: !on } }); },
+          style: chip + (out ? 'background: #F4F3EE; color: #6B6E68; border: 1.5px dashed #C9C7BE; cursor: not-allowed' : on ? 'background: #EEF6C8; color: #133423; border: 1.5px solid #1E4D33' : 'background: #FFFFFF; color: #1B1D1A; border: 1.5px solid #D5D3CA') };
+      }),
+      sides: SIDES.map((s) => {
+        const on = !!st.sides[s.id];
+        return { ...s, on, price: fmt(s.price), btnLabel: on ? 'Agregado' : 'Agregar',
+          pick: () => this.setState({ sides: { ...st.sides, [s.id]: !on } }),
+          card: 'background: #FFFFFF; border-radius: 14px; padding: 10px; display: flex; flex-direction: column; gap: 8px; border: 2px solid ' + (on ? '#1E4D33' : 'transparent'),
+          btn: 'min-height: 40px; padding: 0 14px; border-radius: 999px; cursor: pointer; font-family: \'Barlow\', sans-serif; font-weight: 700; font-size: 14px; ' + (on ? 'background: #1E4D33; color: #FFFFFF; border: 0' : 'background: #FFFFFF; color: #1E4D33; border: 1.5px solid #1E4D33') };
+      })
+    };
+  }
+}
+</script>
+</body>
+</html>
