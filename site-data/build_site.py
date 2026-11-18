@@ -911,7 +911,12 @@ ORDER_ATTRS = [
 BASKET_ATTR_IDS = ["pjRedeemed", "pjPointsEarned", "pjStatus", "pjStoreId", "pjDocType", "pjRut", "pjBusinessName",
                    "pjBusinessActivity", "pjBusinessAddress", "pjNote"]
 BASKET_ATTRS = [a for a in ORDER_ATTRS if a[0] in BASKET_ATTR_IDS]
-SHIPPING_ATTRS = [("pjMinOrder", "Pedido mínimo", "int", "Mínimo de productos para este método (delivery $12.000)")]
+SHIPPING_ATTRS = [("pjMinOrder", "Pedido mínimo", "int", "Mínimo de productos para este método (delivery $12.000)"),
+                  # En zyfj-001 venían de la metadata de SFRA; un sandbox limpio no los trae (import del 18-nov).
+                  ("storePickupEnabled", "Retiro en tienda", "boolean", "El storefront (BOPIS) lo usa para reconocer el retiro"),
+                  ("estimatedArrivalTime", "Tiempo estimado", "string", "Texto que muestra el checkout")]
+CATEGORY_ATTRS = [("showInMenu", "Mostrar en el menú", "boolean")]
+SITE_PREF_ATTRS = [("countryCode", "Código de país", "string")]
 
 
 def option_attrs(ingredients):
@@ -930,6 +935,8 @@ def meta_xml(ingredients):
 {type_ext("Order", ORDER_ATTRS)}
 {type_ext("Basket", BASKET_ATTRS)}
 {type_ext("ShippingMethod", SHIPPING_ATTRS)}
+{type_ext("Category", CATEGORY_ATTRS)}
+{type_ext("SitePreferences", SITE_PREF_ATTRS)}
 </metadata>
 """
 

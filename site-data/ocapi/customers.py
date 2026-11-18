@@ -12,6 +12,7 @@ Uso:  python3 site-data/ocapi/customers.py [--only sofia@demo.pj.cl,...] [--skip
 import argparse
 import json
 import sys
+import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -224,7 +225,19 @@ def main():
         c = CUSTOMERS[login]
         print(login)
         tok, cid = register(login, c)
-        no = customer_no(tok, cid)
+        # Recién registrado, SCAPI responde 400 «Invalid Customer» durante un rato (18-nov):
+        # se espera y se pide un token nuevo, que es lo que hace funcionar un segundo intento.
+        for wait in (10, 20, 30, 60, 0):
+            try:
+                no = customer_no(tok, cid)
+                break
+            except pj.ApiError as e:
+                if e.status != 400 or "invalid-customer" not in e.body or not wait:
+                    raise
+                print(f"  cliente aún no disponible; reintento en {wait} s")
+                time.sleep(wait)
+                t = pj.slas_login(login, DEMO_PASSWORD)
+                tok, cid = t["access_token"], t["customer_id"]
         ensure_address(tok, cid, c["address"])
         if c["card"]:
             ensure_card(tok, cid, f"{c['first']} {c['last']}")

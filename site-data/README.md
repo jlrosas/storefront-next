@@ -3,6 +3,8 @@
 Todo lo que la demo necesita en el sandbox `zyfj-001` (sitio `PapaJohnsCL`) se genera desde esta carpeta.
 Dueño: DAT. Credenciales: `dw.json` de la raíz del proyecto (nunca se copia aquí).
 
+> Antes de esto, el sandbox, los API clients, SLAS, los pasos de Business Manager y MRT: [../AMBIENTE.md](../AMBIENTE.md).
+
 ## Reconstruir el sitio desde cero
 
 ```bash
