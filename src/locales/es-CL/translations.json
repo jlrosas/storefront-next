@@ -121,7 +121,7 @@
         "openChat": "Chat abierto",
         "searchPlaceholder": "Buscar",
         "welcomeBack": "¡Bienvenido!",
-        "signIn": "Registrarse",
+        "signIn": "Ingresar",
         "signOut": "Cerrar sesión",
         "signingOut": "Cerrar sesión...",
         "cartTitle": "Mi Carrito",
@@ -221,7 +221,7 @@
         "title": "Crea tu cuenta",
         "subtitle": "Únete a nosotros y comience a comprar hoy mismo",
         "haveAccountQuestion": "¿Tienes una cuenta? ",
-        "signIn": "Registrarse",
+        "signIn": "Inicia sesión",
         "allFieldsRequired": "Todos los campos son obligatorios.",
         "passwordsDoNotMatch": "Las contraseñas no coinciden.",
         "passwordNotSecure": "La contraseña no cumple los requisitos de seguridad.",
@@ -263,7 +263,7 @@
         "guestAccessTokenFailed": "Error al recuperar el nuevo token de acceso.",
         "codeVerifierMissing": "No se encontró el comprobador de código en la sesión.",
         "missingRegistrationField": "Falta el campo obligatorio para el registro del cliente.",
-        "autoLoginAfterRegistrationFailed": "Error en el inicio de sesión automático después del registro.",
+        "autoLoginAfterRegistrationFailed": "Tu cuenta quedó creada, pero no pudimos iniciar tu sesión. Inicia sesión con tu correo y contraseña.",
         "methodNotAllowed": "Método no permitido.",
         "featureUnavailable": "Esta función no está disponible actualmente. Comuníquese con Soporte.",
         "tooManyLoginAttempts": "Has alcanzado el límite de intentos de inicio de sesión. Por tu seguridad, espera 10 minutos y vuelve a intentarlo.",
@@ -384,7 +384,7 @@
             "registeredMessage": "Te damos la bienvenida de vuelta. Sigue comprando para encontrar algo que te encante.",
             "guestMessage": "Regístrate para recuperar tus artículos guardados o continuar comprando.",
             "continueShopping": "Continuar comprando",
-            "signIn": "Registrarse"
+            "signIn": "Ingresar"
         },
         "summary": {
             "orderSummary": "Resumen del pedido",

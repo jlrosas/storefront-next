@@ -225,6 +225,14 @@ describe('validatePassword', () => {
         });
     });
 
+    it('accepts any ASCII punctuation as the special character, including ^ ~ and `', async () => {
+        const util = await import('@/lib/utils');
+        for (const char of ['!', '^', '~', '`', '/', '\\', '[', ']']) {
+            expect(util.validatePassword(`Pizza2026${char}`).hasSpecialChar, char).toBe(true);
+        }
+        expect(util.validatePassword('Pizza 2026').hasSpecialChar).toBe(false);
+    });
+
     it('returns correct flags for a weak password', async () => {
         const util = await import('@/lib/utils');
         expect(util.validatePassword('abcdefg')).toEqual({

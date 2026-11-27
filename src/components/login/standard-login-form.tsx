@@ -25,6 +25,7 @@ import { FormSubmitButton } from '@/components/buttons/form-submit-button';
 import { useTranslation } from 'react-i18next';
 import { getLoginModeHref } from './get-login-mode-href';
 import { routes } from '@/route-paths';
+import { getSignupHref } from './get-signup-href';
 
 interface StandardLoginFormProps {
     error?: string;
@@ -78,6 +79,8 @@ export default function StandardLoginForm({
     const passwordlessModeHref = useMemo(() => {
         return getLoginModeHref(location.search, 'passwordless');
     }, [location.search]);
+
+    const signupHref = useMemo(() => getSignupHref(returnUrl, action, actionParams), [returnUrl, action, actionParams]);
 
     return (
         <Form method="post" action={loginActionPath} className="space-y-6" ref={formRef}>
@@ -145,7 +148,7 @@ export default function StandardLoginForm({
                 </Link>
                 <p className="text-sm text-muted-foreground">
                     {t('noAccountQuestion')}
-                    <Link to={routes.signup} className="font-medium text-primary hover:underline">
+                    <Link to={signupHref} className="font-medium text-primary hover:underline">
                         {t('signUp')}
                     </Link>
                 </p>

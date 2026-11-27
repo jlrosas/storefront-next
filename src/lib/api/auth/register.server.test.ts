@@ -15,12 +15,16 @@
  */
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import type { ActionFunctionArgs } from 'react-router';
-import { registerCustomer } from './register.server';
+import { isLoginAlreadyInUseError, registerCustomer } from './register.server';
 import { loginRegisteredUser } from './standard-login.server';
 import { createApiClients } from '@/lib/api-clients.server';
 import { getTranslation } from '@salesforce/storefront-next-runtime/i18n';
+import { ApiError } from '@/scapi';
 
 const { t } = getTranslation();
+
+const mockLogger = vi.hoisted(() => ({ info: vi.fn(), warn: vi.fn(), error: vi.fn(), debug: vi.fn() }));
+vi.mock('@/lib/logger.server', () => ({ getLogger: vi.fn(() => mockLogger) }));
 
 // Mock standard-login module
 vi.mock('./standard-login.server', () => ({
@@ -37,6 +41,21 @@ vi.mock('@/lib/api-clients.server', () => ({
         },
     })),
 }));
+
+const loginInUse = () =>
+    new ApiError({
+        url: 'https://api.example.com/customers',
+        method: 'POST',
+        status: 400,
+        statusText: 'Bad Request',
+        headers: new Headers(),
+        body: {
+            type: '.../errors/login-already-in-use',
+            title: 'Login Already In Use',
+            detail: "The login 'test@example.com' is already in use.",
+        },
+        rawBody: '',
+    });
 
 describe('registerCustomer', () => {
     const mockContext = {} as unknown as ActionFunctionArgs['context'];
@@ -171,6 +190,26 @@ describe('registerCustomer', () => {
             });
         });
 
+        it('should tell the shopper the email is already registered', async () => {
+            mockRegisterCustomer.mockRejectedValue(loginInUse());
+            const result = await registerCustomer(mockContext, {
+                customer: { login: 'test@example.com', firstName: 'John', lastName: 'Doe' },
+                password: 'Secure123!',
+            });
+            expect(mockLoginRegisteredUser).not.toHaveBeenCalled();
+            expect(result).toEqual({ success: false, error: t('errors:customer.loginAlreadyInUse') });
+        });
+
+        it('should say the account was created when the auto-login fails', async () => {
+            mockRegisterCustomer.mockResolvedValue({});
+            mockLoginRegisteredUser.mockResolvedValue({ success: false });
+            const result = await registerCustomer(mockContext, {
+                customer: { login: 'test@example.com', firstName: 'John', lastName: 'Doe' },
+                password: 'Secure123!',
+            });
+            expect(result).toEqual({ success: false, error: t('errors:autoLoginAfterRegistrationFailed') });
+        });
+
         it('should return error when firstName is missing', async () => {
             const registrationData = {
                 customer: {
@@ -272,6 +311,15 @@ describe('registerCustomer', () => {
                 success: false,
                 error: t('errors:genericTryAgain'),
             });
+        });
+    });
+    describe('isLoginAlreadyInUseError', () => {
+        it('recognizes the SCAPI login-already-in-use error', () => {
+            expect(isLoginAlreadyInUseError(loginInUse())).toBe(true);
+        });
+
+        it('ignores other errors', () => {
+            expect(isLoginAlreadyInUseError(new Error('login already in use'))).toBe(false);
         });
     });
 });
