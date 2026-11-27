@@ -65,7 +65,7 @@ export const validatePassword = (password: string) => ({
     hasUppercase: /[A-Z]/.test(password),
     hasLowercase: /[a-z]/.test(password),
     hasNumber: /\d/.test(password),
-    hasSpecialChar: /[,!%#@$&*()_+\-=[\]{};':"\\|.<>/?]/.test(password),
+    hasSpecialChar: /[!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]/.test(password),
 });
 
 export const isPasswordValid = (password: string) => {

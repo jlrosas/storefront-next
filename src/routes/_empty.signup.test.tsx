@@ -26,6 +26,7 @@ import { getConfig } from '@salesforce/storefront-next-runtime/config';
 import { AllProvidersWrapper } from '@/test-utils/context-provider';
 import { createTestContext } from '@/lib/test-utils';
 import { getLoginPreferences } from '@/lib/login-preferences.server';
+import { buildUrlFromContext } from '@/lib/url.server';
 import type { Route } from '../+types/root';
 
 const { t } = getTranslation();
@@ -49,6 +50,11 @@ vi.mock('@/middlewares/auth.server', () => ({
     getAuth: vi.fn(),
     authorizePasswordless: vi.fn(),
     requestOtp: vi.fn(),
+}));
+
+vi.mock('@/lib/url.server', () => ({
+    buildUrlFromContext: vi.fn((to: string) => to),
+    stripMrtBasePathFromUrl: vi.fn((to: string) => to),
 }));
 
 vi.mock('@salesforce/storefront-next-runtime/config', async (importOriginal) => {
@@ -155,6 +161,7 @@ const mockIsPasswordValid = vi.mocked(isPasswordValid);
 const mockGetAuth = vi.mocked(getAuth);
 const mockGetConfig = vi.mocked(getConfig);
 const mockGetLoginPreferences = vi.mocked(getLoginPreferences);
+const mockBuildUrlFromContext = vi.mocked(buildUrlFromContext);
 
 describe('signup route', () => {
     const mockContext = createTestContext();
@@ -168,6 +175,7 @@ describe('signup route', () => {
         } as any);
         mockGetLoginPreferences.mockResolvedValue({ emailVerificationEnabled: false });
         mockNavigate.mockReset();
+        mockBuildUrlFromContext.mockImplementation((to: string) => to);
     });
 
     afterEach(() => {
@@ -661,6 +669,39 @@ describe('signup route', () => {
                     const location = result.headers.get('Location') ?? '';
                     expect(location).not.toContain('evil.com');
                     expect(result.headers.get('Location')).toBe('/');
+                }
+            });
+
+            it('should prefix the returnUrl with the site and locale', async () => {
+                mockBuildUrlFromContext.mockImplementation((to: string) => (to === '/' ? '/' : `/cl/es-CL${to}`));
+                mockIsPasswordValid.mockReturnValue(true);
+                mockRegisterCustomer.mockResolvedValue({ success: true } as any);
+
+                const formData = new URLSearchParams();
+                formData.append('firstName', 'John');
+                formData.append('lastName', 'Doe');
+                formData.append('email', 'test@example.com');
+                formData.append('password', 'Test123!');
+                formData.append('confirmPassword', 'Test123!');
+
+                const mockRequest = new Request('http://localhost/cl/es-CL/signup?returnUrl=/checkout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: formData.toString(),
+                });
+
+                const result = await action({
+                    request: mockRequest,
+                    url: new URL(mockRequest.url),
+                    params: { siteId: 'cl', localeId: 'es-CL' },
+                    context: mockContext,
+                    pattern: 'signup',
+                });
+
+                expect(mockBuildUrlFromContext).toHaveBeenCalledWith('/checkout', mockContext);
+                expect(result).toBeInstanceOf(Response);
+                if (result instanceof Response) {
+                    expect(result.headers.get('Location')).toBe('/cl/es-CL/checkout');
                 }
             });
         });

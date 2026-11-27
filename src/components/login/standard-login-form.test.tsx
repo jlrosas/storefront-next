@@ -174,6 +174,11 @@ describe('StandardLoginForm', () => {
             );
         });
 
+        test('sign up link keeps the returnUrl', () => {
+            renderWithRouter(<StandardLoginForm isPasswordlessEnabled={false} returnUrl="/checkout" />);
+            const signUpLink = screen.getByRole('link', { name: t('login:signUp') });
+            expect(signUpLink).toHaveAttribute('href', '/global/en-GB/signup?returnUrl=%2Fcheckout');
+        });
         test('does not render passwordless login link when disabled', () => {
             renderWithRouter(<StandardLoginForm isPasswordlessEnabled={false} />);
             const passwordlessLink = screen.queryByRole('link', { name: t('login:loginWithoutPassword') });

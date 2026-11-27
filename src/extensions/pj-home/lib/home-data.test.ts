@@ -20,7 +20,18 @@ vi.mock('@/lib/api-clients.server', () => ({ createApiClients: vi.fn() }));
 vi.mock('@/middlewares/auth.server', () => ({ getAuth: vi.fn() }));
 vi.mock('@/lib/logger.server', () => ({ getLogger: vi.fn(() => ({ warn: vi.fn() })) }));
 
-import { familyPriceOf, featurePhotosOf, intentsOf, offerOf, popularOf, visibleFor } from './home-data.server';
+import { createApiClients } from '@/lib/api-clients.server';
+import { getAuth } from '@/middlewares/auth.server';
+import {
+    familyPriceOf,
+    featurePhotosOf,
+    intentsOf,
+    loadHomeData,
+    offerOf,
+    popularOf,
+    visibleFor,
+} from './home-data.server';
+import { SOFIA_SAMPLE } from './mock';
 
 const combo = {
     id: 'cb-pizza-del-mes',
@@ -136,5 +147,41 @@ describe('datos de la Home', () => {
         });
         expect(featurePhotosOf(undefined)).toEqual({ cheesePull: null, napocherry: null });
         expect(featurePhotosOf('https://x.test/otra/foto.jpg').cheesePull).toBeNull();
+    });
+});
+
+describe('Home de Sofía con y sin sesión', () => {
+    const context = { get: () => undefined } as never;
+    const getCustomer = vi.fn();
+    const getCustomerOrders = vi.fn();
+
+    function withSession(registered: boolean): void {
+        vi.mocked(getAuth).mockReturnValue(
+            (registered ? { userType: 'registered', customerId: 'cust-1' } : { userType: 'guest' }) as never
+        );
+        vi.mocked(createApiClients).mockReturnValue({
+            shopperProducts: { getProducts: vi.fn().mockResolvedValue({ data: { data: [] } }) },
+            shopperCustomers: { getCustomer, getCustomerOrders },
+        } as never);
+    }
+    const load = () => loadHomeData({ context, profile: 'sofia', moment: null });
+
+    test('sin sesión (?perfil=sofia) muestra los datos de ejemplo', async () => {
+        withSession(false);
+        expect((await load()).sofia).toMatchObject({ firstName: SOFIA_SAMPLE.firstName, live: false });
+    });
+
+    test('con sesión, si el cliente no responde, no muestra a Sofía de ejemplo', async () => {
+        withSession(true);
+        getCustomer.mockRejectedValueOnce(new Error('400 invalid-customer'));
+        getCustomerOrders.mockResolvedValueOnce({ data: { data: [] } });
+        expect((await load()).sofia).toBeNull();
+    });
+
+    test('con sesión, si fallan solo los pedidos, muestra el nombre y el saldo', async () => {
+        withSession(true);
+        getCustomer.mockResolvedValueOnce({ data: { firstName: 'Raúl', c_pjPoints: 0 } });
+        getCustomerOrders.mockRejectedValueOnce(new Error('getCustomerOrders failed'));
+        expect((await load()).sofia).toMatchObject({ firstName: 'Raúl', points: 0, live: true, lastOrder: null });
     });
 });

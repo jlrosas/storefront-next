@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 import type { ActionFunctionArgs } from 'react-router';
-import type { ShopperCustomers } from '@/scapi';
+import { ApiError, type ShopperCustomers } from '@/scapi';
+import { getLogger } from '@/lib/logger.server';
 import type { CustomQueryParameters } from '@/lib/api/types';
 import { createApiClients } from '@/lib/api-clients.server';
 import { loginRegisteredUser } from './standard-login.server';
@@ -29,6 +30,20 @@ const extractCustomParameters = (parameters: {
     return customParams;
 };
 
+const LOGIN_ALREADY_IN_USE = /login[-_ ]?already[-_ ]?in[-_ ]?use|already (?:in use|registered|exists)/i;
+
+export const isLoginAlreadyInUseError = (error: unknown): boolean => {
+    if (!(error instanceof ApiError) || (error.status !== 400 && error.status !== 409)) {
+        return false;
+    }
+    const { type = '', title = '', detail = '' } = error.body ?? {};
+    return LOGIN_ALREADY_IN_USE.test(`${type} ${title} ${detail}`);
+};
+const describeRegistrationError = (error: unknown): Record<string, unknown> => {
+    if (error instanceof ApiError) return { status: error.status, type: error.body?.type, title: error.body?.title };
+    return { message: error instanceof Error ? error.message : String(error) };
+};
+
 export const registerCustomer = async (
     context: ActionFunctionArgs['context'],
     registrationData: ShopperCustomers.schemas['CustomerRegistration']
@@ -37,16 +52,18 @@ export const registerCustomer = async (
     error?: string;
 }> => {
     const { t } = getTranslation(context);
+    const logger = getLogger(context);
+    const genericError = { success: false, error: t('errors:genericTryAgain') };
 
+    const { customer, password, ...parameters } = registrationData;
+    const { login, firstName, lastName } = customer;
+    const customParameters = extractCustomParameters(parameters);
+
+    if (!login || !firstName || !lastName) {
+        logger.warn('RegisterCustomer: missing required field');
+        return genericError;
+    }
     try {
-        const { customer, password, ...parameters } = registrationData;
-        const { login, firstName, lastName } = customer;
-        const customParameters = extractCustomParameters(parameters);
-
-        if (!login || !firstName || !lastName) {
-            throw new Error(t('errors:missingRegistrationField'));
-        }
-
         // The registerCustomer endpoint currently does not support custom parameters
         // so we make sure not to send any custom params here
         const clients = createApiClients(context);
@@ -57,31 +74,26 @@ export const registerCustomer = async (
                 password,
             },
         });
-
-        // After registration, log the user in automatically
-        const loginResult = await loginRegisteredUser(
-            context,
-            {
-                email: login,
-                password,
-            },
-            { customParameters }
-        );
-
-        if (loginResult.success) {
-            return {
-                success: true,
-            };
-        } else {
-            // Login after registration failed
-            throw new Error(t('errors:autoLoginAfterRegistrationFailed'));
+    } catch (error) {
+        if (isLoginAlreadyInUseError(error)) {
+            logger.warn('RegisterCustomer: login already in use');
+            return { success: false, error: t('errors:customer.loginAlreadyInUse') };
         }
-    } catch {
-        const errorMessage = t('errors:genericTryAgain');
-
-        return {
-            success: false,
-            error: errorMessage,
-        };
+        logger.error('RegisterCustomer: registration failed', { error: describeRegistrationError(error) });
+        return genericError;
     }
+
+    const loginResult = await loginRegisteredUser(
+        context,
+        {
+            email: login,
+            password,
+        },
+        { customParameters }
+    );
+    if (!loginResult.success) {
+        logger.error('RegisterCustomer: auto-login after registration failed');
+        return { success: false, error: t('errors:autoLoginAfterRegistrationFailed') };
+    }
+    return { success: true };
 };

@@ -197,22 +197,36 @@ function summaryOf(items: { productName?: string; c_pjRemoved?: unknown }[]): st
         .join(' + ');
 }
 
-/** Cliente real de Sofía: saldo, favoritas y último pedido. `null` si no hay sesión de cliente. */
-async function loadSofia(context: Context, products: Map<string, Product>): Promise<SofiaVM | null> {
-    let auth;
+/** `customerId` del cliente registrado con sesión, o `null` (invitado o sin auth en el contexto). */
+function registeredCustomerId(context: Context): string | null {
     try {
-        auth = getAuth(context);
+        const auth = getAuth(context);
+        return auth.userType === 'registered' && auth.customerId ? auth.customerId : null;
     } catch {
         return null;
     }
-    if (auth.userType !== 'registered' || !auth.customerId) return null;
+}
+
+/**
+ * Cliente real de Sofía: saldo, favoritas y último pedido. `null` si no hay sesión de cliente o si
+ * no se pudo leer el cliente. Los pedidos son opcionales: si `getCustomerOrders` falla (BI-15),
+ * igual se muestran su nombre y su saldo.
+ */
+async function loadSofia(context: Context, products: Map<string, Product>): Promise<SofiaVM | null> {
+    const customerId = registeredCustomerId(context);
+    if (!customerId) return null;
     const clients = createApiClients(context);
+    const logger = getLogger(context);
     try {
-        const [{ data: customer }, { data: orders }] = await Promise.all([
-            clients.shopperCustomers.getCustomer({ params: { path: { customerId: auth.customerId } } }),
-            clients.shopperCustomers.getCustomerOrders({
-                params: { path: { customerId: auth.customerId }, query: { limit: 50 } },
-            }),
+        const [{ data: customer }, orders] = await Promise.all([
+            clients.shopperCustomers.getCustomer({ params: { path: { customerId } } }),
+            clients.shopperCustomers.getCustomerOrders({ params: { path: { customerId }, query: { limit: 50 } } }).then(
+                ({ data }) => data,
+                (error: unknown) => {
+                    logger.warn('HomeData: customer orders fetch failed', { error });
+                    return undefined;
+                }
+            ),
         ]);
         const c = customer as Record<string, unknown>;
         const all = ((orders?.data ?? []) as unknown as Record<string, unknown>[]).filter(
@@ -289,7 +303,7 @@ async function loadSofia(context: Context, products: Map<string, Product>): Prom
                     : null,
         };
     } catch (error) {
-        getLogger(context).warn('HomeData: customer fetch failed', { error });
+        logger.warn('HomeData: customer fetch failed', { error });
         return null;
     }
 }
@@ -425,13 +439,17 @@ export async function loadHomeData({ context, profile, moment }: HomeDataArgs): 
     }
 
     const live = await loadSofia(context, products);
+    // Los datos de ejemplo de Sofía son solo para la demo sin sesión (?perfil=sofia).
+    // Con una sesión real se ocultan sus bloques: nunca se muestran los datos de otra persona.
+    const sofia = live ?? (registeredCustomerId(context) ? null : sampleSofia(products));
+
     return {
         ...EMPTY,
         profile,
         moment: shownMoment,
         month: season,
         features,
-        sofia: live ?? sampleSofia(products),
+        sofia,
     };
 }
 

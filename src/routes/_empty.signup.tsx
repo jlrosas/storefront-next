@@ -43,6 +43,7 @@ import { getLogger } from '@/lib/logger.server';
 import { getConfig } from '@salesforce/storefront-next-runtime/config';
 import { getPasswordlessErrorMessageKey, extractErrorMessage } from '@/lib/auth/error-handler';
 import { getLoginPreferences } from '@/lib/login-preferences.server';
+import { buildUrlFromContext, stripMrtBasePathFromUrl } from '@/lib/url.server';
 
 const OtpModal = lazy(() => import('@/components/login/otp-modal'));
 
@@ -70,7 +71,7 @@ export async function loader({ request, context }: Route.LoaderArgs): Promise<Si
 
     // If the user is already registered and the OTP is not pending, redirect to the home page
     if (session.userType === 'registered' && !isOtpPending) {
-        return redirect(routes.home);
+        return redirect(buildUrlFromContext(routes.home, context));
     }
 
     const config = getConfig(context);
@@ -83,7 +84,7 @@ export async function loader({ request, context }: Route.LoaderArgs): Promise<Si
         email: url.searchParams.get('email') || '',
         firstName: url.searchParams.get('firstName') || '',
         lastName: url.searchParams.get('lastName') || '',
-        returnUrl: getSafeReturnUrl(url.searchParams.get('returnUrl')),
+        returnUrl: stripMrtBasePathFromUrl(getSafeReturnUrl(url.searchParams.get('returnUrl'))),
         isPasswordlessEnabled,
         otpLength: config.auth.otpLength,
         registrationMode: url.searchParams.get('registrationMode') || '',
@@ -103,7 +104,8 @@ export async function action({ request, context }: Route.ActionArgs): Promise<Si
     const email = formData.get('email')?.toString();
     const registrationMode = formData.get('registrationMode')?.toString() as RegistrationMode;
     const url = new URL(request.url);
-    const returnUrl = getSafeReturnUrl(url.searchParams.get('returnUrl'));
+    const returnUrl = stripMrtBasePathFromUrl(getSafeReturnUrl(url.searchParams.get('returnUrl')));
+    const returnTarget = buildUrlFromContext(returnUrl, context);
 
     logger.debug('Signup: starting');
 
@@ -196,10 +198,10 @@ export async function action({ request, context }: Route.ActionArgs): Promise<Si
         }
 
         if (wishlistMergeResult) {
-            const { url: redirectUrl, setCookie } = appendWishlistMergeFlag(context, returnUrl, wishlistMergeResult);
+            const { url: redirectUrl, setCookie } = appendWishlistMergeFlag(context, returnTarget, wishlistMergeResult);
             return redirect(redirectUrl, { headers: { 'Set-Cookie': setCookie } });
         }
-        return redirect(returnUrl);
+        return redirect(returnTarget);
     }
 
     // Request OTP for email verification if feature is enabled
@@ -220,7 +222,7 @@ export async function action({ request, context }: Route.ActionArgs): Promise<Si
         logger.error('Signup: OTP request failed after password registration, redirecting to returnUrl', {
             error,
         });
-        return redirect(returnUrl);
+        return redirect(returnTarget);
     }
 }
 
